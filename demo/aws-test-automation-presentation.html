@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master AWS for Test Automation - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+        .reveal { background: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 700; color: var(--vibe-dark-blue); }
+        .reveal h1 { font-size: 1.8em; margin-bottom: 0.2em; }
+        .reveal h2 { font-size: 1.4em; margin-bottom: 0.3em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.2em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.4; font-size: 0.8em; }
+        .logo-corner { position: absolute; top: 15px; right: 25px; z-index: 100; }
+        .logo-corner img { width: 80px; height: auto; }
+        .title-slide { background: #ffffff !important; }
+        .title-slide .company-header { max-width: 800px; margin: 0 auto 15px; }
+        .title-slide h1 { font-size: 2em; color: var(--vibe-dark-blue); margin: 10px 0 8px; }
+        .title-slide .subtitle { font-size: 1.2em; color: var(--vibe-orange); margin: 10px 0; }
+        .title-slide .tagline { font-size: 1em; color: var(--vibe-blue); margin: 8px 0 15px; }
+        .content-box { background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); padding: 10px 15px; margin: 6px 0; border-radius: 6px; text-align: left; }
+        .highlight-box { background: #fef3c7; border: 2px solid var(--vibe-yellow); padding: 10px; margin: 8px auto; border-radius: 8px; max-width: 95%; }
+        .reveal ul { list-style: none; margin: 6px 0; }
+        .reveal ul li { margin: 5px 0; padding-left: 32px; position: relative; text-align: left; }
+        .reveal ul li:before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--vibe-green); position: absolute; left: 0; top: 2px; }
+        .code-block { background: #1e293b; border-radius: 6px; padding: 15px 20px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.6em; text-align: left; color: #e2e8f0; margin: 10px 0; line-height: 1.5; white-space: pre; overflow-x: auto; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .visual-flow { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; }
+        .flow-step { background: var(--vibe-blue); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.7em; min-width: 100px; text-align: center; box-shadow: 3px 3px 5px rgba(0,0,0,0.1); }
+        .analogy-card { background: white; border: 3px solid var(--vibe-blue); border-radius: 12px; padding: 15px; margin: 10px 0; }
+        .comparison-table { font-size: 0.7em; width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .comparison-table th { background: var(--vibe-blue); color: white; padding: 8px; text-align: left; }
+        .comparison-table td { background: var(--vibe-light-bg); padding: 8px; border: 1px solid #cbd5e1; }
+        .step-number { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--vibe-orange); color: white; border-radius: 50%; font-weight: bold; font-size: 0.85em; margin-right: 8px; }
+        .badge { display: inline-block; background: var(--vibe-orange); color: white; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8em; margin: 4px; }
+        .cost-box { background: #dcfce7; border-left: 4px solid var(--vibe-green); padding: 10px 15px; margin: 8px 0; border-radius: 6px; }
+        .warning-box { background: #fee2e2; border-left: 4px solid #dc2626; padding: 10px 15px; margin: 8px 0; border-radius: 6px; }
+        .folder-tree { background: #1e293b; color: #22c55e; padding: 12px 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.58em; text-align: left; line-height: 1.5; white-space: pre-wrap; }
+        .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+        .service-card { background: var(--vibe-light-bg); border: 2px solid var(--vibe-blue); border-radius: 8px; padding: 10px; text-align: center; }
+        .service-card i { font-size: 2em; color: var(--vibe-orange); margin-bottom: 5px; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>Mastering AWS for Test Automation</h1>
+                <p class="subtitle">By QtpSudhakar</p>
+                <p class="tagline">From Local Laptop to Cloud Infrastructure</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge"><i class="fas fa-cloud"></i> AWS</span>
+                    <span class="badge"><i class="fas fa-server"></i> EC2</span>
+                    <span class="badge"><i class="fas fa-database"></i> S3</span>
+                    <span class="badge"><i class="fas fa-chart-line"></i> CloudWatch</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: What is AWS? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What is AWS?</h2>
+                <div class="content-box">
+                    <h3>Amazon Web Services (AWS)</h3>
+                    <p>A <strong>massive technology supermarket</strong> where you rent computers, storage, and services by the hour instead of buying them.</p>
+                </div>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-car" style="color: var(--vibe-orange);"></i> The Uber Analogy</h3>
+                    <div class="two-col" style="font-size: 0.75em;">
+                        <div>
+                            <h4 style="color: var(--vibe-dark-blue);">Owning a Car (Traditional)</h4>
+                            <ul style="font-size: 0.9em; list-style-type: disc; padding-left: 20px;">
+                                <li>Buy for $30,000</li>
+                                <li>Sits in garage 23 hours/day</li>
+                                <li>You maintain it</li>
+                                <li>Fixed high cost</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--vibe-green);">Using Uber (AWS)</h4>
+                            <ul style="font-size: 0.9em; list-style-type: disc; padding-left: 20px;">
+                                <li>Pay $10 per ride</li>
+                                <li>Use only when needed</li>
+                                <li>Driver maintains it</li>
+                                <li>Variable low cost</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0"><strong>Cloud = Renting computing power instead of owning it</strong></p>
+                </div>
+            </section>
+
+            <!-- Slide 3: Why AWS for Testing? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Why Move Testing to AWS?</h2>
+                <div class="content-box">
+                    <h3>The Problem with Your Laptop</h3>
+                    <p style="margin:0">500 tests × 4 parallel = <strong>125 minutes</strong> per run</p>
+                </div>
+                <div class="visual-flow">
+                    <div class="flow-step" style="background: #dc2626;"><i class="fas fa-laptop"></i> Laptop: 125 min</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step" style="background: var(--vibe-green);"><i class="fas fa-cloud"></i> AWS: 5 min</div>
+                </div>
+                <div class="cost-box">
+                    <h3>The Math</h3>
+                    <p style="font-size: 0.75em; margin: 5px 0;">Traditional: 10 machines × $1,200 = <strong>$12,000 upfront</strong></p>
+                    <p style="font-size: 0.75em; margin: 5px 0;">AWS: $0.0416/hour × 2 hours/day × 22 days = <strong>$1.83/month</strong></p>
+                    <p style="font-size: 0.85em; margin: 8px 0; color: var(--vibe-green); font-weight: bold;">Annual savings: $13,200 (88% reduction!)</p>
+                </div>
+            </section>
+
+            <!-- Slide 4: AWS Analogies -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AWS in Real Life</h2>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-fire" style="color: var(--vibe-orange);"></i> The Bakery Oven Analogy</h3>
+                    <div class="two-col" style="font-size: 0.75em;">
+                        <div>
+                            <h4 style="color: #dc2626;">Traditional (Buy Ovens)</h4>
+                            <ul style="font-size: 0.9em; list-style-type: disc; padding-left: 20px;">
+                                <li>Buy 50 ovens: $50,000</li>
+                                <li>Use 10 days/year (Christmas)</li>
+                                <li>40 ovens idle 355 days</li>
+                                <li>Pay electricity year-round</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 style="color: var(--vibe-green);">AWS (Rent Ovens)</h4>
+                            <ul style="font-size: 0.9em; list-style-type: disc; padding-left: 20px;">
+                                <li>Rent 50 ovens only when needed</li>
+                                <li>Christmas: Rent 50 ovens</li>
+                                <li>Off-season: Rent 5 ovens</li>
+                                <li>Pay only for actual usage</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0; font-weight: bold;">AWS wins when usage is sporadic — perfect for test automation!</p>
+                </div>
+            </section>
+
+            <!-- Slide 5: Core AWS Concepts -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Core AWS Concepts</h2>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <i class="fas fa-globe"></i>
+                        <h3>Region</h3>
+                        <p style="font-size: 0.8em; margin: 5px 0;">Data center location (Mumbai, Virginia, Ireland)</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-network-wired"></i>
+                        <h3>VPC</h3>
+                        <p style="font-size: 0.8em; margin: 5px 0;">Your private network (like your apartment)</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Security Group</h3>
+                        <p style="font-size: 0.8em; margin: 5px 0;">Firewall rules (who can enter)</p>
+                    </div>
+                    <div class="service-card">
+                        <i class="fas fa-server"></i>
+                        <h3>EC2</h3>
+                        <p style="font-size: 0.8em; margin: 5px 0;">Virtual computer (your test runner)</p>
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>The Apartment Analogy</h3>
+                    <p style="font-size: 0.75em; margin: 5px 0;"><strong>AWS</strong> = Apartment Building | <strong>VPC</strong> = Your Apartment | <strong>Security Group</strong> = Door Lock | <strong>EC2</strong> = Your Computer Inside</p>
+                </div>
+            </section>
+
+            <!-- Slide 6: AWS Services for Testing -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AWS Services Stack</h2>
+                <div class="folder-tree" style="font-size: 0.58em; line-height: 1.4; padding: 10px 15px;">Test Automation Stack:
+
+<strong style="color: #fbbf24;">🖥️  EC2 (Compute)</strong> → Virtual machines to run tests
+<strong style="color: #fbbf24;">📦 S3 (Storage)</strong> → Store reports, screenshots, videos
+<strong style="color: #fbbf24;">🔑 IAM (Security)</strong> → User permissions, access control
+<strong style="color: #fbbf24;">📊 CloudWatch (Monitoring)</strong> → Logs, metrics, alarms
+<strong style="color: #fbbf24;">⚖️  Auto Scaling</strong> → Launch/terminate automatically
+<strong style="color: #fbbf24;">💰 Cost Explorer</strong> → Track spending</div>
+            </section>
+
+            <!-- Slide 7: Understanding EC2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>EC2: Your Cloud Computer</h2>
+                <div class="content-box">
+                    <h3>What is EC2?</h3>
+                    <p><strong>E</strong>lastic <strong>C</strong>ompute <strong>C</strong>loud = Virtual machine in AWS data center</p>
+                </div>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-hotel" style="color: var(--vibe-orange);"></i> The Hotel Room Analogy</h3>
+                    <div style="font-size: 0.75em;">
+                        <p><strong>Check in</strong> → Launch instance | <strong>Choose room</strong> → Pick instance type</p>
+                        <p><strong>Use room</strong> → Run tests | <strong>Check out</strong> → Terminate instance</p>
+                        <p><strong>Pay for nights</strong> → Pay per hour used</p>
+                    </div>
+                </div>
+                <div class="visual-flow" style="font-size: 0.7em;">
+                    <div class="flow-step">Launch</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">Running</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">Terminate</div>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0"><strong>Important:</strong> Terminate (not stop) after tests to avoid storage charges!</p>
+                </div>
+            </section>
+
+            <!-- Slide 8: Instance Types -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Choosing Instance Type</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Instance</th>
+                            <th>vCPU</th>
+                            <th>RAM</th>
+                            <th>Cost/Hour</th>
+                            <th>Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>t3.micro</strong></td>
+                            <td>2</td>
+                            <td>1 GB</td>
+                            <td>$0.0104</td>
+                            <td>Learning, 1-2 tests</td>
+                        </tr>
+                        <tr style="background: #dcfce7;">
+                            <td><strong>t3.medium ⭐</strong></td>
+                            <td>2</td>
+                            <td>4 GB</td>
+                            <td>$0.0416</td>
+                            <td>4-5 parallel tests</td>
+                        </tr>
+                        <tr>
+                            <td><strong>t3.large</strong></td>
+                            <td>2</td>
+                            <td>8 GB</td>
+                            <td>$0.0832</td>
+                            <td>6-8 parallel tests</td>
+                        </tr>
+                        <tr>
+                            <td><strong>m5.xlarge</strong></td>
+                            <td>4</td>
+                            <td>16 GB</td>
+                            <td>$0.192</td>
+                            <td>10-15 parallel tests</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Decision Guide</h3>
+                    <p style="font-size: 0.75em; margin:0"><strong>&lt; 50 tests:</strong> t3.medium | <strong>51-200:</strong> t3.large | <strong>201-500:</strong> m5.xlarge | <strong>500+:</strong> Fleet of instances</p>
+                </div>
+            </section>
+
+            <!-- Slide 9: Security Essentials -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Security: IAM & Security Groups</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>IAM (Identity Access Management)</h3>
+                        <p style="font-size: 0.8em;">Like building security badges</p>
+                        <ul style="font-size: 0.75em;">
+                            <li>Create user for automation</li>
+                            <li>Grant EC2, S3 permissions</li>
+                            <li>Get access keys</li>
+                            <li>Never use root account!</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Security Groups</h3>
+                        <p style="font-size: 0.8em;">Like firewall/bouncer rules</p>
+                        <ul style="font-size: 0.75em;">
+                            <li>Allow SSH from your IP only</li>
+                            <li>Never expose to 0.0.0.0/0</li>
+                            <li>Open HTTP for reports</li>
+                            <li>Restrict database ports</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="warning-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-weight: bold;"><i class="fas fa-exclamation-triangle"></i> Security Rule #1: Restrict SSH to YOUR IP, never 0.0.0.0/0!</p>
+                </div>
+            </section>
+
+            <!-- Slide 10: Execution Options Overview -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Playwright Execution Options on AWS</h2>
+                <div class="content-box">
+                    <h3>4 Common Ways to Run Tests in the Cloud</h3>
+                </div>
+                <div class="service-grid" style="grid-template-columns: 1fr 1fr; gap: 15px; margin: 15px 0;">
+                    <div class="service-card" style="background: #e0f2fe;">
+                        <i class="fas fa-server" style="font-size: 2.5em; color: var(--vibe-blue);"></i>
+                        <h3 style="margin: 8px 0;">1. EC2 Virtual Machines</h3>
+                        <p style="font-size: 0.75em; margin: 5px 0;">Your own cloud computer</p>
+                    </div>
+                    <div class="service-card" style="background: #fef3c7;">
+                        <i class="fas fa-sync-alt" style="font-size: 2.5em; color: var(--vibe-orange);"></i>
+                        <h3 style="margin: 8px 0;">2. Managed CI</h3>
+                        <p style="font-size: 0.75em; margin: 5px 0;">Temporary machine per test run</p>
+                    </div>
+                    <div class="service-card" style="background: #dcfce7;">
+                        <i class="fas fa-bolt" style="font-size: 2.5em; color: var(--vibe-green);"></i>
+                        <h3 style="margin: 8px 0;">3. Serverless (Lambda)</h3>
+                        <p style="font-size: 0.75em; margin: 5px 0;">Tests run without servers</p>
+                    </div>
+                    <div class="service-card" style="background: #f3e8ff;">
+                        <i class="fas fa-network-wired" style="font-size: 2.5em; color: #9333ea;"></i>
+                        <h3 style="margin: 8px 0;">4. Managed Browser Grids</h3>
+                        <p style="font-size: 0.75em; margin: 5px 0;">Testing as a service</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Testing Analogy:</strong> Laptop → Single tester | EC2 → Dedicated machine | CI → Temporary machine | Lambda → Auto-run robot | Grid → Testing company</p>
+                </div>
+            </section>
+
+            <!-- Slide 11: EC2 Virtual Machines Explained -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Option 1: EC2 Virtual Machines</h2>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-laptop" style="color: var(--vibe-orange);"></i> "A Computer in the Cloud"</h3>
+                    <p style="font-size: 0.8em; margin: 5px 0;"><strong>Simple Meaning:</strong> An EC2 instance is just a remote computer running in AWS.</p>
+                    <p style="font-size: 0.8em; margin: 5px 0;">Instead of running tests on your laptop, you run them on a cloud computer.</p>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="content-box">
+                        <h3>What You Install (Same as Local)</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Operating System (Ubuntu/Windows)</li>
+                            <li>Node.js / Python / Java</li>
+                            <li>Playwright / Selenium</li>
+                            <li>Browsers (Chrome, Firefox)</li>
+                            <li>Your test code</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Why Automation Engineers Like It</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>✅ Full control over environment</li>
+                            <li>✅ Easy debugging via SSH</li>
+                            <li>✅ Same as local setup</li>
+                            <li>✅ Good for learning cloud</li>
+                            <li>⚠️ You manage it yourself</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="visual-flow" style="font-size: 0.7em; margin-top: 10px;">
+                    <div class="flow-step">Push Code</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">EC2 Starts</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">Tests Run</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">Machine Stops</div>
+                </div>
+            </section>
+
+            <!-- Slide 12: Managed CI Explained -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Option 2: Managed CI (CodeBuild / GitHub Actions)</h2>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-hotel" style="color: var(--vibe-orange);"></i> "Hotel Room for Tests"</h3>
+                    <p style="font-size: 0.8em; margin: 5px 0;"><strong>Simple Meaning:</strong> A machine is created only when tests run, and destroyed afterward.</p>
+                    <p style="font-size: 0.8em; margin: 5px 0;">Check in → Run tests → Leave → Room cleaned</p>
+                    <p style="font-size: 0.8em; margin: 5px 0;">Every test run gets a fresh machine. <strong>You don't manage servers.</strong></p>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="content-box">
+                        <h3>Examples</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li><strong>AWS CodeBuild</strong> - AWS native CI</li>
+                            <li><strong>GitHub Actions</strong> - GitHub runners</li>
+                            <li><strong>GitLab CI</strong> - GitLab runners</li>
+                            <li><strong>Azure Pipelines</strong> - Microsoft agents</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Why Teams Use It</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>✅ No server maintenance</li>
+                            <li>✅ Easy CI/CD integration</li>
+                            <li>✅ Auto clean environment</li>
+                            <li>✅ Good for PR validation</li>
+                            <li>⚠️ Harder debugging</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="visual-flow" style="font-size: 0.7em; margin-top: 10px;">
+                    <div class="flow-step">Code Pushed</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">Runner Created</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">Tests Run</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step">Runner Destroyed</div>
+                </div>
+            </section>
+
+            <!-- Slide 13: Serverless Execution Explained -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Option 3: Serverless Execution (AWS Lambda)</h2>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-magic" style="color: var(--vibe-orange);"></i> "Tests Run Without Servers"</h3>
+                    <p style="font-size: 0.8em; margin: 5px 0;"><strong>Simple Meaning:</strong> Tests run inside functions, not machines.</p>
+                    <p style="font-size: 0.8em; margin: 5px 0;">Press switch → Test runs → Disappears</p>
+                    <p style="font-size: 0.8em; margin: 5px 0;"><strong>No machine exists before or after execution.</strong></p>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="content-box" style="background: #dcfce7; border-left-color: var(--vibe-green);">
+                        <h3>✅ Why It's Interesting</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Extremely cheap for small workloads</li>
+                            <li>Auto-scaling (0 to 1000s)</li>
+                            <li>No server management</li>
+                            <li>Pay only per execution</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box">
+                        <h3>❌ Limitations</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Complex setup (packaging)</li>
+                            <li>15-minute execution limit</li>
+                            <li>Hard debugging</li>
+                            <li>Headless browsers only</li>
+                            <li>Cold start delays</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cost-box" style="margin-top: 10px;">
+                    <h3>Best Use Cases</h3>
+                    <p style="font-size: 0.75em; margin: 5px 0;">✓ Smoke tests (5-10 tests) | ✓ Health checks | ✓ Event-triggered validation | ✓ API testing</p>
+                    <p style="font-size: 0.75em; margin: 5px 0; font-weight: bold;">Not recommended for: Full UI test suites (use EC2 instead)</p>
+                </div>
+            </section>
+
+            <!-- Slide 14: Managed Browser Grids Explained -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Option 4: Managed Browser Grids</h2>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-handshake" style="color: var(--vibe-orange);"></i> "Testing as a Service"</h3>
+                    <p style="font-size: 0.8em; margin: 5px 0;"><strong>Simple Meaning:</strong> A third-party service runs tests for you.</p>
+                    <p style="font-size: 0.8em; margin: 5px 0;">Give tests → Company runs them → You receive results</p>
+                </div>
+                <div class="service-grid" style="grid-template-columns: repeat(3, 1fr); margin: 10px 0;">
+                    <div class="service-card">
+                        <h3 style="font-size: 0.9em; margin: 5px 0;"><i class="fab fa-aws"></i> AWS Device Farm</h3>
+                        <p style="font-size: 0.7em;">Real devices + browsers</p>
+                    </div>
+                    <div class="service-card">
+                        <h3 style="font-size: 0.9em; margin: 5px 0;"><i class="fas fa-browser"></i> BrowserStack</h3>
+                        <p style="font-size: 0.7em;">Cloud browser grid</p>
+                    </div>
+                    <div class="service-card">
+                        <h3 style="font-size: 0.9em; margin: 5px 0;"><i class="fas fa-bolt"></i> LambdaTest</h3>
+                        <p style="font-size: 0.7em;">Parallel execution</p>
+                    </div>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="content-box" style="background: #dcfce7; border-left-color: var(--vibe-green);">
+                        <h3>✅ Pros</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>No infrastructure setup</li>
+                            <li>Real browsers & devices</li>
+                            <li>High scalability instantly</li>
+                            <li>Multiple OS/browser combos</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box">
+                        <h3>❌ Cons</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Expensive at scale ($$$)</li>
+                            <li>Less control over environment</li>
+                            <li>Vendor lock-in</li>
+                            <li>Network latency issues</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15: GitHub Actions vs AWS EC2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>GitHub Actions vs AWS EC2: Complete Comparison</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.68em;">
+                    <div class="content-box" style="background: #e0f2fe; border-left: 4px solid var(--vibe-blue); padding: 8px;">
+                        <h3 style="margin: 0 0 6px 0; font-size: 1.2em;"><i class="fab fa-github"></i> GitHub Actions</h3>
+                        <p style="margin: 3px 0;"><strong>Location:</strong> GitHub's data center</p>
+                        <p style="margin: 3px 0;"><strong>Setup:</strong> Minimal (YAML file)</p>
+                        <p style="margin: 3px 0;"><strong>Cost:</strong> 2000 mins/month FREE</p>
+                        <p style="margin: 3px 0;"><strong>Control:</strong> Basic (preset VMs)</p>
+                        <p style="margin: 3px 0;"><strong>Specs:</strong> 2-core CPU, 7GB RAM (fixed)</p>
+                        <p style="margin: 3px 0;"><strong>OS:</strong> Ubuntu/Windows/macOS</p>
+                        <p style="margin: 3px 0;"><strong>Browsers:</strong> Headless only</p>
+                        <p style="margin: 3px 0;"><strong>Parallel:</strong> Max 20 workers (Enterprise)</p>
+                        <p style="margin: 3px 0;"><strong>Lifecycle:</strong> Auto-destroyed after run</p>
+                        <p style="margin: 3px 0;"><strong>Maintenance:</strong> Zero (fully managed)</p>
+                    </div>
+                    <div class="content-box" style="background: #fef3c7; border-left: 4px solid var(--vibe-orange); padding: 8px;">
+                        <h3 style="margin: 0 0 6px 0; font-size: 1.2em;"><i class="fas fa-server"></i> AWS EC2</h3>
+                        <p style="margin: 3px 0;"><strong>Location:</strong> Your AWS account</p>
+                        <p style="margin: 3px 0;"><strong>Setup:</strong> Complete (instances, security)</p>
+                        <p style="margin: 3px 0;"><strong>Cost:</strong> Pay per second used</p>
+                        <p style="margin: 3px 0;"><strong>Control:</strong> Full (any VM size)</p>
+                        <p style="margin: 3px 0;"><strong>Specs:</strong> 1-96+ cores, 0.5-768GB RAM</p>
+                        <p style="margin: 3px 0;"><strong>OS:</strong> Ubuntu/Windows (your choice)</p>
+                        <p style="margin: 3px 0;"><strong>Browsers:</strong> Headless or GUI (VNC)</p>
+                        <p style="margin: 3px 0;"><strong>Parallel:</strong> Unlimited instances</p>
+                        <p style="margin: 3px 0;"><strong>Lifecycle:</strong> Manual termination</p>
+                        <p style="margin: 3px 0;"><strong>Maintenance:</strong> You manage updates</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 6px;">
+                    <p style="margin:0; font-size: 0.85em;"><strong>Analogy:</strong> GitHub Actions = Hotel room (ready to use) | AWS EC2 = Apartment (customize everything)</p>
+                </div>
+            </section>
+
+            <!-- Slide 16: When to Use What? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>When to Use What?</h2>
+                <div class="content-box" style="background: #dcfce7; border-left-color: var(--vibe-green);">
+                    <h3>✅ Use GitHub Actions When:</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li>Test suite runs < 30 minutes</li>
+                        <li>Standard VM specs are enough (2 CPU, 7GB RAM)</li>
+                        <li>Want zero infrastructure management</li>
+                        <li>Budget is tight (free tier sufficient)</li>
+                        <li>Simple CI/CD pipeline needed</li>
+                    </ul>
+                </div>
+                <div class="content-box" style="background: #fef3c7; border-left-color: var(--vibe-orange); margin-top: 10px;">
+                    <h3>✅ Use AWS EC2 When:</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li>Test suite runs > 1 hour (or 1000+ tests)</li>
+                        <li>Need powerful VMs (8+ CPU cores)</li>
+                        <li>Want complete control over environment</li>
+                        <li>Need to keep instances running</li>
+                        <li>Testing across multiple regions</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 17: Cost Comparison -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Cost Comparison: Real Numbers</h2>
+                <table class="comparison-table" style="font-size: 0.7em;">
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>GitHub Actions</th>
+                            <th>AWS EC2 (On-Demand)</th>
+                            <th>AWS EC2 (Spot)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>100 tests, 20 mins</strong></td>
+                            <td style="background: #dcfce7;">$0 (FREE tier)</td>
+                            <td>$0.05</td>
+                            <td>$0.015</td>
+                        </tr>
+                        <tr>
+                            <td><strong>500 tests, 2 hours</strong></td>
+                            <td>$0.40 (after free)</td>
+                            <td style="background: #dcfce7;">$0.33</td>
+                            <td style="background: #dcfce7;">$0.10</td>
+                        </tr>
+                        <tr>
+                            <td><strong>2000 tests, 8 hours</strong></td>
+                            <td>$1.60</td>
+                            <td style="background: #dcfce7;">$1.32</td>
+                            <td style="background: #dcfce7;">$0.40</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monthly (20 runs/day)</strong></td>
+                            <td>$32 (2000 mins used)</td>
+                            <td style="background: #dcfce7;">$26.40</td>
+                            <td style="background: #dcfce7;">$8.00 (70% savings!)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.7em;"><strong>Verdict:</strong> GitHub Actions = Best for small/free tier | AWS Spot = Best for large-scale (massive savings!)</p>
+                </div>
+            </section>
+
+            <!-- Slide 18: Complete Execution Method Comparison -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Execution Method Comparison</h2>
+                <table class="comparison-table" style="font-size: 0.7em;">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>EC2</th>
+                            <th>Managed CI</th>
+                            <th>Lambda</th>
+                            <th>Browser Grid</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Maintenance</strong></td>
+                            <td style="background: #fef3c7;">Medium</td>
+                            <td style="background: #dcfce7;">Low</td>
+                            <td style="background: #dcfce7;">Low</td>
+                            <td style="background: #dcfce7;">None</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Debugging</strong></td>
+                            <td style="background: #dcfce7;">Excellent</td>
+                            <td style="background: #fef3c7;">Limited</td>
+                            <td style="background: #fee2e2;">Hard</td>
+                            <td style="background: #fef3c7;">Limited</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Scaling</strong></td>
+                            <td style="background: #fef3c7;">Manual</td>
+                            <td style="background: #dcfce7;">Easy</td>
+                            <td style="background: #dcfce7;">Auto</td>
+                            <td style="background: #dcfce7;">Auto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost Control</strong></td>
+                            <td style="background: #dcfce7;">Good</td>
+                            <td style="background: #dcfce7;">Good</td>
+                            <td style="background: #dcfce7;">Excellent</td>
+                            <td style="background: #fee2e2;">Expensive</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Setup</strong></td>
+                            <td style="background: #fef3c7;">Medium</td>
+                            <td style="background: #dcfce7;">Easy</td>
+                            <td style="background: #fee2e2;">Hard</td>
+                            <td style="background: #dcfce7;">Easy</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Best For</strong></td>
+                            <td>Full control</td>
+                            <td>CI/CD</td>
+                            <td>Smoke tests</td>
+                            <td>Cross-browser</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box" style="margin-top: 8px;">
+                    <p style="margin:0; font-size: 0.78em;"><strong>Guide:</strong> Beginners → Managed CI | Full Control → EC2 | Minimal Tests → Lambda | Cross-Browser → Grid</p>
+                </div>
+            </section>
+
+            <!-- Slide 19: Recommended Learning Journey -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Your Recommended Learning Journey</h2>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 10px 0; font-size: 0.7em;">
+                    <div class="content-box" style="background: #e0f2fe; border-left: 4px solid var(--vibe-blue); padding: 12px;">
+                        <h3 style="font-size: 1.1em; margin: 0 0 8px 0; color: var(--vibe-dark-blue);"><i class="fas fa-play-circle"></i> Step 1: Start</h3>
+                        <h4 style="font-size: 0.95em; margin: 0 0 6px 0; font-weight: bold;">GitHub Actions</h4>
+                        <ul style="font-size: 0.9em; list-style: none; padding-left: 0; margin: 0; line-height: 1.6;">
+                            <li>✓ Simple setup (YAML)</li>
+                            <li>✓ 2000 mins/month FREE</li>
+                            <li>✓ GitHub integrated</li>
+                            <li>✓ Learn CI/CD basics</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="background: #fef3c7; border-left: 4px solid var(--vibe-orange); padding: 12px;">
+                        <h3 style="font-size: 1.1em; margin: 0 0 8px 0; color: var(--vibe-dark-blue);"><i class="fas fa-rocket"></i> Step 2: Grow</h3>
+                        <h4 style="font-size: 0.95em; margin: 0 0 6px 0; font-weight: bold;">AWS EC2</h4>
+                        <ul style="font-size: 0.9em; list-style: none; padding-left: 0; margin: 0; line-height: 1.6;">
+                            <li>✓ Better performance</li>
+                            <li>✓ Full control</li>
+                            <li>✓ Cost-effective at scale</li>
+                            <li>✓ Easy debugging (SSH)</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="background: #dcfce7; border-left: 4px solid var(--vibe-green); padding: 12px;">
+                        <h3 style="font-size: 1.1em; margin: 0 0 8px 0; color: var(--vibe-dark-blue);"><i class="fas fa-chart-line"></i> Step 3: Scale</h3>
+                        <h4 style="font-size: 0.95em; margin: 0 0 6px 0; font-weight: bold;">Auto Scaling + Spot</h4>
+                        <ul style="font-size: 0.9em; list-style: none; padding-left: 0; margin: 0; line-height: 1.6;">
+                            <li>✓ 100+ parallel tests</li>
+                            <li>✓ 70% cost savings</li>
+                            <li>✓ Auto start/terminate</li>
+                            <li>✓ Enterprise-grade</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 8px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Pro Tip:</strong> Use GitHub Actions to trigger EC2 instances → Best of both worlds! 🎯</p>
+                </div>
+            </section>
+
+            <!-- Slide 20: Creating AWS Resources via Console -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Creating AWS Resources Using the Console</h2>
+                <div class="content-box">
+                    <h3>Why Use the AWS Console?</h3>
+                    <ul style="font-size: 0.8em;">
+                        <li>Beginner-friendly, no code required</li>
+                        <li>Visual step-by-step process</li>
+                        <li>Great for learning and one-time setup</li>
+                    </ul>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Tip:</strong> The Console is like AWS's "Control Panel"—point, click, and create resources!</p>
+                </div>
+            </section>
+
+            <!-- Slide 21: Key Terms You'll Encounter -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Key Terms When Creating AWS Resources</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>EC2 Terms</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li><strong>AMI</strong> (Amazon Machine Image) = Pre-installed OS template (like Windows installer)</li>
+                            <li><strong>Instance Type</strong> = Computer size (CPU/RAM) like t3.medium</li>
+                            <li><strong>Key Pair</strong> = Digital key to unlock/access your instance (like house key)</li>
+                            <li><strong>Security Group</strong> = Firewall rules (who can enter)</li>
+                            <li><strong>Public IP</strong> = Internet address to reach your instance</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>General Terms</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li><strong>Region</strong> = Data center location (Mumbai, Virginia, etc.)</li>
+                            <li><strong>SSH</strong> = Secure way to connect to remote computers</li>
+                            <li><strong>VNC</strong> = Remote desktop for GUI access</li>
+                            <li><strong>User Data</strong> = Script that runs on instance startup</li>
+                            <li><strong>Tags</strong> = Labels for organizing resources (Name=TestServer)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Remember:</strong> These terms appear in the Console—we'll explain S3 & IAM in detail later!</p>
+                </div>
+            </section>
+
+            <!-- Slide 22: Step-by-Step: Launching EC2 via Console (Part 1) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Step-by-Step: Launching EC2 Instance (Part 1)</h2>
+                <div class="content-box">
+                    <h3>Getting Started</h3>
+                    <ol style="font-size: 0.8em; padding-left: 20px; line-height: 1.7;">
+                        <li>Log in to <a href="https://console.aws.amazon.com" target="_blank" style="color: var(--vibe-blue);">AWS Console</a></li>
+                        <li>Search for <strong>EC2</strong> in the top search bar and select it</li>
+                        <li>Click orange <strong>Launch Instance</strong> button</li>
+                        <li><strong>Name:</strong> Enter friendly name (e.g., <code>playwright-test-machine</code>)</li>
+                        <li><strong>AMI (OS):</strong> Select <strong>Ubuntu 22.04 LTS</strong> (free tier eligible) <br><span style="color: #64748b;">→ This is your operating system</span></li>
+                        <li><strong>Instance Type:</strong> Choose <code>t3.medium</code> (2 vCPU, 4GB RAM) <br><span style="color: #64748b;">→ Computer power</span></li>
+                    </ol>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Next:</strong> Configure security settings and launch!</p>
+                </div>
+            </section>
+
+            <!-- Slide 23: Step-by-Step: Launching EC2 via Console (Part 2) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Step-by-Step: Launching EC2 Instance (Part 2)</h2>
+                <div class="content-box">
+                    <h3>Security & Launch</h3>
+                    <ol start="7" style="font-size: 0.8em; padding-left: 20px; line-height: 1.7;">
+                        <li><strong>Key Pair:</strong> Click "Create new key pair" → Name it <code>test-key</code> → Download <code>.pem</code> file <br><span style="color: #64748b;">→ Your SSH password (save it safely!)</span></li>
+                        <li><strong>Security Group:</strong> Check "Allow SSH from My IP" <br><span style="color: #64748b;">→ Firewall rule (restricts access to your IP only)</span></li>
+                        <li><strong>Storage:</strong> Leave default (30 GB)</li>
+                        <li>Click <strong>Launch Instance</strong> → Wait 60 seconds</li>
+                        <li>Go to "Instances" → Copy <strong>Public IPv4 address</strong> <br><span style="color: #64748b;">→ Your cloud computer's address</span></li>
+                    </ol>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Done!</strong> Your cloud computer is ready. Connect using: <code>ssh -i test-key.pem ubuntu@YOUR-IP</code></p>
+                </div>
+            </section>
+
+            <!-- Slide 24: Understanding Key Pair & Security Group -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Understanding Key Pair & Security Group</h2>
+                <div class="two-col">
+                    <div class="analogy-card">
+                        <h3 style="margin-bottom: 8px;"><i class="fas fa-key" style="color: var(--vibe-orange);"></i> Key Pair (SSH Key)</h3>
+                        <p style="font-size: 0.75em; margin: 5px 0;"><strong>What is it?</strong> A digital key to access your EC2 instance securely.</p>
+                        <p style="font-size: 0.75em; margin: 5px 0;"><strong>Analogy:</strong> Like your house key—without it, you can't enter!</p>
+                        <div style="font-size: 0.7em; margin-top: 8px; text-align: left;">
+                            <p><strong>Important:</strong></p>
+                            <ul style="padding-left: 20px;">
+                                <li>Download happens <strong>only once</strong></li>
+                                <li>Store safely (you can't re-download)</li>
+                                <li>Use <code>.pem</code> for Mac/Linux, <code>.ppk</code> for Windows</li>
+                                <li>Set permissions: <code>chmod 400 test-key.pem</code></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="analogy-card">
+                        <h3 style="margin-bottom: 8px;"><i class="fas fa-shield-alt" style="color: var(--vibe-green);"></i> Security Group (Firewall)</h3>
+                        <p style="font-size: 0.75em; margin: 5px 0;"><strong>What is it?</strong> Rules that control who can connect to your instance.</p>
+                        <p style="font-size: 0.75em; margin: 5px 0;"><strong>Analogy:</strong> Like a bouncer—only approved IPs can enter!</p>
+                        <div style="font-size: 0.7em; margin-top: 8px; text-align: left;">
+                            <p><strong>Common Rules:</strong></p>
+                            <ul style="padding-left: 20px;">
+                                <li><strong>SSH (Port 22):</strong> Allow from "My IP" only</li>
+                                <li><strong>HTTP (Port 80):</strong> Allow from anywhere (for web servers)</li>
+                                <li><strong>HTTPS (Port 443):</strong> Allow from anywhere (for secure web)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="warning-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.75em;"><i class="fas fa-exclamation-triangle"></i> <strong>Security Warning:</strong> Never allow SSH from 0.0.0.0/0 (everywhere)—hackers will break in!</p>
+                </div>
+            </section>
+
+            <!-- Slide 25: Creating S3 Bucket (Console) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Creating S3 Bucket (Console)</h2>
+                <div class="content-box">
+                    <h3><i class="fas fa-database" style="color: var(--vibe-orange);"></i> S3 Bucket Setup</h3>
+                    <p style="font-size: 0.8em; margin: 8px 0;">S3 buckets store test reports, screenshots, and videos in the cloud.</p>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Steps</h3>
+                    <ol style="font-size: 0.8em; padding-left: 20px; line-height: 1.8;">
+                        <li>Search for <strong>S3</strong> in Console</li>
+                        <li>Click <strong>Create bucket</strong></li>
+                        <li><strong>Bucket name:</strong> Enter globally unique name<br><span style="color: #64748b;">→ e.g., <code>vibetestq-reports-2026</code></span><br><span style="color: #64748b; font-size: 0.9em;">(must be unique across all AWS)</span></li>
+                        <li><strong>Region:</strong> Choose closest to you<br><span style="color: #64748b;">→ e.g., <code>us-east-1</code> (Virginia) or <code>ap-south-1</code> (Mumbai)</span></li>
+                        <li>Uncheck "Block all public access" if sharing reports<br><span style="color: #64748b;">→ Leave checked for private data</span></li>
+                        <li>Click <strong>Create bucket</strong></li>
+                    </ol>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Done!</strong> Your S3 bucket is ready to store test artifacts.</p>
+                </div>
+            </section>
+
+            <!-- Slide 26: Creating IAM User (Console) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Creating IAM User (Console)</h2>
+                <div class="content-box">
+                    <h3><i class="fas fa-user-shield" style="color: var(--vibe-green);"></i> IAM User Setup</h3>
+                    <p style="font-size: 0.8em; margin: 8px 0;">IAM users allow programs and scripts to access AWS resources securely.</p>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Steps</h3>
+                    <ol style="font-size: 0.8em; padding-left: 20px; line-height: 1.8;">
+                        <li>Search for <strong>IAM</strong> in Console</li>
+                        <li>Click <strong>Users</strong> → <strong>Create user</strong></li>
+                        <li><strong>Username:</strong> <code>automation-user</code></li>
+                        <li>Click Next → <strong>Attach policies directly</strong></li>
+                        <li>Search and select:<br>
+                            <span style="color: #64748b;">→ <code>AmazonEC2FullAccess</code> (launch instances)</span><br>
+                            <span style="color: #64748b;">→ <code>AmazonS3FullAccess</code> (upload reports)</span>
+                        </li>
+                        <li>Click <strong>Create user</strong></li>
+                        <li>Go to user → <strong>Security credentials</strong> → <strong>Create access key</strong></li>
+                        <li>Select "CLI" → Download CSV <span style="color: #dc2626; font-weight: bold;">(SAVE IT!)</span></li>
+                    </ol>
+                </div>
+                <div class="warning-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.8em;"><i class="fas fa-exclamation-triangle"></i> <strong>Critical:</strong> Save the CSV file immediately. You cannot retrieve the secret key again!</p>
+                </div>
+            </section>
+
+            <!-- Slide 27: Understanding S3 & IAM Terms -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Understanding S3 & IAM Concepts</h2>
+                <div class="two-col">
+                    <div class="analogy-card">
+                        <h3 style="margin-bottom: 8px;"><i class="fas fa-folder-open" style="color: var(--vibe-orange);"></i> S3 Bucket Explained</h3>
+                        <p style="font-size: 0.75em; margin: 5px 0;"><strong>What is it?</strong> A cloud storage container for files (reports, screenshots, videos).</p>
+                        <p style="font-size: 0.75em; margin: 5px 0;"><strong>Analogy:</strong> Like Google Drive or Dropbox folder, but for AWS.</p>
+                        <div style="font-size: 0.7em; margin-top: 8px; text-align: left;">
+                            <p><strong>Key Points:</strong></p>
+                            <ul style="padding-left: 20px;">
+                                <li><strong>Globally unique name:</strong> No two buckets in the world can have the same name</li>
+                                <li><strong>Region matters:</strong> Choose nearest for speed, or same as EC2</li>
+                                <li><strong>Cost:</strong> $0.023/GB/month (10GB = $0.23/month)</li>
+                                <li><strong>Access:</strong> Can be private or public (based on settings)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="analogy-card">
+                        <h3 style="margin-bottom: 8px;"><i class="fas fa-id-badge" style="color: var(--vibe-green);"></i> IAM User & Access Keys</h3>
+                        <p style="font-size: 0.75em; margin: 5px 0;"><strong>What is it?</strong> A user account for programs/scripts to access AWS (not for humans logging in).</p>
+                        <p style="font-size: 0.75em; margin: 5px 0;"><strong>Analogy:</strong> Like creating a "robot employee" with specific permissions.</p>
+                        <div style="font-size: 0.7em; margin-top: 8px; text-align: left;">
+                            <p><strong>Access Keys:</strong></p>
+                            <ul style="padding-left: 20px;">
+                                <li><strong>Access Key ID:</strong> Username (e.g., AKIAIOSFODNN7EXAMPLE)</li>
+                                <li><strong>Secret Access Key:</strong> Password (shown only once!)</li>
+                                <li><strong>Use case:</strong> GitHub Actions, Jenkins, or local scripts</li>
+                                <li><strong>Security:</strong> Never commit to Git, use environment variables</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="warning-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.75em;"><i class="fas fa-exclamation-triangle"></i> <strong>Critical:</strong> Access keys = Full AWS account access. Never share or expose them publicly!</p>
+                </div>
+            </section>
+
+            <!-- Slide 28: CLI Setup Guide -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Complete Setup: Step-by-Step</h2>
+                <div class="content-box">
+                    <div style="font-size: 0.75em;">
+                        <p><span class="step-number">1</span> Install AWS CLI: <code>aws --version</code></p>
+                        <p><span class="step-number">2</span> Configure credentials: <code>aws configure</code></p>
+                        <p><span class="step-number">3</span> Create key pair: <code>aws ec2 create-key-pair --key-name test-key</code></p>
+                        <p><span class="step-number">4</span> Create security group with SSH access</p>
+                        <p><span class="step-number">5</span> Launch EC2 instance: <code>aws ec2 run-instances</code></p>
+                        <p><span class="step-number">6</span> SSH into instance: <code>ssh -i key.pem ubuntu@public-ip</code></p>
+                    </div>
+                </div>
+                <div class="code-block" style="font-size: 0.55em;">aws ec2 run-instances \
+  --image-id ami-0c55b159cbfafe1f0 \
+  --count 1 \
+  --instance-type t3.medium \
+  --key-name test-key \
+  --security-group-ids sg-12345678</div>
+            </section>
+
+            <!-- Slide 29: Installing Test Tools on EC2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Installing Tools on EC2</h2>
+                <div class="code-block" style="font-size: 0.48em; padding: 10px 15px; line-height: 1.3;">#!/bin/bash
+# Update system
+sudo apt-get update -y
+
+# Install Node.js 18
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo bash -
+sudo apt-get install -y nodejs
+
+# Install Playwright
+sudo npm install -g playwright
+playwright install chromium firefox webkit
+playwright install-deps
+
+# Install AWS CLI
+sudo apt-get install -y awscli
+
+echo "✅ Setup complete!"</div>
+                <div class="highlight-box" style="margin-top: 6px; padding: 6px;">
+                    <p style="margin:0; font-size: 0.7em;"><strong>Pro Tip:</strong> Create AMI from configured instance → Launch 100 identical copies in minutes!</p>
+                </div>
+            </section>
+
+            <!-- Slide 30: Running Playwright Tests -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Running Playwright Tests</h2>
+                <div class="content-box">
+                    <h3>Transfer Tests to EC2</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li><strong>Method 1:</strong> Git clone (recommended)</li>
+                        <li><strong>Method 2:</strong> SCP from local machine</li>
+                        <li><strong>Method 3:</strong> Upload to S3, download on EC2</li>
+                    </ul>
+                </div>
+                <div class="code-block" style="font-size: 0.55em;"># On EC2: Clone and run
+git clone https://github.com/user/tests.git
+cd tests
+npm install
+npx playwright test
+
+# Upload results to S3
+TIMESTAMP=$(date +%Y-%m-%d-%H-%M)
+aws s3 cp playwright-report/ \
+  s3://my-reports/$TIMESTAMP/ --recursive
+
+# Terminate instance
+sudo shutdown -h now</div>
+            </section>
+
+            <!-- Slide 31: Playwright Config for AWS -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Playwright Configuration</h2>
+                <div class="code-block" style="font-size: 0.48em; padding: 10px 15px; line-height: 1.3;">// playwright.config.ts
+export default defineConfig({
+  testDir: './tests',
+  timeout: 30 * 1000,
+  fullyParallel: true,
+  workers: process.env.CI ? 4 : undefined,
+  retries: process.env.CI ? 2 : 0,
+  
+  reporter: [
+    ['html', { outputFolder: '/home/ubuntu/results/report' }],
+    ['json', { outputFile: '/home/ubuntu/results/results.json' }]
+  ],
+  
+  use: {
+    headless: true,
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+});</div>
+            </section>
+
+            <!-- Slide 32: Parallel Execution Strategies -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Parallel Execution Strategies</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Strategy 1: Single Instance</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>1× t3.xlarge (4 vCPU)</li>
+                            <li>Run 8 tests parallel</li>
+                            <li>Cost: $0.1664/hour</li>
+                            <li>Good for: &lt; 200 tests</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Strategy 2: Multi-Instance</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>5× t3.medium instances</li>
+                            <li>Each runs 4 parallel = 20 total</li>
+                            <li>Cost: $0.208/hour</li>
+                            <li>Good for: 200-1000 tests</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Example:</strong> 500 tests on 5× t3.medium = 10 min run × $0.208/hr × 0.17hr = <strong>$0.04 per run!</strong></p>
+                </div>
+            </section>
+
+            <!-- Slide 33: Cost Optimization -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Cost Optimization</h2>
+                <div class="content-box">
+                    <h3>Your Monthly Bill Breakdown (Example)</h3>
+                    <div style="font-size: 0.75em;">
+                        <p>EC2 (t3.medium, 2 hrs/day, 22 days): <strong>~$1.83</strong></p>
+                        <p>EBS Storage (30 GB): <strong>~$3.00</strong></p>
+                        <p>S3 Storage (10 GB reports): <strong>~$0.23</strong></p>
+                        <p>Data transfer & misc: <strong>~$0.50-2.00</strong></p>
+                        <p style="border-top: 2px solid var(--vibe-orange); padding-top: 5px; margin-top: 5px; font-weight: bold;">Estimated Total: $5-10/month</p>
+                        <p style="font-size: 0.85em; color: #64748b; margin-top: 3px;">*Actual costs vary based on usage, storage, and data transfer</p>
+                    </div>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="cost-box">
+                        <h3>💡 Save 70%: Spot Instances</h3>
+                        <p style="font-size: 0.75em; margin:0;">t3.medium: $0.0416 → $0.0125</p>
+                    </div>
+                    <div class="warning-box">
+                        <h3>⚠️ Always TERMINATE</h3>
+                        <p style="font-size: 0.75em; margin:0;">Not STOP (still charges for storage)</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 34: Budget Alerts -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Set Up Budget Alerts</h2>
+                <div class="code-block" style="font-size: 0.48em; padding: 10px 15px; line-height: 1.3;"># Create $50 monthly budget with alert at 80%
+aws budgets create-budget \
+  --account-id 123456789012 \
+  --budget '{
+    "BudgetName": "Test-Automation-Budget",
+    "BudgetLimit": {"Amount": "50", "Unit": "USD"},
+    "TimeUnit": "MONTHLY", "BudgetType": "COST"
+  }'
+
+# Email alert when spending hits $40 (80%)
+aws budgets create-notification \
+  --budget-name Test-Automation-Budget \
+  --notification '{
+    "NotificationType": "ACTUAL",
+    "ComparisonOperator": "GREATER_THAN",
+    "Threshold": 80
+  }' \
+  --subscriber '{"SubscriptionType": "EMAIL", 
+    "Address": "your-email@example.com"}'</div>
+            </section>
+
+            <!-- Slide 35: Monitoring with CloudWatch -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>CloudWatch Monitoring</h2>
+                <div class="service-grid">
+                    <div class="content-box">
+                        <h3>Free Metrics</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>CPU Utilization</li>
+                            <li>Network In/Out</li>
+                            <li>Disk Read/Write</li>
+                            <li>Status Checks</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Custom Metrics</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Memory Usage</li>
+                            <li>Tests Passed/Failed</li>
+                            <li>Execution Time</li>
+                            <li>Browser Crashes</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Pro Tip:</strong> Create alarm for CPU &gt; 90% → Auto-terminate hung instances</p>
+                </div>
+            </section>
+
+            <!-- Slide 36: Auto Scaling for Testing -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Auto Scaling for Testing</h2>
+                <div class="content-box">
+                    <h3>How It Works</h3>
+                    <div style="font-size: 0.75em;">
+                        <p><span class="step-number">1</span> Developer pushes code → Tests queued</p>
+                        <p><span class="step-number">2</span> CloudWatch detects queue &gt; 10 → Trigger scale-out</p>
+                        <p><span class="step-number">3</span> Launch 5 EC2 instances automatically</p>
+                        <p><span class="step-number">4</span> Instances run tests → Upload results → Terminate</p>
+                        <p><span class="step-number">5</span> Queue empty → Scale in to 0 instances</p>
+                    </div>
+                </div>
+                <div class="cost-box" style="margin-top: 10px;">
+                    <h3>Cost Comparison</h3>
+                    <p style="font-size: 0.75em; margin: 5px 0;"><strong>Without Auto Scaling:</strong> 5 instances 24/7 = $152/month (80% wasted)</p>
+                    <p style="font-size: 0.75em; margin: 5px 0;"><strong>With Auto Scaling:</strong> Run only when needed = $9.15/month</p>
+                    <p style="font-size: 0.85em; font-weight: bold; color: var(--vibe-green); margin-top: 5px;">Savings: 94%!</p>
+                </div>
+            </section>
+
+            <!-- Slide 37: CI/CD Integration -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>GitHub Actions + AWS</h2>
+                <div class="code-block" style="font-size: 0.46em; padding: 10px 15px; line-height: 1.3;"># .github/workflows/aws-tests.yml
+name: AWS Test Automation
+on: [push, pull_request]
+
+jobs:
+  test-on-aws:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Configure AWS
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    
+    - name: Launch EC2
+      run: |
+        INSTANCE_ID=$(aws ec2 run-instances ... | jq -r '.Instances[0].InstanceId')
+        echo "instance_id=$INSTANCE_ID" >> $GITHUB_OUTPUT
+    
+    - name: Wait for Results
+      run: |
+        while ! aws s3 ls s3://my-reports/$(date +%Y-%m-%d)/; do sleep 30; done
+    
+    - name: Terminate Instance
+      if: always()
+      run: aws ec2 terminate-instances --instance-ids ${{ steps.launch.outputs.instance_id }}</div>
+            </section>
+
+            <!-- Slide 38: Project Structure on AWS -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Complete Project Setup</h2>
+                <div class="folder-tree" style="font-size: 0.6em; line-height: 1.5; padding: 10px;">aws-playwright-project/
+<strong style="color: #f97316;">+-- tests/</strong>              <span style="color: #94a3b8;">Test files</span>
+<strong style="color: #f97316;">+-- playwright.config.ts</strong> <span style="color: #94a3b8;">Config for cloud</span>
+<strong style="color: #f97316;">+-- package.json</strong>        <span style="color: #94a3b8;">Dependencies</span>
+<strong style="color: #fbbf24;">+-- userdata.sh</strong>         <span style="color: #94a3b8;">EC2 setup script</span>
+<strong style="color: #fbbf24;">+-- run-tests.sh</strong>        <span style="color: #94a3b8;">Test execution script</span>
+<strong style="color: #fbbf24;">+-- .github/workflows/</strong>  <span style="color: #94a3b8;">CI/CD automation</span>
+<strong style="color: #fbbf24;">+-- test-results/</strong>       <span style="color: #94a3b8;">Local results dir</span></div>
+            </section>
+
+            <!-- Slide 39: Best Practices -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AWS Best Practices</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>✅ DO</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Terminate after tests (not stop)</li>
+                            <li>Use Spot instances (70% off)</li>
+                            <li>Tag all resources</li>
+                            <li>Set budget alerts</li>
+                            <li>Use AMIs for consistency</li>
+                            <li>Store results in S3</li>
+                            <li>Restrict SSH to your IP</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box">
+                        <h3>❌ DON'T</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Leave instances running 24/7</li>
+                            <li>Expose SSH to 0.0.0.0/0</li>
+                            <li>Use root account daily</li>
+                            <li>Hardcode credentials in code</li>
+                            <li>Ignore cost alerts</li>
+                            <li>Use oversized instances</li>
+                            <li>Mix dev/prod environments</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 40: Troubleshooting Issue 1 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Troubleshooting: Can't SSH</h2>
+                <div class="warning-box">
+                    <h3>Problem</h3>
+                    <p style="font-size: 0.8em; margin:0;"><code>ssh -i key.pem ubuntu@ec2-ip</code> → Connection timeout</p>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Solutions</h3>
+                    <ul style="font-size: 0.7em;">
+                        <li>Check security group allows SSH from your IP</li>
+                        <li>Verify your current IP: <code>curl ifconfig.me</code></li>
+                        <li>Check instance is running: <code>aws ec2 describe-instances</code></li>
+                        <li>Try EC2 Instance Connect (browser-based)</li>
+                        <li>Verify key permissions: <code>chmod 400 key.pem</code></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 41: Troubleshooting Issue 2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Troubleshooting: Tests Fail on EC2</h2>
+                <div class="warning-box">
+                    <h3>Problem</h3>
+                    <p style="font-size: 0.8em; margin:0;">Tests pass locally but fail on AWS EC2</p>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Solutions</h3>
+                    <ul style="font-size: 0.7em;">
+                        <li>Check browser versions match local</li>
+                        <li>Ensure headless mode: <code>headless: true</code></li>
+                        <li>Run Playwright deps: <code>playwright install-deps</code></li>
+                        <li>Check memory: <code>free -h</code> (add swap if low)</li>
+                        <li>Review CloudWatch logs for errors</li>
+                        <li>Run with debug: <code>DEBUG=pw:api npx playwright test</code></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 42: Troubleshooting Issue 3 (Part 1) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Troubleshooting: High AWS Bill (Part 1)</h2>
+                <div class="warning-box">
+                    <h3>Problem</h3>
+                    <p style="font-size: 0.85em; margin:0;">Expected $10/month, got $300 bill!</p>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Investigation Commands</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li>Check running instances:<br><code style="font-size: 0.9em;">aws ec2 describe-instances --filters "Name=instance-state-name,Values=running"</code></li>
+                        <li>Check stopped instances (still cost $):<br><code style="font-size: 0.9em;">aws ec2 describe-instances --filters "Name=instance-state-name,Values=stopped"</code></li>
+                        <li>Review EBS volumes: <code>aws ec2 describe-volumes</code></li>
+                        <li>Check snapshots: <code>aws ec2 describe-snapshots --owner-ids self</code></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 42b: Troubleshooting Issue 3 (Part 2) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Troubleshooting: High AWS Bill (Part 2)</h2>
+                <div class="content-box">
+                    <h3>Solutions</h3>
+                    <ul style="font-size: 0.8em;">
+                        <li><strong>Terminate</strong> all unused instances (not just stop them)</li>
+                        <li><strong>Delete</strong> unattached EBS volumes</li>
+                        <li><strong>Remove</strong> old snapshots</li>
+                        <li><strong>Review</strong> S3 storage usage and clean up</li>
+                    </ul>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Prevention</h3>
+                    <ul style="font-size: 0.8em;">
+                        <li>Set up auto-termination Lambda function</li>
+                        <li>Enable Cost Anomaly Detection</li>
+                        <li>Tag all resources for tracking</li>
+                        <li>Use AWS Budgets with $20 alert threshold</li>
+                    </ul>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Pro Tip:</strong> Check AWS Cost Explorer daily during first month to understand spending patterns</p>
+                </div>
+            </section>
+
+            <!-- Slide 43: Practice Exercise -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Practice Exercise</h2>
+                <div class="highlight-box">
+                    <h3>Goal: Your First AWS Test Run</h3>
+                    <p style="font-size: 0.85em; margin:0;">Launch EC2 → Run Playwright → View results in S3</p>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Steps</h3>
+                    <div style="font-size: 0.75em; line-height: 1.6;">
+                        <p><span class="step-number">1</span> Create AWS account, install AWS CLI</p>
+                        <p><span class="step-number">2</span> Create key pair and security group</p>
+                        <p><span class="step-number">3</span> Create S3 bucket for reports</p>
+                        <p><span class="step-number">4</span> Launch t3.micro instance with user-data script</p>
+                        <p><span class="step-number">5</span> Upload tests, run them, upload results to S3</p>
+                        <p><span class="step-number">6</span> View HTML report in browser</p>
+                        <p><span class="step-number">7</span> Terminate instance (cleanup)</p>
+                    </div>
+                </div>
+                <div class="cost-box" style="margin-top: 8px;">
+                    <p style="margin:0; font-size: 0.8em;"><strong>Time:</strong> 30-45 min | <strong>Cost:</strong> $0.10 (Free tier: $0)</p>
+                </div>
+            </section>
+
+            <!-- Slide 44: Exercise Success Criteria -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Exercise Success Checklist</h2>
+                <div class="content-box">
+                    <h3>You've Succeeded When:</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li>✅ EC2 instance launched successfully</li>
+                        <li>✅ Tests ran on EC2 (not locally)</li>
+                        <li>✅ Results uploaded to S3</li>
+                        <li>✅ HTML report viewable in browser</li>
+                        <li>✅ Instance terminated (no charges)</li>
+                        <li>✅ You understand every step</li>
+                    </ul>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <h3>Bonus Challenge</h3>
+                    <p style="font-size: 0.8em; margin:0;">Create single script that automates entire flow: launch → test → upload → terminate</p>
+                </div>
+            </section>
+
+            <!-- Slide 45: Real-World Example -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Real-World Example</h2>
+                <div class="content-box">
+                    <h3>Growing Team Scenario</h3>
+                    <p style="font-size: 0.75em;">300 tests | Run 5 times/day | Need results in 10 minutes</p>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="warning-box">
+                        <h3>❌ Local Approach</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Buy 10 machines: $12,000</li>
+                            <li>Run time: 30 min/run</li>
+                            <li>Maintenance: $2,250/month</li>
+                            <li>Total 3 years: $96,000</li>
+                        </ul>
+                    </div>
+                    <div class="cost-box">
+                        <h3>✅ AWS Approach</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>3× t3.xlarge on demand</li>
+                            <li>Run time: 10 min/run ✅</li>
+                            <li>Cost: $12.30/month</li>
+                            <li>Total 3 years: $443</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-weight: bold; font-size: 0.85em;">Savings: $95,557 over 3 years (99.5%!)</p>
+                </div>
+            </section>
+
+            <!-- Slide 46: What You've Learned -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What You've Mastered</h2>
+                <div class="service-grid">
+                    <div class="content-box">
+                        <h3>☁️ Cloud Fundamentals</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>What cloud computing is</li>
+                            <li>Pay-per-use economics</li>
+                            <li>Scaling advantages</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>🛠️ AWS Core Services</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>EC2 virtual machines</li>
+                            <li>S3 storage</li>
+                            <li>IAM security</li>
+                            <li>CloudWatch monitoring</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>⚙️ Practical Skills</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Launch EC2 instances</li>
+                            <li>Run tests on cloud</li>
+                            <li>Upload to S3</li>
+                            <li>Monitor costs</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>💡 Best Practices</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Security hardening</li>
+                            <li>Cost optimization</li>
+                            <li>Auto-termination</li>
+                            <li>CI/CD integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 47: Your New Capabilities -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>You Are Now Cloud-Ready!</h2>
+                <div class="highlight-box">
+                    <h3>Your New Superpowers</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li>🚀 Scale to 100+ parallel test executions</li>
+                        <li>💰 Reduce testing costs by 90%+</li>
+                        <li>⚡ Run tests in minutes (not hours)</li>
+                        <li>🔄 Integrate AWS with CI/CD pipelines</li>
+                        <li>📊 Monitor with CloudWatch dashboards</li>
+                        <li>🎯 Create reusable AMIs</li>
+                        <li>🌐 Test from multiple regions</li>
+                        <li>⚙️ Automate entire test lifecycle</li>
+                    </ul>
+                </div>
+                <div class="content-box" style="margin-top: 10px; border-left-color: var(--vibe-orange);">
+                    <p style="margin:0; font-weight: bold; font-size: 0.85em;">You are now a Cloud-Ready Automation Engineer! 🎉</p>
+                </div>
+            </section>
+
+            <!-- Slide 48: Next Steps -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Next Steps</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Immediate Actions</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Complete practice exercise</li>
+                            <li>Create custom test runner AMI</li>
+                            <li>Integrate with GitHub Actions</li>
+                            <li>Set up cost alerts</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Advanced Topics</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>AWS Batch for 1000+ tests</li>
+                            <li>Lambda + Step Functions</li>
+                            <li>ECS/EKS containers</li>
+                            <li>Multi-region testing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <h3>Career Impact</h3>
+                    <p style="font-size: 0.75em; margin: 5px 0;">✓ Stand out in job market | ✓ Work with modern teams</p>
+                    <p style="font-size: 0.75em; margin: 5px 0;">✓ Contribute to DevOps | ✓ Command higher salary</p>
+                </div>
+            </section>
+
+            <!-- Slide 49: Conclusion -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Conclusion</h2>
+                <div class="visual-flow" style="flex-direction: column; gap: 12px; font-size: 0.7em;">
+                    <div class="flow-step" style="min-width: 400px;"><i class="fas fa-laptop"></i> Write tests locally</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 400px;"><i class="fas fa-cloud-upload-alt"></i> Push to GitHub</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 400px; background: var(--vibe-orange);"><i class="fas fa-server"></i> AWS launches instances</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 400px; background: var(--vibe-green);"><i class="fas fa-check-circle"></i> Tests run in parallel</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 400px;"><i class="fas fa-chart-bar"></i> Results in S3/ReportPortal</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 400px;"><i class="fas fa-power-off"></i> Instances auto-terminate</div>
+                </div>
+                <div class="highlight-box" style="margin-top: 15px;">
+                    <p style="margin:0; font-weight: bold;">Keep testing in the cloud with VibeTestQ!</p>
+                    <p style="margin:5px 0; font-size: 0.85em;">Scalability is the future of quality engineering. 🚀</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            width: 1280,
+            height: 720,
+            margin: 0.05
+        });
+    </script>
+</body>
+</html>

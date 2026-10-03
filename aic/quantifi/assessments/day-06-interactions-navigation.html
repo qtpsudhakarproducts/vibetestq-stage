@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Interactions & Navigation - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;margin-bottom:25px;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;border:none;gap:8px;font-size:1rem;transition:all 0.2s;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background:white;padding:0;}.card{box-shadow:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}@media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Assessment</h1><p>Loading topics...</p></div>
+    </header>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: Interactions & Navigation
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** fill, click, selectOption, checkbox, keyboard, hover, navigation, screenshots, waits
+
+---
+
+## Questions
+
+### Question 1
+Which Playwright method clears an input field and types new text into it?
+
+A) locator.type('text')
+B) locator.input('text')
+C) locator.fill('text')
+D) locator.write('text')
+
+**Answer: C) locator.fill('text')**
+
+**Explanation:** `fill()` sets the input's value directly and is the recommended way to populate form fields. It first clears the field then types the value atomically.
+
+---
+
+### Question 2
+What does `await locator.click()` do if the element is not yet actionable?
+
+A) Clicks immediately without waiting
+B) Throws a TimeoutError immediately
+C) Auto-waits for the element to become visible and stable before clicking
+D) Scrolls and ignores the element state
+
+**Answer: C) Auto-waits for the element to become visible and stable before clicking**
+
+**Explanation:** Playwright's actions auto-wait for the element to be actionable (visible, not disabled, not obscured). This eliminates the need for manual `waitForSelector` calls before every action.
+
+---
+
+### Question 3
+Which method selects an option in a `<select>` dropdown by its value?
+
+A) locator.fill('option-value')
+B) locator.click('option-value')
+C) locator.selectOption('option-value')
+D) locator.choose('option-value')
+
+**Answer: C) locator.selectOption('option-value')**
+
+**Explanation:** `selectOption()` works on `<select>` elements and accepts value, label, or index. It triggers the appropriate change events automatically.
+
+---
+
+### Question 4
+How do you check a checkbox in Playwright?
+
+A) locator.enable()
+B) locator.select()
+C) locator.toggle()
+D) locator.check()
+
+**Answer: D) locator.check()**
+
+**Explanation:** `locator.check()` checks a checkbox. It only clicks if the checkbox is not already checked. Use `locator.uncheck()` to uncheck and `locator.setChecked(bool)` to set absolute state.
+
+---
+
+### Question 5
+What does `await page.keyboard.press('Tab')` do?
+
+A) Opens a new browser tab
+B) Moves focus to the next focusable element using the keyboard Tab key
+C) Takes a screenshot
+D) Closes the current page
+
+**Answer: B) Moves focus to the next focusable element using the keyboard Tab key**
+
+**Explanation:** `page.keyboard.press()` dispatches a key event on the focused element. `Tab` is commonly used to navigate between form fields without using the mouse.
+
+---
+
+### Question 6
+What does `await page.screenshot({ path: 'screenshot.png' })` do?
+
+A) Loads a previously saved screenshot
+B) Compares the page against a baseline screenshot
+C) Captures the current viewport and saves it to the specified path
+D) Takes a screenshot only if an assertion fails
+
+**Answer: C) Captures the current viewport and saves it to the specified path**
+
+**Explanation:** `page.screenshot()` captures the current visible viewport by default. Add `fullPage: true` to capture the entire page including scrollable content.
+
+---
+
+### Question 7
+What does `await page.waitForURL('**/dashboard')` do?
+
+A) Navigates the page to the dashboard URL
+B) Clicks the dashboard link
+C) Waits until the page URL matches the glob pattern
+D) Checks the dashboard URL without waiting
+
+**Answer: C) Waits until the page URL matches the glob pattern**
+
+**Explanation:** `waitForURL()` pauses test execution until the URL matches the given string, regex, or glob pattern. Useful after navigation actions like button clicks.
+
+---
+
+### Question 8
+What is the difference between `page.keyboard.type('text')` and `locator.fill('text')`?
+
+A) They are completely identical
+B) `type()` dispatches individual keydown/keypress/keyup events; `fill()` sets the value directly and is faster
+C) `fill()` is deprecated in favor of `type()`
+D) `type()` only works on password fields
+
+**Answer: B) `type()` dispatches individual keydown/keypress/keyup events; `fill()` sets the value directly and is faster**
+
+**Explanation:** Use `fill()` for most cases. Use `keyboard.type()` when the application uses key event listeners (e.g., autocomplete that triggers on each keystroke).
+
+---
+
+### Question 9
+What does `locator.hover()` wait for before performing the hover action?
+
+A) Nothing — it hovers immediately
+B) A user gesture permission from the browser
+C) The element to be visible and stable
+D) The network to be idle
+
+**Answer: C) The element to be visible and stable**
+
+**Explanation:** Like all Playwright actions, `hover()` uses auto-wait to ensure the element is in a state where the hover can produce meaningful results.
+
+---
+
+### Question 10
+What does `await page.goBack()` do?
+
+A) Navigates one step forward in browser history
+B) Reloads the current page
+C) Closes the current tab
+D) Navigates one step back in browser history
+
+**Answer: D) Navigates one step back in browser history**
+
+**Explanation:** `page.goBack()` simulates clicking the browser's back button. Use `page.goForward()` for the forward button. Both return the Response.
+
+---
+
+### Question 11
+What does `locator.isVisible()` return?
+
+A) A void promise
+B) The element's HTML
+C) A boolean Promise indicating whether the element is currently visible
+D) A locator count
+
+**Answer: C) A boolean Promise indicating whether the element is currently visible**
+
+**Explanation:** `locator.isVisible()` is a non-waiting query that returns `true` or `false` at the moment of the call. It does not auto-wait like `expect(locator).toBeVisible()`.
+
+---
+
+### Question 12
+What does `await page.screenshot({ fullPage: true })` capture compared to the default?
+
+A) Only the first element on the page
+B) The entire scrollable page, not just the visible viewport
+C) A screenshot of the browser chrome (tabs, address bar)
+D) Only elements in the `<body>` tag
+
+**Answer: B) The entire scrollable page, not just the visible viewport**
+
+**Explanation:** By default, `screenshot()` captures only the current viewport. `{ fullPage: true }` scrolls and captures the entire page content.
+
+---
+
+### Question 13
+What does `locator.dblclick()` perform?
+
+A) Two single click events in sequence with a pause
+B) A native double-click action on the element
+C) Clicks two different elements in order
+D) Clicks and holds the element
+
+**Answer: B) A native double-click action on the element**
+
+**Explanation:** `dblclick()` fires the standard double-click event, which is different from calling `click()` twice. Some UI components (like file rename in a table) respond to double-click specifically.
+
+---
+
+### Question 14
+What does `locator.clear()` do?
+
+A) Removes the element from the DOM
+B) Deselects all options in a multi-select
+C) Resets the form to its default state
+D) Clears the current value of an input field
+
+**Answer: D) Clears the current value of an input field**
+
+**Explanation:** `locator.clear()` removes all text from an input or textarea. It's equivalent to triple-clicking and pressing Delete.
+
+---
+
+### Question 15
+What does `await page.waitForSelector('.modal', { state: 'visible' })` do?
+
+A) Clicks the modal
+B) Deletes the modal element
+C) Waits until the `.modal` element becomes visible on the page
+D) Checks if the modal exists in the DOM without waiting
+
+**Answer: C) Waits until the `.modal` element becomes visible on the page**
+
+**Explanation:** `waitForSelector` with `{ state: 'visible' }` blocks until the element is visible. You can also use `'hidden'`, `'attached'`, or `'detached'` states.
+
+---
+
+### Question 16
+Which Playwright method drags an element and drops it onto another element?
+
+A) page.drag(source, target)
+B) locator.move(target)
+C) locator.dragTo(targetLocator)
+D) page.drop(source, target)
+
+**Answer: C) locator.dragTo(targetLocator)**
+
+**Explanation:** `locator.dragTo(target)` performs a drag-and-drop from the source element to the target element. Playwright handles the mousedown, mousemove, and mouseup events.
+
+---
+
+### Question 17
+What does `locator.isEnabled()` return?
+
+A) Whether the element is focused
+B) Whether the element is not disabled
+C) Whether the element is visible
+D) Whether the element has content
+
+**Answer: B) Whether the element is not disabled**
+
+**Explanation:** `isEnabled()` returns `true` if the element does not have the `disabled` attribute or property. Use `expect(locator).toBeEnabled()` for assertion purposes.
+
+---
+
+### Question 18
+What Playwright method retrieves the inner text of an element?
+
+A) locator.getText()
+B) locator.value()
+C) locator.innerHTML()
+D) locator.innerText()
+
+**Answer: D) locator.innerText()**
+
+**Explanation:** `innerText()` returns the rendered text content of an element (similar to what the user sees). `textContent()` returns all text including hidden elements. `value()` is for input values.
+
+---
+
+### Question 19
+What does `await page.goto(url, { waitUntil: 'domcontentloaded' })` do?
+
+A) Waits for the entire page including all resources to load
+B) Waits only until the HTML is parsed and the DOM is ready
+C) Waits until there are no network connections
+D) Waits for JavaScript execution to complete
+
+**Answer: B) Waits only until the HTML is parsed and the DOM is ready**
+
+**Explanation:** `domcontentloaded` is a faster wait state — it doesn't wait for images or stylesheets to load. Use it when you need speed and know the critical elements are in the initial HTML.
+
+---
+
+### Question 20
+What does `locator.selectOption({ label: 'Full Time' })` do in a `<select>` dropdown?
+
+A) Types "Full Time" into the dropdown filter
+B) Selects the option whose DISPLAY TEXT is "Full Time"
+C) Selects the option whose VALUE attribute is "Full Time"
+D) Clicks the first option in the list
+
+**Answer: B) Selects the option whose DISPLAY TEXT is "Full Time"**
+
+**Explanation:** When using `{ label: 'Text' }`, `selectOption()` matches the option's visible text. Use `{ value: 'val' }` to match by the `value` attribute instead.
+
+---
+
+</script>
+<script>(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'Perfect Score! Interactions mastered!':pct>=80?'Excellent! Strong command of Playwright interactions.':pct>=60?'Good job! Review fill, keyboard, and navigation methods.':'Keep learning! Re-read Chapter 06 and practice OrangeHRM interactions.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Student: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();</script>
+</body>
+</html>

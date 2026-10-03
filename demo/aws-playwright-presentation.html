@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master AWS for Playwright Tests - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+        .reveal { background: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 700; color: var(--vibe-dark-blue); }
+        .reveal h1 { font-size: 1.8em; margin-bottom: 0.2em; }
+        .reveal h2 { font-size: 1.4em; margin-bottom: 0.3em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.2em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.4; font-size: 0.8em; }
+        .logo-corner { position: absolute; top: 15px; right: 25px; z-index: 100; }
+        .logo-corner img { width: 80px; height: auto; }
+        .title-slide { background: #ffffff !important; }
+        .title-slide .company-header { max-width: 800px; margin: 0 auto 15px; }
+        .title-slide h1 { font-size: 2em; color: var(--vibe-dark-blue); margin: 10px 0 8px; }
+        .title-slide .subtitle { font-size: 1.2em; color: var(--vibe-orange); margin: 10px 0; }
+        .title-slide .tagline { font-size: 1em; color: var(--vibe-blue); margin: 8px 0 15px; }
+        .content-box { background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); padding: 8px 12px; margin: 5px 0; border-radius: 6px; text-align: left; }
+        .highlight-box { background: #fef3c7; border: 2px solid var(--vibe-yellow); padding: 6px 8px; margin: 6px auto; border-radius: 6px; max-width: 95%; }
+        .reveal ul { list-style: none; margin: 6px 0; }
+        .reveal ul li { margin: 5px 0; padding-left: 32px; position: relative; text-align: left; }
+        .reveal ul li:before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--vibe-green); position: absolute; left: 0; top: 2px; }
+        .code-block { background: #1e293b; border-radius: 6px; padding: 10px 15px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.55em; text-align: left; color: #e2e8f0; margin: 8px 0; line-height: 1.4; white-space: pre; overflow-x: auto; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .visual-flow { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 12px 0; flex-wrap: wrap; }
+        .flow-step { background: var(--vibe-blue); color: white; padding: 8px 12px; border-radius: 6px; font-size: 0.65em; min-width: 90px; text-align: center; box-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+        .aws-container { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 10px 0; }
+        .aws-diag { display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .diag-box { padding: 12px 15px; background: white; border: 2px solid var(--vibe-blue); border-radius: 8px; font-size: 0.65em; font-weight: bold; color: var(--vibe-dark-blue); min-width: 90px; text-align: center; }
+        .diag-box.active { background: var(--vibe-orange); color: white; border-color: var(--vibe-orange); transform: scale(1.1); }
+        .flow-arrow { color: var(--vibe-orange); font-size: 1em; font-weight: bold; }
+        .badge { display: inline-block; background: var(--vibe-orange); color: white; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8em; margin: 4px; }
+        .analogy-card { background: white; border: 3px solid var(--vibe-blue); border-radius: 10px; padding: 10px; margin: 8px 0; }
+        .folder-tree { background: #1e293b; color: #22c55e; padding: 15px 20px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.7em; text-align: left; line-height: 1.8; white-space: pre-wrap; }
+        .step-number { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--vibe-orange); color: white; border-radius: 50%; font-weight: bold; font-size: 0.75em; margin-right: 6px; }
+        .issue-box { background: #fee2e2; border-left: 4px solid #dc2626; padding: 6px 10px; margin: 4px 0; border-radius: 4px; }
+        .solution-box { background: #dcfce7; border-left: 4px solid var(--vibe-green); padding: 6px 10px; margin: 4px 0; border-radius: 4px; }
+        .checklist-item { padding: 5px 10px; margin: 3px 0; background: var(--vibe-light-bg); border-radius: 4px; border-left: 3px solid var(--vibe-orange); font-size: 0.95em; }
+        .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 10px 0; }
+        .service-card { background: white; border: 2px solid var(--vibe-blue); border-radius: 6px; padding: 8px 6px; text-align: center; }
+        .service-icon { font-size: 1.5em; color: var(--vibe-orange); margin-bottom: 3px; }
+        .price-tag { background: var(--vibe-green); color: white; padding: 3px 8px; border-radius: 12px; font-size: 0.75em; font-weight: bold; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>AWS for Playwright Testing</h1>
+                <p class="subtitle">By QtpSudhakar</p>
+                <p class="tagline">Cloud-Based Test Automation Excellence</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge"><i class="fab fa-aws"></i> AWS EC2</span>
+                    <span class="badge"><i class="fas fa-cloud"></i> Cloud Testing</span>
+                    <span class="badge"><i class="fas fa-rocket"></i> Scalable</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: What is AWS? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What is AWS?</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;">Think of it as <strong>"Renting Computers in the Cloud"</strong></p>
+                </div>
+                <div class="two-col">
+                    <div class="content-box" style="padding: 8px 12px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-laptop" style="color: var(--vibe-orange);"></i> Traditional Way</h3>
+                        <p style="font-size: 0.85em; line-height: 1.3;">Buy physical servers → Install in your office → Maintain hardware → Pay upfront costs</p>
+                    </div>
+                    <div class="content-box" style="background: #dcfce7; border-left-color: var(--vibe-green); padding: 8px 12px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-cloud" style="color: var(--vibe-green);"></i> AWS Way</h3>
+                        <p style="font-size: 0.85em; line-height: 1.3;">Rent virtual servers → Access from anywhere → AWS maintains hardware → Pay only for usage</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="padding: 6px;">
+                    <p style="margin:0; font-size: 0.85em;"><strong>AWS = Amazon Web Services</strong> - The world's largest cloud computing platform</p>
+                </div>
+            </section>
+
+            <!-- Slide 3: AWS Analogies -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AWS in Real Life</h2>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 6px; font-size: 0.9em;"><i class="fas fa-hotel" style="color: var(--vibe-orange);"></i> Hotel Room Analogy</h3>
+                    <div class="two-col" style="font-size: 0.7em; gap: 10px;">
+                        <div>
+                            <p style="margin: 3px 0;"><strong>Buying a House:</strong></p>
+                            <p style="line-height: 1.3;">• Huge upfront cost<br>• You maintain everything<br>• Empty rooms waste money<br>• Stuck with fixed size</p>
+                        </div>
+                        <div>
+                            <p style="margin: 3px 0;"><strong>AWS (Hotel Room):</strong></p>
+                            <p style="line-height: 1.3;">• Pay only when you use it<br>• Hotel maintains everything<br>• Book more rooms if needed<br>• Check out when done</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 6px; font-size: 0.9em;"><i class="fas fa-car" style="color: var(--vibe-blue);"></i> Taxi vs. Ownership Analogy</h3>
+                    <div class="two-col" style="font-size: 0.7em; gap: 10px;">
+                        <div>
+                            <p style="margin: 3px 0;"><strong>Own a Car:</strong></p>
+                            <p style="line-height: 1.3;">• Buy expensive car<br>• Insurance, maintenance<br>• Sits idle most of the time</p>
+                        </div>
+                        <div>
+                            <p style="margin: 3px 0;"><strong>AWS (Taxi/Uber):</strong></p>
+                            <p style="line-height: 1.3;">• Pay per ride<br>• No maintenance worries<br>• Scale up/down instantly</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Why AWS for Testing? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Why AWS for Playwright Testing?</h2>
+                <ul style="font-size: 0.75em;">
+                    <li><strong>Scalability:</strong> Run 100 tests in parallel across multiple machines</li>
+                    <li><strong>Cost Efficiency:</strong> Pay only for what you use (or use Free Tier)</li>
+                    <li><strong>Consistency:</strong> Same environment every time - no "works on my machine"</li>
+                    <li><strong>24/7 Availability:</strong> Run tests anytime without keeping your laptop on</li>
+                    <li><strong>Global Reach:</strong> Test from different regions around the world</li>
+                    <li><strong>Integration:</strong> Seamlessly connect to CI/CD pipelines</li>
+                </ul>
+            </section>
+
+            <!-- Slide 5: AWS Services Overview -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Key AWS Services for Testing</h2>
+                <div class="service-grid">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-server"></i></div>
+                        <h3 style="font-size: 0.75em; margin: 3px 0;">EC2</h3>
+                        <p style="font-size: 0.65em; margin: 3px 0;">Virtual Servers<br>Run your tests</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-database"></i></div>
+                        <h3 style="font-size: 0.75em; margin: 3px 0;">S3</h3>
+                        <p style="font-size: 0.65em; margin: 3px 0;">Storage<br>Save reports & logs</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-code-branch"></i></div>
+                        <h3 style="font-size: 0.75em; margin: 3px 0;">CodeBuild</h3>
+                        <p style="font-size: 0.65em; margin: 3px 0;">CI/CD<br>Automated builds</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-bolt"></i></div>
+                        <h3 style="font-size: 0.75em; margin: 3px 0;">Lambda</h3>
+                        <p style="font-size: 0.65em; margin: 3px 0;">Serverless<br>Event-driven tests</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3 style="font-size: 0.75em; margin: 3px 0;">CloudWatch</h3>
+                        <p style="font-size: 0.65em; margin: 3px 0;">Monitoring<br>Track test runs</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3 style="font-size: 0.75em; margin: 3px 0;">IAM</h3>
+                        <p style="font-size: 0.65em; margin: 3px 0;">Security<br>Access control</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 8px; padding: 6px;">
+                    <p style="margin:0; font-size: 0.7em;"><strong>Focus:</strong> We'll primarily use <strong>EC2</strong> (servers) and <strong>S3</strong> (storage) for Playwright tests</p>
+                </div>
+            </section>
+
+            <!-- Slide 6: AWS Free Tier -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AWS Free Tier: Test Without Spending</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>Perfect for Learning & Small Projects!</strong></p>
+                </div>
+                <div style="font-size: 0.7em; text-align: left; margin: 10px auto; max-width: 900px;">
+                    <div class="content-box" style="margin: 5px 0; padding: 6px 10px;">
+                        <p style="margin: 0;"><strong><i class="fas fa-server" style="color: var(--vibe-orange);"></i> EC2:</strong> 750 hours/month (t2.micro) → Run 1 instance 24/7 free! <span class="price-tag">FREE</span></p>
+                    </div>
+                    <div class="content-box" style="margin: 5px 0; padding: 6px 10px;">
+                        <p style="margin: 0;"><strong><i class="fas fa-database" style="color: var(--vibe-orange);"></i> S3:</strong> 5 GB storage + 20,000 GET requests → Store test reports <span class="price-tag">FREE</span></p>
+                    </div>
+                    <div class="content-box" style="margin: 5px 0; padding: 6px 10px;">
+                        <p style="margin: 0;"><strong><i class="fas fa-bolt" style="color: var(--vibe-orange);"></i> Lambda:</strong> 1 million requests/month → Serverless test triggers <span class="price-tag">FREE</span></p>
+                    </div>
+                    <div class="content-box" style="margin: 5px 0; padding: 6px 10px;">
+                        <p style="margin: 0;"><strong><i class="fas fa-code-branch" style="color: var(--vibe-orange);"></i> CodeBuild:</strong> 100 build minutes/month → CI/CD builds <span class="price-tag">FREE</span></p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="padding: 6px; margin-top: 6px;">
+                    <p style="margin:0; font-size: 0.95em;"><strong>Duration:</strong> 12 months from account creation (some services always free!)</p>
+                </div>
+            </section>
+
+            <!-- Slide 7: From Local to Cloud -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>From Your Laptop to AWS Cloud</h2>
+                <div class="content-box" style="border-left-color: var(--vibe-orange); padding: 8px 12px; margin: 4px 0;">
+                    <h3 style="font-size: 0.9em; margin: 3px 0;">Today: Running Tests Locally</h3>
+                    <p style="font-size: 0.85em; margin: 3px 0;">You type <code>npx playwright test</code> → Tests run on <strong>your laptop</strong> → Browsers use <strong>your resources</strong></p>
+                </div>
+                <div class="visual-flow" style="margin: 10px 0;">
+                    <div class="flow-step" style="background: var(--vibe-orange);"><i class="fas fa-laptop"></i> Your Laptop</div>
+                    <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step"><i class="fas fa-chrome"></i> Local Browsers</div>
+                    <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step"><i class="fas fa-file-alt"></i> Local Reports</div>
+                </div>
+                <div class="content-box" style="border-left-color: var(--vibe-green); background: #dcfce7; padding: 8px 12px; margin: 4px 0;">
+                    <h3 style="font-size: 0.9em; margin: 3px 0;">Tomorrow: Running Tests on AWS</h3>
+                    <p style="font-size: 0.85em; margin: 3px 0;">You SSH to EC2 → <code>npx playwright test</code> on <strong>AWS server</strong> → Browsers run on <strong>cloud resources</strong></p>
+                </div>
+                <div class="visual-flow" style="margin: 8px 0;">
+                    <div class="flow-step"><i class="fas fa-terminal"></i> SSH Connect</div>
+                    <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step"><i class="fab fa-aws"></i> EC2 Instance</div>
+                    <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step" style="background: var(--vibe-green);"><i class="fas fa-cloud"></i> Cloud Browsers</div>
+                    <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step"><i class="fas fa-database"></i> S3 Reports</div>
+                </div>
+            </section>
+
+            <!-- Slide 8: What is EC2? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>EC2: Your Virtual Computer in the Cloud</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>EC2 = Elastic Compute Cloud</strong> - A virtual computer you rent from AWS</p>
+                </div>
+                <div class="highlight-box" style="background: #e0f2fe; border-color: var(--vibe-blue); padding: 8px;">
+                    <h3 style="margin:0 0 6px 0; font-size: 0.8em;">What's Inside an EC2 Instance?</h3>
+                    <div style="text-align: left; font-size: 0.7em;">
+                        <p style="margin: 3px 0;"><i class="fas fa-microchip" style="color: var(--vibe-orange);"></i> <strong>CPU:</strong> Processing power to run your tests</p>
+                        <p style="margin: 3px 0;"><i class="fas fa-memory" style="color: var(--vibe-orange);"></i> <strong>RAM:</strong> Memory for browsers and test execution</p>
+                        <p style="margin: 3px 0;"><i class="fas fa-hdd" style="color: var(--vibe-orange);"></i> <strong>Storage:</strong> Hard drive space for code and reports</p>
+                        <p style="margin: 3px 0;"><i class="fas fa-network-wired" style="color: var(--vibe-orange);"></i> <strong>Network:</strong> Internet connection for accessing websites</p>
+                        <p style="margin: 3px 0;"><i class="fab fa-ubuntu" style="color: var(--vibe-orange);"></i> <strong>OS:</strong> Ubuntu Linux operating system</p>
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 6px; padding: 6px 12px;">
+                    <p style="margin:0; font-size: 0.85em;"><strong>Key Feature:</strong> Start/stop anytime - pay only when running!</p>
+                </div>
+            </section>
+
+            <!-- Slide 9: EC2 Instance Types -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Choosing the Right EC2 Instance</h2>
+                <div style="font-size: 0.7em; text-align: left; margin: 10px auto; max-width: 900px;">
+                    <div class="content-box" style="background: #dcfce7; border-left-color: var(--vibe-green); padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong><i class="fas fa-star" style="color: var(--vibe-green);"></i> t2.micro (Recommended for Learning)</strong></p>
+                        <p style="margin: 2px 0;">1 vCPU, 1 GB RAM → Perfect for basic tests → <span class="price-tag">FREE TIER</span></p>
+                    </div>
+                    <div class="content-box" style="padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong><i class="fas fa-bolt" style="color: var(--vibe-blue);"></i> t3.small</strong></p>
+                        <p style="margin: 2px 0;">2 vCPUs, 2 GB RAM → Better performance → ~$0.02/hour (~$15/month)</p>
+                    </div>
+                    <div class="content-box" style="padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong><i class="fas fa-rocket" style="color: var(--vibe-orange);"></i> t3.medium</strong></p>
+                        <p style="margin: 2px 0;">2 vCPUs, 4 GB RAM → Multiple parallel tests → ~$0.04/hour (~$30/month)</p>
+                    </div>
+                    <div class="content-box" style="background: #fef3c7; border-left-color: var(--vibe-yellow); padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong><i class="fas fa-fire" style="color: var(--vibe-orange);"></i> c5.large (Production)</strong></p>
+                        <p style="margin: 2px 0;">2 vCPUs, 4 GB RAM, optimized CPU → Large test suites → ~$0.085/hour (~$62/month)</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="padding: 6px; margin-top: 6px;">
+                    <p style="margin:0; font-size: 0.7em;"><strong>Pro Tip:</strong> Start with t2.micro (free), upgrade as needed. Stop instance when not testing!</p>
+                </div>
+            </section>
+
+            <!-- Slide 10: AWS Architecture for Testing -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Complete AWS Test Architecture</h2>
+                <div class="aws-container" style="gap: 5px; margin: 10px 0;">
+                    <div class="aws-diag" style="gap: 8px;">
+                        <div class="diag-box" style="padding: 8px 10px; font-size: 0.6em;"><i class="fas fa-user"></i><br>Developer</div>
+                        <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                        <div class="diag-box" style="padding: 8px 10px; font-size: 0.6em;"><i class="fas fa-terminal"></i><br>SSH/CLI</div>
+                        <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                        <div class="diag-box active" style="padding: 8px 10px; font-size: 0.6em;"><i class="fas fa-server"></i><br>EC2 Instance</div>
+                    </div>
+                    <div style="font-size: 1.2em; color: var(--vibe-orange);"><i class="fas fa-arrow-down"></i></div>
+                    <div class="aws-diag" style="gap: 8px;">
+                        <div class="diag-box" style="padding: 8px 10px; font-size: 0.6em;"><i class="fab fa-github"></i><br>Git Clone</div>
+                        <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                        <div class="diag-box" style="padding: 8px 10px; font-size: 0.6em;"><i class="fab fa-node-js"></i><br>Install Deps</div>
+                        <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                        <div class="diag-box" style="padding: 8px 10px; font-size: 0.6em;"><i class="fas fa-robot"></i><br>Run Tests</div>
+                    </div>
+                    <div style="font-size: 1.2em; color: var(--vibe-orange);"><i class="fas fa-arrow-down"></i></div>
+                    <div class="aws-diag" style="gap: 8px;">
+                        <div class="diag-box" style="padding: 8px 10px; font-size: 0.6em;"><i class="fas fa-chrome"></i><br>Browsers</div>
+                        <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                        <div class="diag-box" style="padding: 8px 10px; font-size: 0.6em;"><i class="fas fa-database"></i><br>S3 Storage</div>
+                        <div class="flow-arrow" style="font-size: 1em;"><i class="fas fa-arrow-right"></i></div>
+                        <div class="diag-box" style="padding: 8px 10px; font-size: 0.6em;"><i class="fas fa-chart-line"></i><br>Reports</div>
+                    </div>
+                </div>
+                <p style="font-size: 0.65em; margin-top: 6px; text-align: center;">
+                    <strong>Flow:</strong> Connect → Setup → Execute → Store → Analyze
+                </p>
+            </section>
+
+            <!-- Slide 11: Security Groups -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Security Groups: Your Virtual Firewall</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>Security Group</strong> = Rules that control who can access your EC2 instance</p>
+                </div>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 6px; font-size: 0.9em;"><i class="fas fa-shield-alt" style="color: var(--vibe-orange);"></i> Nightclub Bouncer Analogy</h3>
+                    <div style="font-size: 0.7em; text-align: left;">
+                        <p style="margin: 3px 0;"><strong>Security Group = Bouncer at the door</strong></p>
+                        <p style="line-height: 1.4; margin: 3px 0;">• <strong>Bouncer checks list:</strong> Only approved IPs can enter<br>
+                        • <strong>Port 22 (SSH):</strong> The door for remote access<br>
+                        • <strong>Your IP only:</strong> Like being on the VIP list<br>
+                        • <strong>Block everyone else:</strong> Uninvited guests can't get in</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="padding: 6px; margin-top: 6px;">
+                    <p style="margin:0; font-size: 0.7em;"><strong>Best Practice:</strong> Allow SSH (Port 22) only from YOUR IP address (/32)</p>
+                </div>
+            </section>
+
+            <!-- Slide 12: SSH Connection -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>SSH: Your Secure Remote Connection</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>SSH = Secure Shell</strong> - Encrypted connection to control remote computers</p>
+                </div>
+                <div class="two-col" style="gap: 10px;">
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;">How It Works</h3>
+                        <p style="font-size: 0.75em; line-height: 1.4;">
+                            1. <strong>Key Pair:</strong> Like a lock and key<br>
+                            2. <strong>Private Key:</strong> Stays on your laptop (secret)<br>
+                            3. <strong>Public Key:</strong> Goes on EC2 instance<br>
+                            4. <strong>Connection:</strong> Only matching key works
+                        </p>
+                    </div>
+                    <div class="content-box" style="background: #fef3c7; padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;">Why Secure?</h3>
+                        <p style="font-size: 0.75em; line-height: 1.4;">
+                            <i class="fas fa-lock" style="color: var(--vibe-orange);"></i> Encrypted traffic<br>
+                            <i class="fas fa-key" style="color: var(--vibe-orange);"></i> No passwords needed<br>
+                            <i class="fas fa-shield-alt" style="color: var(--vibe-orange);"></i> Can't be stolen easily<br>
+                            <i class="fas fa-user-secret" style="color: var(--vibe-orange);"></i> Prevents unauthorized access
+                        </p>
+                    </div>
+                </div>
+                <div class="code-block" style="font-size: 0.5em; margin-top: 6px; padding: 8px 12px;">
+# Connect to EC2 instance
+ssh -i ~/.ssh/playwright-key.pem ubuntu@54.123.45.67
+                </div>
+            </section>
+
+            <!-- Slide 13: Complete Setup Flow -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Complete Setup Journey</h2>
+                <div class="content-box" style="font-size: 0.6em; padding: 8px 12px;">
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">1</span> Create AWS Account → Sign up and verify identity</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">2</span> Install AWS CLI → Command-line tool to control AWS</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">3</span> Configure Credentials → Add your access keys</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">4</span> Create SSH Key Pair → Generate secure access keys</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">5</span> Create Security Group → Set firewall rules (Port 22)</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">6</span> Launch EC2 Instance → Start Ubuntu 24.04 virtual machine</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">7</span> Connect via SSH → Remote login to your instance</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">8</span> Install Node.js → Setup test environment</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">9</span> Install Playwright → Add test framework</p>
+                    <p style="margin: 3px 0; line-height: 1.3;"><span class="step-number">10</span> Run Tests → Execute your test suite in the cloud!</p>
+                </div>
+                <div class="highlight-box" style="margin-top: 8px; padding: 5px;">
+                    <p style="margin:0; font-size: 0.65em;"><i class="fas fa-clock"></i> <strong>Time Required:</strong> 2-3 hours for first-time setup</p>
+                </div>
+            </section>
+
+            <!-- Slide 14: Installing Playwright on EC2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Setting Up Playwright on EC2</h2>
+                <p style="font-size: 0.65em; margin: 4px 0;">After connecting via SSH, run these commands:</p>
+                <div class="code-block" style="font-size: 0.45em; padding: 8px 12px; line-height: 1.3;">
+# Update system packages
+sudo apt update && sudo apt upgrade -y
+
+# Install Node.js 20 LTS
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Verify installation
+node --version    # Should show v20.x
+npm --version
+
+# Install Playwright system dependencies
+sudo npx playwright install-deps
+
+# Create test project
+mkdir playwright-tests && cd playwright-tests
+npm init -y
+npm install -D @playwright/test
+
+# Install Playwright browsers
+npx playwright install
+                </div>
+                <div class="highlight-box" style="padding: 5px; margin-top: 6px;">
+                    <p style="margin:0; font-size: 0.65em;"><strong>Important:</strong> Always run <code>playwright install-deps</code> first on fresh instances!</p>
+                </div>
+            </section>
+
+            <!-- Slide 15: Running Tests on EC2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Running Your First Cloud Test</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.85em;">Create a simple test file on EC2:</p>
+                </div>
+                <div class="code-block" style="font-size: 0.43em; padding: 8px 12px; line-height: 1.3;">
+# Create test directory and file
+mkdir tests
+cat > tests/demo.spec.js << 'EOF'
+const { test, expect } = require('@playwright/test');
+
+test('AWS cloud test', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+  
+  const title = await page.title();
+  expect(title).toContain('Playwright');
+  
+  console.log('✅ Test running on AWS EC2!');
+  console.log('📍 Page title:', title);
+});
+EOF
+
+# Run the test
+npx playwright test
+
+# Run with headed mode to verify (uses Xvfb)
+npx playwright test --headed
+                </div>
+                <div class="highlight-box" style="padding: 5px; margin-top: 6px;">
+                    <p style="margin:0; font-size: 0.65em;"><strong>Success!</strong> Your test is now running on AWS cloud infrastructure 🎉</p>
+                </div>
+            </section>
+
+            <!-- Slide 16: Headless on Cloud -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Headless Mode: No Screen Needed</h2>
+                <div class="content-box" style="padding: 8px 12px; margin: 4px 0;">
+                    <p style="margin:0; font-size: 0.85em;"><strong>Headless Mode</strong> = Browser runs without a visible window - perfect for cloud servers!</p>
+                </div>
+                <div class="two-col" style="gap: 12px;">
+                    <div class="content-box" style="padding: 10px 12px;">
+                        <h3>Local Machine</h3>
+                        <p style="font-size: 0.85em;"><i class="fas fa-desktop"></i> Has a monitor<br><i class="fas fa-eye"></i> Can see browser<br><i class="fas fa-mouse-pointer"></i> Visual debugging</p>
+                    </div>
+                    <div class="content-box" style="background: #dcfce7; padding: 10px 12px;">
+                        <h3>EC2 Instance</h3>
+                        <p style="font-size: 0.85em;"><i class="fas fa-server"></i> No monitor<br><i class="fas fa-bolt"></i> Headless mode only<br><i class="fas fa-tachometer-alt"></i> 30-50% faster</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="background: #fef3c7; padding: 8px; margin: 6px auto;">
+                    <p style="margin:0; font-size: 0.7em;"><strong>Why Headless on AWS?</strong> No display = less memory usage = faster tests = lower costs!</p>
+                </div>
+                <div class="code-block" style="font-size: 0.55em; margin-top: 6px; padding: 10px 15px;">
+// playwright.config.js
+use: {
+  headless: true,  // Always true on cloud
+  screenshot: 'only-on-failure',
+  trace: 'retain-on-failure'
+}
+                </div>
+            </section>
+
+            <!-- Slide 17: Storing Reports in S3 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>S3: Storing Test Reports</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>S3 = Simple Storage Service</strong> - Amazon's cloud storage (like Dropbox/Google Drive)</p>
+                </div>
+                <div class="two-col" style="gap: 10px;">
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;">Why Use S3?</h3>
+                        <p style="font-size: 0.75em; line-height: 1.4;">
+                            <i class="fas fa-check-circle" style="color: var(--vibe-green);"></i> Persistent storage<br>
+                            <i class="fas fa-check-circle" style="color: var(--vibe-green);"></i> EC2 data lost on termination<br>
+                            <i class="fas fa-check-circle" style="color: var(--vibe-green);"></i> Share reports with team<br>
+                            <i class="fas fa-check-circle" style="color: var(--vibe-green);"></i> Access from anywhere
+                        </p>
+                    </div>
+                    <div class="content-box" style="background: #fef3c7; padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;">What to Store?</h3>
+                        <p style="font-size: 0.75em; line-height: 1.4;">
+                            📊 HTML test reports<br>
+                            📸 Screenshots on failure<br>
+                            🎥 Video recordings<br>
+                            📝 Trace files for debugging
+                        </p>
+                    </div>
+                </div>
+                <div class="code-block" style="font-size: 0.48em; margin-top: 6px; padding: 8px 12px;">
+# Create S3 bucket
+aws s3 mb s3://my-playwright-reports
+
+# Upload test reports
+aws s3 cp playwright-report/ s3://my-playwright-reports/ --recursive
+
+# Download reports to local machine
+aws s3 sync s3://my-playwright-reports/ ./local-reports/
+                </div>
+            </section>
+
+            <!-- Slide 18: GitHub Actions + AWS -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>GitHub Actions → AWS EC2 Integration</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.85em;">Automate: Push code → Trigger AWS tests → Get results automatically!</p>
+                </div>
+                <div class="visual-flow" style="flex-wrap: wrap; gap: 6px; margin: 10px 0;">
+                    <div class="flow-step" style="padding: 6px 10px; font-size: 0.6em;"><i class="fas fa-code"></i> Push Code</div>
+                    <div class="flow-arrow" style="font-size: 0.9em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step" style="padding: 6px 10px; font-size: 0.6em;"><i class="fab fa-github"></i> GitHub Actions</div>
+                    <div class="flow-arrow" style="font-size: 0.9em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step" style="padding: 6px 10px; font-size: 0.6em;"><i class="fas fa-terminal"></i> SSH to EC2</div>
+                    <div class="flow-arrow" style="font-size: 0.9em;"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="background: var(--vibe-green); padding: 6px 10px; font-size: 0.6em;"><i class="fas fa-robot"></i> Run Tests</div>
+                    <div class="flow-arrow" style="font-size: 0.9em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step" style="padding: 6px 10px; font-size: 0.6em;"><i class="fas fa-database"></i> Upload to S3</div>
+                    <div class="flow-arrow" style="font-size: 0.9em;"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step" style="padding: 6px 10px; font-size: 0.6em;"><i class="fas fa-check-circle"></i> Notify Results</div>
+                </div>
+                <div class="code-block" style="font-size: 0.4em; margin-top: 6px; padding: 8px 12px; line-height: 1.3;">
+# .github/workflows/aws-tests.yml
+name: AWS Playwright Tests
+on: [push]
+
+jobs:
+  test-on-aws:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: SSH and run tests on EC2
+        run: |
+          ssh -i $SSH_KEY ubuntu@$EC2_IP "cd playwright-tests && npx playwright test"
+      
+      - name: Upload reports to S3
+        run: aws s3 sync playwright-report/ s3://my-reports/ --delete
+                </div>
+            </section>
+
+            <!-- Slide 19: Cost Management -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Managing AWS Costs</h2>
+                <div class="content-box" style="background: #dcfce7; border-left-color: var(--vibe-green); padding: 6px 12px; margin: 4px 0;">
+                    <h3 style="font-size: 0.9em; margin: 3px 0;"><i class="fas fa-piggy-bank"></i> Cost-Saving Tips</h3>
+                </div>
+                <ul style="font-size: 0.7em;">
+                    <li><strong>Stop instances:</strong> Don't leave EC2 running when not testing (save 100% on compute)</li>
+                    <li><strong>Use t2.micro:</strong> Free Tier eligible for 750 hours/month</li>
+                    <li><strong>Set billing alerts:</strong> Get notified before spending money</li>
+                    <li><strong>Use spot instances:</strong> Up to 90% cheaper for non-critical tests</li>
+                    <li><strong>Auto-shutdown:</strong> Schedule EC2 to stop after hours</li>
+                    <li><strong>Monitor usage:</strong> Check AWS Cost Explorer monthly</li>
+                </ul>
+                <div class="code-block" style="font-size: 0.5em; margin-top: 8px; padding: 8px 12px;">
+# Stop EC2 instance (from your local machine)
+aws ec2 stop-instances --instance-ids i-1234567890abcdef0
+
+# Start again when needed
+aws ec2 start-instances --instance-ids i-1234567890abcdef0
+
+# Terminate (delete permanently) when done
+aws ec2 terminate-instances --instance-ids i-1234567890abcdef0
+                </div>
+            </section>
+
+            <!-- Slide 20: Common Issues & Troubleshooting -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Common Issues & Quick Fixes</h2>
+                <div style="font-size: 0.6em;">
+                    <div class="issue-box">
+                        <p style="margin:0;"><strong>❌</strong> "Permission denied (publickey)"</p>
+                    </div>
+                    <div class="solution-box">
+                        <p style="margin:0;"><strong>✅</strong> Run <code>chmod 400 ~/.ssh/playwright-key.pem</code> to fix permissions</p>
+                    </div>
+                    
+                    <div class="issue-box">
+                        <p style="margin:0;"><strong>❌</strong> "Connection timed out"</p>
+                    </div>
+                    <div class="solution-box">
+                        <p style="margin:0;"><strong>✅</strong> Check security group allows YOUR IP on Port 22. Your IP may have changed!</p>
+                    </div>
+                    
+                    <div class="issue-box">
+                        <p style="margin:0;"><strong>❌</strong> "Executable doesn't exist at chromium path"</p>
+                    </div>
+                    <div class="solution-box">
+                        <p style="margin:0;"><strong>✅</strong> Run <code>sudo npx playwright install-deps</code> and <code>npx playwright install</code></p>
+                    </div>
+                    
+                    <div class="issue-box">
+                        <p style="margin:0;"><strong>❌</strong> Tests fail on EC2 but pass locally</p>
+                    </div>
+                    <div class="solution-box">
+                        <p style="margin:0;"><strong>✅</strong> Increase timeouts, check network latency, ensure headless mode configured</p>
+                    </div>
+                    
+                    <div class="issue-box">
+                        <p style="margin:0;"><strong>❌</strong> "Instance stopped unexpectedly"</p>
+                    </div>
+                    <div class="solution-box">
+                        <p style="margin:0;"><strong>✅</strong> Check if you exceeded Free Tier limits. Verify billing alerts are set.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 21: Best Practices -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AWS Testing Best Practices</h2>
+                <div class="two-col" style="gap: 10px;">
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-shield-alt" style="color: var(--vibe-orange);"></i> Security</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Never commit AWS keys to Git</li>
+                            <li>Use IAM roles, not root credentials</li>
+                            <li>Restrict security groups to your IP</li>
+                            <li>Rotate access keys regularly</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-cogs" style="color: var(--vibe-blue);"></i> Performance</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Use headless mode on EC2</li>
+                            <li>Run tests in parallel</li>
+                            <li>Choose right instance type</li>
+                            <li>Store artifacts in S3</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="two-col" style="margin-top: 8px; gap: 10px;">
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-dollar-sign" style="color: var(--vibe-green);"></i> Cost</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Stop instances when not in use</li>
+                            <li>Set billing alarms</li>
+                            <li>Use Free Tier wisely</li>
+                            <li>Monitor usage dashboard</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-code" style="color: var(--vibe-yellow);"></i> Development</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Version control your tests</li>
+                            <li>Document setup procedures</li>
+                            <li>Use environment variables</li>
+                            <li>Automate with GitHub Actions</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 22: Scaling Your Tests -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Scaling: From 1 to 100 Tests</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>Growth Path:</strong> Start small, scale as you learn</p>
+                </div>
+                <div style="font-size: 0.68em; text-align: left; margin: 10px auto; max-width: 900px;">
+                    <div class="content-box" style="border-left-color: var(--vibe-green); padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong>Stage 1: Learning (1-10 tests)</strong></p>
+                        <p style="margin: 2px 0;">→ Single t2.micro instance (Free Tier) → Manual SSH execution → Local development setup</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-blue); padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong>Stage 2: Growing (10-50 tests)</strong></p>
+                        <p style="margin: 2px 0;">→ Upgrade to t3.small for faster execution → Add GitHub Actions automation → Store reports in S3</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange); padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong>Stage 3: Production (50-500 tests)</strong></p>
+                        <p style="margin: 2px 0;">→ Multiple EC2 instances in parallel → Use AWS CodeBuild for CI/CD → Implement ReportPortal for analytics</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-yellow); background: #fef3c7; padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong>Stage 4: Enterprise (500+ tests)</strong></p>
+                        <p style="margin: 2px 0;">→ Auto-scaling groups (spin up/down instances) → Lambda for serverless triggers → Multi-region deployment</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 23: AWS vs. Other Cloud Providers -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AWS vs. Other Cloud Providers</h2>
+                <div style="font-size: 0.65em;">
+                    <div class="service-grid" style="grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                        <div class="service-card" style="border-color: var(--vibe-orange); padding: 8px;">
+                            <div class="service-icon" style="font-size: 1.3em; margin-bottom: 2px;"><i class="fab fa-aws"></i></div>
+                            <h3 style="font-size: 0.95em; margin: 4px 0;">AWS</h3>
+                            <p style="font-size: 0.85em; text-align: left; margin: 3px 0; line-height: 1.4;">
+                                ✅ Largest market share<br>
+                                ✅ Most services available<br>
+                                ✅ Excellent documentation<br>
+                                ✅ Best Free Tier for learning<br>
+                                ⚠️ Can be complex for beginners
+                            </p>
+                        </div>
+                        <div class="service-card" style="border-color: var(--vibe-blue); padding: 8px;">
+                            <div class="service-icon" style="font-size: 1.3em; margin-bottom: 2px;"><i class="fab fa-microsoft" style="color: var(--vibe-blue);"></i></div>
+                            <h3 style="font-size: 0.95em; margin: 4px 0;">Azure</h3>
+                            <p style="font-size: 0.85em; text-align: left; margin: 3px 0; line-height: 1.4;">
+                                ✅ Great for .NET ecosystem<br>
+                                ✅ Excellent enterprise integration<br>
+                                ✅ Strong DevOps tools<br>
+                                ⚠️ Pricing can be higher<br>
+                                ⚠️ Less Free Tier than AWS
+                            </p>
+                        </div>
+                        <div class="service-card" style="border-color: var(--vibe-green); padding: 8px;">
+                            <div class="service-icon" style="font-size: 1.3em; margin-bottom: 2px;"><i class="fab fa-google" style="color: var(--vibe-green);"></i></div>
+                            <h3 style="font-size: 0.95em; margin: 4px 0;">GCP</h3>
+                            <p style="font-size: 0.85em; text-align: left; margin: 3px 0; line-height: 1.4;">
+                                ✅ Best for data/ML workloads<br>
+                                ✅ Simpler pricing model<br>
+                                ✅ Good Kubernetes support<br>
+                                ⚠️ Smaller market share<br>
+                                ⚠️ Fewer regions
+                            </p>
+                        </div>
+                        <div class="service-card" style="border-color: var(--vibe-yellow); padding: 8px;">
+                            <div class="service-icon" style="font-size: 1.3em; margin-bottom: 2px;"><i class="fab fa-github"></i></div>
+                            <h3 style="font-size: 0.95em; margin: 4px 0;">GitHub Actions</h3>
+                            <p style="font-size: 0.85em; text-align: left; margin: 3px 0; line-height: 1.4;">
+                                ✅ Simplest for beginners<br>
+                                ✅ Free for public repos<br>
+                                ✅ Built-in CI/CD<br>
+                                ⚠️ Limited Free Tier (2000 min)<br>
+                                ⚠️ Less control than AWS
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 8px; padding: 5px;">
+                    <p style="margin:0; font-size: 0.7em;"><strong>Recommendation:</strong> Start with AWS for learning, then explore others based on company needs</p>
+                </div>
+            </section>
+
+            <!-- Slide 24: Real-World Use Cases -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>How Companies Use AWS for Testing</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin:0; font-size: 0.9em;"><strong>Real-world scenarios from the industry</strong></p>
+                </div>
+                <div style="font-size: 0.65em; margin-top: 8px;">
+                    <div class="analogy-card" style="padding: 8px; margin: 6px 0;">
+                        <h3 style="margin: 3px 0; font-size: 0.95em;"><i class="fas fa-shopping-cart" style="color: var(--vibe-orange);"></i> E-Commerce Company</h3>
+                        <p style="font-size: 0.95em; margin: 3px 0; line-height: 1.3;">Runs 5000+ tests nightly on 50 EC2 instances → Tests complete in 15 minutes instead of 12+ hours → Catch bugs before customers see them</p>
+                    </div>
+                    <div class="analogy-card" style="padding: 8px; margin: 6px 0;">
+                        <h3 style="margin: 3px 0; font-size: 0.95em;"><i class="fas fa-hospital" style="color: var(--vibe-blue);"></i> Healthcare SaaS</h3>
+                        <p style="font-size: 0.95em; margin: 3px 0; line-height: 1.3;">Multi-region testing from us-east-1, eu-west-1, ap-south-1 → Ensures compliance across different data centers → Tests patient portal from actual geographic locations</p>
+                    </div>
+                    <div class="analogy-card" style="padding: 8px; margin: 6px 0;">
+                        <h3 style="margin: 3px 0; font-size: 0.95em;"><i class="fas fa-university" style="color: var(--vibe-green);"></i> FinTech Startup</h3>
+                        <p style="font-size: 0.95em; margin: 3px 0; line-height: 1.3;">Uses AWS Lambda for triggered tests → Every deployment auto-tests payment flows → Saves $50K/year vs. dedicated infrastructure</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 25: Hands-On Exercise -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Hands-On Exercise: Deploy Your First Test</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>Goal:</strong> Complete AWS setup and run Playwright test in 60 minutes!</p>
+                </div>
+                <div style="font-size: 0.65em; text-align: left; margin: 8px auto; max-width: 900px;">
+                    <div class="checklist-item">□ Task 1: Create AWS account (if not done already)</div>
+                    <div class="checklist-item">□ Task 2: Install and configure AWS CLI</div>
+                    <div class="checklist-item">□ Task 3: Create SSH key pair (playwright-key)</div>
+                    <div class="checklist-item">□ Task 4: Create security group (allow Port 22 from your IP)</div>
+                    <div class="checklist-item">□ Task 5: Launch t2.micro EC2 instance (Ubuntu 24.04)</div>
+                    <div class="checklist-item">□ Task 6: Connect to EC2 via SSH</div>
+                    <div class="checklist-item">□ Task 7: Install Node.js and Playwright on EC2</div>
+                    <div class="checklist-item">□ Task 8: Create and run a simple test</div>
+                    <div class="checklist-item">□ Task 9: Create S3 bucket and upload test report</div>
+                    <div class="checklist-item">□ Task 10: Stop EC2 instance to save costs</div>
+                </div>
+                <div class="highlight-box" style="padding: 5px; margin-top: 6px;">
+                    <p style="margin:0; font-size: 0.65em;"><strong>Success Criteria:</strong> Test runs on EC2 + Report stored in S3 + Instance stopped ✅</p>
+                </div>
+            </section>
+
+            <!-- Slide 26: Advanced Topics Preview -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Next Level: Advanced AWS Features</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>After mastering basics, explore these advanced topics:</strong></p>
+                </div>
+                <div class="two-col" style="gap: 10px; margin-top: 8px;">
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-layer-group" style="color: var(--vibe-orange);"></i> Docker on EC2</h3>
+                        <p style="font-size: 0.75em;">• Containerized test environments<br>• Consistent setup across instances<br>• Faster deployment</p>
+                    </div>
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-expand-arrows-alt" style="color: var(--vibe-blue);"></i> Auto-Scaling</h3>
+                        <p style="font-size: 0.75em;">• Automatically add/remove instances<br>• Scale based on test load<br>• Optimize costs dynamically</p>
+                    </div>
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-bolt" style="color: var(--vibe-green);"></i> AWS Lambda</h3>
+                        <p style="font-size: 0.75em;">• Serverless test execution<br>• Event-driven testing<br>• Zero infrastructure management</p>
+                    </div>
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-network-wired" style="color: var(--vibe-yellow);"></i> VPC & Networking</h3>
+                        <p style="font-size: 0.75em;">• Private network setup<br>• Test internal applications<br>• Enhanced security</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 27: Resources & Documentation -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Resources & Further Learning</h2>
+                <div class="two-col" style="gap: 10px;">
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-book" style="color: var(--vibe-blue);"></i> Official Docs</h3>
+                        <p style="font-size: 0.7em; line-height: 1.4;">
+                            • AWS EC2 Docs: aws.amazon.com/ec2<br>
+                            • AWS CLI Reference: docs.aws.amazon.com/cli<br>
+                            • Playwright: playwright.dev<br>
+                            • AWS Free Tier: aws.amazon.com/free
+                        </p>
+                    </div>
+                    <div class="content-box" style="padding: 8px 10px;">
+                        <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-graduation-cap" style="color: var(--vibe-orange);"></i> VibeTestQ</h3>
+                        <p style="font-size: 0.7em; line-height: 1.4;">
+                            • Detailed AWS Guide: aws-playwright-guide.md<br>
+                            • Practice exercises & solutions<br>
+                            • Live demos & Q&A sessions<br>
+                            • Community support
+                        </p>
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 8px; padding: 8px 10px;">
+                    <h3 style="font-size: 0.85em; margin: 4px 0;"><i class="fas fa-users" style="color: var(--vibe-green);"></i> Community & Forums</h3>
+                    <p style="font-size: 0.7em; line-height: 1.4;">
+                        • AWS re:Post: repost.aws • Playwright Discord: discord.gg/playwright<br>
+                        • Stack Overflow: [aws] [playwright] tags • Reddit: r/aws, r/playwright
+                    </p>
+                </div>
+                <div class="highlight-box" style="margin-top: 6px; padding: 5px;">
+                    <p style="margin:0; font-size: 0.7em;"><strong>Remember:</strong> Refer to the comprehensive guide (aws-playwright-guide.md) for step-by-step instructions!</p>
+                </div>
+            </section>
+
+            <!-- Slide 28: Cost Calculator -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Quick Cost Calculator</h2>
+                <div class="content-box" style="padding: 6px 12px; margin: 4px 0;">
+                    <p style="margin: 0; font-size: 0.9em;"><strong>Estimate your monthly AWS testing costs:</strong></p>
+                </div>
+                <div style="font-size: 0.65em; text-align: left; margin: 10px auto; max-width: 900px;">
+                    <div class="content-box" style="background: #dcfce7; border-left-color: var(--vibe-green); padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong>Scenario 1: Learning & Practice (FREE)</strong></p>
+                        <p style="margin: 2px 0;">• 1x t2.micro instance (750 hours Free Tier) • 5 GB S3 storage • Use 50 hours/month<br><strong>→ Cost: $0/month</strong> ✅</p>
+                    </div>
+                    <div class="content-box" style="padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong>Scenario 2: Small Team (Low Cost)</strong></p>
+                        <p style="margin: 2px 0;">• 1x t3.small instance @ 8 hours/day • ~$0.02/hour × 240 hours • 10 GB S3 storage (~$0.23)<br><strong>→ Cost: ~$5/month</strong></p>
+                    </div>
+                    <div class="content-box" style="padding: 6px 10px; margin: 5px 0;">
+                        <p style="margin: 2px 0;"><strong>Scenario 3: Production Testing (Medium)</strong></p>
+                        <p style="margin: 2px 0;">• 3x t3.medium instances @ 4 hours/day • ~$0.04/hour × 3 × 120 hours • 50 GB S3 storage (~$1.15)<br><strong>→ Cost: ~$16/month</strong></p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="padding: 5px; margin-top: 6px;">
+                    <p style="margin:0; font-size: 0.65em;"><i class="fas fa-calculator"></i> <strong>Pro Tip:</strong> Use AWS Pricing Calculator at calculator.aws for accurate estimates!</p>
+                </div>
+            </section>
+
+            <!-- Slide 29: Security Checklist -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AWS Security Checklist</h2>
+                <div class="content-box" style="background: #fee2e2; border-left-color: #dc2626; padding: 5px 10px; margin: 4px 0;">
+                    <p style="margin:0; font-size: 0.9em;"><strong><i class="fas fa-exclamation-triangle"></i> Critical Security Practices</strong></p>
+                </div>
+                <div style="font-size: 0.65em; text-align: left; margin: 8px auto; max-width: 900px;">
+                    <div class="solution-box">
+                        <p style="margin: 3px 0;"><strong>✅ DO:</strong></p>
+                        <ul style="font-size: 0.95em; margin: 3px 0 3px 18px; line-height: 1.3;">
+                            <li>Use SSH keys (never passwords)</li>
+                            <li>Restrict security groups to YOUR IP only (/32)</li>
+                            <li>Store AWS credentials in environment variables</li>
+                            <li>Enable MFA (Multi-Factor Authentication)</li>
+                            <li>Use IAM roles instead of root account</li>
+                            <li>Rotate access keys every 90 days</li>
+                            <li>Set up CloudWatch billing alerts</li>
+                            <li>Keep EC2 instances updated (apt update)</li>
+                        </ul>
+                    </div>
+                    <div class="issue-box">
+                        <p style="margin: 3px 0;"><strong>❌ DON'T:</strong></p>
+                        <ul style="font-size: 0.95em; margin: 3px 0 3px 18px; line-height: 1.3;">
+                            <li>Commit AWS keys to Git repositories</li>
+                            <li>Open Port 22 to 0.0.0.0/0 (entire internet)</li>
+                            <li>Share SSH private keys via email/Slack</li>
+                            <li>Use root account for daily operations</li>
+                            <li>Leave instances running 24/7 unnecessarily</li>
+                            <li>Disable security warnings or updates</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 30: Summary -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>You're Now an AWS + Playwright Pro!</h1>
+                <div class="visual-flow">
+                    <div class="flow-step"><i class="fab fa-aws"></i> AWS EC2</div>
+                    <div class="flow-arrow"><i class="fas fa-plus"></i></div>
+                    <div class="flow-step"><i class="fas fa-robot"></i> Playwright</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                    <div class="flow-step" style="background: var(--vibe-green);"><i class="fas fa-trophy"></i> Scalable Testing</div>
+                </div>
+                <div class="highlight-box" style="background: #dcfce7;">
+                    <p style="margin:0; font-weight: bold;">You now have cloud-based test automation infrastructure!</p>
+                </div>
+                <div style="margin-top: 15px;">
+                    <p style="font-size: 0.8em;"><strong>What You Learned:</strong></p>
+                    <p style="font-size: 0.75em;">AWS Fundamentals • EC2 Setup • SSH Connections • Playwright on Cloud<br>S3 Storage • GitHub Actions Integration • Cost Management • Security Best Practices</p>
+                </div>
+                <p style="font-size: 0.7em; margin-top: 15px; color: var(--vibe-blue);">
+                    <i class="fas fa-rocket"></i> Welcome to the era of <strong>Cloud-Native Testing</strong>!
+                </p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            if (typeof Reveal !== 'undefined') {
+                Reveal.initialize({
+                    hash: true,
+                    controls: true,
+                    progress: true,
+                    center: true,
+                    transition: 'slide',
+                    slideNumber: 'c/t',
+                    width: 1280,
+                    height: 720,
+                    margin: 0.04
+                });
+            }
+        });
+    </script>
+</body>
+</html>

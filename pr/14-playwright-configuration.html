@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Configuration Deep Dive - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>playwright.config.ts Deep Dive</h1>
+    <p class="subtitle">Projects, Timeouts, Reporters, Environments &amp; Sharding</p>
+    <p class="tagline">Master the config file — the control centre of your test suite — Session 14</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Projects</span>
+        <span class="badge" style="background:var(--vibe-blue);">Environments</span>
+        <span class="badge" style="background:var(--vibe-green);">Reporters</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Full Config File</h2>
+    <div class="code-snippet">import { defineConfig, devices } from '@playwright/test';
+import * as dotenv from 'dotenv';
+dotenv.config({ path: `.env.${process.env.ENV || 'dev'}` });
+
+export default defineConfig({
+  testDir: './tests',
+  timeout: 30_000,          // max time per test (ms)
+  expect: { timeout: 5000 },// assertion retry timeout
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 4 : undefined,
+
+  reporter: [
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['list'],
+    ['junit', { outputFile: 'results/junit.xml' }],
+  ],
+
+  use: {
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    testIdAttribute: 'data-testid',
+    actionTimeout: 15_000,   // single action max time
+    navigationTimeout: 30_000,
+    headless: true,
+  },
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Projects: Multi-Browser and Multi-Environment</h2>
+    <div class="code-snippet">projects: [
+  // === CROSS-BROWSER TESTING ===
+  {
+    name: 'chromium',
+    use: { ...devices['Desktop Chrome'] },
+  },
+  {
+    name: 'firefox',
+    use: { ...devices['Desktop Firefox'] },
+  },
+  {
+    name: 'webkit',
+    use: { ...devices['Desktop Safari'] },
+  },
+
+  // === MOBILE TESTING ===
+  {
+    name: 'Mobile Chrome',
+    use: { ...devices['Pixel 5'] },
+  },
+  {
+    name: 'Mobile Safari',
+    use: { ...devices['iPhone 14'] },
+  },
+
+  // === DEPENDENCY PROJECTS (for auth setup) ===
+  {
+    name: 'setup',
+    testMatch: /.*\.setup\.ts/,
+  },
+  {
+    name: 'authenticated',
+    use: { storageState: '.auth/user.json' },
+    dependencies: ['setup'],   // runs setup first
+  },
+],</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Environment-Specific Configurations</h2>
+    <div class="code-snippet">// .env.dev
+BASE_URL=http://localhost:3000
+API_URL=http://localhost:4000/api
+
+// .env.staging
+BASE_URL=https://staging.myapp.com
+API_URL=https://api-staging.myapp.com
+
+// .env.prod
+BASE_URL=https://myapp.com
+API_URL=https://api.myapp.com
+
+// package.json scripts
+{
+  "scripts": {
+    "test:dev":     "ENV=dev  npx playwright test",
+    "test:staging": "ENV=staging npx playwright test",
+    "test:prod":    "ENV=prod npx playwright test --grep @smoke",
+    "test:ui":      "npx playwright test --ui",
+    "test:debug":   "npx playwright test --debug"
+  }
+}</div>
+    <div class="highlight-box">
+        <p class="compact bold">Never hardcode environment URLs in tests. Always use <code>baseURL</code> from config, which reads from environment variables.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Reporters and Trace Files</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Built-in Reporters</h3>
+            <ul>
+                <li><span class="bold text-blue">html</span> — rich visual report in browser</li>
+                <li><span class="bold text-blue">list</span> — one line per test in terminal</li>
+                <li><span class="bold text-blue">dot</span> — minimal: . ✗ in terminal</li>
+                <li><span class="bold text-blue">junit</span> — XML for Jenkins/CI systems</li>
+                <li><span class="bold text-blue">json</span> — structured data for custom tools</li>
+                <li><span class="bold text-blue">github</span> — GitHub Actions annotations</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Trace File Usage</h3>
+            <ul>
+                <li>Set <code>trace: 'on-first-retry'</code> in config</li>
+                <li>Generates .zip on test failure</li>
+                <li><code>npx playwright show-trace</code></li>
+                <li>Shows timeline + DOM snapshots</li>
+                <li>Network requests per step visible</li>
+                <li>Console logs and source code</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact">Always combine html + junit reporters in CI. Use trace: 'on-first-retry' — always on is too slow, never means blind debugging.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Parallelism and Sharding</h2>
+    <div class="code-snippet">// playwright.config.ts — workers setting
+export default defineConfig({
+  workers: process.env.CI ? 4 : undefined, // undefined = CPU count
+  fullyParallel: true,   // tests within a file also run in parallel
+});
+
+// Sharding — split suite across multiple CI machines
+// Machine 1 of 3:
+npx playwright test --shard=1/3
+
+// Machine 2 of 3:
+npx playwright test --shard=2/3
+
+// Machine 3 of 3:
+npx playwright test --shard=3/3
+
+// GitHub Actions matrix example:
+// matrix:
+//   shardIndex: [1, 2, 3, 4]
+//   shardTotal: [4]
+// run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+
+// Merge sharded reports
+npx playwright merge-reports ./blob-reports --reporter html</div>
+    <div class="highlight-box">
+        <p class="compact bold">Sharding = horizontal scaling. 4 shards on 4 CI machines = 4x faster test suite. Essential for suites with 500+ tests.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 14 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Config Essentials</h3>
+            <ul>
+                <li>timeout / expect.timeout / actionTimeout</li>
+                <li>retries: 2 in CI, 0 locally</li>
+                <li>fullyParallel + workers for speed</li>
+                <li>trace, screenshot, video settings</li>
+                <li>testIdAttribute in use block</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Power Features</h3>
+            <ul>
+                <li>Projects for browsers + mobile</li>
+                <li>Dependency projects for auth setup</li>
+                <li>ENV vars for multi-environment</li>
+                <li>Multiple reporters simultaneously</li>
+                <li>Sharding for horizontal CI scaling</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 15 — Fixtures, Global Setup and Authentication State</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

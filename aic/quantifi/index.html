@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantifi Playwright Test Automation Training - VibeTestQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ea580c;
+            --primary-dark: #c2410c;
+            --primary-light: #fff7ed;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --green: #16a34a;
+            --green-light: #f0fdf4;
+            --purple-light: #ede9fe;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(15,23,42,0.08);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        /* ── HEADER ─────────────────────────────── */
+        header {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; font-family: 'Outfit', sans-serif; font-weight: 700; color: var(--primary-dark); text-decoration: none; }
+        .logo img { height: 44px; }
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .header-right a {
+            text-decoration: none; color: var(--text-light); font-size: 0.88rem; font-weight: 600;
+            padding: 6px 12px; border-radius: 6px; transition: all 0.2s;
+        }
+        .header-right a:hover { background: var(--primary-light); color: var(--primary); }
+
+        /* ── JUMP BAR ────────────────────────────── */
+        .jump-bar {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0.6rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        .jump-bar::-webkit-scrollbar { display: none; }
+        .jump-bar span { font-size: 0.8rem; font-weight: 600; color: var(--text-light); margin-right: 4px; white-space: nowrap; }
+        .jump-pill {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 14px; border-radius: 999px; font-size: 0.82rem; font-weight: 600;
+            text-decoration: none; white-space: nowrap; transition: all 0.2s;
+            border: 1px solid var(--border); color: var(--text); background: var(--bg);
+        }
+        .jump-pill:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+        .jump-pill.docs { color: var(--primary-dark); border-color: rgba(234,88,12,0.3); background: var(--primary-light); }
+        .jump-pill.assignments { color: var(--green); border-color: rgba(22,163,74,0.3); background: var(--green-light); }
+        .jump-pill.assessments { color: var(--secondary); border-color: rgba(124,58,237,0.3); background: var(--purple-light); }
+        .jump-pill.schedule { color: var(--text-light); }
+
+        /* ── HERO (two-column) ───────────────────── */
+        .hero {
+            background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 40%, #ede9fe 100%);
+            border-bottom: 1px solid var(--border);
+            padding: 4rem 2rem;
+        }
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .hero-left {}
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--primary-light); color: var(--primary-dark);
+            border: 1px solid rgba(234,88,12,0.25); border-radius: 999px;
+            padding: 5px 14px; font-size: 0.82rem; font-weight: 700;
+            margin-bottom: 1.2rem;
+        }
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.8rem;
+            color: var(--primary-dark);
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+        .hero h1 span { color: var(--secondary); }
+        .hero-desc {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            max-width: 480px;
+        }
+        .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--primary); color: #fff;
+            padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 0.95rem;
+            text-decoration: none; transition: all 0.2s;
+        }
+        .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #fff; color: var(--text);
+            padding: 12px 24px; border-radius: 10px; font-weight: 700; font-size: 0.95rem;
+            text-decoration: none; border: 1.5px solid var(--border); transition: all 0.2s;
+        }
+        .btn-outline:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
+        .hero-right {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 1.8rem;
+            box-shadow: 0 20px 50px rgba(15,23,42,0.2);
+            overflow: hidden;
+        }
+        .hero-code-header {
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 1.2rem;
+        }
+        .hero-code-header .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #22c55e; }
+        .hero-code-header span { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: #64748b; margin-left: 6px; }
+        .hero-code pre {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.7;
+            color: #e2e8f0;
+            white-space: pre;
+            overflow-x: auto;
+        }
+        .c-kw { color: #c084fc; }
+        .c-fn { color: #60a5fa; }
+        .c-str { color: #86efac; }
+        .c-cmt { color: #475569; }
+        .c-op { color: #fb923c; }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        .hero-stat .num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1;
+        }
+        .hero-stat .lbl {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ── HOW IT WORKS ────────────────────────── */
+        .how-section {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 3.5rem 2rem;
+        }
+        .how-inner { max-width: 900px; margin: 0 auto; }
+        .how-header { text-align: center; margin-bottom: 2.5rem; }
+        .how-header h2 { font-family: 'Outfit', sans-serif; font-size: 1.7rem; color: var(--text); margin-bottom: 0.4rem; }
+        .how-header p { color: var(--text-light); }
+        .how-steps {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            align-items: center;
+            gap: 0;
+        }
+        .how-step {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .step-num {
+            width: 52px; height: 52px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 800;
+            margin: 0 auto 1rem;
+        }
+        .step-1 .step-num { background: var(--primary-light); color: var(--primary); border: 2px solid rgba(234,88,12,0.3); }
+        .step-2 .step-num { background: var(--green-light); color: var(--green); border: 2px solid rgba(22,163,74,0.3); }
+        .step-3 .step-num { background: var(--purple-light); color: var(--secondary); border: 2px solid rgba(124,58,237,0.3); }
+        .how-step h3 { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: var(--text); margin-bottom: 0.4rem; }
+        .how-step p { font-size: 0.88rem; color: var(--text-light); }
+        .how-arrow { font-size: 1.5rem; color: var(--border); text-align: center; flex-shrink: 0; }
+
+        /* ── RESOURCE CARDS (bold color) ─────────── */
+        .resources-section { padding: 4rem 2rem; }
+        .resources-inner { max-width: 1100px; margin: 0 auto; }
+        .resources-header { text-align: center; margin-bottom: 2.5rem; }
+        .resources-header h2 { font-family: 'Outfit', sans-serif; font-size: 1.7rem; color: var(--text); margin-bottom: 0.4rem; }
+        .resources-header p { color: var(--text-light); }
+        .resource-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .rcard {
+            border-radius: 20px;
+            padding: 2.2rem 2rem;
+            text-decoration: none;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .rcard::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; right: -20px;
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+        }
+        .rcard:hover { transform: translateY(-5px); }
+        .rcard-docs { background: linear-gradient(135deg, #ea580c, #c2410c); box-shadow: 0 8px 30px rgba(234,88,12,0.35); }
+        .rcard-assignments { background: linear-gradient(135deg, #16a34a, #15803d); box-shadow: 0 8px 30px rgba(22,163,74,0.35); }
+        .rcard-assessments { background: linear-gradient(135deg, #7c3aed, #6d28d9); box-shadow: 0 8px 30px rgba(124,58,237,0.35); }
+        .rcard-icon {
+            width: 54px; height: 54px; border-radius: 14px;
+            background: rgba(255,255,255,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+        }
+        .rcard h3 { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; }
+        .rcard p { font-size: 0.92rem; opacity: 0.88; line-height: 1.6; flex: 1; }
+        .rcard-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .rtag {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: rgba(255,255,255,0.2); border-radius: 999px;
+            padding: 3px 10px; font-size: 0.75rem; font-weight: 600;
+        }
+        .rcard-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.2); border-radius: 8px;
+            padding: 9px 16px; font-weight: 700; font-size: 0.9rem;
+            width: fit-content; transition: background 0.2s;
+        }
+        .rcard:hover .rcard-cta { background: rgba(255,255,255,0.3); }
+
+        /* ── OUTCOMES ────────────────────────────── */
+        .outcomes-section {
+            background: #fff;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 4rem 2rem;
+        }
+        .outcomes-inner { max-width: 1100px; margin: 0 auto; }
+        .outcomes-header { text-align: center; margin-bottom: 2.5rem; }
+        .outcomes-header h2 { font-family: 'Outfit', sans-serif; font-size: 1.7rem; color: var(--text); margin-bottom: 0.4rem; }
+        .outcomes-header p { color: var(--text-light); }
+        .outcomes-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+        .outcome-item {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 1.2rem 1.4rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.2s;
+        }
+        .outcome-item:hover { border-color: var(--primary); background: var(--primary-light); }
+        .outcome-icon {
+            width: 38px; height: 38px; border-radius: 10px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+        }
+        .outcome-item:nth-child(1) .outcome-icon { background: var(--primary-light); color: var(--primary); }
+        .outcome-item:nth-child(2) .outcome-icon { background: var(--green-light); color: var(--green); }
+        .outcome-item:nth-child(3) .outcome-icon { background: var(--purple-light); color: var(--secondary); }
+        .outcome-item:nth-child(4) .outcome-icon { background: #fef3c7; color: #d97706; }
+        .outcome-item:nth-child(5) .outcome-icon { background: #f0f9ff; color: #0284c7; }
+        .outcome-item:nth-child(6) .outcome-icon { background: #fdf2f8; color: #9333ea; }
+        .outcome-text strong { display: block; font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+        .outcome-text span { font-size: 0.83rem; color: var(--text-light); }
+
+        /* ── FOOTER ──────────────────────────────── */
+        footer {
+            text-align: center; padding: 2rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            background: #fff; font-size: 0.88rem;
+        }
+
+        /* ── MOBILE DRAWER ───────────────────────── */
+        .mobile-nav-btn {
+            display: none; background: none; border: none;
+            font-size: 1.4rem; cursor: pointer; color: var(--primary);
+            padding: 6px 8px; border-radius: 8px; transition: background 0.2s;
+        }
+        .mobile-nav-btn:hover { background: var(--primary-light); }
+        .nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 200; }
+        .nav-overlay.open { display: block; }
+        .mobile-nav-drawer {
+            position: fixed; top: 0; right: 0; width: 270px; height: 100vh;
+            background: white; z-index: 300; flex-direction: column;
+            padding: 1.5rem; gap: 0.4rem;
+            box-shadow: -4px 0 30px rgba(0,0,0,0.15);
+            transform: translateX(100%); transition: transform 0.3s ease; display: flex;
+        }
+        .mobile-nav-drawer.open { transform: translateX(0); }
+        .mobile-nav-drawer .drawer-close {
+            align-self: flex-end; background: none; border: none;
+            font-size: 1.4rem; cursor: pointer; color: var(--text-light);
+            padding: 4px 8px; margin-bottom: 0.5rem;
+        }
+        .mobile-nav-drawer a {
+            display: flex; align-items: center; gap: 10px;
+            padding: 13px 16px; border-radius: 10px; text-decoration: none;
+            font-size: 1rem; font-weight: 600; color: var(--text); transition: all 0.2s;
+        }
+        .mobile-nav-drawer a:hover { background: var(--primary-light); color: var(--primary); }
+
+        /* ── RESPONSIVE ──────────────────────────── */
+        @media (max-width: 1024px) {
+            .resource-cards { grid-template-columns: repeat(2, 1fr); }
+            .outcomes-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            header { padding: 0.9rem 1.2rem; }
+            .header-right { display: none; }
+            .mobile-nav-btn { display: block; }
+            .jump-bar { padding: 0.5rem 1rem; }
+            .hero { padding: 2.5rem 1.2rem; }
+            .hero-inner { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-right { display: none; }
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { gap: 1.2rem; }
+            .how-steps { grid-template-columns: 1fr; gap: 0; }
+            .how-arrow { transform: rotate(90deg); font-size: 1.2rem; padding: 0.3rem 0; }
+            .resource-cards { grid-template-columns: 1fr; }
+            .outcomes-grid { grid-template-columns: 1fr; }
+            .resources-section, .outcomes-section, .timeline-section, .how-section { padding: 2.5rem 1.2rem; }
+        }
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.65rem; }
+            .logo span { font-size: 0.88rem; }
+            .hero-stat .num { font-size: 1.7rem; }
+            .hero-ctas { flex-direction: column; }
+            .btn-primary, .btn-outline { justify-content: center; }
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <header>
+        <a class="logo" href=".">
+            <img src="../../assets/Title with logo and box.png" alt="VibeTestQ Logo">
+            <span>Quantifi Playwright Training</span>
+        </a>
+        <div class="header-right">
+            <a href="docs"><i class="fas fa-book-open"></i> Docs</a>
+            <a href="assignments"><i class="fas fa-clipboard-list"></i> Assignments</a>
+            <a href="assessments"><i class="fas fa-pen-to-square"></i> Assessments</a>
+        </div>
+        <button class="mobile-nav-btn" onclick="toggleMobileNav()" aria-label="Open navigation"><i class="fas fa-bars"></i></button>
+    </header>
+    <div class="nav-overlay" id="nav-overlay" onclick="toggleMobileNav()"></div>
+    <nav class="mobile-nav-drawer" id="mobile-nav">
+        <button class="drawer-close" onclick="toggleMobileNav()" aria-label="Close"><i class="fas fa-times"></i></button>
+        <a href="docs"><i class="fas fa-book-open"></i> Docs</a>
+        <a href="assignments"><i class="fas fa-clipboard-list"></i> Assignments</a>
+        <a href="assessments"><i class="fas fa-pen-to-square"></i> Assessments</a>
+    </nav>
+
+    <!-- Jump Bar -->
+    <div class="jump-bar">
+        <span>Jump to:</span>
+        <a class="jump-pill docs" href="docs"><i class="fas fa-book-open"></i> Docs</a>
+        <a class="jump-pill assignments" href="assignments"><i class="fas fa-clipboard-list"></i> Assignments</a>
+        <a class="jump-pill assessments" href="assessments"><i class="fas fa-pen-to-square"></i> Assessments</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-left">
+                <div class="hero-badge"><i class="fas fa-graduation-cap"></i> 15-Day Tailored QE Program</div>
+                <h1>Welcome to <span>Quantifi</span><br>Playwright Test Automation Training</h1>
+                <p class="hero-desc">A focused 15-day Playwright + AI testing program built exclusively for the Quantifi engineering team. From JavaScript fundamentals to a fully deployed CI/CD test framework.</p>
+                <div class="hero-ctas">
+                    <a class="btn-primary" href="docs"><i class="fas fa-book-open"></i> Start Learning</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat"><div class="num">15</div><div class="lbl">Days</div></div>
+                    <div class="hero-stat"><div class="num">15</div><div class="lbl">Chapters</div></div>
+                    <div class="hero-stat"><div class="num">15</div><div class="lbl">Assignments</div></div>
+                    <div class="hero-stat"><div class="num">305</div><div class="lbl">MCQs</div></div>
+                </div>
+            </div>
+            <div class="hero-right">
+                <div class="hero-code-header">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                    <span>playwright.test.ts</span>
+                </div>
+                <div class="hero-code"><pre><span class="c-kw">import</span> { test, expect } <span class="c-kw">from</span> <span class="c-str">'@playwright/test'</span>;
+<span class="c-kw">import</span> { LoginPage } <span class="c-kw">from</span> <span class="c-str">'./pages/LoginPage'</span>;
+
+<span class="c-fn">test</span>(<span class="c-str">'Login with valid credentials'</span>,
+  <span class="c-kw">async</span> ({ page }) <span class="c-op">=></span> {
+
+  <span class="c-kw">const</span> login <span class="c-op">=</span> <span class="c-kw">new</span> <span class="c-fn">LoginPage</span>(page);
+  <span class="c-kw">await</span> login.<span class="c-fn">goto</span>();
+  <span class="c-kw">await</span> login.<span class="c-fn">loginWith</span>(
+    <span class="c-str">'Admin'</span>, <span class="c-str">'admin123'</span>
+  );
+
+  <span class="c-kw">await</span> <span class="c-fn">expect</span>(page)
+    .<span class="c-fn">toHaveURL</span>(<span class="c-str">'/dashboard'</span>);
+});</pre></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-section">
+        <div class="how-inner">
+            <div class="how-header">
+                <h2>How the Program Works</h2>
+                <p>Each day follows a simple three-step learning loop.</p>
+            </div>
+            <div class="how-steps">
+                <div class="how-step step-1">
+                    <div class="step-num">1</div>
+                    <h3>Read the Docs</h3>
+                    <p>Study the chapter for the day — concepts, code examples, and best practices.</p>
+                </div>
+                <div class="how-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="how-step step-2">
+                    <div class="step-num">2</div>
+                    <h3>Complete the Assignment</h3>
+                    <p>Apply what you learned on OrangeHRM with a structured hands-on task.</p>
+                </div>
+                <div class="how-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="how-step step-3">
+                    <div class="step-num">3</div>
+                    <h3>Take the Assessment</h3>
+                    <p>Validate your understanding with a 20-question MCQ quiz and track your score.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource Cards -->
+    <section class="resources-section">
+        <div class="resources-inner">
+            <div class="resources-header">
+                <h2>Program Resources</h2>
+                <p>Three interconnected learning pillars — study, practice, and validate.</p>
+            </div>
+            <div class="resource-cards">
+                <a class="rcard rcard-docs" href="docs">
+                    <div class="rcard-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>Docs</h3>
+                    <p>15 structured chapters covering JavaScript, TypeScript, Playwright, AI tooling, API testing, POM, BDD, and CI/CD — with code examples and best practices.</p>
+                    <div class="rcard-tags">
+                        <span class="rtag"><i class="fas fa-file-alt"></i> 15 Chapters</span>
+                        <span class="rtag"><i class="fas fa-code"></i> Code Examples</span>
+                    </div>
+                    <div class="rcard-cta">Open Docs <i class="fas fa-arrow-right"></i></div>
+                </a>
+                <a class="rcard rcard-assignments" href="assignments">
+                    <div class="rcard-icon"><i class="fas fa-clipboard-list"></i></div>
+                    <h3>Assignments</h3>
+                    <p>15 hands-on practice tasks on OrangeHRM — complete each after the corresponding chapter to build real automation skills with immediate feedback.</p>
+                    <div class="rcard-tags">
+                        <span class="rtag"><i class="fas fa-tasks"></i> 15 Tasks</span>
+                        <span class="rtag"><i class="fas fa-laptop-code"></i> Hands-On</span>
+                    </div>
+                    <div class="rcard-cta">Open Assignments <i class="fas fa-arrow-right"></i></div>
+                </a>
+                <a class="rcard rcard-assessments" href="assessments">
+                    <div class="rcard-icon"><i class="fas fa-pen-to-square"></i></div>
+                    <h3>Assessments</h3>
+                    <p>15 daily MCQ quizzes (20 questions each) plus a 25-question capstone review — validate your knowledge with instant scoring and a printable result.</p>
+                    <div class="rcard-tags">
+                        <span class="rtag"><i class="fas fa-question-circle"></i> 305 Questions</span>
+                        <span class="rtag"><i class="fas fa-certificate"></i> Printable</span>
+                    </div>
+                    <div class="rcard-cta">Open Assessments <i class="fas fa-arrow-right"></i></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- What You'll Learn -->
+    <section class="outcomes-section">
+        <div class="outcomes-inner">
+            <div class="outcomes-header">
+                <h2>What You'll Learn</h2>
+                <p>Core skills you will have built by the end of the 15-day program.</p>
+            </div>
+            <div class="outcomes-grid">
+                <div class="outcome-item">
+                    <div class="outcome-icon"><i class="fas fa-theater-masks"></i></div>
+                    <div class="outcome-text"><strong>Write Playwright Tests</strong><span>Author, run and debug cross-browser E2E tests with confidence.</span></div>
+                </div>
+                <div class="outcome-item">
+                    <div class="outcome-icon"><i class="fas fa-layer-group"></i></div>
+                    <div class="outcome-text"><strong>Build Page Object Models</strong><span>Structure maintainable test code using the POM design pattern.</span></div>
+                </div>
+                <div class="outcome-item">
+                    <div class="outcome-icon"><i class="fas fa-robot"></i></div>
+                    <div class="outcome-text"><strong>Use AI-Augmented Testing</strong><span>Leverage AI IDEs, MCP agents, and auto-healing locators.</span></div>
+                </div>
+                <div class="outcome-item">
+                    <div class="outcome-icon"><i class="fas fa-plug"></i></div>
+                    <div class="outcome-text"><strong>Test REST APIs</strong><span>Validate API endpoints and integrate API checks into E2E flows.</span></div>
+                </div>
+                <div class="outcome-item">
+                    <div class="outcome-icon"><i class="fas fa-chart-bar"></i></div>
+                    <div class="outcome-text"><strong>Integrate with CI/CD</strong><span>Run your test suite automatically on every commit via GitHub Actions.</span></div>
+                </div>
+                <div class="outcome-item">
+                    <div class="outcome-icon"><i class="fas fa-seedling"></i></div>
+                    <div class="outcome-text"><strong>Implement BDD with Cucumber</strong><span>Write human-readable scenarios and link them to Playwright step definitions.</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>&copy; 2026 VibeTestQ. All rights reserved.</footer>
+    <script>
+        function toggleMobileNav() {
+            document.getElementById('mobile-nav').classList.toggle('open');
+            document.getElementById('nav-overlay').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

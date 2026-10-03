@@ -1,0 +1,2065 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Locators Masterclass - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+            --vibe-purple: #9333ea;
+        }
+
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+
+        .reveal h1 {
+            font-size: 1.8em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+            color: var(--vibe-blue);
+        }
+
+        .reveal h3 {
+            font-size: 0.85em;
+            color: var(--vibe-green);
+            margin-bottom: 0.2em;
+        }
+
+        .reveal p,
+        .reveal li {
+            color: #334155;
+            line-height: 1.3;
+            font-size: 0.85em;
+        }
+
+        .reveal section > p {
+            margin: 4px 0;
+        }
+
+        .logo-corner {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            z-index: 100;
+        }
+
+        .logo-corner img {
+            width: 80px;
+            height: auto;
+        }
+
+        .title-slide {
+            background: #ffffff !important;
+        }
+
+        .title-slide .company-header {
+            max-width: 800px;
+            margin: 0 auto 15px;
+        }
+
+        .title-slide h1 {
+            font-size: 2em;
+            color: var(--vibe-dark-blue);
+            margin: 10px 0 8px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.2em;
+            color: var(--vibe-orange);
+            margin: 10px 0;
+        }
+
+        .title-slide .tagline {
+            font-size: 1em;
+            color: var(--vibe-blue);
+            margin: 8px 0 15px;
+        }
+
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 6px 10px;
+            margin: 4px 0;
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border: 2px solid var(--vibe-yellow);
+            padding: 8px;
+            margin: 6px auto;
+            border-radius: 8px;
+            max-width: 95%;
+        }
+
+        .reveal ul {
+            list-style: none;
+            margin: 4px 0;
+        }
+
+        .reveal ul li {
+            margin: 3px 0;
+            padding-left: 28px;
+            position: relative;
+            text-align: left;
+            font-size: 0.72em;
+        }
+
+        .reveal ul li:before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--vibe-green);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            margin-right: 8px;
+        }
+
+        .text-blue {
+            color: var(--vibe-blue);
+        }
+
+        .text-green {
+            color: var(--vibe-green);
+        }
+
+        .text-orange {
+            color: var(--vibe-orange);
+        }
+
+        .text-purple {
+            color: var(--vibe-purple);
+        }
+
+        .bold {
+            font-weight: 700;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--vibe-orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+            margin: 4px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 6px 0;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin: 6px 0;
+        }
+
+        .reveal .slides section {
+            height: 100%;
+            padding: 10px 30px;
+            overflow-y: auto !important;
+            max-height: 700px;
+        }
+
+        .compact {
+            font-size: 0.7em;
+            line-height: 1.2 !important;
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.55em;
+            text-align: left;
+            color: #e2e8f0;
+            margin: 4px 0;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+            word-wrap: normal;
+        }
+
+        .code-block .comment {
+            color: #94a3b8;
+        }
+
+        .code-block .keyword {
+            color: #c792ea;
+        }
+
+        .code-block .function {
+            color: #82aaff;
+        }
+
+        .code-block .string {
+            color: #89ddff;
+        }
+
+        .icon-box {
+            text-align: center;
+            padding: 8px;
+            background: var(--vibe-light-bg);
+            border-radius: 10px;
+            margin: 4px;
+        }
+
+        .icon-box i {
+            font-size: 1.5em;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+        .icon-box.blue i {
+            color: var(--vibe-blue);
+        }
+
+        .icon-box.green i {
+            color: var(--vibe-green);
+        }
+
+        .icon-box.orange i {
+            color: var(--vibe-orange);
+        }
+
+        .icon-box.purple i {
+            color: var(--vibe-purple);
+        }
+
+        .icon-box h3 {
+            font-size: 0.75em;
+            margin: 4px 0;
+        }
+
+        .icon-box p {
+            font-size: 0.7em;
+            margin: 2px 0;
+        }
+
+        .flow-container {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 8px;
+            margin: 6px 0;
+        }
+
+        .arrow-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin: 8px 0;
+        }
+
+        .arrow-flow .step {
+            background: var(--vibe-blue);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.65em;
+        }
+
+        .arrow-flow .step.green {
+            background: var(--vibe-green);
+        }
+
+        .arrow-flow .step.orange {
+            background: var(--vibe-orange);
+        }
+
+        .arrow-flow .step.purple {
+            background: var(--vibe-purple);
+        }
+
+        .arrow-flow .arrow {
+            color: var(--vibe-orange);
+            font-size: 1.3em;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--vibe-orange);
+            color: #ffffff !important;
+            width: 1.2em;
+            height: 1.2em;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 0.8em;
+            margin-right: 12px;
+            vertical-align: middle;
+            transform: translateY(-2px);
+            flex-shrink: 0;
+        }
+
+        .comparison-table {
+            font-size: 0.6em;
+            width: 100%;
+            border-collapse: collapse;
+            margin: 6px 0;
+        }
+
+        .comparison-table th {
+            background: var(--vibe-blue);
+            color: white;
+            padding: 6px;
+            text-align: left;
+        }
+
+        .comparison-table td {
+            padding: 4px 6px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: var(--vibe-light-bg);
+        }
+
+        .check {
+            color: var(--vibe-green);
+            font-weight: bold;
+        }
+
+        .cross {
+            color: var(--vibe-orange);
+            font-weight: bold;
+        }
+
+        .warning {
+            color: var(--vibe-yellow);
+            font-weight: bold;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>Playwright Locators Masterclass</h1>
+                <p class="subtitle">By QtpSudhakar</p>
+                <p class="tagline">Master Modern, Resilient & User-Centric Element Selection</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge"><i class="fas fa-theatre-masks"></i> Playwright</span>
+                    <span class="badge"><i class="fas fa-bullseye"></i> Locators</span>
+                    <span class="badge"><i class="fas fa-universal-access"></i> Accessibility</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: Why Playwright Locators? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Why Playwright Locators?</h2>
+                <div class="three-col">
+                    <div class="icon-box blue">
+                        <i class="fas fa-clock"></i>
+                        <h3>Auto-waiting</h3>
+                        <p class="compact">No explicit waits needed</p>
+                    </div>
+                    <div class="icon-box green">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>Auto-retry</h3>
+                        <p class="compact">Resilient to timing issues</p>
+                    </div>
+                    <div class="icon-box orange">
+                        <i class="fas fa-user"></i>
+                        <h3>User-centric</h3>
+                        <p class="compact">How users see elements</p>
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-times-circle"></i> Old Way (Selenium/XPath)</h3>
+                        <div class="code-block">
+<span class="comment">// Brittle, developer-view</span>
+<span class="keyword">await</span> page.<span class="function">click</span>(<span class="string">'#submit-btn-123'</span>);
+<span class="keyword">await</span> page.<span class="function">waitForSelector</span>(<span class="string">'button'</span>);
+<span class="keyword">await</span> page.<span class="function">click</span>(<span class="string">'//div[@class="row"]/button[2]'</span>);
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-check-circle"></i> Playwright Way</h3>
+                        <div class="code-block">
+<span class="comment">// Resilient, user-view</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> }).<span class="function">click</span>();
+<span class="comment">// Auto-waits, clear intent!</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-blue bold">Think like a user, not a developer!</span>
+                </div>
+            </section>
+
+            <!-- Slide 3: Framework Comparison -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Playwright vs Selenium vs Cypress</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th><i class="fab fa-chrome"></i> Playwright</th>
+                            <th><i class="fas fa-robot"></i> Selenium</th>
+                            <th><i class="fas fa-leaf"></i> Cypress</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Auto-waiting</td>
+                            <td class="check">✅ Built-in</td>
+                            <td class="cross">❌ Manual</td>
+                            <td class="check">✅ Built-in</td>
+                        </tr>
+                        <tr>
+                            <td>Role-based locators</td>
+                            <td class="check">✅ Yes</td>
+                            <td class="cross">❌ No</td>
+                            <td class="warning">⚠️ Limited</td>
+                        </tr>
+                        <tr>
+                            <td>Shadow DOM</td>
+                            <td class="check">✅ Native</td>
+                            <td class="warning">⚠️ Complex</td>
+                            <td class="warning">⚠️ Limited</td>
+                        </tr>
+                        <tr>
+                            <td>Multiple browsers</td>
+                            <td class="check">✅ All major</td>
+                            <td class="check">✅ All major</td>
+                            <td class="warning">⚠️ Limited</td>
+                        </tr>
+                        <tr>
+                            <td>Auto-retry</td>
+                            <td class="check">✅ Yes</td>
+                            <td class="cross">❌ No</td>
+                            <td class="check">✅ Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Strict Mode</td>
+                            <td class="check">✅ Default</td>
+                            <td class="cross">❌ No</td>
+                            <td class="warning">⚠️ Optional</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="highlight-box">
+                    <span class="text-green bold">Playwright = Modern, Fast & User-Centric</span>
+                </div>
+            </section>
+
+            <!-- Slide 4: Locator vs ElementHandle -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Locator vs ElementHandle</h2>
+                <div class="two-col">
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3><i class="fas fa-star"></i> Locator (Recommended)</h3>
+                        <div class="code-block">
+<span class="comment">// Lazy evaluation</span>
+<span class="keyword">const</span> button = page.<span class="function">getByRole</span>(<span class="string">'button'</span>);
+<span class="keyword">await</span> button.<span class="function">click</span>(); <span class="comment">// Queries NOW</span>
+                        </div>
+                        <ul>
+                            <li>Auto-waits for element</li>
+                            <li>Auto-retries on failure</li>
+                            <li>No stale element issues</li>
+                            <li>Better error messages</li>
+                            <li>Lazy evaluation</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3><i class="fas fa-exclamation-triangle"></i> ElementHandle (Legacy)</h3>
+                        <div class="code-block">
+<span class="comment">// Immediate query</span>
+<span class="keyword">const</span> button = <span class="keyword">await</span> page.$(<span class="string">'button'</span>);
+<span class="keyword">await</span> button.<span class="function">click</span>(); <span class="comment">// May be stale!</span>
+                        </div>
+                        <ul>
+                            <li>No auto-waiting</li>
+                            <li>No auto-retry</li>
+                            <li>Stale element errors</li>
+                            <li>Generic error messages</li>
+                            <li>Immediate evaluation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">Always use Locators! ElementHandles are legacy.</span>
+                </div>
+            </section>
+
+            <!-- Slide 5: HTML Basics for Test Automation -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>HTML Basics - Prerequisites</h2>
+                <p class="text-blue bold compact">Understanding HTML is essential for writing effective locators</p>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> Basic HTML Elements</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Button element --&gt;</span>
+&lt;<span class="keyword">button</span>&gt;Click Me&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Link element --&gt;</span>
+&lt;<span class="keyword">a</span> <span class="keyword">href</span>=<span class="string">"/home"</span>&gt;Home&lt;/<span class="keyword">a</span>&gt;
+
+<span class="comment">&lt;!-- Input element --&gt;</span>
+&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"text"</span> <span class="keyword">placeholder</span>=<span class="string">"Enter name"</span>&gt;
+
+<span class="comment">&lt;!-- Checkbox --&gt;</span>
+&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"checkbox"</span> <span class="keyword">id</span>=<span class="string">"agree"</span>&gt;
+
+<span class="comment">&lt;!-- Image --&gt;</span>
+&lt;<span class="keyword">img</span> <span class="keyword">src</span>=<span class="string">"photo.jpg"</span> <span class="keyword">alt</span>=<span class="string">"Profile"</span>&gt;
+
+<span class="comment">&lt;!-- Heading --&gt;</span>
+&lt;<span class="keyword">h1</span>&gt;Welcome&lt;/<span class="keyword">h1</span>&gt;
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-tags"></i> HTML Attributes</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- id - unique identifier --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="keyword">id</span>=<span class="string">"submitBtn"</span>&gt;Submit&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- class - for styling --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="keyword">class</span>=<span class="string">"btn primary"</span>&gt;Click&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- name attribute --&gt;</span>
+&lt;<span class="keyword">input</span> <span class="keyword">name</span>=<span class="string">"email"</span> <span class="keyword">type</span>=<span class="string">"email"</span>&gt;
+
+<span class="comment">&lt;!-- data attributes --&gt;</span>
+&lt;<span class="keyword">div</span> <span class="keyword">data-testid</span>=<span class="string">"user-card"</span>&gt;&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">&lt;!-- title attribute --&gt;</span>
+&lt;<span class="keyword">button</span> <span class="keyword">title</span>=<span class="string">"Close dialog"</span>&gt;X&lt;/<span class="keyword">button</span>&gt;
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">HTML elements + attributes = Locator targets!</span>
+                </div>
+            </section>
+
+            <!-- Slide 6: HTML Forms in Detail -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>HTML Forms - Common in Testing</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-wpforms"></i> Complete Form Structure</h3>
+                        <div class="code-block">
+<span class="keyword">&lt;form&gt;</span>
+  <span class="comment">&lt;!-- Text input with label --&gt;</span>
+  &lt;<span class="keyword">label</span> <span class="keyword">for</span>=<span class="string">"username"</span>&gt;
+    Username:
+  &lt;/<span class="keyword">label</span>&gt;
+  &lt;<span class="keyword">input</span> 
+    <span class="keyword">type</span>=<span class="string">"text"</span> 
+    <span class="keyword">id</span>=<span class="string">"username"</span>
+    <span class="keyword">name</span>=<span class="string">"username"</span>
+    <span class="keyword">placeholder</span>=<span class="string">"Enter username"</span>
+  &gt;
+
+  <span class="comment">&lt;!-- Password input --&gt;</span>
+  &lt;<span class="keyword">label</span> <span class="keyword">for</span>=<span class="string">"password"</span>&gt;
+    Password:
+  &lt;/<span class="keyword">label</span>&gt;
+  &lt;<span class="keyword">input</span> 
+    <span class="keyword">type</span>=<span class="string">"password"</span> 
+    <span class="keyword">id</span>=<span class="string">"password"</span>
+  &gt;
+
+  <span class="comment">&lt;!-- Submit button --&gt;</span>
+  &lt;<span class="keyword">button</span> <span class="keyword">type</span>=<span class="string">"submit"</span>&gt;
+    Login
+  &lt;/<span class="keyword">button</span>&gt;
+<span class="keyword">&lt;/form&gt;</span>
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-list"></i> Other Form Elements</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Checkbox --&gt;</span>
+&lt;<span class="keyword">label</span>&gt;
+  &lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"checkbox"</span> <span class="keyword">id</span>=<span class="string">"agree"</span>&gt;
+  I agree to terms
+&lt;/<span class="keyword">label</span>&gt;
+
+<span class="comment">&lt;!-- Radio buttons --&gt;</span>
+&lt;<span class="keyword">label</span>&gt;
+  &lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"radio"</span> <span class="keyword">name</span>=<span class="string">"gender"</span>&gt;
+  Male
+&lt;/<span class="keyword">label</span>&gt;
+
+<span class="comment">&lt;!-- Dropdown/Select --&gt;</span>
+&lt;<span class="keyword">label</span> <span class="keyword">for</span>=<span class="string">"country"</span>&gt;Country:&lt;/<span class="keyword">label</span>&gt;
+&lt;<span class="keyword">select</span> <span class="keyword">id</span>=<span class="string">"country"</span>&gt;
+  &lt;<span class="keyword">option</span>&gt;USA&lt;/<span class="keyword">option</span>&gt;
+  &lt;<span class="keyword">option</span>&gt;India&lt;/<span class="keyword">option</span>&gt;
+&lt;/<span class="keyword">select</span>&gt;
+
+<span class="comment">&lt;!-- Textarea --&gt;</span>
+&lt;<span class="keyword">textarea</span> 
+  <span class="keyword">placeholder</span>=<span class="string">"Enter message"</span>
+&gt;&lt;/<span class="keyword">textarea</span>&gt;
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Understanding Accessibility -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Understanding Web Accessibility</h2>
+                <p class="text-blue bold compact">Accessibility = How assistive technologies & users perceive elements</p>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-universal-access"></i> What is Accessibility?</h3>
+                        <ul>
+                            <li>Making web usable for everyone</li>
+                            <li>Includes people with disabilities</li>
+                            <li>Screen readers, keyboard navigation</li>
+                            <li>Semantic HTML is crucial</li>
+                            <li>ARIA (Accessible Rich Internet Applications)</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-users"></i> Who Benefits?</h3>
+                        <ul>
+                            <li><strong>Visual impairments:</strong> Screen readers</li>
+                            <li><strong>Motor disabilities:</strong> Keyboard-only</li>
+                            <li><strong>Cognitive disabilities:</strong> Clear labels</li>
+                            <li><strong>Everyone:</strong> Better UX overall</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> Good Accessibility</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Semantic button --&gt;</span>
+&lt;<span class="keyword">button</span>&gt;Submit&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Input with label --&gt;</span>
+&lt;<span class="keyword">label</span> <span class="keyword">for</span>=<span class="string">"email"</span>&gt;Email&lt;/<span class="keyword">label</span>&gt;
+&lt;<span class="keyword">input</span> <span class="keyword">id</span>=<span class="string">"email"</span>&gt;
+
+<span class="comment">&lt;!-- Image with alt text --&gt;</span>
+&lt;<span class="keyword">img</span> <span class="keyword">src</span>=<span class="string">"logo.png"</span> <span class="keyword">alt</span>=<span class="string">"Company"</span>&gt;
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-times"></i> Poor Accessibility</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Div as button --&gt;</span>
+&lt;<span class="keyword">div</span> <span class="keyword">onclick</span>=<span class="string">"..."</span>&gt;Submit&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">&lt;!-- Input without label --&gt;</span>
+&lt;<span class="keyword">input</span> <span class="keyword">placeholder</span>=<span class="string">"Email"</span>&gt;
+
+<span class="comment">&lt;!-- Image without alt --&gt;</span>
+&lt;<span class="keyword">img</span> <span class="keyword">src</span>=<span class="string">"logo.png"</span>&gt;
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-green bold">Good accessibility = Better testing + Better UX!</span>
+                </div>
+            </section>
+
+            <!-- Slide 8: ARIA Roles -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>ARIA Roles - Accessibility Foundation</h2>
+                <p class="text-blue bold compact">ARIA roles define what an element IS and what it DOES</p>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-theater-masks"></i> What are ARIA Roles?</h3>
+                        <ul>
+                            <li>Define element's purpose/function</li>
+                            <li>Implicit roles (semantic HTML)</li>
+                            <li>Explicit roles (role attribute)</li>
+                            <li>Tell screen readers what element is</li>
+                            <li>Foundation for getByRole()</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-list-ul"></i> Implicit vs Explicit</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Implicit role="button" --&gt;</span>
+&lt;<span class="keyword">button</span>&gt;Click Me&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Explicit role --&gt;</span>
+&lt;<span class="keyword">div</span> <span class="keyword">role</span>=<span class="string">"button"</span>&gt;Click Me&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">&lt;!-- Implicit role="link" --&gt;</span>
+&lt;<span class="keyword">a</span> <span class="keyword">href</span>=<span class="string">"/home"</span>&gt;Home&lt;/<span class="keyword">a</span>&gt;
+
+<span class="comment">&lt;!-- Implicit role="textbox" --&gt;</span>
+&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"text"</span>&gt;
+
+<span class="comment">&lt;!-- Implicit role="checkbox" --&gt;</span>
+&lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"checkbox"</span>&gt;
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">Prefer semantic HTML (implicit roles) over explicit role attributes!</span>
+                </div>
+            </section>
+
+            <!-- Slide 9: Browser DevTools - Inspecting Elements -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>How to Inspect Elements in Browser</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-search"></i> Opening DevTools</h3>
+                        <ul>
+                            <li><strong>Windows/Linux:</strong> F12 or Ctrl+Shift+I</li>
+                            <li><strong>Mac:</strong> Cmd+Option+I</li>
+                            <li><strong>Right-click:</strong> "Inspect" or "Inspect Element"</li>
+                            <li><strong>Chrome:</strong> ⋮ Menu → More Tools → Developer Tools</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-mouse-pointer"></i> Inspecting Elements</h3>
+                        <ul>
+                            <li>Click the "Select Element" icon <i class="fas fa-mouse-pointer"></i></li>
+                            <li>Hover over any element on page</li>
+                            <li>Click to select element</li>
+                            <li>See HTML in Elements/Inspector tab</li>
+                            <li>View all attributes, classes, IDs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <h3><i class="fas fa-universal-access"></i> Viewing Accessibility Information</h3>
+                    <div class="two-col compact">
+                        <div>
+                            <p><strong>Chrome DevTools:</strong></p>
+                            <ul style="font-size: 0.85em;">
+                                <li>Elements tab → Accessibility pane (bottom)</li>
+                                <li>Shows computed role, name, properties</li>
+                                <li>Full accessibility tree view</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p><strong>Firefox DevTools:</strong></p>
+                            <ul style="font-size: 0.85em;">
+                                <li>Inspector tab → Accessibility panel</li>
+                                <li>Shows role, name, states</li>
+                                <li>Check accessibility issues</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-blue bold">Always inspect elements to understand their structure and accessibility properties!</span>
+                </div>
+            </section>
+
+            <!-- Slide 10: Built-in Locator Strategies -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Built-in Locator Strategies</h2>
+                <div class="three-col" style="font-size: 0.8em;">
+                    <div class="icon-box blue">
+                        <i class="fas fa-universal-access"></i>
+                        <h3>getByRole()</h3>
+                        <p class="compact">ARIA roles - Most resilient</p>
+                    </div>
+                    <div class="icon-box green">
+                        <i class="fas fa-tag"></i>
+                        <h3>getByLabel()</h3>
+                        <p class="compact">Form labels - Best for inputs</p>
+                    </div>
+                    <div class="icon-box orange">
+                        <i class="fas fa-align-left"></i>
+                        <h3>getByText()</h3>
+                        <p class="compact">Visible text content</p>
+                    </div>
+                </div>
+                <div class="three-col" style="font-size: 0.8em;">
+                    <div class="icon-box purple">
+                        <i class="fas fa-i-cursor"></i>
+                        <h3>getByPlaceholder()</h3>
+                        <p class="compact">Input placeholders</p>
+                    </div>
+                    <div class="icon-box blue">
+                        <i class="fas fa-vial"></i>
+                        <h3>getByTestId()</h3>
+                        <p class="compact">Test-specific attributes</p>
+                    </div>
+                    <div class="icon-box green">
+                        <i class="fas fa-image"></i>
+                        <h3>getByAltText()</h3>
+                        <p class="compact">Image alt text</p>
+                    </div>
+                </div>
+                <div class="icon-box orange" style="max-width: 400px; margin: 6px auto;">
+                    <i class="fas fa-heading"></i>
+                    <h3>getByTitle()</h3>
+                    <p class="compact">Title tooltips</p>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-blue bold">7 built-in strategies + CSS/XPath fallback</span>
+                </div>
+            </section>
+
+            <!-- Slide 11: getByRole() - The Best Strategy -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">1</span> getByRole() - Most Resilient</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-list"></i> Common ARIA Roles</h3>
+                        <div style="font-size: 0.65em; columns: 2; column-gap: 15px;">
+                            <p style="margin: 2px 0;">• button</p>
+                            <p style="margin: 2px 0;">• link</p>
+                            <p style="margin: 2px 0;">• textbox</p>
+                            <p style="margin: 2px 0;">• checkbox</p>
+                            <p style="margin: 2px 0;">• radio</p>
+                            <p style="margin: 2px 0;">• combobox</p>
+                            <p style="margin: 2px 0;">• heading</p>
+                            <p style="margin: 2px 0;">• img</p>
+                            <p style="margin: 2px 0;">• table</p>
+                            <p style="margin: 2px 0;">• row</p>
+                            <p style="margin: 2px 0;">• cell</p>
+                            <p style="margin: 2px 0;">• dialog</p>
+                            <p style="margin: 2px 0;">• alert</p>
+                            <p style="margin: 2px 0;">• navigation</p>
+                            <p style="margin: 2px 0;">• main</p>
+                            <p style="margin: 2px 0;">• form</p>
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> Usage Examples</h3>
+                        <div class="code-block">
+<span class="comment">// Simple role</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>).<span class="function">click</span>();
+
+<span class="comment">// Role with name</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>, { 
+  name: <span class="string">'Submit'</span> 
+}).<span class="function">click</span>();
+
+<span class="comment">// Regex name match</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'link'</span>, { 
+  name: /sign.?up/i 
+}).<span class="function">click</span>();
+
+<span class="comment">// With state filter</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'checkbox'</span>, { 
+  checked: <span class="keyword">true</span> 
+}).<span class="function">count</span>();
+
+<span class="comment">// Heading levels</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'heading'</span>, { 
+  level: 1 
+}).<span class="function">textContent</span>();
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-green bold">getByRole() = Accessibility + Resilience!</span>
+                </div>
+            </section>
+
+            <!-- Slide 12: getByLabel() - Best for Forms -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">2</span> getByLabel() - Best for Forms</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-wpforms"></i> HTML Label Association</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Method 1: for attribute --&gt;</span>
+&lt;<span class="keyword">label</span> <span class="keyword">for</span>=<span class="string">"email"</span>&gt;
+  Email
+&lt;/<span class="keyword">label</span>&gt;
+&lt;<span class="keyword">input</span> 
+  <span class="keyword">id</span>=<span class="string">"email"</span> 
+  <span class="keyword">type</span>=<span class="string">"text"</span>
+&gt;
+
+<span class="comment">&lt;!-- Method 2: Wrapping label --&gt;</span>
+&lt;<span class="keyword">label</span>&gt;
+  Username
+  &lt;<span class="keyword">input</span> <span class="keyword">type</span>=<span class="string">"text"</span>&gt;
+&lt;/<span class="keyword">label</span>&gt;
+
+<span class="comment">&lt;!-- Method 3: aria-labelledby --&gt;</span>
+&lt;<span class="keyword">span</span> <span class="keyword">id</span>=<span class="string">"user-label"</span>&gt;
+  Username
+&lt;/<span class="keyword">span</span>&gt;
+&lt;<span class="keyword">input</span> 
+  <span class="keyword">aria-labelledby</span>=<span class="string">"user-label"</span>
+&gt;
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> Usage in Tests</h3>
+                        <div class="code-block">
+<span class="comment">// Exact label match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByLabel</span>(<span class="string">'Username'</span>)
+  .<span class="function">fill</span>(<span class="string">'admin'</span>);
+
+<span class="comment">// Regex match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByLabel</span>(/email/i)
+  .<span class="function">fill</span>(<span class="string">'user@example.com'</span>);
+
+<span class="comment">// Checkboxes</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByLabel</span>(<span class="string">'I agree'</span>)
+  .<span class="function">check</span>();
+
+<span class="comment">// Complete form</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByLabel</span>(<span class="string">'First Name'</span>)
+  .<span class="function">fill</span>(<span class="string">'John'</span>);
+
+<span class="keyword">await</span> page
+  .<span class="function">getByLabel</span>(<span class="string">'Email'</span>)
+  .<span class="function">fill</span>(<span class="string">'john@example.com'</span>);
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-green bold">getByLabel() = Best for form accessibility!</span>
+                </div>
+            </section>
+
+            <!-- Slide 13: getByText() - Visible Text Content -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">3</span> getByText() - Visible Text</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> HTML Examples</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Text in elements --&gt;</span>
+&lt;<span class="keyword">h1</span>&gt;Welcome Back&lt;/<span class="keyword">h1</span>&gt;
+
+&lt;<span class="keyword">p</span>&gt;
+  Your order has been placed
+&lt;/<span class="keyword">p</span>&gt;
+
+&lt;<span class="keyword">span</span> <span class="keyword">class</span>=<span class="string">"message"</span>&gt;
+  Success!
+&lt;/<span class="keyword">span</span>&gt;
+
+&lt;<span class="keyword">div</span>&gt;
+  Login successful
+&lt;/<span class="keyword">div</span>&gt;
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-vial"></i> Usage in Tests</h3>
+                        <div class="code-block">
+<span class="comment">// Exact text match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByText</span>(<span class="string">'Welcome Back'</span>)
+  .<span class="function">isVisible</span>();
+
+<span class="comment">// Partial text match (substring)</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByText</span>(<span class="string">'Welcome'</span>, { exact: <span class="keyword">false</span> })
+  .<span class="function">click</span>();
+
+<span class="comment">// Regex match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByText</span>(/welcome back/i)
+  .<span class="function">click</span>();
+
+<span class="comment">// Case-insensitive with regex</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByText</span>(/success/i)
+  .<span class="function">isVisible</span>();
+
+<span class="comment">// Verifying messages</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByText</span>(<span class="string">'Login successful'</span>)
+  .<span class="function">waitFor</span>();
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">Best for verifying messages, headings, and visible content!</span>
+                </div>
+            </section>
+
+            <!-- Slide 14: getByPlaceholder() - Input Placeholders -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">4</span> getByPlaceholder() - Input Hints</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> HTML Examples</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Text input with placeholder --&gt;</span>
+&lt;<span class="keyword">input</span> 
+  <span class="keyword">type</span>=<span class="string">"text"</span>
+  <span class="keyword">placeholder</span>=<span class="string">"Enter your email"</span>
+&gt;
+
+<span class="comment">&lt;!-- Search input --&gt;</span>
+&lt;<span class="keyword">input</span> 
+  <span class="keyword">type</span>=<span class="string">"search"</span>
+  <span class="keyword">placeholder</span>=<span class="string">"Search products..."</span>
+&gt;
+
+<span class="comment">&lt;!-- Textarea with placeholder --&gt;</span>
+&lt;<span class="keyword">textarea</span> 
+  <span class="keyword">placeholder</span>=<span class="string">"Enter your message"</span>
+&gt;&lt;/<span class="keyword">textarea</span>&gt;
+
+<span class="comment">&lt;!-- Password input --&gt;</span>
+&lt;<span class="keyword">input</span> 
+  <span class="keyword">type</span>=<span class="string">"password"</span>
+  <span class="keyword">placeholder</span>=<span class="string">"Password"</span>
+&gt;
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-vial"></i> Usage in Tests</h3>
+                        <div class="code-block">
+<span class="comment">// Exact placeholder match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByPlaceholder</span>(<span class="string">'Enter your email'</span>)
+  .<span class="function">fill</span>(<span class="string">'user@example.com'</span>);
+
+<span class="comment">// Partial match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByPlaceholder</span>(<span class="string">'Search'</span>, { 
+    exact: <span class="keyword">false</span> 
+  })
+  .<span class="function">fill</span>(<span class="string">'laptop'</span>);
+
+<span class="comment">// Regex match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByPlaceholder</span>(/search.*/i)
+  .<span class="function">type</span>(<span class="string">'query'</span>);
+
+<span class="comment">// Type slowly for autocomplete</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByPlaceholder</span>(<span class="string">'Search products...'</span>)
+  .<span class="function">pressSequentially</span>(<span class="string">'phone'</span>);
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-purple bold">Use when inputs lack labels - but labels are better for accessibility!</span>
+                </div>
+            </section>
+
+            <!-- Slide 15: getByTestId() - Test-Specific Attributes -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">5</span> getByTestId() - When You Control HTML</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> HTML Examples</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Button with test ID --&gt;</span>
+&lt;<span class="keyword">button</span> 
+  <span class="keyword">data-testid</span>=<span class="string">"submit-button"</span>
+&gt;
+  Submit
+&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Container with test ID --&gt;</span>
+&lt;<span class="keyword">div</span> 
+  <span class="keyword">data-testid</span>=<span class="string">"user-profile"</span>
+&gt;
+  ...
+&lt;/<span class="keyword">div</span>&gt;
+
+<span class="comment">&lt;!-- Custom test attribute --&gt;</span>
+&lt;<span class="keyword">input</span> 
+  <span class="keyword">data-test</span>=<span class="string">"email-input"</span>
+&gt;
+
+<span class="comment">&lt;!-- Form section --&gt;</span>
+&lt;<span class="keyword">form</span> 
+  <span class="keyword">data-testid</span>=<span class="string">"login-form"</span>
+&gt;
+  ...
+&lt;/<span class="keyword">form</span>&gt;
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-vial"></i> Usage in Tests</h3>
+                        <div class="code-block">
+<span class="comment">// Using data-testid</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByTestId</span>(<span class="string">'submit-button'</span>)
+  .<span class="function">click</span>();
+
+<span class="comment">// Access nested elements</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByTestId</span>(<span class="string">'user-profile'</span>)
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>, { 
+    name: <span class="string">'Edit'</span> 
+  })
+  .<span class="function">click</span>();
+
+<span class="comment">// Custom attribute (configure)</span>
+<span class="comment">// playwright.config.ts:</span>
+<span class="comment">// testIdAttribute: 'data-test'</span>
+
+<span class="keyword">await</span> page
+  .<span class="function">getByTestId</span>(<span class="string">'email-input'</span>)
+  .<span class="function">fill</span>(<span class="string">'test@example.com'</span>);
+                        </div>
+                        <h3 style="margin-top: 10px;"><i class="fas fa-info-circle"></i> When to Use</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Dynamic content without semantic meaning</li>
+                            <li>When you control the codebase</li>
+                            <li>Last resort after semantic locators</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 16: getByAltText() - Images -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">6</span> getByAltText() - Image Alt Text</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> HTML Examples</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Image with alt text --&gt;</span>
+&lt;<span class="keyword">img</span> 
+  <span class="keyword">src</span>=<span class="string">"profile.jpg"</span>
+  <span class="keyword">alt</span>=<span class="string">"Profile picture"</span>
+&gt;
+
+<span class="comment">&lt;!-- Logo image --&gt;</span>
+&lt;<span class="keyword">img</span> 
+  <span class="keyword">src</span>=<span class="string">"logo.png"</span>
+  <span class="keyword">alt</span>=<span class="string">"Company Logo"</span>
+&gt;
+
+<span class="comment">&lt;!-- Product image --&gt;</span>
+&lt;<span class="keyword">img</span> 
+  <span class="keyword">src</span>=<span class="string">"product.jpg"</span>
+  <span class="keyword">alt</span>=<span class="string">"iPhone 15 Pro"</span>
+&gt;
+
+<span class="comment">&lt;!-- Clickable image --&gt;</span>
+&lt;<span class="keyword">a</span> <span class="keyword">href</span>=<span class="string">"/profile"</span>&gt;
+  &lt;<span class="keyword">img</span> 
+    <span class="keyword">alt</span>=<span class="string">"User Avatar"</span>
+  &gt;
+&lt;/<span class="keyword">a</span>&gt;
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-vial"></i> Usage in Tests</h3>
+                        <div class="code-block">
+<span class="comment">// Click image</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByAltText</span>(<span class="string">'Profile picture'</span>)
+  .<span class="function">click</span>();
+
+<span class="comment">// Verify image visible</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByAltText</span>(<span class="string">'Company Logo'</span>)
+  .<span class="function">isVisible</span>();
+
+<span class="comment">// Regex match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByAltText</span>(/profile/i)
+  .<span class="function">click</span>();
+
+<span class="comment">// Check image loaded</span>
+<span class="keyword">const</span> img = page
+  .<span class="function">getByAltText</span>(<span class="string">'Product image'</span>);
+  
+<span class="keyword">await</span> <span class="function">expect</span>(img)
+  .<span class="function">toBeVisible</span>();
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-green bold">Alt text is essential for accessibility - always use it!</span>
+                </div>
+            </section>
+
+            <!-- Slide 17: getByTitle() - Title Attributes -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">7</span> getByTitle() - Title Tooltips</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> HTML Examples</h3>
+                        <div class="code-block">
+<span class="comment">&lt;!-- Button with title --&gt;</span>
+&lt;<span class="keyword">button</span> 
+  <span class="keyword">title</span>=<span class="string">"Close dialog"</span>
+&gt;
+  X
+&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Icon button --&gt;</span>
+&lt;<span class="keyword">button</span> 
+  <span class="keyword">title</span>=<span class="string">"Save changes"</span>
+&gt;
+  &lt;<span class="keyword">i</span> <span class="keyword">class</span>=<span class="string">"icon-save"</span>&gt;&lt;/<span class="keyword">i</span>&gt;
+&lt;/<span class="keyword">button</span>&gt;
+
+<span class="comment">&lt;!-- Link with title --&gt;</span>
+&lt;<span class="keyword">a</span> 
+  <span class="keyword">href</span>=<span class="string">"/help"</span>
+  <span class="keyword">title</span>=<span class="string">"Get help"</span>
+&gt;
+  ?
+&lt;/<span class="keyword">a</span>&gt;
+
+<span class="comment">&lt;!-- Span with title --&gt;</span>
+&lt;<span class="keyword">span</span> 
+  <span class="keyword">title</span>=<span class="string">"Information"</span>
+&gt;
+  ℹ
+&lt;/<span class="keyword">span</span>&gt;
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-vial"></i> Usage in Tests</h3>
+                        <div class="code-block">
+<span class="comment">// Click by title</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByTitle</span>(<span class="string">'Close dialog'</span>)
+  .<span class="function">click</span>();
+
+<span class="comment">// Partial match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByTitle</span>(<span class="string">'Save'</span>, { 
+    exact: <span class="keyword">false</span> 
+  })
+  .<span class="function">click</span>();
+
+<span class="comment">// Regex match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByTitle</span>(/close|dismiss/i)
+  .<span class="function">click</span>();
+
+<span class="comment">// Hover to see tooltip</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByTitle</span>(<span class="string">'Information'</span>)
+  .<span class="function">hover</span>();
+                        </div>
+                        <h3 style="margin-top: 10px;"><i class="fas fa-lightbulb"></i> Best For</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Icon buttons without text</li>
+                            <li>Close (X) buttons</li>
+                            <li>Tooltip elements</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 18: Chaining Locators -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Chaining Locators</h2>
+                <p class="text-blue bold compact">Narrow down search scope by chaining multiple locators</p>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-link"></i> Basic Chaining</h3>
+                        <div class="code-block">
+<span class="comment">// Chain to search within context</span>
+<span class="keyword">await</span> page
+  .<span class="function">locator</span>(<span class="string">'.product-card'</span>)
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>, { 
+    name: <span class="string">'Add to Cart'</span> 
+  })
+  .<span class="function">click</span>();
+
+<span class="comment">// Navigation menu chaining</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'navigation'</span>)
+  .<span class="function">getByRole</span>(<span class="string">'link'</span>, { 
+    name: <span class="string">'Products'</span> 
+  })
+  .<span class="function">click</span>();
+
+<span class="comment">// Dialog chaining</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'dialog'</span>, { 
+    name: <span class="string">'Confirm'</span> 
+  })
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>, { 
+    name: <span class="string">'OK'</span> 
+  })
+  .<span class="function">click</span>();
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-sitemap"></i> Complex Chaining</h3>
+                        <div class="code-block">
+<span class="comment">// Multi-level chaining</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'main'</span>)
+  .<span class="function">locator</span>(<span class="string">'section.products'</span>)
+  .<span class="function">getByRole</span>(<span class="string">'article'</span>)
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>)
+  .<span class="function">click</span>();
+
+<span class="comment">// Table cell in specific row</span>
+<span class="keyword">const</span> cellText = <span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'table'</span>)
+  .<span class="function">getByRole</span>(<span class="string">'row'</span>, { 
+    name: /John Smith/i 
+  })
+  .<span class="function">getByRole</span>(<span class="string">'cell'</span>)
+  .<span class="function">nth</span>(2)
+  .<span class="function">textContent</span>();
+
+<span class="comment">// Form in modal</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'dialog'</span>)
+  .<span class="function">getByLabel</span>(<span class="string">'Email'</span>)
+  .<span class="function">fill</span>(<span class="string">'user@example.com'</span>);
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">Chaining = Precision + Context + Readability</span>
+                </div>
+            </section>
+
+            <!-- Slide 19: Filtering Locators -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Filtering Locators</h2>
+                <p class="text-blue bold compact">Use filter() to narrow down based on specific conditions</p>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-filter"></i> Filter by Text</h3>
+                        <div class="code-block">
+<span class="comment">// Exact text filter</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'listitem'</span>)
+  .<span class="function">filter</span>({ hasText: <span class="string">'Active'</span> })
+  .<span class="function">click</span>();
+
+<span class="comment">// Regex text filter</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'listitem'</span>)
+  .<span class="function">filter</span>({ hasText: /active/i })
+  .<span class="function">click</span>();
+
+<span class="comment">// Multiple text filters</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'listitem'</span>)
+  .<span class="function">filter</span>({ hasText: <span class="string">'Active'</span> })
+  .<span class="function">filter</span>({ hasText: <span class="string">'Priority'</span> })
+  .<span class="function">click</span>();
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-sitemap"></i> Filter by Elements</h3>
+                        <div class="code-block">
+<span class="comment">// Has child element</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'listitem'</span>)
+  .<span class="function">filter</span>({ 
+    has: page.<span class="function">getByRole</span>(<span class="string">'button'</span>, { 
+      name: <span class="string">'Delete'</span> 
+    }) 
+  })
+  .<span class="function">click</span>();
+
+<span class="comment">// hasNot - exclude elements</span>
+<span class="keyword">await</span> page
+  .<span class="function">locator</span>(<span class="string">'.product-card'</span>)
+  .<span class="function">filter</span>({ 
+    hasNot: page.<span class="function">locator</span>(<span class="string">'.out-of-stock'</span>) 
+  })
+  .<span class="function">first</span>()
+  .<span class="function">click</span>();
+
+<span class="comment">// Complex filtering</span>
+<span class="keyword">await</span> page
+  .<span class="function">locator</span>(<span class="string">'.product-card'</span>)
+  .<span class="function">filter</span>({ hasText: <span class="string">'iPhone'</span> })
+  .<span class="function">filter</span>({ 
+    has: page.<span class="function">locator</span>(<span class="string">'.in-stock'</span>) 
+  })
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>)
+  .<span class="function">click</span>();
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 20: Position-based Selection -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Position-based Selection</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-sort-numeric-down"></i> Methods</h3>
+                        <div class="code-block">
+<span class="comment">// First match</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>).<span class="function">first</span>().<span class="function">click</span>();
+
+<span class="comment">// Last match</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>).<span class="function">last</span>().<span class="function">click</span>();
+
+<span class="comment">// Specific index (0-based)</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>).<span class="function">nth</span>(2).<span class="function">click</span>();
+
+<span class="comment">// Count elements</span>
+<span class="keyword">const</span> count = <span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>).<span class="function">count</span>();
+
+<span class="comment">// Get all elements</span>
+<span class="keyword">const</span> buttons = <span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>).<span class="function">all</span>();
+<span class="keyword">for</span> (<span class="keyword">const</span> button <span class="keyword">of</span> buttons) {
+  <span class="keyword">await</span> button.<span class="function">click</span>();
+}
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Use with Caution!</h3>
+                        <ul>
+                            <li>Position-based = Brittle</li>
+                            <li>Prefer semantic locators</li>
+                            <li>Use when truly necessary</li>
+                            <li>Document why position used</li>
+                        </ul>
+                        <div class="code-block">
+<span class="comment">// ❌ Bad: Fragile</span>
+<span class="keyword">await</span> page.<span class="function">locator</span>(<span class="string">'button'</span>).<span class="function">nth</span>(5).<span class="function">click</span>();
+
+<span class="comment">// ✅ Good: Semantic</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>, { 
+    name: <span class="string">'Submit'</span> 
+  })
+  .<span class="function">click</span>();
+
+<span class="comment">// ✅ OK: When needed</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'listitem'</span>)
+  .<span class="function">filter</span>({ hasText: <span class="string">'Active'</span> })
+  .<span class="function">first</span>()
+  .<span class="function">click</span>();
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 21: Auto-waiting -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Auto-waiting Magic</h2>
+                <p class="text-blue bold compact">Playwright automatically waits for elements to be ready</p>
+                <div class="flow-container">
+                    <div class="arrow-flow">
+                        <div class="step"><i class="fas fa-plug"></i> Attached</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green"><i class="fas fa-eye"></i> Visible</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step orange"><i class="fas fa-circle-notch"></i> Stable</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step purple"><i class="fas fa-mouse-pointer"></i> Not Obscured</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step"><i class="fas fa-check"></i> Enabled</div>
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-clock"></i> What Playwright Waits For</h3>
+                        <ul>
+                            <li><strong>Attached to DOM:</strong> Element exists</li>
+                            <li><strong>Visible:</strong> Not hidden/invisible</li>
+                            <li><strong>Stable:</strong> Not animating/moving</li>
+                            <li><strong>Receives Events:</strong> Not covered</li>
+                            <li><strong>Enabled:</strong> Not disabled</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-hourglass-half"></i> Actions with Auto-wait</h3>
+                        <ul>
+                            <li>click(), dblclick(), tap()</li>
+                            <li>fill(), type(), press()</li>
+                            <li>check(), uncheck()</li>
+                            <li>selectOption()</li>
+                            <li>hover(), focus()</li>
+                            <li>dragTo()</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-green bold">No explicit waits needed! Playwright handles it all.</span>
+                </div>
+            </section>
+
+            <!-- Slide 22: Locator Priority -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Locator Strategy Priority</h2>
+                <div class="flow-container">
+                    <div class="arrow-flow">
+                        <div class="step"><span class="step-number">1</span> getByRole()</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green"><span class="step-number">2</span> getByLabel()</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step orange"><span class="step-number">3</span> getByPlaceholder()</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step purple"><span class="step-number">4</span> getByText()</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step"><span class="step-number">5</span> getByTestId()</div>
+                    </div>
+                </div>
+                <div class="two-col compact">
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3><i class="fas fa-check-circle" style="color: var(--vibe-green);"></i> Why This Order?</h3>
+                        <ul>
+                            <li><strong>getByRole():</strong> Most resilient, accessibility-first</li>
+                            <li><strong>getByLabel():</strong> Best for form inputs</li>
+                            <li><strong>getByPlaceholder():</strong> Good for inputs without labels</li>
+                            <li><strong>getByText():</strong> Good for visible text content</li>
+                            <li><strong>getByTestId():</strong> When you control markup</li>
+                            <li><strong>CSS/XPath:</strong> Last resort only!</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="content-box" style="border-left-color: var(--vibe-green); margin-bottom: 8px;">
+                            <h3>✅ Best Practice</h3>
+                            <div class="code-block">
+<span class="comment">// Resilient to changes</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>, { 
+    name: <span class="string">'Submit'</span> 
+  })
+  .<span class="function">click</span>();
+                            </div>
+                        </div>
+                        <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                            <h3>❌ Fragile</h3>
+                            <div class="code-block">
+<span class="comment">// Breaks easily</span>
+<span class="keyword">await</span> page
+  .<span class="function">locator</span>(<span class="string">'button.btn-primary.submit'</span>)
+  .<span class="function">click</span>();
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 23: Best Practices -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Best Practices</h2>
+                <div class="two-col compact">
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3><i class="fas fa-check-circle" style="color: var(--vibe-green);"></i> Do This</h3>
+                        <ul>
+                            <li>Use user-centric locators (role, label)</li>
+                            <li>Make locators descriptive and readable</li>
+                            <li>Leverage auto-waiting (no explicit waits)</li>
+                            <li>Chain locators for context</li>
+                            <li>Use filters to narrow results</li>
+                            <li>Prefer semantic over CSS/XPath</li>
+                            <li>Create Page Object Models</li>
+                            <li>Test for accessibility</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3><i class="fas fa-times-circle" style="color: var(--vibe-orange);"></i> Avoid</h3>
+                        <ul>
+                            <li>Brittle CSS selectors (classes, IDs)</li>
+                            <li>Complex XPath expressions</li>
+                            <li>Position-based selection (nth)</li>
+                            <li>ElementHandles (use Locators)</li>
+                            <li>Explicit sleep/waits</li>
+                            <li>DOM structure dependence</li>
+                            <li>Hard-coded delays</li>
+                            <li>Testing implementation details</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-blue bold">Write tests from user's perspective, not developer's!</span>
+                </div>
+            </section>
+
+            <!-- Slide 24: Real-world Example - Login -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Real-world Example: Login Form</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code"></i> Test Code</h3>
+                        <div class="code-block">
+<span class="keyword">import</span> { test, expect } <span class="keyword">from</span> <span class="string">'@playwright/test'</span>;
+
+test(<span class="string">'user login'</span>, <span class="keyword">async</span> ({ page }) => {
+  <span class="comment">// Navigate to login page</span>
+  <span class="keyword">await</span> page.<span class="function">goto</span>(<span class="string">'https://example.com/login'</span>);
+  
+  <span class="comment">// Fill username (using label)</span>
+  <span class="keyword">await</span> page
+    .<span class="function">getByLabel</span>(<span class="string">'Username'</span>)
+    .<span class="function">fill</span>(<span class="string">'admin'</span>);
+  
+  <span class="comment">// Fill password (using label)</span>
+  <span class="keyword">await</span> page
+    .<span class="function">getByLabel</span>(<span class="string">'Password'</span>)
+    .<span class="function">fill</span>(<span class="string">'password123'</span>);
+  
+  <span class="comment">// Check remember me (using role)</span>
+  <span class="keyword">await</span> page
+    .<span class="function">getByRole</span>(<span class="string">'checkbox'</span>, { 
+      name: <span class="string">'Remember me'</span> 
+    })
+    .<span class="function">check</span>();
+  
+  <span class="comment">// Click login button (using role)</span>
+  <span class="keyword">await</span> page
+    .<span class="function">getByRole</span>(<span class="string">'button'</span>, { 
+      name: <span class="string">'Login'</span> 
+    })
+    .<span class="function">click</span>();
+  
+  <span class="comment">// Verify successful login</span>
+  <span class="keyword">await</span> <span class="function">expect</span>(page.<span class="function">getByRole</span>(<span class="string">'heading'</span>, { 
+    name: <span class="string">'Dashboard'</span> 
+  })).<span class="function">toBeVisible</span>();
+});
+                        </div>
+                    </div>
+                    <div>
+                        <div class="content-box">
+                            <h3><i class="fas fa-star"></i> What Makes This Good?</h3>
+                            <ul>
+                                <li>Uses getByLabel() for inputs</li>
+                                <li>Uses getByRole() for buttons</li>
+                                <li>Clear, readable intent</li>
+                                <li>No explicit waits needed</li>
+                                <li>Resilient to UI changes</li>
+                                <li>Accessibility-friendly</li>
+                            </ul>
+                        </div>
+                        <div class="content-box">
+                            <h3><i class="fas fa-shield-alt"></i> Why It's Resilient</h3>
+                            <ul>
+                                <li>Works if CSS classes change</li>
+                                <li>Works if IDs change</li>
+                                <li>Works if DOM structure changes</li>
+                                <li>Works if styling changes</li>
+                                <li>Auto-waits for all elements</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 17: Common Pitfalls -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Common Pitfalls to Avoid</h2>
+                <div class="two-col compact">
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Pitfall #1: Brittle Selectors</h3>
+                        <div class="code-block">
+<span class="comment">// ❌ Bad: Depends on CSS classes</span>
+<span class="keyword">await</span> page.<span class="function">locator</span>(<span class="string">'.btn-primary-lg-submit'</span>).<span class="function">click</span>();
+
+<span class="comment">// ✅ Good: Semantic and resilient</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> }).<span class="function">click</span>();
+                        </div>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Pitfall #2: Complex XPath</h3>
+                        <div class="code-block">
+<span class="comment">// ❌ Bad: Complex and brittle</span>
+<span class="keyword">await</span> page.<span class="function">locator</span>(<span class="string">'//div[@class="container"]/div[2]/button'</span>).<span class="function">click</span>();
+
+<span class="comment">// ✅ Good: Clear intent</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>, { name: <span class="string">'Save'</span> }).<span class="function">click</span>();
+                        </div>
+                    </div>
+                </div>
+                <div class="two-col compact">
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Pitfall #3: Explicit Waits</h3>
+                        <div class="code-block">
+<span class="comment">// ❌ Bad: Manual waiting</span>
+<span class="keyword">await</span> page.<span class="function">waitForTimeout</span>(3000);
+<span class="keyword">await</span> page.<span class="function">locator</span>(<span class="string">'button'</span>).<span class="function">click</span>();
+
+<span class="comment">// ✅ Good: Auto-waiting</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>).<span class="function">click</span>();
+                        </div>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Pitfall #4: Position-based</h3>
+                        <div class="code-block">
+<span class="comment">// ❌ Bad: Position-dependent</span>
+<span class="keyword">await</span> page.<span class="function">locator</span>(<span class="string">'button'</span>).<span class="function">nth</span>(5).<span class="function">click</span>();
+
+<span class="comment">// ✅ Good: Semantic selection</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>, { name: <span class="string">'Delete'</span> }).<span class="function">click</span>();
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 25: Strict Mode -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Understanding Strict Mode</h2>
+                <p class="text-blue bold compact">By default, Playwright requires exactly ONE matching element</p>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-shield-alt"></i> Why Strict Mode?</h3>
+                        <ul>
+                            <li>Prevents accidental clicks on wrong elements</li>
+                            <li>Makes tests explicit and clear</li>
+                            <li>Catches bugs early</li>
+                            <li>Forces precise locators</li>
+                        </ul>
+                        <div class="code-block">
+<span class="comment">// If multiple buttons exist, throws error</span>
+<span class="keyword">await</span> page.<span class="function">getByRole</span>(<span class="string">'button'</span>).<span class="function">click</span>();
+<span class="comment">// Error: strict mode violation</span>
+<span class="comment">// locator resolved to 3 elements</span>
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-tools"></i> Solutions</h3>
+                        <div class="code-block">
+<span class="comment">// 1. Make locator more specific</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> })
+  .<span class="function">click</span>();
+
+<span class="comment">// 2. Use first() for first match</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>)
+  .<span class="function">first</span>()
+  .<span class="function">click</span>();
+
+<span class="comment">// 3. Use nth() for specific position</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>)
+  .<span class="function">nth</span>(1)
+  .<span class="function">click</span>();
+
+<span class="comment">// 4. Use filter to narrow down</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>)
+  .<span class="function">filter</span>({ hasText: <span class="string">'Submit'</span> })
+  .<span class="function">click</span>();
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 26: Shadow DOM & Frames -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Shadow DOM & iFrames</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-layer-group"></i> Shadow DOM</h3>
+                        <p class="compact">Playwright pierces Shadow DOM automatically!</p>
+                        <div class="code-block">
+<span class="comment">// No special syntax needed!</span>
+<span class="keyword">await</span> page
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> })
+  .<span class="function">click</span>();
+
+<span class="comment">// Works even if button is inside shadow-root</span>
+<span class="comment">// Playwright automatically pierces shadow DOM</span>
+
+<span class="comment">// For specific shadow root navigation</span>
+<span class="keyword">await</span> page
+  .<span class="function">locator</span>(<span class="string">'my-component'</span>)
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>)
+  .<span class="function">click</span>();
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-window-maximize"></i> iFrames</h3>
+                        <p class="compact">Access iFrame elements with frameLocator()</p>
+                        <div class="code-block">
+<span class="comment">// Get frame by name or URL</span>
+<span class="keyword">const</span> frame = page.<span class="function">frameLocator</span>(<span class="string">'iframe[name="myframe"]'</span>);
+
+<span class="comment">// Use locators inside frame</span>
+<span class="keyword">await</span> frame
+  .<span class="function">getByRole</span>(<span class="string">'button'</span>, { name: <span class="string">'Submit'</span> })
+  .<span class="function">click</span>();
+
+<span class="comment">// Nested frames</span>
+<span class="keyword">const</span> innerFrame = frame
+  .<span class="function">frameLocator</span>(<span class="string">'iframe#inner'</span>);
+  
+<span class="keyword">await</span> innerFrame
+  .<span class="function">getByLabel</span>(<span class="string">'Email'</span>)
+  .<span class="function">fill</span>(<span class="string">'user@example.com'</span>);
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-green bold">Shadow DOM = Automatic | iFrames = frameLocator()</span>
+                </div>
+            </section>
+
+            <!-- Slide 27: Quick Reference -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Quick Reference Card</h2>
+                <div class="three-col" style="font-size: 0.55em;">
+                    <div class="content-box">
+                        <h3>Locator Methods</h3>
+                        <p style="margin: 1px 0;">• getByRole()</p>
+                        <p style="margin: 1px 0;">• getByLabel()</p>
+                        <p style="margin: 1px 0;">• getByText()</p>
+                        <p style="margin: 1px 0;">• getByPlaceholder()</p>
+                        <p style="margin: 1px 0;">• getByTestId()</p>
+                        <p style="margin: 1px 0;">• getByAltText()</p>
+                        <p style="margin: 1px 0;">• getByTitle()</p>
+                        <p style="margin: 1px 0;">• locator()</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Filtering</h3>
+                        <p style="margin: 1px 0;">• filter({ hasText })</p>
+                        <p style="margin: 1px 0;">• filter({ has })</p>
+                        <p style="margin: 1px 0;">• filter({ hasNot })</p>
+                        <p style="margin: 1px 0;">• first()</p>
+                        <p style="margin: 1px 0;">• last()</p>
+                        <p style="margin: 1px 0;">• nth(index)</p>
+                        <p style="margin: 1px 0;">• count()</p>
+                        <p style="margin: 1px 0;">• all()</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Actions</h3>
+                        <p style="margin: 1px 0;">• click()</p>
+                        <p style="margin: 1px 0;">• fill()</p>
+                        <p style="margin: 1px 0;">• type()</p>
+                        <p style="margin: 1px 0;">• check()</p>
+                        <p style="margin: 1px 0;">• uncheck()</p>
+                        <p style="margin: 1px 0;">• selectOption()</p>
+                        <p style="margin: 1px 0;">• hover()</p>
+                        <p style="margin: 1px 0;">• focus()</p>
+                    </div>
+                </div>
+                <div class="three-col" style="font-size: 0.55em;">
+                    <div class="content-box">
+                        <h3>Assertions</h3>
+                        <p style="margin: 1px 0;">• toBeVisible()</p>
+                        <p style="margin: 1px 0;">• toBeHidden()</p>
+                        <p style="margin: 1px 0;">• toHaveText()</p>
+                        <p style="margin: 1px 0;">• toContainText()</p>
+                        <p style="margin: 1px 0;">• toBeEnabled()</p>
+                        <p style="margin: 1px 0;">• toBeDisabled()</p>
+                        <p style="margin: 1px 0;">• toBeChecked()</p>
+                        <p style="margin: 1px 0;">• toHaveCount()</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Retrieval</h3>
+                        <p style="margin: 1px 0;">• textContent()</p>
+                        <p style="margin: 1px 0;">• innerText()</p>
+                        <p style="margin: 1px 0;">• innerHTML()</p>
+                        <p style="margin: 1px 0;">• getAttribute()</p>
+                        <p style="margin: 1px 0;">• isVisible()</p>
+                        <p style="margin: 1px 0;">• isEnabled()</p>
+                        <p style="margin: 1px 0;">• isChecked()</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Advanced</h3>
+                        <p style="margin: 1px 0;">• frameLocator()</p>
+                        <p style="margin: 1px 0;">• locator().or()</p>
+                        <p style="margin: 1px 0;">• locator().and()</p>
+                        <p style="margin: 1px 0;">• setInputFiles()</p>
+                        <p style="margin: 1px 0;">• dragTo()</p>
+                        <p style="margin: 1px 0;">• boundingBox()</p>
+                        <p style="margin: 1px 0;">• screenshot()</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 28: Summary -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Summary - Key Takeaways</h2>
+                <div class="three-col">
+                    <div class="icon-box blue">
+                        <i class="fas fa-universal-access"></i>
+                        <h3>User-Centric</h3>
+                        <p class="compact">Think like users, not developers</p>
+                    </div>
+                    <div class="icon-box green">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Resilient</h3>
+                        <p class="compact">Auto-wait, auto-retry, strict mode</p>
+                    </div>
+                    <div class="icon-box orange">
+                        <i class="fas fa-rocket"></i>
+                        <h3>Powerful</h3>
+                        <p class="compact">Chain, filter, compose locators</p>
+                    </div>
+                </div>
+                <div class="flow-container">
+                    <h3 class="text-blue" style="margin: 10px 0;">Locator Priority Order:</h3>
+                    <div class="arrow-flow">
+                        <div class="step">getByRole()</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green">getByLabel()</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step orange">getByPlaceholder()</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step purple">getByText()</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step">getByTestId()</div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-blue bold">Remember:</span> 
+                    <span class="text-green bold">Semantic locators</span> + 
+                    <span class="text-orange bold">Auto-waiting</span> + 
+                    <span class="text-purple bold">Chaining</span> = 
+                    <span class="text-blue bold">Maintainable tests!</span>
+                </div>
+            </section>
+
+            <!-- Slide 29: Resources -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Resources & Next Steps</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-book"></i> Official Documentation</h3>
+                        <ul>
+                            <li>Playwright Locators Guide</li>
+                            <li>API Reference</li>
+                            <li>Best Practices</li>
+                            <li>Accessibility Testing</li>
+                            <li>Migration Guides</li>
+                        </ul>
+                        <p class="compact" style="margin-top: 10px;">
+                            <strong>📚 playwright.dev/docs/locators</strong>
+                        </p>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-laptop-code"></i> Practice Projects</h3>
+                        <ul>
+                            <li>Build Page Object Models</li>
+                            <li>Practice with real websites</li>
+                            <li>Explore shadow DOM examples</li>
+                            <li>Create reusable test utilities</li>
+                            <li>Implement accessibility checks</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="three-col" style="margin-top: 10px;">
+                    <div class="icon-box blue">
+                        <i class="fas fa-code"></i>
+                        <h3>Hands-on Labs</h3>
+                        <p class="compact">Practice with exercises</p>
+                    </div>
+                    <div class="icon-box green">
+                        <i class="fas fa-users"></i>
+                        <h3>Community</h3>
+                        <p class="compact">Join Playwright Discord</p>
+                    </div>
+                    <div class="icon-box orange">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Advanced Topics</h3>
+                        <p class="compact">Component testing, Visual testing</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 30: Thank You -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>Thank You!</h1>
+                <p class="subtitle">Master Playwright Locators</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge"><i class="fas fa-question-circle"></i> Questions?</span>
+                    <span class="badge"><i class="fas fa-hands-helping"></i> Practice Time</span>
+                </div>
+                <p class="tagline" style="margin-top: 20px;">
+                    <i class="fas fa-code"></i> Keep Testing with User-Centric Locators!
+                </p>
+                <p class="compact" style="margin-top: 15px; color: #64748b;">
+                    <i class="fas fa-globe"></i> vibetestq.com | 
+                    <i class="fab fa-linkedin"></i> QTP Sudhakar
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            if (typeof Reveal !== 'undefined') {
+                Reveal.initialize({
+                    hash: true,
+                    transition: 'slide',
+                    transitionSpeed: 'default',
+                    slideNumber: true,
+                    controls: true,
+                    progress: true,
+                    center: false,
+                    width: 1280,
+                    height: 720,
+                    margin: 0.04
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

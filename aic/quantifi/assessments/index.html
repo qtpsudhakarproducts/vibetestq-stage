@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantifi Playwright Training – Assessments - VibeTestQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ea580c;
+            --primary-dark: #c2410c;
+            --primary-light: #fff7ed;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --sidebar-width: 300px;
+            --header-height: 70px;
+            --glass: rgba(255,255,255,0.9);
+            --shadow: 0 4px 6px -1px rgb(0 0 0/0.1),0 2px 4px -2px rgb(0 0 0/0.1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        header {
+            position: fixed; top: 0; right: 0; left: 0; height: var(--header-height);
+            background: var(--glass); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 2rem;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--primary-dark); }
+        .logo img { height: 40px; }
+        .header-links { display: flex; align-items: center; gap: 16px; font-weight: 600; font-size: 0.95rem; }
+        .header-links a { text-decoration: none; color: var(--primary-dark); padding: 6px 10px; border-radius: 6px; transition: all 0.2s; }
+        .header-links a:hover { background: var(--primary-light); color: var(--primary); }
+        aside {
+            width: var(--sidebar-width); background: var(--card-bg); border-right: 1px solid var(--border);
+            height: 100vh; position: fixed; top: 0; left: 0;
+            padding-top: var(--header-height); overflow-y: auto; z-index: 900;
+        }
+        .sidebar-content { padding: 2rem 1.5rem; }
+        .nav-section { margin-bottom: 2rem; }
+        .nav-section h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); margin-bottom: 0.75rem; }
+        .nav-list { list-style: none; }
+        .nav-item { margin-bottom: 0.4rem; }
+        .nav-link {
+            display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+            color: var(--text); text-decoration: none; border-radius: 8px; transition: all 0.2s; font-size: 0.9rem; font-weight: 500;
+        }
+        .nav-link:hover { background: var(--primary-light); color: var(--primary); }
+        .nav-link i { font-size: 0.9rem; width: 18px; text-align: center; opacity: 0.7; }
+        .nav-badge {
+            margin-left: auto; font-size: 0.7rem; padding: 2px 7px; border-radius: 99px;
+            background: var(--primary-light); color: var(--primary-dark); font-weight: 600;
+        }
+        .app-container { display: flex; min-height: 100vh; }
+        main { flex: 1; margin-left: var(--sidebar-width); padding-top: var(--header-height); }
+        .content-area { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+        h1 { font-family: 'Outfit', sans-serif; font-size: 2.2rem; color: var(--primary-dark); margin-bottom: 0.5rem; }
+        h2 { font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: var(--text); margin: 2.5rem 0 1rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+        .intro-text { color: var(--text-light); font-size: 1rem; margin-bottom: 2rem; }
+        .assessment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+        /* Phase-coloured gradient cards */
+        .acard { border-radius: 14px; padding: 1.4rem 1.5rem; text-decoration: none; color: #fff; display: flex; flex-direction: column; gap: 0.6rem; transition: transform 0.2s, box-shadow 0.2s; position: relative; overflow: hidden; }
+        .acard::after { content: ''; position: absolute; bottom: -15px; right: -15px; width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+        .acard:hover { transform: translateY(-4px); }
+        .acard-p1 { background: linear-gradient(135deg, #d97706, #b45309); box-shadow: 0 6px 20px rgba(217,119,6,0.3); }
+        .acard-p2 { background: linear-gradient(135deg, #2563eb, #1d4ed8); box-shadow: 0 6px 20px rgba(37,99,235,0.3); }
+        .acard-p3 { background: linear-gradient(135deg, #7c3aed, #6d28d9); box-shadow: 0 6px 20px rgba(124,58,237,0.3); }
+        .acard-p4 { background: linear-gradient(135deg, #16a34a, #15803d); box-shadow: 0 6px 20px rgba(22,163,74,0.3); }
+        .acard-cap { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 8px 28px rgba(245,158,11,0.4); border: 2px solid rgba(251,191,36,0.5); }
+        .acard .card-day { font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.82); text-transform: uppercase; letter-spacing: 0.05em; }
+        .acard .card-title { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 700; color: #fff; }
+        .acard .card-meta { font-size: 0.82rem; color: rgba(255,255,255,0.82); display: flex; gap: 12px; }
+        .acard .card-meta span { display: flex; align-items: center; gap: 4px; }
+        .acard-cap .card-title { font-size: 1.2rem; }
+        /* Phase strip headers */
+        .phase-strip { display: flex; align-items: center; gap: 10px; margin: 2.5rem 0 1rem; padding: 0.7rem 1.2rem; border-radius: 10px; }
+        .phase-strip-p1 { background: #fef3c7; border-left: 4px solid #d97706; }
+        .phase-strip-p2 { background: #eff6ff; border-left: 4px solid #2563eb; }
+        .phase-strip-p3 { background: #ede9fe; border-left: 4px solid #7c3aed; }
+        .phase-strip-p4 { background: #f0fdf4; border-left: 4px solid #16a34a; }
+        .phase-strip-badge { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 10px; border-radius: 999px; color: #fff; }
+        .phase-strip-p1 .phase-strip-badge { background: #d97706; }
+        .phase-strip-p2 .phase-strip-badge { background: #2563eb; }
+        .phase-strip-p3 .phase-strip-badge { background: #7c3aed; }
+        .phase-strip-p4 .phase-strip-badge { background: #16a34a; }
+        .phase-strip-title { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700; }
+        .phase-strip-p1 .phase-strip-title { color: #92400e; }
+        .phase-strip-p2 .phase-strip-title { color: #1e40af; }
+        .phase-strip-p3 .phase-strip-title { color: #5b21b6; }
+        .phase-strip-p4 .phase-strip-title { color: #166534; }
+        .phase-strip-days { font-size: 0.82rem; color: var(--text-light); margin-left: auto; }
+        .alert {
+            padding: 1rem 1.5rem; border-radius: 12px; margin: 1.5rem 0;
+            display: flex; gap: 12px; border-left: 5px solid var(--accent);
+            background: #fffbeb; color: #92400e; font-size: 0.95rem;
+        }
+        footer { margin-top: 4rem; padding: 2rem; text-align: center; border-top: 1px solid var(--border); color: var(--text-light); font-size: 0.85rem; }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 850; }
+        .sidebar-overlay.open { display: block; }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); padding: 6px; border-radius: 6px; }
+        .mobile-menu-btn:hover { background: var(--primary-light); }
+        @media (max-width: 1024px) {
+            aside { transform: translateX(-100%); transition: transform 0.3s; }
+            aside.open { transform: translateX(0); }
+            main { margin-left: 0; }
+            .mobile-menu-btn { display: block !important; }
+        }
+        @media (max-width: 768px) {
+            .header-links { display: none; }
+            header { padding: 0 1rem; }
+            .logo span { font-size: 1rem; }
+            .sidebar-nav-mobile { display: block !important; }
+        }
+        @media (max-width: 480px) {
+            .content-area { padding: 1.5rem 1rem; }
+            h1 { font-size: 1.8rem; }
+            .assessment-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <header>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Open navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="logo">
+            <img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo">
+            <span>Quantifi Playwright Assessments</span>
+        </div>
+        <div class="header-links">
+            <a href=".."><i class="fas fa-home"></i> Quantifi Home</a>
+            <a href="../docs">Docs</a>
+            <a href="../assignments">Assignments</a>
+        </div>
+    </header>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-container">
+        <aside id="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-nav-mobile nav-section" style="display:none; border-bottom:1px solid var(--border); margin-bottom:1.2rem; padding-bottom:1.2rem;">
+                    <h4>Navigate</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a class="nav-link" href=".."><i class="fas fa-home"></i> Quantifi Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../docs"><i class="fas fa-book-open"></i> Docs</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../assignments"><i class="fas fa-clipboard-list"></i> Assignments</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>JavaScript &amp; TypeScript</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a class="nav-link" href="day-01-javascript-fundamentals.html"><i class="fab fa-js"></i> Day 01 – JS Fundamentals <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-02-advanced-javascript.html"><i class="fab fa-js"></i> Day 02 – Advanced JS <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-03-typescript-essentials.html"><i class="fab fa-js"></i> Day 03 – TypeScript <span class="nav-badge">20Q</span></a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>Playwright Core</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a class="nav-link" href="day-04-playwright-introduction.html"><i class="fas fa-theater-masks"></i> Day 04 – Introduction <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-05-locators-element-selection.html"><i class="fas fa-crosshairs"></i> Day 05 – Locators <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-06-interactions-navigation.html"><i class="fas fa-mouse-pointer"></i> Day 06 – Interactions <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-07-playwright-test-runner.html"><i class="fas fa-play-circle"></i> Day 07 – Test Runner <span class="nav-badge">20Q</span></a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>AI-Augmented Testing</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a class="nav-link" href="day-08-ai-ides-mcp-agents.html"><i class="fas fa-robot"></i> Day 08 – AI IDEs &amp; MCP <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-09-generator-healer-agents.html"><i class="fas fa-magic"></i> Day 09 – Gen &amp; Healer Agents <span class="nav-badge">20Q</span></a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>Advanced Patterns</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a class="nav-link" href="day-10-api-testing.html"><i class="fas fa-plug"></i> Day 10 – API Testing <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-11-page-object-model.html"><i class="fas fa-layer-group"></i> Day 11 – Page Object Model <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-12-framework-libraries.html"><i class="fas fa-tools"></i> Day 12 – Framework & Libraries <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-13-bdd-cucumber.html"><i class="fas fa-seedling"></i> Day 13 – BDD &amp; Cucumber <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-14-reporting-cicd.html"><i class="fas fa-chart-bar"></i> Day 14 – Reporting &amp; CI/CD <span class="nav-badge">20Q</span></a></li>
+                        <li class="nav-item"><a class="nav-link" href="day-15-capstone-review.html"><i class="fas fa-graduation-cap"></i> Day 15 – Capstone Review <span class="nav-badge">25Q</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <main>
+            <div class="content-area">
+                <h1>Quantifi Playwright Assessments</h1>
+                <p class="intro-text">15-Day Playwright + AI Testing Program — Validate your knowledge each day with a timed MCQ quiz after completing the assignment.</p>
+
+                <div class="alert">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Complete each assessment <strong>after</strong> finishing the corresponding assignment on OrangeHRM. Pass mark is <strong>60%</strong> or higher.</span>
+                </div>
+
+                <div class="phase-strip phase-strip-p1">
+                    <span class="phase-strip-badge">Phase 1</span>
+                    <span class="phase-strip-title">JavaScript &amp; TypeScript</span>
+                    <span class="phase-strip-days">Days 1–3</span>
+                </div>
+                <div class="assessment-grid">
+                    <a class="acard acard-p1" href="day-01-javascript-fundamentals.html">
+                        <div class="card-day">Day 01</div>
+                        <div class="card-title">JavaScript Fundamentals</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p1" href="day-02-advanced-javascript.html">
+                        <div class="card-day">Day 02</div>
+                        <div class="card-title">Advanced JavaScript</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p1" href="day-03-typescript-essentials.html">
+                        <div class="card-day">Day 03</div>
+                        <div class="card-title">TypeScript Essentials</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                </div>
+
+                <div class="phase-strip phase-strip-p2">
+                    <span class="phase-strip-badge">Phase 2</span>
+                    <span class="phase-strip-title">Playwright Core</span>
+                    <span class="phase-strip-days">Days 4–7</span>
+                </div>
+                <div class="assessment-grid">
+                    <a class="acard acard-p2" href="day-04-playwright-introduction.html">
+                        <div class="card-day">Day 04</div>
+                        <div class="card-title">Playwright Introduction</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p2" href="day-05-locators-element-selection.html">
+                        <div class="card-day">Day 05</div>
+                        <div class="card-title">Locators &amp; Element Selection</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p2" href="day-06-interactions-navigation.html">
+                        <div class="card-day">Day 06</div>
+                        <div class="card-title">Interactions &amp; Navigation</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p2" href="day-07-playwright-test-runner.html">
+                        <div class="card-day">Day 07</div>
+                        <div class="card-title">Playwright Test Runner</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                </div>
+
+                <div class="phase-strip phase-strip-p3">
+                    <span class="phase-strip-badge">Phase 3</span>
+                    <span class="phase-strip-title">AI-Augmented Testing</span>
+                    <span class="phase-strip-days">Days 8–9</span>
+                </div>
+                <div class="assessment-grid">
+                    <a class="acard acard-p3" href="day-08-ai-ides-mcp-agents.html">
+                        <div class="card-day">Day 08</div>
+                        <div class="card-title">AI IDEs, MCP &amp; Planner Agents</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p3" href="day-09-generator-healer-agents.html">
+                        <div class="card-day">Day 09</div>
+                        <div class="card-title">Generator &amp; Healer Agents</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                </div>
+
+                <div class="phase-strip phase-strip-p4">
+                    <span class="phase-strip-badge">Phase 4</span>
+                    <span class="phase-strip-title">Advanced Patterns</span>
+                    <span class="phase-strip-days">Days 10–14</span>
+                </div>
+                <div class="assessment-grid">
+                    <a class="acard acard-p4" href="day-10-api-testing.html">
+                        <div class="card-day">Day 10</div>
+                        <div class="card-title">API Testing with Playwright</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p4" href="day-11-page-object-model.html">
+                        <div class="card-day">Day 11</div>
+                        <div class="card-title">Page Object Model</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p4" href="day-12-framework-libraries.html">
+                        <div class="card-day">Day 12</div>
+                        <div class="card-title">Framework &amp; Libraries</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p4" href="day-13-bdd-cucumber.html">
+                        <div class="card-day">Day 13</div>
+                        <div class="card-title">BDD &amp; Cucumber</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                    <a class="acard acard-p4" href="day-14-reporting-cicd.html">
+                        <div class="card-day">Day 14</div>
+                        <div class="card-title">Reporting &amp; CI/CD</div>
+                        <div class="card-meta"><span><i class="fas fa-question-circle"></i> 20 questions</span><span><i class="fas fa-clock"></i> 20 min</span></div>
+                    </a>
+                </div>
+
+                <!-- Capstone – special full-width card -->
+                <div class="phase-strip" style="background: linear-gradient(135deg, #fef3c7, #fde68a); border-left: 4px solid #f59e0b; margin-top: 2.5rem;">
+                    <span class="phase-strip-badge" style="background: #d97706;"><i class="fas fa-graduation-cap"></i> Capstone</span>
+                    <span class="phase-strip-title" style="color: #92400e;">Day 15 — Final Review</span>
+                    <span class="phase-strip-days">25 Questions · 30 min</span>
+                </div>
+                <div class="assessment-grid" style="grid-template-columns: 1fr;">
+                    <a class="acard acard-cap" href="day-15-capstone-review.html" style="flex-direction: row; align-items: center; gap: 1.5rem; padding: 1.8rem 2rem;">
+                        <div style="font-size: 3rem; flex-shrink: 0; opacity: 0.9;"><i class="fas fa-graduation-cap"></i></div>
+                        <div style="flex: 1;">
+                            <div class="card-day"><i class="fas fa-star"></i> Capstone Assessment</div>
+                            <div class="card-title" style="font-size: 1.3rem;">Day 15 — Capstone Review</div>
+                            <div class="card-meta"><span><i class="fas fa-question-circle"></i> 25 questions</span><span><i class="fas fa-clock"></i> 30 min</span><span><i class="fas fa-trophy"></i> Final challenge</span></div>
+                        </div>
+                        <div style="flex-shrink: 0; font-size: 0.95rem; font-weight: 700; opacity: 0.9;">Start <i class="fas fa-arrow-right"></i></div>
+                    </a>
+                </div>
+
+                <footer>&copy; 2026 VibeTestQ. All rights reserved.</footer>
+            </div>
+        </main>
+    </div>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebar-overlay').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

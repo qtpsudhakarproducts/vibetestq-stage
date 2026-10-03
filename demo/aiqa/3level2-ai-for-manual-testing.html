@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2 — AI for Manual Testing | VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+        .reveal { background: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 700; color: var(--vibe-dark-blue); }
+        .reveal h1 { font-size: 1.6em; margin-bottom: 0.15em; }
+        .reveal h2 { font-size: 1.25em; margin-bottom: 0.2em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.15em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.4; }
+        .reveal .slides section { padding: 6px 28px; box-sizing: border-box; }
+        .logo-corner { position: absolute; top: 10px; right: 20px; z-index: 100; }
+        .logo-corner img { width: 70px; height: auto; }
+        .title-slide { background: #ffffff !important; }
+        .title-slide h1 { font-size: 1.7em; color: var(--vibe-dark-blue); margin: 8px 0 6px; }
+        .title-slide .subtitle { font-size: 1.05em; color: var(--vibe-orange); margin: 6px 0; }
+        .title-slide .tagline { font-size: 0.9em; color: var(--vibe-blue); margin: 5px 0 10px; }
+        .chapter-slide { background: #1e3a8a !important; }
+        .chapter-slide h1 { color: #ffffff; font-size: 2.2em; margin-bottom: 10px; }
+        .chapter-slide h2 { color: #94a3b8; font-size: 1.3em; }
+        .chapter-slide i { color: var(--vibe-green); }
+        .content-box { background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+        .highlight-box { background: #fef3c7; border: 2px solid var(--vibe-yellow); padding: 6px 10px; margin: 4px auto; border-radius: 8px; max-width: 92%; }
+        .success-box { background: #f0fdf4; border-left: 4px solid var(--vibe-green); padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+        .warning-box { background: #fff7ed; border-left: 4px solid var(--vibe-orange); padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+        .danger-box { background: #fff1f2; border-left: 4px solid #ef4444; padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+        .reveal ul { list-style: none; margin: 5px 0; }
+        .reveal ul li { margin: 4px 0; padding-left: 30px; position: relative; text-align: left; font-size: 0.8em; line-height: 1.35; }
+        .reveal ul li:before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--vibe-green); font-size: 0.95em; position: absolute; left: 0; top: 1px; }
+        .reveal ul li.cross:before { content: "\f057"; color: #ef4444; }
+        .reveal ul li.warn:before  { content: "\f071"; color: var(--vibe-yellow); }
+        .reveal ul li.blue:before  { content: "\f058"; color: var(--vibe-blue); }
+        .reveal ul li.dot:before   { content: "\f111"; font-size: 0.45em; top: 6px; color: #94a3b8; }
+        .reveal ul li.red:before   { content: "\f057"; color: #ef4444; }
+        .reveal ul li.orange:before { content: "\f058"; color: var(--vibe-orange); }
+        .text-blue { color: var(--vibe-blue); } .text-green { color: var(--vibe-green); }
+        .text-orange { color: var(--vibe-orange); } .text-red { color: #ef4444; }
+        .text-purple { color: #9333ea; } .bold { font-weight: 700; }
+        .badge { display: inline-block; background: var(--vibe-orange); color: white; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 0.75em; margin: 3px; }
+        .badge.blue { background: var(--vibe-blue); } .badge.green { background: #16a34a; }
+        .badge.purple { background: #7c3aed; } .badge.grey { background: #64748b; }
+        .badge.red { background: #dc2626; }
+        .two-col   { display: grid; grid-template-columns: 1fr 1fr;       gap: 10px; margin: 6px 0; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 8px;  margin: 6px 0; }
+        .four-col  { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px;  margin: 6px 0; }
+        .compact  { font-size: 0.8em;  line-height: 1.35; }
+        .compact2 { font-size: 0.74em; line-height: 1.3; }
+        .icon-box { text-align: center; padding: 10px 8px; background: var(--vibe-light-bg); border-radius: 8px; }
+        .icon-box i { font-size: 1.5em; margin-bottom: 5px; display: block; }
+        .icon-box.blue   i { color: var(--vibe-blue); }   .icon-box.green  i { color: var(--vibe-green); }
+        .icon-box.orange i { color: var(--vibe-orange); } .icon-box.purple i { color: #9333ea; }
+        .icon-box.red    i { color: #ef4444; }             .icon-box.grey   i { color: #64748b; }
+        .flow-container { background: #f1f5f9; border-radius: 8px; padding: 10px; margin: 6px 0; }
+        .arrow-flow { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+        .arrow-flow .step { background: var(--vibe-blue); color: white; padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 0.65em; }
+        .arrow-flow .step.green  { background: #16a34a; }  .arrow-flow .step.orange { background: var(--vibe-orange); }
+        .arrow-flow .step.purple { background: #9333ea; }  .arrow-flow .step.grey   { background: #64748b; }
+        .arrow-flow .step.red    { background: #dc2626; }
+        .arrow-flow .arrow { color: var(--vibe-orange); font-size: 1.1em; font-weight: 700; }
+        .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.7em; margin: 6px 0; }
+        .cmp-table th { background: var(--vibe-blue); color: white; padding: 5px 8px; text-align: left; font-weight: 600; }
+        .cmp-table td { padding: 5px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+        .cmp-table tr:nth-child(even) td { background: var(--vibe-light-bg); }
+        .cmp-table .good { color: #16a34a; font-weight: 600; } .cmp-table .bad { color: #dc2626; font-weight: 600; }
+        .cmp-table .warn { color: var(--vibe-orange); font-weight: 600; }
+        .timeline { display: flex; justify-content: space-between; align-items: flex-start; position: relative; margin: 12px 0 6px; }
+        .timeline::before { content: ''; position: absolute; top: 16px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--vibe-orange), var(--vibe-blue), var(--vibe-green), #9333ea); }
+        .tl-node { text-align: center; flex: 1; position: relative; }
+        .tl-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.85em; position: relative; z-index: 1; }
+        .tl-dot.orange { background: #ffedd5; border: 3px solid var(--vibe-orange); }
+        .tl-dot.blue   { background: #dbeafe; border: 3px solid var(--vibe-blue); }
+        .tl-dot.green  { background: #dcfce7; border: 3px solid var(--vibe-green); }
+        .tl-dot.purple { background: #ede9fe; border: 3px solid #7c3aed; }
+        .tl-dot.active { background: var(--vibe-blue); border: 3px solid var(--vibe-dark-blue); }
+        .tl-label { font-size: 0.72em; font-weight: 700; color: var(--vibe-dark-blue); margin-bottom: 2px; }
+        .tl-sub   { font-size: 0.62em; color: #64748b; line-height: 1.3; }
+        .analogy-box { background: #eff6ff; border: 2px dashed var(--vibe-blue); border-radius: 8px; padding: 8px 14px; margin: 6px 0; font-size: 0.78em; }
+        .analogy-box .label { font-size: 0.7em; font-weight: 700; color: var(--vibe-orange); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+        .qa-example { background: #f0fdf4; border-left: 4px solid var(--vibe-green); border-radius: 6px; padding: 6px 12px; margin: 4px 0; font-size: 0.78em; }
+        .qa-example .label { font-size: 0.68em; font-weight: 700; color: #16a34a; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+        .vegcart-tag { display: inline-block; background: #14532d; color: #86efac; padding: 2px 8px; border-radius: 4px; font-size: 0.65em; font-weight: 700; margin-left: 6px; }
+        .new-tag { display: inline-block; background: #7c3aed; color: white; padding: 2px 7px; border-radius: 4px; font-size: 0.6em; font-weight: 700; margin-left: 4px; vertical-align: middle; }
+        /* MCP track cards */
+        .mcp-track { border-radius: 10px; padding: 14px 16px; }
+        .mcp-track.local  { background: #eff6ff; border: 2px solid var(--vibe-blue); }
+        .mcp-track.web    { background: #f0fdf4; border: 2px solid #16a34a; }
+        .mcp-track h3 { font-size: 0.9em; margin-bottom: 6px; }
+        .mcp-track p  { font-size: 0.7em; line-height: 1.35; color: #475569; margin: 0; }
+        /* Gherkin syntax highlight */
+        .gherkin-block { background: #0d1117; border-radius: 8px; padding: 12px 16px; font-family: 'Consolas', monospace; font-size: 0.62em; color: #c9d1d9; text-align: left; white-space: pre; line-height: 1.7; margin: 6px 0; }
+        /* type spectrum strip */
+        .type-strip { display: flex; border-radius: 8px; overflow: hidden; margin: 8px 0; }
+        .type-strip .ts-item { flex: 1; text-align: center; padding: 8px 4px; font-size: 0.65em; font-weight: 700; }
+        .ts-item.done  { background: #dcfce7; color: #16a34a; }
+        .ts-item.now   { background: var(--vibe-blue); color: white; }
+        .ts-item.next  { background: #f1f5f9; color: #94a3b8; }
+        .ts-item .ts-icon { font-size: 1.3em; display: block; margin-bottom: 3px; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ SLIDE 1 — TITLE -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:560px;width:86%;margin:0 auto 10px;display:block;" onerror="this.style.display='none'">
+    <h1>Level 2 — AI for Manual Testing</h1>
+    <p class="subtitle">Every manual QA task — faster, smarter, connected</p>
+    <p class="tagline">5 Days &nbsp;·&nbsp; MCP · Gherkin · Agents · Test Data · AI Toolkit &nbsp;·&nbsp; Veg Cart App</p>
+    <div style="margin-top:10px;">
+        <span class="badge"><i class="fas fa-plug"></i> MCP</span>
+        <span class="badge blue"><i class="fas fa-leaf"></i> Gherkin</span>
+        <span class="badge green"><i class="fas fa-robot"></i> AI Agents</span>
+        <span class="badge purple"><i class="fas fa-shopping-basket"></i> Veg Cart</span>
+    </div>
+    <p class="tagline" style="margin-top:10px;font-size:0.82em;">
+        <strong>Sudhakar Kakunuri (qtpsudhakar)</strong> &nbsp;|&nbsp; 21+ Years · 10,000+ Engineers Trained
+    </p>
+</section>
+
+<!-- ============================================================ SLIDE 2 — WHERE WE ARE -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Where We Are in the Journey</h2>
+    <div class="timeline" style="margin-top:18px;">
+        <div class="tl-node">
+            <div class="tl-dot" style="background:#dcfce7;border:3px solid #16a34a;">✅</div>
+            <div class="tl-label" style="color:#16a34a;">Level 1</div>
+            <div class="tl-sub">Understanding AI<br><strong style="color:#16a34a;">Complete</strong></div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot active" style="color:white;font-size:0.7em;font-weight:700;">NOW</div>
+            <div class="tl-label" style="color:var(--vibe-blue);">Level 2</div>
+            <div class="tl-sub">AI for Manual Testing<br><strong style="color:var(--vibe-blue);">You are here</strong></div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot" style="background:#f1f5f9;border:3px solid #cbd5e1;">⚙️</div>
+            <div class="tl-label" style="color:#94a3b8;">Level 3</div>
+            <div class="tl-sub">AI for Automation<br><strong style="color:#94a3b8;">16 days</strong></div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot" style="background:#f1f5f9;border:3px solid #cbd5e1;">🏛️</div>
+            <div class="tl-label" style="color:#94a3b8;">Level 4</div>
+            <div class="tl-sub">QA Workflows for AI SDLC<br><strong style="color:#94a3b8;">5 days</strong></div>
+        </div>
+    </div>
+    <div class="type-strip" style="margin-top:16px;">
+        <div class="ts-item done"><span class="ts-icon">🧱</span>Type 1<br>No AI yet</div>
+        <div class="ts-item done"><span class="ts-icon">💬</span>Type 2<br>Chat only</div>
+        <div class="ts-item now"><span class="ts-icon">🤝</span>Type 3<br>AI-Assisted ← You</div>
+        <div class="ts-item next"><span class="ts-icon">🏗️</span>Type 4<br>Workflow Designer</div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact bold text-blue" style="text-align:center;">Level 1 gave you the understanding. Level 2 connects AI to your real QA workflow — every day, every task.</p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 3 — VEG CART APP -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Our Sample Application — Veg Cart 🛒</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">One app. All 5 days. Every example, every feature file, every bug report — connected.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>What is Veg Cart?</h3>
+            <p class="compact">An online vegetable ordering platform. Users browse vegetables, add to cart with quantity selection, apply discount coupons, and checkout with delivery address.</p>
+            <ul style="margin-top:6px;">
+                <li>Browse &amp; search vegetables by category</li>
+                <li>Add to cart with quantity</li>
+                <li>Apply coupon codes</li>
+                <li>Guest &amp; registered checkout</li>
+                <li>Delivery address &amp; slot selection</li>
+            </ul>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>How we use it across Level 2</h3>
+                <table class="cmp-table" style="margin-top:4px;">
+                    <thead><tr><th>Day</th><th>Veg Cart scenario</th></tr></thead>
+                    <tbody>
+                        <tr><td><strong>Day 1</strong></td><td>Browse vegcart.com via Playwright MCP</td></tr>
+                        <tr><td><strong>Day 2</strong></td><td>Requirement → Feature file for Add to Cart</td></tr>
+                        <tr><td><strong>Day 3</strong></td><td>AI agent explores checkout edge cases</td></tr>
+                        <tr><td><strong>Day 4</strong></td><td>Generate test data + report a coupon bug</td></tr>
+                        <tr><td><strong>Day 5</strong></td><td>Full toolkit organised around Veg Cart</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ CHAPTER 1 — MCP -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-plug" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>MCP in VS Code</h1>
+        <h2>Model Context Protocol — Connecting AI to Your World</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">What MCP is · Local vs WebMCP · npm basics · Configuration · Filesystem &amp; Playwright MCP</p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 4 — WHAT IS MCP -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What is MCP — and Why It Matters Now</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 Analogy</div>
+        <p class="compact bold">MCP is the USB-C of AI. Before USB-C, every device had a different cable. MCP gives AI one standard way to connect to any tool — Jira, GitHub, your filesystem, a live browser, Confluence, Slack — all through the same protocol.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ Claude without MCP</h3>
+            <ul>
+                <li class="red">Only knows what you paste into the chat</li>
+                <li class="red">Cannot read your files</li>
+                <li class="red">Cannot browse your application</li>
+                <li class="red">Cannot interact with Jira or GitHub</li>
+                <li class="red">Works in isolation from your real tools</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>✅ Claude with MCP</h3>
+            <ul>
+                <li>Reads your project files directly</li>
+                <li>Browses and interacts with your live app</li>
+                <li>Creates Jira tickets, reads GitHub issues</li>
+                <li>Has full context — not just what you paste</li>
+                <li>Acts as a true QA collaborator in your workflow</li>
+            </ul>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:6px;">
+        <p class="compact"><strong class="text-green">Industry shift:</strong> MCP is now an open standard adopted by OpenAI, Google, and Microsoft — not just Anthropic. It is becoming the universal protocol for AI-tool integration. <span class="new-tag">2025</span></p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 5 — LOCAL vs WEBMCP -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Local MCP vs WebMCP — Two Tracks</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">Both use the same protocol. The difference is where the server runs — and who can access it.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="mcp-track local">
+            <div style="text-align:center;margin-bottom:8px;">
+                <i class="fas fa-laptop" style="font-size:1.8em;color:var(--vibe-blue);"></i>
+                <h3 style="color:var(--vibe-dark-blue);margin-top:4px;">Local MCP</h3>
+            </div>
+            <table class="cmp-table">
+                <tbody>
+                    <tr><td><strong>Runs on</strong></td><td>Your machine</td></tr>
+                    <tr><td><strong>Access via</strong></td><td>Claude Desktop config file</td></tr>
+                    <tr><td><strong>Who uses it</strong></td><td>Just you</td></tr>
+                    <tr><td><strong>Setup</strong></td><td>npm install + config JSON</td></tr>
+                    <tr><td><strong>Best for</strong></td><td>Local files, Playwright, learning</td></tr>
+                </tbody>
+            </table>
+            <div style="text-align:center;margin-top:8px;"><span class="badge blue">What we build today</span></div>
+        </div>
+        <div class="mcp-track web">
+            <div style="text-align:center;margin-bottom:8px;">
+                <i class="fas fa-globe" style="font-size:1.8em;color:#16a34a;"></i>
+                <h3 style="color:var(--vibe-dark-blue);margin-top:4px;">WebMCP <span class="new-tag">New</span></h3>
+            </div>
+            <table class="cmp-table">
+                <tbody>
+                    <tr><td><strong>Runs on</strong></td><td>Hosted server / cloud URL</td></tr>
+                    <tr><td><strong>Access via</strong></td><td>URL in Claude.ai settings — no Desktop needed</td></tr>
+                    <tr><td><strong>Who uses it</strong></td><td>Anyone with access — team-shareable</td></tr>
+                    <tr><td><strong>Setup</strong></td><td>Just a URL — connect instantly</td></tr>
+                    <tr><td><strong>Best for</strong></td><td>Jira, GitHub, Confluence, Slack, team workflows</td></tr>
+                </tbody>
+            </table>
+            <div style="text-align:center;margin-top:8px;"><span class="badge green">Where teams are heading</span></div>
+        </div>
+    </div>
+    <div class="flow-container" style="margin-top:8px;">
+        <div class="arrow-flow">
+            <div class="step">Learn with Local MCP</div>
+            <div class="arrow">→</div>
+            <div class="step green">Scale with WebMCP</div>
+            <div class="arrow">→</div>
+            <div class="step purple">Team-wide AI workflows</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 6 — MCP ECOSYSTEM -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>The MCP Ecosystem <span class="new-tag">2025</span></h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">MCP is not just two servers. It is a growing registry of connectors — AI can now plug into your entire QA toolchain.</p>
+    </div>
+    <div class="four-col" style="margin-top:10px;">
+        <div class="icon-box orange">
+            <i class="fas fa-folder-open"></i>
+            <h3>Filesystem</h3>
+            <p class="compact2">Read/write your local project files. Claude sees your feature files, test data, Skills.md</p>
+            <span class="badge" style="font-size:0.58em;margin-top:4px;">Local</span>
+        </div>
+        <div class="icon-box green">
+            <i class="fas fa-theater-masks"></i>
+            <h3>Playwright MCP</h3>
+            <p class="compact2">Browse and interact with your live application. Powers AI exploratory testing</p>
+            <span class="badge" style="font-size:0.58em;margin-top:4px;">Local</span>
+        </div>
+        <div class="icon-box blue">
+            <i class="fab fa-github"></i>
+            <h3>GitHub</h3>
+            <p class="compact2">Read issues, PRs, and code. Create issues from bug reports automatically</p>
+            <span class="badge blue" style="font-size:0.58em;margin-top:4px;">WebMCP</span>
+        </div>
+        <div class="icon-box purple">
+            <i class="fab fa-jira"></i>
+            <h3>Jira</h3>
+            <p class="compact2">Create tickets, update status, read requirements directly from Claude</p>
+            <span class="badge purple" style="font-size:0.58em;margin-top:4px;">WebMCP</span>
+        </div>
+    </div>
+    <div class="four-col" style="margin-top:6px;">
+        <div class="icon-box blue">
+            <i class="fab fa-confluence"></i>
+            <h3>Confluence</h3>
+            <p class="compact2">Read requirements docs and test plans directly into Claude's context</p>
+            <span class="badge blue" style="font-size:0.58em;margin-top:4px;">WebMCP</span>
+        </div>
+        <div class="icon-box green">
+            <i class="fab fa-slack"></i>
+            <h3>Slack</h3>
+            <p class="compact2">Read bug discussion threads, post summaries, notify teams of test results</p>
+            <span class="badge green" style="font-size:0.58em;margin-top:4px;">WebMCP</span>
+        </div>
+        <div class="icon-box orange">
+            <i class="fas fa-database"></i>
+            <h3>Databases</h3>
+            <p class="compact2">Query test data directly. Validate database state after test runs</p>
+            <span class="badge" style="font-size:0.58em;margin-top:4px;">Local/Web</span>
+        </div>
+        <div class="icon-box grey">
+            <i class="fas fa-plus-circle"></i>
+            <h3>And more...</h3>
+            <p class="compact2">Linear, Notion, Google Drive, Figma — the registry grows every week</p>
+            <span class="badge grey" style="font-size:0.58em;margin-top:4px;">Registry</span>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 7 — npm npx -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>npm, npx &amp; package.json — Just Enough</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 Analogy</div>
+        <p class="compact bold">npm is an app store for code tools. package.json is your shopping list. npx runs a tool directly without installing it permanently — like ordering food delivery instead of buying groceries.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>The 3 commands you need</h3>
+                <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.64em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.8;margin:6px 0;"><span style="color:#94a3b8;"># Install a package permanently</span>
+<span style="color:#f472b6;">npm</span> <span style="color:#86efac;">install</span> @playwright/mcp
+
+<span style="color:#94a3b8;"># Run a package once without installing</span>
+<span style="color:#f472b6;">npx</span> <span style="color:#86efac;">@playwright/mcp</span>
+
+<span style="color:#94a3b8;"># See what's installed</span>
+<span style="color:#f472b6;">npm</span> <span style="color:#86efac;">list</span></div>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);">
+                <h3>package.json — your project's shopping list</h3>
+                <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.62em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.7;margin:6px 0;">{
+  <span style="color:#fbbf24;">"name"</span>: <span style="color:#86efac;">"vegcart-qa-toolkit"</span>,
+  <span style="color:#fbbf24;">"dependencies"</span>: {
+    <span style="color:#fbbf24;">"@playwright/mcp"</span>: <span style="color:#86efac;">"latest"</span>
+  }
+}</div>
+            </div>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">QA Tip</div>
+                <p>You don't need to understand how npm works internally. You need to run 3 commands confidently. That's it.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 8 — CLAUDE DESKTOP CONFIG -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Claude Desktop &amp; MCP Configuration</h2>
+    <div class="two-col">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>Setup flow — step by step</h3>
+                <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+                    <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:6px;padding:5px 8px;font-size:0.72em;">
+                        <div style="background:var(--vibe-orange);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:0.85em;">1</div>
+                        <span>Install Claude Desktop from claude.ai/download</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:6px;padding:5px 8px;font-size:0.72em;">
+                        <div style="background:var(--vibe-blue);color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:0.85em;">2</div>
+                        <span>Open Settings → Developer → Edit Config</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:6px;padding:5px 8px;font-size:0.72em;">
+                        <div style="background:#16a34a;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:0.85em;">3</div>
+                        <span>Add your MCP server entries to the config file</span>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:6px;padding:5px 8px;font-size:0.72em;">
+                        <div style="background:#9333ea;color:white;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:0.85em;">4</div>
+                        <span>Restart Claude Desktop — verify tools appear</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>The config file structure</h3>
+            <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.58em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">{
+  <span style="color:#fbbf24;">"mcpServers"</span>: {
+    <span style="color:#fbbf24;">"filesystem"</span>: {
+      <span style="color:#fbbf24;">"command"</span>: <span style="color:#86efac;">"npx"</span>,
+      <span style="color:#fbbf24;">"args"</span>: [
+        <span style="color:#86efac;">"-y"</span>,
+        <span style="color:#86efac;">"@modelcontextprotocol/server-filesystem"</span>,
+        <span style="color:#86efac;">"/Users/you/vegcart-qa"</span>
+      ]
+    },
+    <span style="color:#fbbf24;">"playwright"</span>: {
+      <span style="color:#fbbf24;">"command"</span>: <span style="color:#86efac;">"npx"</span>,
+      <span style="color:#fbbf24;">"args"</span>: [<span style="color:#86efac;">"@playwright/mcp"</span>]
+    }
+  }
+}</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 9 — FILESYSTEM + PLAYWRIGHT MCP -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Filesystem MCP &amp; Playwright MCP <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Filesystem MCP — Claude reads your project</h3>
+            <p class="compact">Claude can now read every file in your Veg Cart QA folder — feature files, test data, Skills.md, bug reports — without you pasting anything.</p>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">Veg Cart example</div>
+                <p>"Read the add-to-cart.feature file and generate 3 additional edge case scenarios I may have missed."</p>
+            </div>
+            <ul style="margin-top:6px;">
+                <li>No more copy-pasting file contents into chat</li>
+                <li>AI has full project context at all times</li>
+                <li>Skills.md loaded automatically every session</li>
+            </ul>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);">
+                <h3>Playwright MCP — Claude browses your app</h3>
+                <p class="compact">Claude opens a browser, navigates to Veg Cart, interacts with it, and reports what it finds.</p>
+                <div class="qa-example" style="margin-top:6px;">
+                    <div class="label">Veg Cart example</div>
+                    <p>"Browse vegcart.com. Add 3 carrots and 2 tomatoes to cart. Apply coupon SAVE10. Report the total shown."</p>
+                </div>
+                <ul style="margin-top:4px;">
+                    <li>Live app exploration without writing scripts</li>
+                    <li>Foundation for AI exploratory testing (Day 3)</li>
+                </ul>
+            </div>
+            <div class="warning-box" style="margin-top:6px;">
+                <p class="compact"><strong style="color:var(--vibe-orange);">⚠️ MCP Security:</strong> Only connect MCP to trusted sources. Never point Filesystem MCP at sensitive directories. Never connect to an MCP server you don't own or trust.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ CHAPTER 2 — REQUIREMENTS -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-file-alt" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Requirements Analysis &amp; Gherkin</h1>
+        <h2>From Requirements to Feature Files — with AI</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Ambiguity Detection · Test Case Design · Gherkin Syntax · Generating .feature Files</p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 10 — REQUIREMENTS ANALYSIS -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Requirements Analysis with AI <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);">
+                <h3>What AI can do with a requirement</h3>
+                <ul>
+                    <li>Summarise into plain-English acceptance criteria</li>
+                    <li>Extract implied rules that aren't written explicitly</li>
+                    <li>Identify missing scenarios</li>
+                    <li>Flag contradictions between requirements</li>
+                </ul>
+            </div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);margin-top:6px;">
+                <h3>✅ QA Superpower — Ambiguity Detection <span class="new-tag">New</span></h3>
+                <p class="compact">AI flags requirements that are untestable, contradictory, or missing acceptance criteria — <strong>before anyone writes a single test.</strong></p>
+                <div class="qa-example" style="margin-top:6px;">
+                    <div class="label">Veg Cart example</div>
+                    <p>Requirement: <em>"User can apply a discount"</em><br>
+                    AI flags: <em>"No maximum discount defined. No rules for expired coupons. No behaviour defined when coupon is invalid."</em></p>
+                </div>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Prompt pattern for requirements analysis</h3>
+            <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.6em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">Act as a senior QA engineer.
+
+Analyse this requirement:
+"Users can add vegetables to cart
+with quantity selection. Maximum
+10 items per vegetable type."
+
+Identify:
+1. Explicit acceptance criteria
+2. Ambiguous or missing rules
+3. Edge cases not covered
+4. Any contradictions</div>
+            <p class="compact" style="margin-top:6px;color:#64748b;">This one prompt replaces a 30-minute requirements review meeting.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 11 — REQ TO TEST WORKFLOW -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>From Requirement to Feature File — The AI Pipeline</h2>
+    <div class="flow-container" style="margin-top:10px;">
+        <p class="compact bold text-blue" style="text-align:center;margin-bottom:8px;">Not a one-shot prompt — a connected pipeline</p>
+        <div class="arrow-flow">
+            <div class="step orange">Requirement<br><span style="font-weight:400;font-size:0.85em;">raw text</span></div>
+            <div class="arrow">→</div>
+            <div class="step">Ambiguity Check<br><span style="font-weight:400;font-size:0.85em;">AI flags gaps</span></div>
+            <div class="arrow">→</div>
+            <div class="step purple">Acceptance Criteria<br><span style="font-weight:400;font-size:0.85em;">explicit rules</span></div>
+            <div class="arrow">→</div>
+            <div class="step">Test Scenarios<br><span style="font-weight:400;font-size:0.85em;">tabular or Gherkin</span></div>
+            <div class="arrow">→</div>
+            <div class="step green">.feature File<br><span style="font-weight:400;font-size:0.85em;">ready for Level 3</span></div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Tabular format — for Jira</h3>
+            <table class="cmp-table" style="margin-top:4px;">
+                <thead><tr><th>ID</th><th>Scenario</th><th>Expected</th></tr></thead>
+                <tbody>
+                    <tr><td>TC01</td><td>Add 3 carrots to cart</td><td>Cart shows 3 carrots</td></tr>
+                    <tr><td>TC02</td><td>Add 11 tomatoes (over limit)</td><td>Error: max 10 per item</td></tr>
+                    <tr><td>TC03</td><td>Add same veg twice</td><td>Quantities combine</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Gherkin format — for automation</h3>
+            <div class="gherkin-block"><span style="color:#f472b6;">Feature:</span> <span style="color:#fbbf24;">Add to Cart</span>
+  <span style="color:#f472b6;">Scenario:</span> <span style="color:#fbbf24;">Add vegetable within limit</span>
+    <span style="color:#60a5fa;">Given</span> I am on the vegetables page
+    <span style="color:#60a5fa;">When</span>  I add 3 carrots to my cart
+    <span style="color:#60a5fa;">Then</span>  the cart shows 3 carrots</div>
+            <p class="compact" style="color:#64748b;">Format is your choice — tell AI which one in the prompt</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 12 — TEST CASE DESIGN -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Test Case Design — Tabular vs Gherkin</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">Both are generated by AI. You choose the format based on what you need it for.</p>
+    </div>
+    <table class="cmp-table" style="margin-top:10px;">
+        <thead>
+            <tr><th></th><th>📋 Tabular Format</th><th>🥒 Gherkin Format</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Best for</strong></td><td>Jira tickets, test plans, manual execution</td><td>Automation, BDD, developer collaboration</td></tr>
+            <tr><td><strong>Structure</strong></td><td>ID, Title, Steps, Expected Result</td><td>Feature, Scenario, Given, When, Then</td></tr>
+            <tr><td><strong>Readable by</strong></td><td>QA, PM, Stakeholders</td><td>QA, Dev, Business Analyst — everyone</td></tr>
+            <tr><td><strong>Used in</strong></td><td>Level 2 manual testing toolkit</td><td>Level 2 toolkit + Level 3 Cucumber BDD</td></tr>
+            <tr><td><strong>Prompt trigger</strong></td><td>"Return as a markdown table"</td><td>"Return as a Gherkin .feature file"</td></tr>
+        </tbody>
+    </table>
+    <div class="success-box" style="margin-top:8px;">
+        <p class="compact"><strong class="text-green">The Gherkin files you generate in Level 2</strong> are the exact input files that Cucumber BDD uses in Level 3. You are not doing double work — you are building the foundation.</p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 13 — GHERKIN SYNTAX -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Gherkin Syntax — Feature, Scenario, Given, When, Then</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">Given = precondition (the state before the action). When = the action the user takes. Then = the expected result you are asserting. You have been writing these mentally your whole career — Gherkin just gives them a formal structure.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="gherkin-block"><span style="color:#94a3b8;"># Full feature file anatomy</span>
+<span style="color:#f472b6;">Feature:</span> <span style="color:#fbbf24;">Veg Cart — Add to Cart</span>
+  <span style="color:#94a3b8;">As a customer</span>
+  <span style="color:#94a3b8;">I want to add vegetables to my cart</span>
+  <span style="color:#94a3b8;">So I can proceed to checkout</span>
+
+  <span style="color:#f472b6;">Scenario:</span> <span style="color:#fbbf24;">Add within quantity limit</span>
+    <span style="color:#60a5fa;">Given</span> I am on the Veg Cart homepage
+    <span style="color:#60a5fa;">When</span>  I select Carrots and set qty to 5
+    <span style="color:#60a5fa;">Then</span>  the cart badge shows 5 items
+    <span style="color:#60a5fa;">And</span>   the cart total updates correctly</div>
+        </div>
+        <div>
+            <div class="gherkin-block"><span style="color:#94a3b8;"># Scenario Outline for data-driven</span>
+<span style="color:#f472b6;">Scenario Outline:</span> <span style="color:#fbbf24;">Quantity limit validation</span>
+    <span style="color:#60a5fa;">Given</span> I am on the vegetables page
+    <span style="color:#60a5fa;">When</span>  I try to add &lt;quantity&gt; of &lt;veg&gt;
+    <span style="color:#60a5fa;">Then</span>  I should see &lt;message&gt;
+
+  <span style="color:#f472b6;">Examples:</span>
+    | quantity | veg     | message         |
+    | 5        | Carrot  | Added to cart   |
+    | 10       | Tomato  | Added to cart   |
+    | 11       | Potato  | Max 10 per item |</div>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">Key Gherkin rules</div>
+                <p>One <strong>Feature</strong> per file. Multiple <strong>Scenarios</strong> per feature. <strong>And / But</strong> extend Given, When, or Then. <strong>Scenario Outline</strong> runs the same scenario with different data.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 14 — GENERATING FEATURE FILES -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Generating .feature Files with AI <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Prompt pattern that works</h3>
+            <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.58em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">Act as a senior QA engineer for Veg Cart.
+
+Requirement:
+"Users can apply a coupon code at
+checkout. Valid coupons give 10%
+discount. Invalid coupons show error.
+Each coupon can only be used once."
+
+Generate a Gherkin .feature file
+covering: happy path, invalid coupon,
+expired coupon, already-used coupon,
+and empty coupon field.
+Use Scenario Outline where applicable.</div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);">
+                <h3>Common AI mistakes in Gherkin — catch these</h3>
+                <ul>
+                    <li class="red">Generic scenario names — "Test coupon" instead of "Apply valid 10% discount coupon"</li>
+                    <li class="red">Missing negative scenarios — happy path only</li>
+                    <li class="red">Vague Then steps — "page updates" instead of "discount of ₹45 is shown"</li>
+                    <li class="warn">Over-specific selectors in steps — steps should describe behaviour, not UI elements</li>
+                </ul>
+            </div>
+            <div class="success-box" style="margin-top:6px;">
+                <p class="compact"><strong class="text-green">Iterative prompt:</strong> After generating, ask — "Review these scenarios. Are any negative paths missing? Are the Then steps specific enough to be automatable?"</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+</div><!-- ============================================================ CHAPTER 3 — EXPLORATORY TESTING -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-binoculars" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Exploratory Testing with MCP &amp; AI Agents</h1>
+        <h2>Your instinct. AI's speed. Together.</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">AI Era Exploration · MCP Live Browsing · Agents · Structured Capture</p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 15 — EXPLORATORY TESTING IN AI ERA -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Exploratory Testing in the AI Era</h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);">
+                <h3>What hasn't changed</h3>
+                <ul>
+                    <li>Charter-based exploration still applies</li>
+                    <li>Your testing instinct guides the mission</li>
+                    <li>Human judgement evaluates what matters</li>
+                    <li>Domain knowledge shapes what to look for</li>
+                </ul>
+            </div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);margin-top:6px;">
+                <h3>What has changed</h3>
+                <ul>
+                    <li>AI <strong>executes</strong> the charter — you define the mission</li>
+                    <li>AI explores 10× faster than manual browsing</li>
+                    <li>AI captures structured output automatically</li>
+                    <li>AI finds patterns across pages you haven't visited</li>
+                </ul>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>The new QA + AI exploration model</h3>
+            <div class="flow-container" style="margin-top:6px;">
+                <div class="arrow-flow" style="flex-direction:column;gap:4px;">
+                    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <div class="step orange" style="font-size:0.6em;min-width:90px;text-align:center;">You: Charter</div>
+                        <span style="font-size:0.65em;color:#64748b;">"Explore Veg Cart checkout for edge cases"</span>
+                    </div>
+                    <div style="padding-left:40px;color:var(--vibe-orange);">↓</div>
+                    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <div class="step" style="font-size:0.6em;min-width:90px;text-align:center;">AI: Executes</div>
+                        <span style="font-size:0.65em;color:#64748b;">Browses app, tries scenarios, interacts with UI</span>
+                    </div>
+                    <div style="padding-left:40px;color:var(--vibe-orange);">↓</div>
+                    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <div class="step green" style="font-size:0.6em;min-width:90px;text-align:center;">You: Review</div>
+                        <span style="font-size:0.65em;color:#64748b;">Assess findings, add QA judgement, raise bugs</span>
+                    </div>
+                </div>
+            </div>
+            <div class="analogy-box" style="margin-top:8px;">
+                <div class="label">🎓 Analogy</div>
+                <p class="compact">You are the test lead designing the charter. AI is the junior tester executing it — fast, thorough, and tireless. You review the output and decide what matters.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 16 — MCP LIVE BROWSING -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>MCP-Connected Claude for Live App Browsing <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">This is not automation. Claude is not running a test script. It is exploring the app — observing, interacting, and reporting — exactly as a human would.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>What Claude + Playwright MCP can do</h3>
+            <ul>
+                <li>Open any URL in a real browser</li>
+                <li>Click, type, scroll, select — full interaction</li>
+                <li>Take and analyse screenshots</li>
+                <li>Report unexpected behaviours as it finds them</li>
+                <li>Follow a charter or explore freely</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Veg Cart live exploration prompt</h3>
+            <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.6em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">Browse vegcart.com.
+
+Charter: Explore the checkout flow.
+Focus on:
+- Coupon code application
+- Price calculation accuracy
+- Behaviour with empty cart
+- Guest vs logged-in differences
+
+Report any unexpected behaviour,
+UI inconsistencies, or missing
+validations you find.</div>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:6px;">
+        <p class="compact"><strong class="text-green">Industry update:</strong> Browser use agents have matured significantly in 2025. Vision-based testing — where the agent looks at a screenshot and asserts UI correctness — is now production-ready. <span class="new-tag">2025</span></p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 17 — AI AGENTS FLOW -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>AI Agents for Active Exploration</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">One agent orchestrates others. You direct the Planner — everything else follows.</p>
+    </div>
+    <div class="three-col" style="margin-top:12px;">
+        <div class="agent-box agent-planner">
+            <i class="fas fa-project-diagram" style="color:var(--vibe-orange);"></i>
+            <h3 style="color:var(--vibe-dark-blue);">Planner Agent</h3>
+            <p>Receives your charter. Breaks it into specific exploration tasks. Decides what to test and in what order.</p>
+            <div style="margin-top:8px;"><span class="badge" style="font-size:0.6em;">You direct this one</span></div>
+        </div>
+        <div class="agent-box agent-explorer">
+            <i class="fas fa-robot" style="color:var(--vibe-blue);"></i>
+            <h3 style="color:var(--vibe-dark-blue);">Explorer Agent</h3>
+            <p>Executes the plan. Opens Veg Cart via Playwright MCP. Interacts with the app. Captures screenshots and observations.</p>
+            <div style="margin-top:8px;"><span class="badge blue" style="font-size:0.6em;">AI executes</span></div>
+        </div>
+        <div class="agent-box agent-reporter">
+            <i class="fas fa-clipboard-list" style="color:#16a34a;"></i>
+            <h3 style="color:var(--vibe-dark-blue);">Reporter Agent</h3>
+            <p>Structures the exploration output. Formats findings into a QA-ready report. Flags anomalies for human review.</p>
+            <div style="margin-top:8px;"><span class="badge green" style="font-size:0.6em;">AI reports</span></div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>Multi-agent direction <span class="new-tag">2025</span></h3>
+            <p class="compact">Teams are now running Planner → Explorer → Reporter pipelines in production. One charter generates a structured test report with screenshots and suggested bug reports — with minimal human intervention during execution.</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Your role remains critical</h3>
+            <ul>
+                <li>Write a precise, meaningful charter</li>
+                <li>Review all findings before raising bugs</li>
+                <li>Add domain judgement — AI doesn't know your business rules</li>
+                <li>Decide what is a real bug vs expected behaviour</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 18 — STRUCTURED CAPTURE -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Structured Exploration Capture <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>What gets captured</h3>
+                <ul>
+                    <li>Pages visited and navigation path taken</li>
+                    <li>Actions performed and responses observed</li>
+                    <li>Screenshots at key decision points</li>
+                    <li>Anomalies and unexpected behaviours</li>
+                    <li>Missing validations or UI inconsistencies</li>
+                </ul>
+            </div>
+            <div class="warning-box" style="margin-top:6px;">
+                <p class="compact"><strong style="color:var(--vibe-orange);">Why structure matters:</strong> Unstructured exploration output is noise. Structured output becomes an artifact — saved to your toolkit folder, feeding Level 3 automation generation.</p>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Example structured output — Veg Cart checkout exploration</h3>
+            <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.58em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;"><span style="color:#fbbf24;"># Exploration Session: Veg Cart Checkout</span>
+<span style="color:#fbbf24;">Date:</span> 2025-01-15
+<span style="color:#fbbf24;">Charter:</span> Explore coupon code behaviour
+
+<span style="color:#fbbf24;">## Pages Visited</span>
+- /cart → /checkout → /payment
+
+<span style="color:#fbbf24;">## Findings</span>
+❌ COUPON-01: Invalid coupon shows no
+   error message — field just clears
+⚠️ COUPON-02: 10% discount applied
+   before delivery charge — total
+   calculation appears incorrect
+✅ COUPON-03: Valid coupon SAVE10
+   applies correctly to subtotal
+
+<span style="color:#fbbf24;">## Suggested test cases: 4</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 19 — EXPLORATION CHARTER WORKFLOW -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Exploration Charter + AI — A Complete QA Workflow <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="flow-container" style="margin-top:8px;">
+        <div class="arrow-flow">
+            <div class="step orange">1. Write Charter<br><span style="font-weight:400;font-size:0.85em;">define the mission</span></div>
+            <div class="arrow">→</div>
+            <div class="step">2. Give to Claude + MCP<br><span style="font-weight:400;font-size:0.85em;">AI browses Veg Cart</span></div>
+            <div class="arrow">→</div>
+            <div class="step purple">3. Review Output<br><span style="font-weight:400;font-size:0.85em;">structured findings</span></div>
+            <div class="arrow">→</div>
+            <div class="step green">4. Add QA Judgement<br><span style="font-weight:400;font-size:0.85em;">raise real bugs</span></div>
+            <div class="arrow">→</div>
+            <div class="step" style="background:#334155;">5. Save to Toolkit<br><span style="font-weight:400;font-size:0.85em;">feeds Level 3</span></div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Good charter — Veg Cart example</h3>
+            <div style="background:#0d1117;border-radius:8px;padding:8px 12px;font-family:Consolas,monospace;font-size:0.6em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:4px 0;">Charter: Explore Veg Cart add-to-cart
+Time box: 20 minutes
+Focus areas:
+  - Quantity boundary (1, 10, 11, 0)
+  - Same item added twice
+  - Cart persistence after page refresh
+  - Out-of-stock item behaviour
+Output: Structured findings + screenshots</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>What makes a charter effective</h3>
+            <ul>
+                <li>Specific focus area — not "test the whole app"</li>
+                <li>Clear scope boundaries</li>
+                <li>Explicit output format requested</li>
+                <li>Tied to a business risk or user journey</li>
+            </ul>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">QA Tip</div>
+                <p>A charter you would give a junior tester is a charter you can give an AI agent. The same precision applies.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ CHAPTER 4 — TEST DATA & BUG REPORTING -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-database" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Test Data Generation &amp; Bug Reporting</h1>
+        <h2>Synthetic data · Privacy · Bug reports · Defect patterns</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">JSON · CSV · SQL · DPDP Act · Root Cause · Defect Clustering</p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 20 — TEST DATA GENERATION -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Test Data Generation — JSON, CSV, SQL <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>JSON — for API testing &amp; fixtures</h3>
+                <div class="data-block">[
+  {
+    <span style="color:#fbbf24;">"id"</span>: <span style="color:#fb923c;">1</span>,
+    <span style="color:#fbbf24;">"name"</span>: <span style="color:#86efac;">"Carrot"</span>,
+    <span style="color:#fbbf24;">"price"</span>: <span style="color:#fb923c;">45.00</span>,
+    <span style="color:#fbbf24;">"unit"</span>: <span style="color:#86efac;">"per kg"</span>,
+    <span style="color:#fbbf24;">"stock"</span>: <span style="color:#fb923c;">150</span>
+  },
+  {
+    <span style="color:#fbbf24;">"id"</span>: <span style="color:#fb923c;">2</span>,
+    <span style="color:#fbbf24;">"name"</span>: <span style="color:#86efac;">"Tomato"</span>,
+    <span style="color:#fbbf24;">"price"</span>: <span style="color:#fb923c;">30.00</span>,
+    <span style="color:#fbbf24;">"unit"</span>: <span style="color:#86efac;">"per kg"</span>,
+    <span style="color:#fbbf24;">"stock"</span>: <span style="color:#fb923c;">0</span>
+  }
+]</div>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);">
+                <h3>CSV — for data-driven test execution</h3>
+                <div class="data-block"><span style="color:#fbbf24;">user_id,name,email,address,pincode</span>
+1,Priya Sharma,priya@test.com,MG Road Bengaluru,560001
+2,Rahul Mehta,rahul@test.com,Anna Salai Chennai,600002
+3,Anita Patel,anita@test.com,FC Road Pune,411004</div>
+            </div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);margin-top:6px;">
+                <h3>SQL — for database state setup</h3>
+                <div class="data-block"><span style="color:#f472b6;">INSERT INTO</span> coupons
+  (code, discount, expires_at, used)
+<span style="color:#f472b6;">VALUES</span>
+  (<span style="color:#86efac;">'SAVE10'</span>, 10, <span style="color:#86efac;">'2025-12-31'</span>, <span style="color:#fb923c;">false</span>),
+  (<span style="color:#86efac;">'EXPIRED'</span>, 15, <span style="color:#86efac;">'2024-01-01'</span>, <span style="color:#fb923c;">false</span>),
+  (<span style="color:#86efac;">'USED50'</span>, 50, <span style="color:#86efac;">'2025-12-31'</span>, <span style="color:#fb923c;">true</span>);</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 21 — SYNTHETIC DATA & PRIVACY -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Synthetic Data, Data Contracts &amp; Privacy <span class="new-tag">Updated</span></h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>Synthetic data is not just "fake data"</h3>
+                <p class="compact">It must match the <strong>shape and constraints</strong> of real data to be useful for testing.</p>
+                <table class="cmp-table" style="margin-top:6px;">
+                    <thead><tr><th>Fake data ❌</th><th>Synthetic data ✅</th></tr></thead>
+                    <tbody>
+                        <tr><td>Any email string</td><td>Valid format + domain pattern</td></tr>
+                        <tr><td>Any number for price</td><td>Realistic price range for vegetables</td></tr>
+                        <tr><td>Random pincode</td><td>Valid Indian pincode format (6 digits)</td></tr>
+                        <tr><td>Any phone number</td><td>Valid 10-digit Indian mobile number</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <div class="danger-box">
+                <h3 style="color:#be123c;margin-top:0;">🔒 DPDP Act — India 2023 <span class="new-tag">India</span></h3>
+                <p class="compact">The Digital Personal Data Protection Act makes it a legal obligation to protect personal data in India.</p>
+                <ul style="margin-top:6px;">
+                    <li class="red">Never use real customer names or phone numbers in tests</li>
+                    <li class="red">Never paste production database records into AI</li>
+                    <li class="red">Never share delivery addresses of real users</li>
+                </ul>
+            </div>
+            <div class="success-box" style="margin-top:6px;">
+                <h3>✅ The rule for Veg Cart testing</h3>
+                <ul>
+                    <li>Generate all user data synthetically with AI</li>
+                    <li>Use realistic but entirely fictional names and addresses</li>
+                    <li>Scan test data sets for accidentally included PII before committing to repo</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 22 — BUG REPORTING -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Bug Reporting with AI <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Prompt: rough notes → professional report</h3>
+            <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.58em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">Act as a QA engineer writing a Jira bug.
+
+Issue found on Veg Cart:
+When I apply coupon SAVE10 at checkout,
+the 10% discount is calculated on the
+subtotal BEFORE delivery charges are
+added — but our rule is discount should
+apply to subtotal only, not delivery.
+Sometimes the total shown is wrong.
+
+Write a professional bug report with:
+Summary, Environment, Steps to Reproduce,
+Expected Result, Actual Result,
+Severity, and suggested root cause.</div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);">
+                <h3>✅ AI-generated output</h3>
+                <div style="background:var(--vibe-light-bg);border-radius:6px;padding:8px;font-size:0.68em;line-height:1.5;margin:4px 0;color:#334155;">
+                    <p style="margin:0;"><strong>Summary:</strong> Coupon discount applied to delivery charge incorrectly<br>
+                    <strong>Severity:</strong> High — financial impact<br>
+                    <strong>Steps:</strong> 1) Add items to cart 2) Proceed to checkout 3) Apply SAVE10 4) Observe total<br>
+                    <strong>Expected:</strong> 10% discount on subtotal only<br>
+                    <strong>Actual:</strong> 10% applied to subtotal + delivery<br>
+                    <strong>Root cause:</strong> Discount calculation function likely receives order total rather than subtotal as input</p>
+                </div>
+            </div>
+            <div class="success-box" style="margin-top:6px;">
+                <p class="compact"><strong class="text-green">Industry update:</strong> AI can now generate bug reports from screenshots and screen recordings directly — without needing the written description. <span class="new-tag">2025</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 23 — RCA & DEFECT PATTERNS -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Root Cause Analysis &amp; Defect Pattern Analysis <span class="new-tag">Updated</span></h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);">
+                <h3>Root Cause Analysis with AI</h3>
+                <p class="compact">Give AI the error message, the logs, the steps, and the expected vs actual behaviour — it suggests probable root causes ranked by likelihood.</p>
+                <div class="qa-example" style="margin-top:6px;">
+                    <div class="label">Veg Cart example</div>
+                    <p>"Cart total shows ₹0 after applying expired coupon. Error log: TypeError: Cannot read property 'value' of undefined. Steps: add items → apply EXPIRED coupon → view total. What are the likely root causes?"</p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);">
+                <h3>Defect Clustering <span class="new-tag">New</span></h3>
+                <p class="compact">AI identifies that multiple separate bug reports are symptoms of the same underlying root cause.</p>
+                <div style="background:var(--vibe-light-bg);border-radius:6px;padding:8px;font-size:0.68em;margin:6px 0;line-height:1.5;">
+                    <p style="margin:0;color:#334155;"><strong>3 separate Jira tickets:</strong><br>
+                    BUG-12: Cart total wrong with SAVE10<br>
+                    BUG-19: Free delivery coupon breaks total<br>
+                    BUG-23: Bulk discount shows negative total<br><br>
+                    <strong style="color:var(--vibe-green);">AI identifies:</strong> All three share the same root cause — discount calculation function receives incorrect input parameter</p>
+                </div>
+            </div>
+            <div class="content-box" style="border-left-color:#9333ea;margin-top:6px;">
+                <h3>Bug Report Quality Scoring <span class="new-tag">New</span></h3>
+                <p class="compact">AI assesses whether a bug report has sufficient information for a developer to action it — flags missing environment details, vague steps, or unclear expected results before you submit.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 24 — DATA + BUG WORKFLOW -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>The Connected Day 4 Workflow <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">Generate data → Test with it → Find a bug → Report it with AI — one connected workflow.</p>
+    </div>
+    <div class="flow-container" style="margin-top:10px;">
+        <div class="arrow-flow">
+            <div class="step orange">Generate coupon<br>test data (JSON)</div>
+            <div class="arrow">→</div>
+            <div class="step">Apply coupons<br>to Veg Cart</div>
+            <div class="arrow">→</div>
+            <div class="step purple">Find: total<br>calculation bug</div>
+            <div class="arrow">→</div>
+            <div class="step">AI generates<br>Jira bug report</div>
+            <div class="arrow">→</div>
+            <div class="step green">Save to toolkit<br>+ raise ticket</div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>What goes into your toolkit from Day 4</h3>
+            <ul>
+                <li>vegetables.json — product test data</li>
+                <li>users.csv — synthetic customer data</li>
+                <li>coupons.sql — coupon seed data</li>
+                <li>bug-reports/ — formatted Jira-ready reports</li>
+                <li>defect-patterns.md — root cause notes</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>How this feeds Level 3 automation</h3>
+            <ul>
+                <li>JSON data feeds Playwright data-driven tests</li>
+                <li>CSV users drive checkout automation scenarios</li>
+                <li>SQL seeds database before API test runs</li>
+                <li>Bug report steps become regression test cases</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ CHAPTER 5 — TOOLKIT -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-toolbox" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>AI Testing Toolkit Organisation</h1>
+        <h2>Everything you built — organised as a foundation</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Folder Structure · Prompt Versioning · Repository-First · Level 3 Bridge</p>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 25 — WHAT YOU HAVE BUILT -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What You Have Built Across Days 1–4 <span class="vegcart-tag">🛒 Veg Cart</span></h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">Every session produced a real artifact. Here is your inventory before we organise it.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="toolkit-item">
+                <i class="fas fa-plug" style="color:var(--vibe-orange);"></i>
+                <div class="ti-body"><strong>MCP Configuration</strong><span>Claude Desktop connected — Filesystem + Playwright MCP active</span></div>
+            </div>
+            <div class="toolkit-item">
+                <i class="fas fa-file-code" style="color:var(--vibe-green);"></i>
+                <div class="ti-body"><strong>Gherkin Feature Files</strong><span>add-to-cart.feature, coupon.feature, checkout.feature</span></div>
+            </div>
+            <div class="toolkit-item">
+                <i class="fas fa-list-alt" style="color:var(--vibe-blue);"></i>
+                <div class="ti-body"><strong>Test Cases (Tabular)</strong><span>Jira-ready test cases from requirements analysis</span></div>
+            </div>
+            <div class="toolkit-item">
+                <i class="fas fa-binoculars" style="color:#9333ea;"></i>
+                <div class="ti-body"><strong>Exploration Output</strong><span>Structured findings from AI-assisted exploratory sessions</span></div>
+            </div>
+        </div>
+        <div>
+            <div class="toolkit-item">
+                <i class="fas fa-database" style="color:var(--vibe-orange);"></i>
+                <div class="ti-body"><strong>Test Data Sets</strong><span>vegetables.json · users.csv · coupons.sql</span></div>
+            </div>
+            <div class="toolkit-item">
+                <i class="fas fa-bug" style="color:#ef4444;"></i>
+                <div class="ti-body"><strong>Bug Reports</strong><span>Formatted Jira-ready reports from Day 4</span></div>
+            </div>
+            <div class="toolkit-item">
+                <i class="fas fa-file-alt" style="color:var(--vibe-blue);"></i>
+                <div class="ti-body"><strong>Skills.md (evolved)</strong><span>Updated with Veg Cart context, MCP rules, Gherkin conventions</span></div>
+            </div>
+            <div class="toolkit-item">
+                <i class="fas fa-comment-dots" style="color:var(--vibe-green);"></i>
+                <div class="ti-body"><strong>Prompt Library</strong><span>Requirements analysis, Gherkin generation, bug report prompts</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 26 — FOLDER STRUCTURE -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Toolkit Folder Structure <span class="new-tag">Repository-First</span></h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="folder-tree"><span style="color:#f472b6;">vegcart-qa/</span>
+├── <span style="color:#fbbf24;">.claude/</span>
+│   └── skills.md          <span style="color:#94a3b8;"># AI reads this first</span>
+│
+├── <span style="color:#fbbf24;">prompts/</span>
+│   ├── requirements.md    <span style="color:#94a3b8;"># analysis prompts</span>
+│   ├── gherkin.md         <span style="color:#94a3b8;"># feature file prompts</span>
+│   └── bug-report.md      <span style="color:#94a3b8;"># reporting prompts</span>
+│
+├── <span style="color:#fbbf24;">features/</span>
+│   ├── add-to-cart.feature
+│   ├── coupon.feature
+│   └── checkout.feature
+│
+├── <span style="color:#fbbf24;">test-data/</span>
+│   ├── vegetables.json
+│   ├── users.csv
+│   └── coupons.sql
+│
+├── <span style="color:#fbbf24;">exploration/</span>
+│   └── checkout-session-01.md
+│
+└── <span style="color:#fbbf24;">bugs/</span>
+    └── BUG-coupon-calculation.md</div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>Why structure matters for AI</h3>
+                <p class="compact">AI reads from this repository via Filesystem MCP. Clean, consistent structure means AI has full context — always. Messy structure means AI guesses.</p>
+                <ul style="margin-top:6px;">
+                    <li>Every file has a predictable location</li>
+                    <li>AI can reference files by path in prompts</li>
+                    <li>Team members find everything immediately</li>
+                </ul>
+            </div>
+            <div class="success-box" style="margin-top:6px;">
+                <p class="compact"><strong class="text-green">Repository-first principle:</strong> This is not just a folder on your laptop. It is a git repository — version-controlled, shareable, and the single source of truth for your QA work. <span class="new-tag">2025</span></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 27 — PROMPT VERSIONING -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Prompt Versioning &amp; Skills Evolution <span class="new-tag">New Practice</span></h2>
+    <div class="analogy-box">
+        <div class="label">🎓 Analogy</div>
+        <p class="compact bold">Prompts are not throwaway chat messages. They are assets — just like test cases. You version test cases. You review and improve them. Do the same with prompts.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>How Skills.md evolves across the program</h3>
+            <table class="cmp-table" style="margin-top:4px;">
+                <thead><tr><th>Level</th><th>What gets added</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Level 1</strong></td><td>Basic QA role, prompt preferences, output formats</td></tr>
+                    <tr><td><strong>Level 2</strong></td><td>Veg Cart context, MCP rules, Gherkin standards, data conventions</td></tr>
+                    <tr><td><strong>Level 3</strong></td><td>TypeScript conventions, POM structure, Playwright patterns, CI rules</td></tr>
+                    <tr><td><strong>Level 4</strong></td><td>Team standards, governance rules, coverage audit criteria</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>Prompt versioning in practice</h3>
+            <ul>
+                <li>Save working prompts to the /prompts folder</li>
+                <li>Name them descriptively: <code style="font-size:0.85em;">gherkin-from-requirement-v2.md</code></li>
+                <li>When you improve a prompt, commit the change — just like updating a test case</li>
+                <li>Add a comment: what changed and why</li>
+            </ul>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">Why this matters</div>
+                <p>A prompt that generated great Gherkin last week should be reproducible. If you can't find it, you'll spend 30 minutes recreating it. Version it instead.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 28 — LEVEL 3 BRIDGE -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>This Toolkit Is the Foundation for Level 3</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">You are not organising files. You are building the launchpad that Level 3 automation takes off from.</p>
+    </div>
+    <div class="four-col" style="margin-top:14px;">
+        <div class="bridge-box b1">
+            <i class="fas fa-file-code" style="color:var(--vibe-orange);"></i>
+            <h3>Feature Files</h3>
+            <p>Your .feature files become the exact input for Cucumber BDD in Level 3 — no rework needed</p>
+            <div style="margin-top:8px;"><span class="badge" style="font-size:0.6em;">→ Cucumber</span></div>
+        </div>
+        <div class="bridge-box b2">
+            <i class="fas fa-database" style="color:var(--vibe-blue);"></i>
+            <h3>Test Data</h3>
+            <p>JSON and CSV files feed Playwright data-driven tests directly — vegetables.json becomes your test fixture</p>
+            <div style="margin-top:8px;"><span class="badge blue" style="font-size:0.6em;">→ Playwright</span></div>
+        </div>
+        <div class="bridge-box b3">
+            <i class="fas fa-binoculars" style="color:#16a34a;"></i>
+            <h3>Exploration Output</h3>
+            <p>Structured session outputs feed the Playwright MCP Agent — AI generates Page Object Models from your exploration notes</p>
+            <div style="margin-top:8px;"><span class="badge green" style="font-size:0.6em;">→ POM Generation</span></div>
+        </div>
+        <div class="bridge-box b4">
+            <i class="fas fa-file-alt" style="color:#7c3aed;"></i>
+            <h3>Skills.md</h3>
+            <p>Your evolved Skills.md ensures every Level 3 AI-generated test follows your conventions and project patterns</p>
+            <div style="margin-top:8px;"><span class="badge purple" style="font-size:0.6em;">→ All of Level 3</span></div>
+        </div>
+    </div>
+    <div class="flow-container" style="margin-top:10px;">
+        <div class="arrow-flow">
+            <div class="step orange">Level 2 Toolkit</div>
+            <div class="arrow">→</div>
+            <div class="step">AI Agents read it</div>
+            <div class="arrow">→</div>
+            <div class="step green">Level 3 Automation</div>
+            <div class="arrow">→</div>
+            <div class="step purple">Level 4 Governance</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ SLIDE 29 — LEVEL 2 TAKEAWAY -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:500px;width:80%;margin:0 auto 12px;display:block;" onerror="this.style.display='none'">
+    <h1>Level 2 Complete</h1>
+    <p class="subtitle">You have a working AI-powered manual testing toolkit</p>
+    <div class="two-col" style="margin-top:12px;max-width:700px;margin-left:auto;margin-right:auto;">
+        <div class="success-box">
+            <p class="compact"><strong class="text-green">✅ What you have</strong><br>
+            MCP configured · Feature files ready · Test data generated · Bug reports formatted · Toolkit organised in repo</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <p class="compact"><strong class="text-blue">→ What's next in Level 3</strong><br>
+            AI agents generate Playwright automation from your feature files · Cucumber BDD · API tests · GitHub Actions CI</p>
+        </div>
+    </div>
+    <div class="flow-container" style="max-width:700px;margin:12px auto 0;">
+        <div class="arrow-flow">
+            <div class="step" style="background:#16a34a;">L2 ✅ Toolkit built</div>
+            <div class="arrow">→</div>
+            <div class="step orange">L3: Automate it</div>
+            <div class="arrow">→</div>
+            <div class="step purple">L4: Govern it</div>
+        </div>
+    </div>
+    <p class="tagline" style="margin-top:14px;">
+        <i class="fas fa-globe"></i> vibetestq.com &nbsp;|&nbsp;
+        <i class="fab fa-linkedin"></i> qtpsudhakar
+    </p>
+</section>
+
+</div>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    (function () {
+        var MARGIN = 0.04;
+        function getSize() { return { w: window.innerWidth, h: window.innerHeight }; }
+        function buildConfig() {
+            var s = getSize();
+            return { hash: true, transition: 'slide', transitionSpeed: 'default', slideNumber: true, controls: true, progress: true, center: true, width: s.w, height: s.h, margin: MARGIN, minScale: 0.1, maxScale: 1.0 };
+        }
+        var initialized = false;
+        function init() { if (typeof Reveal === 'undefined') return false; Reveal.initialize(buildConfig()); initialized = true; return true; }
+        var resizeTimer = null; var lastDPR = window.devicePixelRatio;
+        function onViewportChange() { if (!initialized) return; clearTimeout(resizeTimer); resizeTimer = setTimeout(function () { var s = getSize(); Reveal.configure({ width: s.w, height: s.h }); Reveal.layout(); }, 60); }
+        window.addEventListener('resize', onViewportChange);
+        setInterval(function () { var dpr = window.devicePixelRatio; if (dpr !== lastDPR) { lastDPR = dpr; onViewportChange(); } }, 250);
+        document.addEventListener('keydown', function (e) { if (!initialized) return; if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) { e.preventDefault(); var s = getSize(); Reveal.configure({ width: s.w * 0.97, height: s.h * 0.97 }); Reveal.layout(); } if ((e.ctrlKey || e.metaKey) && e.key === '-') { e.preventDefault(); var s2 = getSize(); Reveal.configure({ width: s2.w * 1.03, height: s2.h * 1.03 }); Reveal.layout(); } });
+        if (!init()) { var attempts = 0; var pollTimer = setInterval(function () { attempts++; if (init()) { clearInterval(pollTimer); } else if (attempts >= 50) { clearInterval(pollTimer); } }, 100); }
+    })();
+</script>
+</body>
+</html>

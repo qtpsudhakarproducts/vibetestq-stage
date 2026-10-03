@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoanEdge – Loan Management System</title>
+    <link rel="stylesheet" href="loan.css">
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="ln-container">
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- ═══════════════════════════════════════════ SIDEBAR ════ -->
+    <aside class="ln-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">L</div>
+            <div class="sidebar-brand">
+                <h1>LoanEdge</h1>
+                <span>Loan Management System</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">Overview</div>
+                <div class="nav-item active" data-tab="dashboard">
+                    <i>&#8962;</i><span>Dashboard</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Loan Modules</div>
+                <div class="nav-item" data-tab="borrowers">
+                    <i>&#128100;</i><span>Borrowers</span>
+                    <span class="nav-badge">8</span>
+                </div>
+                <div class="nav-item" data-tab="applications">
+                    <i>&#128203;</i><span>Applications</span>
+                    <span class="nav-badge">8</span>
+                </div>
+                <div class="nav-item" data-tab="products">
+                    <i>&#128230;</i><span>Loan Products</span>
+                </div>
+                <div class="nav-item" data-tab="credit">
+                    <i>&#9889;</i><span>Credit Review</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Operations</div>
+                <div class="nav-item" data-tab="documents">
+                    <i>&#128196;</i><span>Documents</span>
+                    <span class="nav-badge danger">2</span>
+                </div>
+                <div class="nav-item" data-tab="disbursements">
+                    <i>&#128184;</i><span>Disbursements</span>
+                </div>
+                <div class="nav-item" data-tab="repayments">
+                    <i>&#128197;</i><span>Repayments</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Growth</div>
+                <div class="nav-item" data-tab="support">
+                    <i>&#127915;</i><span>Support Tickets</span>
+                    <span class="nav-badge danger">2</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Help</div>
+                <div class="nav-item" onclick="window.location.href='guide.html'">
+                    <i>&#128218;</i><span>User Guide</span>
+                </div>
+                <div class="nav-item" onclick="window.location.href='../index.html'">
+                    <i>&#128187;</i><span>Command Center</span>
+                </div>
+            </div>
+        </nav>
+
+        <div style="padding:1rem 1.5rem;border-top:1px solid rgba(255,255,255,.1);font-size:.75rem;color:#64748b;text-align:center">
+            Mock Session Active<br>Data stored in localStorage
+        </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════ MAIN ════ -->
+    <main class="ln-main">
+        <header class="ln-header">
+            <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                &#9776;
+            </button>
+            <div class="header-title">
+                <h2 id="page-title">Dashboard</h2>
+                <span id="page-subtitle" style="font-size:.85rem;color:#64748b;margin-left:.5rem"></span>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i>&#128269;</i>
+                    <input type="text" class="form-input" id="header-search" placeholder="Search current view…" oninput="app.globalSearch(this.value)" style="padding-left:2.5rem">
+                </div>
+                <span style="font-size:.8rem;background:#dbeafe;color:#1d4ed8;padding:.35rem .75rem;border-radius:9999px;font-weight:600">&#128274; Mock Session</span>
+            </div>
+        </header>
+
+        <div class="ln-content">
+
+            <!-- ══════════════════ DASHBOARD ════ -->
+            <section id="tab-dashboard" class="tab-content active">
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-icon blue">&#128203;</div><div class="stat-info"><h3>Total Applications</h3><div class="stat-value" id="dash-total-apps">0</div><div class="stat-change positive">All time</div></div></div>
+                    <div class="stat-card"><div class="stat-icon purple">&#128100;</div><div class="stat-info"><h3>Active Borrowers</h3><div class="stat-value" id="dash-active-borr">0</div><div class="stat-change positive">Registered</div></div></div>
+                    <div class="stat-card"><div class="stat-icon green">&#128176;</div><div class="stat-info"><h3>Total Portfolio</h3><div class="stat-value" id="dash-portfolio">&#8377;0</div><div class="stat-change positive">Disbursed</div></div></div>
+                    <div class="stat-card"><div class="stat-icon orange">&#9888;</div><div class="stat-info"><h3>Pending Review</h3><div class="stat-value" id="dash-pending">0</div><div class="stat-change">Awaiting action</div></div></div>
+                    <div class="stat-card"><div class="stat-icon green">&#9989;</div><div class="stat-info"><h3>Approved</h3><div class="stat-value" id="dash-approved">0</div><div class="stat-change positive">This cycle</div></div></div>
+                    <div class="stat-card"><div class="stat-icon red">&#9940;</div><div class="stat-info"><h3>Overdue EMIs</h3><div class="stat-value" id="dash-overdue">0</div><div class="stat-change negative">Need attention</div></div></div>
+                    <div class="stat-card"><div class="stat-icon teal">&#128184;</div><div class="stat-info"><h3>Disbursed Loans</h3><div class="stat-value" id="dash-disbursed">0</div><div class="stat-change positive">Active</div></div></div>
+                    <div class="stat-card"><div class="stat-icon sky">&#128230;</div><div class="stat-info"><h3>Active Products</h3><div class="stat-value" id="dash-products">0</div><div class="stat-change">Loan types</div></div></div>
+                </div>
+
+                <div class="ln-card" style="margin-bottom:1.5rem">
+                    <div class="card-header"><h3>&#128200; Application Funnel</h3></div>
+                    <div class="card-body">
+                        <div class="funnel-stats">
+                            <div class="funnel-item submitted"><div class="funnel-count" id="funnel-submitted">0</div><div class="funnel-label">New / Docs Required</div></div>
+                            <div class="funnel-item review"><div class="funnel-count" id="funnel-review">0</div><div class="funnel-label">Under Review</div></div>
+                            <div class="funnel-item approved"><div class="funnel-count" id="funnel-approved">0</div><div class="funnel-label">Approved</div></div>
+                            <div class="funnel-item disbursed"><div class="funnel-count" id="funnel-disbursed">0</div><div class="funnel-label">Disbursed</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ln-card">
+                    <div class="card-header"><h3>&#128338; Recent Activity</h3></div>
+                    <div class="card-body"><div class="activity-list" id="dash-activity"></div></div>
+                </div>
+            </section>
+
+            <!-- ══════════════════ BORROWERS ════ -->
+            <section id="tab-borrowers" class="tab-content">
+                <div class="toolbar">
+                    <div class="toolbar-left"><h3>Borrower Registry</h3><span class="badge badge-approved" id="borrowers-count">0</span></div>
+                    <div class="toolbar-right">
+                        <div class="search-box"><i>&#128269;</i><input type="text" class="form-input" placeholder="Search borrowers…" oninput="app.searchBorrowers(this.value)" style="padding-left:2.5rem"></div>
+                        <button class="btn btn-primary" onclick="app.openAddBorrower()">&#43; Add Borrower</button>
+                    </div>
+                </div>
+                <div class="ln-card">
+                    <div style="overflow-x:auto">
+                        <table class="ln-table">
+                            <thead><tr><th>Borrower</th><th>Contact</th><th>Occupation</th><th>City</th><th>Annual Income</th><th>Credit Score</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="borrowers-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════ APPLICATIONS ════ -->
+            <section id="tab-applications" class="tab-content">
+                <div class="toolbar">
+                    <div class="toolbar-left"><h3>Loan Applications</h3><span class="badge badge-approved" id="applications-count">0</span></div>
+                    <div class="toolbar-right">
+                        <div class="search-box"><i>&#128269;</i><input type="text" class="form-input" placeholder="Search applications…" oninput="app.searchApplications(this.value)" style="padding-left:2.5rem"></div>
+                        <select class="form-input" style="width:auto" onchange="app.loadApplications('',this.value)">
+                            <option value="">All Statuses</option>
+                            <option value="submitted">Submitted</option>
+                            <option value="under_review">Under Review</option>
+                            <option value="docs_required">Docs Required</option>
+                            <option value="credit_check">Credit Check</option>
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="disbursed">Disbursed</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="app.openAddApplication()">&#43; New Application</button>
+                    </div>
+                </div>
+                <div class="ln-card">
+                    <div style="overflow-x:auto">
+                        <table class="ln-table">
+                            <thead><tr><th>App ID</th><th>Borrower</th><th>Product</th><th>Amount</th><th>Tenure</th><th>Status</th><th>Officer</th><th>Applied</th><th>Actions</th></tr></thead>
+                            <tbody id="applications-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════ PRODUCTS ════ -->
+            <section id="tab-products" class="tab-content">
+                <div class="toolbar">
+                    <div class="toolbar-left"><h3>Loan Products</h3></div>
+                    <div class="toolbar-right">
+                        <div class="search-box"><i>&#128269;</i><input type="text" class="form-input" placeholder="Search products…" oninput="app.searchProducts(this.value)" style="padding-left:2.5rem"></div>
+                        <button class="btn btn-primary" onclick="app.openAddProduct()">&#43; Add Product</button>
+                    </div>
+                </div>
+                <div class="ln-card">
+                    <div style="overflow-x:auto">
+                        <table class="ln-table">
+                            <thead><tr><th>Product Name</th><th>Interest Rate</th><th>Max Amount</th><th>Max Tenure</th><th>Processing Fee</th><th>Pre-closure Fee</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="products-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════ CREDIT REVIEW ════ -->
+            <section id="tab-credit" class="tab-content">
+                <div class="toolbar">
+                    <div class="toolbar-left"><h3>Credit Assessments</h3></div>
+                    <div class="toolbar-right">
+                        <div class="search-box"><i>&#128269;</i><input type="text" class="form-input" placeholder="Search by App ID…" oninput="app.searchCredit(this.value)" style="padding-left:2.5rem"></div>
+                        <button class="btn btn-primary" onclick="app.openAddAssessment()">&#43; Add Assessment</button>
+                    </div>
+                </div>
+                <div class="ln-card">
+                    <div style="overflow-x:auto">
+                        <table class="ln-table">
+                            <thead><tr><th>App ID</th><th>Borrower</th><th>Credit Score</th><th>DTI Ratio</th><th>Existing Loans</th><th>Risk</th><th>Decision</th><th>Review Date</th><th>Actions</th></tr></thead>
+                            <tbody id="credit-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════ DOCUMENTS ════ -->
+            <section id="tab-documents" class="tab-content">
+                <div class="toolbar">
+                    <div class="toolbar-left"><h3>Document Checklist</h3></div>
+                    <div class="toolbar-right">
+                        <div class="search-box"><i>&#128269;</i><input type="text" class="form-input" placeholder="Search documents…" oninput="app.searchDocuments(this.value)" style="padding-left:2.5rem"></div>
+                        <button class="btn btn-primary" onclick="app.openAddDocument()">&#43; Add Document</button>
+                    </div>
+                </div>
+                <div class="ln-card">
+                    <div style="overflow-x:auto">
+                        <table class="ln-table">
+                            <thead><tr><th>App ID</th><th>Document Type</th><th>Status</th><th>Received Date</th><th>Notes</th><th>Actions</th></tr></thead>
+                            <tbody id="documents-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════ DISBURSEMENTS ════ -->
+            <section id="tab-disbursements" class="tab-content">
+                <div class="toolbar">
+                    <div class="toolbar-left"><h3>Disbursements</h3></div>
+                    <div class="toolbar-right">
+                        <div class="search-box"><i>&#128269;</i><input type="text" class="form-input" placeholder="Search disbursements…" oninput="app.searchDisbursements(this.value)" style="padding-left:2.5rem"></div>
+                        <button class="btn btn-primary" onclick="app.openAddDisbursement()">&#43; Record Disbursement</button>
+                    </div>
+                </div>
+                <div class="ln-card">
+                    <div style="overflow-x:auto">
+                        <table class="ln-table">
+                            <thead><tr><th>App ID</th><th>Borrower</th><th>Amount</th><th>EMI</th><th>Account / IFSC</th><th>Mode</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                            <tbody id="disbursements-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════ REPAYMENTS ════ -->
+            <section id="tab-repayments" class="tab-content">
+                <div class="toolbar">
+                    <div class="toolbar-left"><h3>EMI Repayments</h3></div>
+                    <div class="toolbar-right">
+                        <div class="search-box"><i>&#128269;</i><input type="text" class="form-input" placeholder="Search repayments…" oninput="app.searchRepayments(this.value)" style="padding-left:2.5rem"></div>
+                        <button class="btn btn-primary" onclick="app.openAddPayment()">&#43; Record Payment</button>
+                    </div>
+                </div>
+                <div class="ln-card">
+                    <div style="overflow-x:auto">
+                        <table class="ln-table">
+                            <thead><tr><th>App ID</th><th>Borrower</th><th>EMI #</th><th>EMI Amount</th><th>Principal</th><th>Interest</th><th>Due Date</th><th>Paid Date</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="repayments-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ══════════════════ SUPPORT ════ -->
+            <section id="tab-support" class="tab-content">
+                <div class="toolbar">
+                    <div class="toolbar-left"><h3>Support Tickets</h3></div>
+                    <div class="toolbar-right">
+                        <div class="search-box"><i>&#128269;</i><input type="text" class="form-input" placeholder="Search tickets…" oninput="app.searchSupport(this.value)" style="padding-left:2.5rem"></div>
+                        <button class="btn btn-primary" onclick="app.openAddTicket()">&#43; New Ticket</button>
+                    </div>
+                </div>
+                <div class="ln-card">
+                    <div style="overflow-x:auto">
+                        <table class="ln-table">
+                            <thead><tr><th>Ticket ID</th><th>App ID</th><th>Borrower</th><th>Subject</th><th>Priority</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
+                            <tbody id="support-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </div><!-- /ln-content -->
+    </main>
+</div><!-- /ln-container -->
+
+<div id="toast-container" class="toast-container"></div>
+
+<!-- ═══════════════════════════════════════════ MODALS ════ -->
+
+<!-- Borrower Add/Edit -->
+<div id="borrower-modal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header"><h3 id="borrower-modal-title">Add New Borrower</h3><button class="modal-close" onclick="app.closeModal('borrower-modal')">&#10005;</button></div>
+        <div class="modal-body">
+            <form id="borrower-form" onsubmit="return false">
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label required">Full Name</label><input id="bf-name" class="form-input" type="text" placeholder="Arjun Mehta"></div>
+                    <div class="form-group"><label class="form-label required">PAN</label><input id="bf-pan" class="form-input" type="text" placeholder="ABCPM1234A" maxlength="10"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label required">Email</label><input id="bf-email" class="form-input" type="email"></div>
+                    <div class="form-group"><label class="form-label">Phone</label><input id="bf-phone" class="form-input" type="text" placeholder="9876543210"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Occupation</label><input id="bf-occupation" class="form-input" type="text"></div>
+                    <div class="form-group"><label class="form-label">City</label><input id="bf-city" class="form-input" type="text"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Annual Income (&#8377;)</label><input id="bf-income" class="form-input" type="number" placeholder="950000"></div>
+                    <div class="form-group"><label class="form-label">Credit Score</label><input id="bf-credit-score" class="form-input" type="number" min="300" max="900" placeholder="750"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Status</label><select id="bf-status" class="form-input"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('borrower-modal')">Cancel</button><button class="btn btn-primary" onclick="app.saveBorrower()">Save Borrower</button></div>
+    </div>
+</div>
+
+<!-- View Borrower -->
+<div id="view-borrower-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+        <div class="modal-header"><h3>Borrower Profile</h3><button class="modal-close" onclick="app.closeModal('view-borrower-modal')">&#10005;</button></div>
+        <div class="modal-body"><div id="vb-content"></div></div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('view-borrower-modal')">Close</button></div>
+    </div>
+</div>
+
+<!-- Application Add/Edit -->
+<div id="application-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+        <div class="modal-header"><h3 id="app-modal-title">New Loan Application</h3><button class="modal-close" onclick="app.closeModal('application-modal')">&#10005;</button></div>
+        <div class="modal-body">
+            <form id="app-form" onsubmit="return false">
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label required">Borrower</label><select id="af-borrower" class="form-input"><option value="">-- Select Borrower --</option></select></div>
+                    <div class="form-group"><label class="form-label required">Loan Product</label><select id="af-product" class="form-input"><option value="">-- Select Product --</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label required">Loan Amount (&#8377;)</label><input id="af-amount" class="form-input" type="number" placeholder="500000"></div>
+                    <div class="form-group"><label class="form-label required">Tenure (months)</label><input id="af-tenure" class="form-input" type="number" placeholder="48"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Purpose</label><input id="af-purpose" class="form-input" type="text" placeholder="Home Purchase"></div>
+                    <div class="form-group"><label class="form-label">Loan Officer ID</label><input id="af-officer" class="form-input" type="text" placeholder="OFF01"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Status</label>
+                    <select id="af-status" class="form-input">
+                        <option value="submitted">Submitted</option><option value="under_review">Under Review</option>
+                        <option value="docs_required">Docs Required</option><option value="credit_check">Credit Check</option>
+                        <option value="approved">Approved</option><option value="rejected">Rejected</option>
+                        <option value="disbursed">Disbursed</option><option value="closed">Closed</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('application-modal')">Cancel</button><button class="btn btn-primary" onclick="app.saveApplication()">Save Application</button></div>
+    </div>
+</div>
+
+<!-- View Application -->
+<div id="view-application-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+        <div class="modal-header"><h3>Application Details</h3><button class="modal-close" onclick="app.closeModal('view-application-modal')">&#10005;</button></div>
+        <div class="modal-body"><div id="va-content"></div></div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('view-application-modal')">Close</button></div>
+    </div>
+</div>
+
+<!-- Product Modal -->
+<div id="product-modal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header"><h3 id="product-modal-title">Add Loan Product</h3><button class="modal-close" onclick="app.closeModal('product-modal')">&#10005;</button></div>
+        <div class="modal-body">
+            <form id="product-form" onsubmit="return false">
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label required">Product Name</label><input id="pf-name" class="form-input" type="text" placeholder="Personal Loan"></div>
+                    <div class="form-group"><label class="form-label required">Interest Rate (%)</label><input id="pf-rate" class="form-input" type="number" step="0.01" placeholder="10.50"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Max Amount (&#8377;)</label><input id="pf-max-amount" class="form-input" type="number" placeholder="2000000"></div>
+                    <div class="form-group"><label class="form-label">Max Tenure (months)</label><input id="pf-max-tenure" class="form-input" type="number" placeholder="60"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Processing Fee (%)</label><input id="pf-proc-fee" class="form-input" type="number" step="0.1" placeholder="1.0"></div>
+                    <div class="form-group"><label class="form-label">Pre-closure Fee (%)</label><input id="pf-preclose-fee" class="form-input" type="number" step="0.1" placeholder="2.0"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Description</label><textarea id="pf-description" class="form-input" rows="2"></textarea></div>
+                <div class="form-group"><label class="form-label">Status</label><select id="pf-status" class="form-input"><option value="active">Active</option><option value="inactive">Inactive</option></select></div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('product-modal')">Cancel</button><button class="btn btn-primary" onclick="app.saveProduct()">Save Product</button></div>
+    </div>
+</div>
+
+<!-- Assessment Modal -->
+<div id="assessment-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+        <div class="modal-header"><h3 id="assessment-modal-title">New Credit Assessment</h3><button class="modal-close" onclick="app.closeModal('assessment-modal')">&#10005;</button></div>
+        <div class="modal-body">
+            <form id="assessment-form" onsubmit="return false">
+                <div class="form-group"><label class="form-label required">Application</label><select id="asf-application" class="form-input"><option value="">-- Select Application --</option></select></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Credit Score</label><input id="asf-credit-score" class="form-input" type="number" min="300" max="900" placeholder="750"></div>
+                    <div class="form-group"><label class="form-label">DTI Ratio (%)</label><input id="asf-dti" class="form-input" type="number" placeholder="35"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Existing Loans</label><input id="asf-existing-loans" class="form-input" type="number" placeholder="1"></div>
+                    <div class="form-group"><label class="form-label">Monthly Income (&#8377;)</label><input id="asf-monthly-income" class="form-input" type="number" placeholder="80000"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Monthly Obligation (&#8377;)</label><input id="asf-obligation" class="form-input" type="number" placeholder="15000"></div>
+                    <div class="form-group"><label class="form-label">Review Date</label><input id="asf-review-date" class="form-input" type="date"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Risk Level</label><select id="asf-risk" class="form-input"><option value="low">Low</option><option value="medium">Medium</option><option value="high">High</option></select></div>
+                    <div class="form-group"><label class="form-label">Decision</label><select id="asf-decision" class="form-input"><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Reviewed By</label><input id="asf-reviewed-by" class="form-input" type="text" placeholder="OFF01"></div>
+                    <div class="form-group"><label class="form-label">Remarks</label><input id="asf-remarks" class="form-input" type="text" placeholder="Assessment notes"></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('assessment-modal')">Cancel</button><button class="btn btn-primary" onclick="app.saveAssessment()">Save Assessment</button></div>
+    </div>
+</div>
+
+<!-- Document Modal -->
+<div id="document-modal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header"><h3 id="document-modal-title">Add Document</h3><button class="modal-close" onclick="app.closeModal('document-modal')">&#10005;</button></div>
+        <div class="modal-body">
+            <form id="document-form" onsubmit="return false">
+                <div class="form-group"><label class="form-label required">Application</label><select id="df-application" class="form-input"><option value="">-- Select Application --</option></select></div>
+                <div class="form-group"><label class="form-label required">Document Type</label>
+                    <select id="df-doc-type" class="form-input">
+                        <option value="">-- Select Type --</option>
+                        <option>Salary Slip</option><option>Bank Statement</option><option>IT Return</option>
+                        <option>Property Papers</option><option>Auto Invoice</option><option>Admission Letter</option>
+                        <option>Address Proof</option><option>Photo ID</option><option>Sale Agreement</option><option>Other</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Status</label><select id="df-status" class="form-input"><option value="missing">Missing</option><option value="received">Received</option><option value="verified">Verified</option></select></div>
+                    <div class="form-group"><label class="form-label">Received Date</label><input id="df-received-date" class="form-input" type="date"></div>
+                </div>
+                <div class="form-group"><label class="form-label">Notes</label><textarea id="df-notes" class="form-input" rows="2"></textarea></div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('document-modal')">Cancel</button><button class="btn btn-primary" onclick="app.saveDocument()">Save Document</button></div>
+    </div>
+</div>
+
+<!-- Disbursement Modal -->
+<div id="disbursement-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+        <div class="modal-header"><h3 id="disbursement-modal-title">Record Disbursement</h3><button class="modal-close" onclick="app.closeModal('disbursement-modal')">&#10005;</button></div>
+        <div class="modal-body">
+            <form id="disbursement-form" onsubmit="return false">
+                <div class="form-group"><label class="form-label required">Application</label><select id="disbf-application" class="form-input"><option value="">-- Select Application --</option></select></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Amount (&#8377;)</label><input id="disbf-amount" class="form-input" type="number" placeholder="500000"></div>
+                    <div class="form-group"><label class="form-label">Monthly EMI (&#8377;)</label><input id="disbf-emi" class="form-input" type="number" placeholder="12000"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Account Number</label><input id="disbf-account" class="form-input" type="text"></div>
+                    <div class="form-group"><label class="form-label">IFSC Code</label><input id="disbf-ifsc" class="form-input" type="text"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Disbursement Date</label><input id="disbf-date" class="form-input" type="date"></div>
+                    <div class="form-group"><label class="form-label">Transfer Mode</label><select id="disbf-mode" class="form-input"><option value="NEFT">NEFT</option><option value="RTGS">RTGS</option><option value="IMPS">IMPS</option><option value="Cheque">Cheque</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Status</label><select id="disbf-status" class="form-input"><option value="pending">Pending</option><option value="disbursed">Disbursed</option></select></div>
+                    <div class="form-group"><label class="form-label">Reference No.</label><input id="disbf-reference" class="form-input" type="text"></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('disbursement-modal')">Cancel</button><button class="btn btn-primary" onclick="app.saveDisbursement()">Save Disbursement</button></div>
+    </div>
+</div>
+
+<!-- Payment Modal -->
+<div id="payment-modal" class="modal-overlay">
+    <div class="modal modal-lg">
+        <div class="modal-header"><h3 id="payment-modal-title">Record EMI Payment</h3><button class="modal-close" onclick="app.closeModal('payment-modal')">&#10005;</button></div>
+        <div class="modal-body">
+            <form id="payment-form" onsubmit="return false">
+                <div class="form-group"><label class="form-label required">Application</label><select id="pf-application" class="form-input"><option value="">-- Select Application --</option></select></div>
+                <div class="form-row-3">
+                    <div class="form-group"><label class="form-label">EMI #</label><input id="pf-emi-no" class="form-input" type="number" placeholder="1"></div>
+                    <div class="form-group"><label class="form-label">EMI Amount (&#8377;)</label><input id="pf-emi-amount" class="form-input" type="number"></div>
+                    <div class="form-group"><label class="form-label">Principal (&#8377;)</label><input id="pf-principal" class="form-input" type="number"></div>
+                </div>
+                <div class="form-row-3">
+                    <div class="form-group"><label class="form-label">Interest (&#8377;)</label><input id="pf-interest" class="form-input" type="number"></div>
+                    <div class="form-group"><label class="form-label">Balance (&#8377;)</label><input id="pf-balance" class="form-input" type="number"></div>
+                    <div class="form-group"><label class="form-label">Status</label><select id="pf-status" class="form-input"><option value="upcoming">Upcoming</option><option value="due">Due</option><option value="paid">Paid</option><option value="overdue">Overdue</option></select></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Due Date</label><input id="pf-due-date" class="form-input" type="date"></div>
+                    <div class="form-group"><label class="form-label">Paid Date</label><input id="pf-paid-date" class="form-input" type="date"></div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('payment-modal')">Cancel</button><button class="btn btn-primary" onclick="app.savePayment()">Save Payment</button></div>
+    </div>
+</div>
+
+<!-- Ticket Modal -->
+<div id="ticket-modal" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-header"><h3 id="ticket-modal-title">New Support Ticket</h3><button class="modal-close" onclick="app.closeModal('ticket-modal')">&#10005;</button></div>
+        <div class="modal-body">
+            <form id="ticket-form" onsubmit="return false">
+                <div class="form-group"><label class="form-label">Application</label><select id="tf-application" class="form-input"><option value="">-- Select Application --</option></select></div>
+                <div class="form-group"><label class="form-label required">Subject</label><input id="tf-subject" class="form-input" type="text" placeholder="Ticket subject"></div>
+                <div class="form-row">
+                    <div class="form-group"><label class="form-label">Priority</label><select id="tf-priority" class="form-input"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option><option value="critical">Critical</option></select></div>
+                    <div class="form-group"><label class="form-label">Status</label><select id="tf-status" class="form-input"><option value="open">Open</option><option value="in_progress">In Progress</option><option value="resolved">Resolved</option></select></div>
+                </div>
+                <div class="form-group"><label class="form-label">Notes</label><textarea id="tf-notes" class="form-input" rows="3"></textarea></div>
+            </form>
+        </div>
+        <div class="modal-footer"><button class="btn btn-outline" onclick="app.closeModal('ticket-modal')">Cancel</button><button class="btn btn-primary" onclick="app.saveTicket()">Save Ticket</button></div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="../shared/js/utils.js"></script>
+<script src="../shared/js/mock-api.js"></script>
+<script src="loan.js"></script>
+<script>
+    // Mobile sidebar toggle
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+    }
+
+    // Close sidebar when clicking nav items on mobile
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
+        });
+    });
+
+    var _origSwitch = LoanApp.prototype.switchTab;
+    LoanApp.prototype.switchTab = function(tab) {
+        _origSwitch.call(this, tab);
+        var titles = {
+            dashboard:    ['Dashboard',        'Overview & KPIs'],
+            borrowers:    ['Borrower Registry', 'Manage borrower profiles'],
+            applications: ['Loan Applications', 'Track & manage applications'],
+            products:     ['Loan Products',     'Product catalog'],
+            credit:       ['Credit Review',     'Underwriting & assessments'],
+            documents:    ['Documents',         'Checklist & verification'],
+            disbursements:['Disbursements',     'Loan fund transfers'],
+            repayments:   ['EMI Repayments',    'Payment schedule'],
+            support:      ['Support Tickets',   'Borrower queries']
+        };
+        var info = titles[tab] || [tab, ''];
+        var t = document.getElementById('page-title');
+        var s = document.getElementById('page-subtitle');
+        if (t) t.textContent = info[0];
+        if (s) s.textContent = info[1];
+    };
+    var app = new LoanApp();
+    app.init();
+</script>
+</body>
+</html>

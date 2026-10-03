@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Testing in the AI Era - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+
+        .reveal h1 {
+            font-size: 1.8em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+            color: var(--vibe-blue);
+        }
+
+        .reveal h3 {
+            font-size: 1.1em;
+            color: var(--vibe-green);
+            margin-bottom: 0.2em;
+        }
+
+        .reveal p,
+        .reveal li {
+            color: #334155;
+            line-height: 1.4;
+        }
+
+        .logo-corner {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            z-index: 100;
+        }
+
+        .logo-corner img {
+            width: 80px;
+            height: auto;
+        }
+
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 8px 15px;
+            margin: 5px 0;
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border: 2px solid var(--vibe-yellow);
+            padding: 8px 12px;
+            margin: 5px auto;
+            border-radius: 8px;
+            max-width: 95%;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 10px 0;
+        }
+        
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        .reveal ul {
+            list-style: none;
+            margin: 5px 0;
+        }
+
+        .reveal ul li {
+            margin: 4px 0;
+            padding-left: 30px;
+            position: relative;
+            text-align: left;
+            font-size: 0.75em;
+        }
+
+        .reveal ul li:before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--vibe-green);
+            position: absolute;
+            left: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--vibe-orange);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.7em;
+            margin: 2px;
+        }
+
+        .title-slide {
+            background: #ffffff !important;
+        }
+
+        .title-slide .company-header {
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .compact {
+            font-size: 0.8em;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Hero -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>Manual Testing in the AI Era</h1>
+                <p style="font-size: 1.2em; color: var(--vibe-orange); font-weight: 700;">From Foundations to GenAI Transformation</p>
+                <div style="margin-top: 20px;">
+                    <span class="badge">SDLC & STLC</span>
+                    <span class="badge">Jira & Zephyr</span>
+                    <span class="badge">AI Agents & MCP</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: Agenda -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Presentation Agenda</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>1. The Foundations</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>SDLC & Agile</li>
+                            <li>STLC Lifecycle</li>
+                            <li>Testing Types & Defect Cycle</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3 style="color: var(--vibe-green);">2. Testing Tool Stack</h3>
+                        <ul style="font-size: 0.75em;">
+                            <li>Jira (Project Management)</li>
+                            <li>Zephyr/Xray (Test Management)</li>
+                            <li>Importance of Process</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                    <h3 style="color: var(--vibe-orange);">3. The AI Transformation</h3>
+                    <p class="compact">How AI Browser Agents, MCP Servers, and AI IDEs are redefining the role of a Manual Tester.</p>
+                </div>
+            </section>
+
+            <!-- Slide 3: SDLC -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Software Development Life Cycle</h2>
+                <p class="compact">The blueprint for building software, from idea to release.</p>
+                
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Traditional (Waterfall)</h3>
+                        <p class="compact">Linear & Rigid. Like building a house.</p>
+                        <ul class="compact">
+                            <li>Reqs -> Design -> Code -> Test -> Deploy</li>
+                            <li>Testing happens at the end.</li>
+                            <li>Risk: Late bug discovery.</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3 style="color: var(--vibe-green);">Modern (Agile)</h3>
+                        <p class="compact">Iterative & Flexible. Like a food truck menu.</p>
+                        <ul class="compact">
+                            <li>Sprints (2-week cycles).</li>
+                            <li>Continuous Testing.</li>
+                            <li>Benefit: Fast feedback loops.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                   <p class="compact"><strong>Phase Shift:</strong> In the AI Era, we move to <strong>AI-SDLC</strong> where AI agents assist in every single phase of the lifecycle.</p>
+                </div>
+            </section>
+
+            <!-- Slide 4: STLC -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Software Testing Life Cycle (STLC)</h2>
+                <div class="two-col">
+                    <div style="font-size: 0.8em; text-align: left;">
+                       <ol>
+                           <li style="margin-bottom: 15px;"><strong>Requirement Analysis</strong>: Understanding "What to test". <span style="color:var(--vibe-blue);">(AI: Summarize docs)</span></li>
+                           <li style="margin-bottom: 15px;"><strong>Test Planning</strong>: Strategy & Tools. <span style="color:var(--vibe-blue);">(AI: Draft Plans)</span></li>
+                           <li style="margin-bottom: 15px;"><strong>Test Design</strong>: Writing Scenarios/Cases. <span style="color:var(--vibe-blue);">(AI: Generate Cases)</span></li>
+                       </ol>
+                    </div>
+                    <div style="font-size: 0.8em; text-align: left;">
+                        <ol start="4">
+                           <li style="margin-bottom: 15px;"><strong>Execution</strong>: Running tests. <span style="color:var(--vibe-blue);">(AI: Auto-Browsing)</span></li>
+                           <li style="margin-bottom: 15px;"><strong>Defect Reporting</strong>: Logging bugs. <span style="color:var(--vibe-blue);">(AI: Auto-Report)</span></li>
+                           <li style="margin-bottom: 15px;"><strong>Closure</strong>: Synthesis & Sign-off.</li>
+                       </ol>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <p class="compact"><strong>STLC</strong> runs parallel to SDLC. It ensures that quality is baked in, not just checked at the end.</p>
+                </div>
+            </section>
+
+            <!-- Slide 5: Testing Types -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Testing Types & Hierarchy</h2>
+                <div class="three-col">
+                    <div class="content-box">
+                        <h4 style="font-size: 0.9em;">Functional</h4>
+                        <p class="compact" style="font-size: 0.7em;">"Does it work?"</p>
+                        <ul>
+                            <li>Unit/Integration</li>
+                            <li>System/Regression</li>
+                            <li>Smoke/Sanity</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h4 style="font-size: 0.9em; color: var(--vibe-orange);">Non-Functional</h4>
+                        <p class="compact" style="font-size: 0.7em;">"How well does it work?"</p>
+                        <ul>
+                            <li>Performance (Load)</li>
+                            <li>Security (Pen Test)</li>
+                            <li>Usability/UX</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: #64748b;">
+                        <h4 style="font-size: 0.9em; color: #64748b;">Approaches</h4>
+                        <p class="compact" style="font-size: 0.7em;">"Visibility of code"</p>
+                        <ul>
+                            <li>Black Box (No code)</li>
+                            <li>White Box (Code visible)</li>
+                            <li>Gray Box (Hybrid)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact"><strong>Crucial:</strong> AI excels at "Checking" (Functional). Humans excel at "Testing" (Exploratory & Usability).</p>
+                </div>
+            </section>
+
+            <!-- Slide 6: Defect Lifecycle -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Defect Life Cycle (Bug Life Cycle)</h2>
+                <p class="compact">The journey of a bug from discovery to resolution.</p>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 30px; font-size: 0.8em; align-items: center;">
+                    <span class="badge" style="background: #ef4444;">NEW</span> 
+                    <i class="fa-solid fa-arrow-right" style="color: #ccc;"></i>
+                    <span class="badge" style="background: #f97316;">OPEN</span>
+                    <i class="fa-solid fa-arrow-right" style="color: #ccc;"></i>
+                    <span class="badge" style="background: #3b82f6;">FIXED</span>
+                    <i class="fa-solid fa-arrow-right" style="color: #ccc;"></i>
+                    <span class="badge" style="background: #2563eb;">RETEST</span>
+                    <i class="fa-solid fa-arrow-right" style="color: #ccc;"></i>
+                    <span class="badge" style="background: #22c55e;">CLOSED</span>
+                </div>
+                
+                <div class="two-col" style="margin-top: 30px;">
+                    <div class="content-box">
+                        <h3>Anatomy of a Bug</h3>
+                        <ul class="compact">
+                            <li><strong>summary</strong>: Short title.</li>
+                            <li><strong>Steps to Reproduce</strong>: Precise instructions.</li>
+                            <li><strong>Severity</strong>: Impact on business.</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3 style="color: var(--vibe-orange);">Reopening Bugs</h3>
+                        <p class="compact">If "Retest" fails, the bug goes back to "Open" state. This cycle repeats until quality is met.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Tools (Jira) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Project Management: Jira</h2>
+                <div class="content-box">
+                    <h3 class="text-blue">The Single Source of Truth</h3>
+                    <p class="compact">In Agile, if work isn't in Jira, it doesn't exist. It connects Business to Dev to QA.</p>
+                </div>
+                <div class="two-col">
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h4 style="font-size: 0.9em; margin: 0; color: var(--vibe-green);">Core Concepts</h4>
+                        <ul class="compact" style="font-size: 0.7em;">
+                            <li><strong>Epic</strong>: Big feature container.</li>
+                            <li><strong>User Story</strong>: The Requirement.</li>
+                            <li><strong>Bug</strong>: The Defect.</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h4 style="font-size: 0.9em; margin: 0; color: var(--vibe-orange);">Traceability</h4>
+                        <ul class="compact" style="font-size: 0.7em;">
+                            <li><strong>Requirement -> Test Case -> Defect</strong></li>
+                            <li>Linking bugs to stories enables Developers to know WHAT caused the bug.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Test Management (Zephyr) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Test Management Tools</h2>
+                <p class="compact">Why Excel isn't enough. Tools like <strong>Zephyr</strong> and <strong>Xray</strong> integration.</p>
+                <div class="three-col">
+                    <div class="content-box">
+                        <h4 style="font-size: 0.8em; margin: 0;">Organization</h4>
+                        <p class="compact" style="font-size: 0.65em;">Store thousands of test cases in logical folders/repositories.</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-blue);">
+                        <h4 style="font-size: 0.8em; margin: 0; color: var(--vibe-blue);">Reusability</h4>
+                        <p class="compact" style="font-size: 0.65em;">Write a "Login" test once, reuse it in 50 different test cycles.</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h4 style="font-size: 0.8em; margin: 0; color: var(--vibe-orange);">Metrics/Execution</h4>
+                        <p class="compact" style="font-size: 0.65em;">Track Pass/Fail rates. "We are 80% passing on Cycle 1."</p>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Slide 9: AI Transformation -->
+             <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The AI Era: What Changed?</h2>
+                <div class="two-col">
+                    <div class="content-box" style="border-left-color: #64748b;">
+                        <h3 style="color: #64748b;">Traditional Tester</h3>
+                        <p class="compact"><strong>" The Checker"</strong></p>
+                        <ul class="compact">
+                            <li>Manually writing steps.</li>
+                            <li>Manually clicking buttons.</li>
+                            <li>Focus on execution.</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3 class="text-green">AI Era Tester</h3>
+                        <p class="compact"><strong>"The Quality Orchestrator"</strong></p>
+                        <ul class="compact">
+                            <li>Prompts AI to write cases.</li>
+                            <li>Uses Agents to execute.</li>
+                            <li>Focus on Strategy & UX.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact text-blue"><strong>Requirement:</strong> Testers now need "Prompt Engineering" skills alongside "Testing Mindset".</p>
+                </div>
+            </section>
+
+            <!-- Slide 10: AI Toolset -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The New AI Toolset</h2>
+                <div class="three-col">
+                    <div class="content-box">
+                        <h4 style="font-size: 0.8em; margin: 0;">Browser Agents</h4>
+                        <p class="compact" style="font-size: 0.65em;"><strong>Claude 3.5 Sonnet / Computer Use</strong></p>
+                        <p class="compact" style="font-size: 0.65em;">Give it a URL and a goal ("Test the checkout flow"), and it clicks/types for you.</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h4 style="font-size: 0.8em; margin: 0; color: var(--vibe-orange);">MCP Servers</h4>
+                        <p class="compact" style="font-size: 0.65em;"><strong>Model Context Protocol</strong></p>
+                        <p class="compact" style="font-size: 0.65em;">Bridges AI to tools. Allows Claude to access your JIRA, Database, and Playwright directly.</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-blue);">
+                        <h4 style="font-size: 0.8em; margin: 0; color: var(--vibe-blue);">AI IDEs</h4>
+                        <p class="compact" style="font-size: 0.65em;"><strong>Cursor / Windsurf</strong></p>
+                        <p class="compact" style="font-size: 0.65em;">Integrated environments where AI writes test code, fixes bugs, and runs tests.</p>
+                    </div>
+                </div>
+            </section>
+
+             <!-- Slide 11: AI in Phases -->
+             <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>AI Leverage in Every Phase</h2>
+                <ul style="font-size: 0.8em;">
+                    <li><strong>Analysis</strong>: Upload Requirements to AI -> "Find missing edge cases" -> <span style="color:var(--vibe-green);">Better Coverage</span>.</li>
+                    <li><strong>Design</strong>: "Generate Gherkin scenarios for Login" -> <span style="color:var(--vibe-green);">Instant Test Cases</span>.</li>
+                    <li><strong>Execution</strong>: use <strong>Browser Assistants</strong> to run exploratory charters -> <span style="color:var(--vibe-green);">Speed</span>.</li>
+                    <li><strong>Reporting</strong>: Paste logs into AI -> "Summarize this failure for a Developer" -> <span style="color:var(--vibe-green);">Clear Bug Reports</span>.</li>
+                    <li><strong>Automation</strong>: Use <strong>Cursor + Playwright</strong> to generate automation scripts from manual steps -> <span style="color:var(--vibe-green);">Code Generation</span>.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 12: Summary -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Conclusion</h2>
+                <div class="content-box">
+                    <h3>The Hybrid Future</h3>
+                    <p class="compact">The Fundamentals (SDLC, STLC, Testing Types) remain the bedrock. You cannot prompt an AI effectively if you don't know <strong>WHAT</strong> to test.</p>
+                </div>
+                <div class="highlight-box" style="background: #f0fdf4;">
+                    <p class="bold text-blue" style="margin: 0; font-size: 0.9em;">Your Transformation Path:</p>
+                    <p class="compact" style="margin: 0; font-size: 0.8em;">Master the Basics -> Adopt Jira/Zephyr -> Integrate AI Agents into your workflow.</p>
+                </div>
+                <div style="margin-top: 20px;">
+                    <p class="bold text-blue" style="font-size: 1.1em;">"AI won't replace testers. Testers using AI will replace those who don't."</p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            width: 1280,
+            height: 720,
+            center: true,
+            margin: 0.05
+        });
+    </script>
+</body>
+
+</html>

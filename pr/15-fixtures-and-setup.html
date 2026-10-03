@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fixtures, Global Setup & Auth State - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Fixtures, Global Setup &amp; Auth State</h1>
+    <p class="subtitle">Dependency Injection · Custom Fixtures · Login Once, Test Many</p>
+    <p class="tagline">Eliminate repetitive setup code and login overhead — Session 15</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Custom Fixtures</span>
+        <span class="badge" style="background:var(--vibe-blue);">storageState</span>
+        <span class="badge" style="background:var(--vibe-green);">Global Setup</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>What Are Fixtures?</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Built-in Fixtures</h3>
+            <ul>
+                <li><code>page</code> — isolated Page per test</li>
+                <li><code>context</code> — BrowserContext per test</li>
+                <li><code>browser</code> — shared Browser</li>
+                <li><code>request</code> — APIRequestContext</li>
+                <li><code>browserName</code> — "chromium"|"firefox"|"webkit"</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Why Custom Fixtures?</h3>
+            <ul>
+                <li>Replace repetitive beforeEach login code</li>
+                <li>Inject page objects automatically</li>
+                <li>Share test data and configurations</li>
+                <li>Auto teardown after test</li>
+                <li>Composable — fixtures can use other fixtures</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Think of fixtures as dependency injection for tests. Instead of calling <code>new LoginPage(page)</code> in every test, fixtures provide it automatically.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Creating Custom Fixtures</h2>
+    <div class="code-snippet">// fixtures/pages.fixtures.ts
+import { test as base } from '@playwright/test';
+import { LoginPage } from '../pages/LoginPage';
+import { DashboardPage } from '../pages/DashboardPage';
+import { CartPage } from '../pages/CartPage';
+
+// Declare the types of fixtures
+type PageFixtures = {
+  loginPage: LoginPage;
+  dashboardPage: DashboardPage;
+  cartPage: CartPage;
+};
+
+// Extend the base test with our custom fixtures
+export const test = base.extend&lt;PageFixtures&gt;({
+  loginPage: async ({ page }, use) => {
+    const loginPage = new LoginPage(page);
+    await use(loginPage);       // provide fixture to test
+    // teardown code here (optional)
+  },
+
+  dashboardPage: async ({ page }, use) => {
+    await use(new DashboardPage(page));
+  },
+
+  cartPage: async ({ page }, use) => {
+    await use(new CartPage(page));
+  },
+});
+
+export { expect } from '@playwright/test';</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Using Fixtures in Tests</h2>
+    <div class="code-snippet">// tests/login.spec.ts
+import { test, expect } from '../fixtures/pages.fixtures';
+
+// Always import from your fixtures file, not @playwright/test directly
+
+test.describe('Login', () => {
+  test('valid login', async ({ loginPage, dashboardPage }) => {
+    await loginPage.navigate();
+    await loginPage.login('admin@test.com', 'Admin123!');
+    await expect(dashboardPage.welcomeMessage).toBeVisible();
+  });
+
+  test('shows error for wrong password', async ({ loginPage }) => {
+    await loginPage.navigate();
+    await loginPage.login('admin@test.com', 'WrongPass');
+    await expect(loginPage.errorAlert).toContainText('Invalid credentials');
+  });
+});
+
+// No new LoginPage() calls in tests
+// No page.goto('/login') repetition
+// No locators in the test — all in page objects
+// Clean, readable test code</div>
+    <div class="highlight-box">
+        <p class="compact bold">Tests should read like a feature specification, not UI automation code. Fixtures + page objects make this achievable.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Authentication State — Login Once for All Tests</h2>
+    <div class="code-snippet">// tests/auth.setup.ts — runs once before the test suite
+import { test as setup, expect } from '@playwright/test';
+import path from 'path';
+
+const authFile = path.join(__dirname, '../.auth/user.json');
+
+setup('authenticate', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByLabel('Email').fill(process.env.TEST_USER!);
+  await page.getByLabel('Password').fill(process.env.TEST_PASS!);
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page).toHaveURL(/dashboard/);
+
+  // Save session cookies + localStorage to file
+  await page.context().storageState({ path: authFile });
+});
+
+// playwright.config.ts — use saved auth
+projects: [
+  { name: 'setup', testMatch: /.*\.setup\.ts/ },
+  {
+    name: 'authenticated tests',
+    use: { storageState: '.auth/user.json' },
+    dependencies: ['setup'],  // setup runs first
+  },
+]</div>
+    <div class="highlight-box">
+        <p class="compact">Login once → save cookies → all tests reuse the session. 200 tests don't do 200 login flows. Massive speed improvement.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Multiple Auth Roles</h2>
+    <div class="code-snippet">// Multiple setup files for different roles
+// tests/admin.setup.ts → saves to .auth/admin.json
+// tests/user.setup.ts  → saves to .auth/user.json
+
+// playwright.config.ts
+projects: [
+  { name: 'setup-admin', testMatch: /admin\.setup\.ts/ },
+  { name: 'setup-user', testMatch: /user\.setup\.ts/ },
+  {
+    name: 'admin-tests',
+    use: { storageState: '.auth/admin.json' },
+    dependencies: ['setup-admin'],
+    testMatch: /admin\/.*.spec.ts/,
+  },
+  {
+    name: 'user-tests',
+    use: { storageState: '.auth/user.json' },
+    dependencies: ['setup-user'],
+    testMatch: /user\/.*.spec.ts/,
+  },
+]
+
+// Add .auth/ to .gitignore — don't commit credentials!
+echo ".auth/" >> .gitignore</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 15 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Fixtures Mastery</h3>
+            <ul>
+                <li>test.extend() creates custom fixtures</li>
+                <li>Provide + teardown pattern with use()</li>
+                <li>Fixtures inject page objects automatically</li>
+                <li>Import from fixtures file in all tests</li>
+                <li>Composable — fixtures call fixtures</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Auth State Strategy</h3>
+            <ul>
+                <li>auth.setup.ts runs once per project</li>
+                <li>storageState saves cookies + localStorage</li>
+                <li>dependencies: ['setup'] in projects</li>
+                <li>One file per user role</li>
+                <li>Never commit .auth/ to git</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 16 — Page Object Model Design Patterns</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

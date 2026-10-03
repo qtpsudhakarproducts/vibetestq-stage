@@ -1,0 +1,65 @@
+{
+  "name": "Flow 12 – Exotic Produce Explorer",
+  "steps": [
+    {
+      "id": "step_1000000011_0",
+      "toolName": "filter_products_by_category",
+      "params": { "category": "exotic" },
+      "label": "Browse Exotic Produce category"
+    },
+    {
+      "id": "step_1000000011_1",
+      "toolName": "get_product_list",
+      "params": {},
+      "label": "Load all products (to see exotic items)"
+    },
+    {
+      "id": "step_1000000011_2",
+      "toolName": "search_products",
+      "params": { "query": "avocado" },
+      "label": "Search for Avocado"
+    },
+    {
+      "id": "step_1000000011_3",
+      "toolName": "add_to_wishlist",
+      "params": { "itemName": "Avocado" },
+      "label": "Wishlist – Avocado (₹149/piece)"
+    },
+    {
+      "id": "step_1000000011_4",
+      "toolName": "add_to_wishlist",
+      "params": { "itemName": "Dragon Fruit" },
+      "label": "Wishlist – Dragon Fruit (₹199/piece)"
+    },
+    {
+      "id": "step_1000000011_5",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Zucchini", "quantity": 1 },
+      "label": "Add Zucchini ×1 to cart (₹99/kg)"
+    },
+    {
+      "id": "step_1000000011_6",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Kale", "quantity": 1 },
+      "label": "Add Kale ×1 to cart (₹119/bunch)"
+    },
+    {
+      "id": "step_1000000011_7",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Cherry Tomatoes", "quantity": 2 },
+      "label": "Add Cherry Tomatoes ×2 (₹129/250g)"
+    },
+    {
+      "id": "step_1000000011_8",
+      "toolName": "get_cart_contents",
+      "params": {},
+      "label": "Review exotic cart – check total"
+    },
+    {
+      "id": "step_1000000011_9",
+      "toolName": "get_wishlist",
+      "params": {},
+      "label": "Check wishlist – Avocado & Dragon Fruit saved"
+    }
+  ]
+}

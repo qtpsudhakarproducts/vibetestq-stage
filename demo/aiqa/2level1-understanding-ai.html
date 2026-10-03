@@ -1,0 +1,1541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 1 — Understanding AI | VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+        .reveal h1 { font-size: 1.6em; margin-bottom: 0.15em; }
+        .reveal h2 { font-size: 1.25em; margin-bottom: 0.2em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.15em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.4; }
+        .reveal .slides section { padding: 6px 28px; box-sizing: border-box; }
+        .logo-corner { position: absolute; top: 10px; right: 20px; z-index: 100; }
+        .logo-corner img { width: 70px; height: auto; }
+        .title-slide { background: #ffffff !important; }
+        .title-slide h1 { font-size: 1.7em; color: var(--vibe-dark-blue); margin: 8px 0 6px; }
+        .title-slide .subtitle { font-size: 1.05em; color: var(--vibe-orange); margin: 6px 0; }
+        .title-slide .tagline { font-size: 0.9em; color: var(--vibe-blue); margin: 5px 0 10px; }
+        .chapter-slide { background: #1e3a8a !important; }
+        .chapter-slide h1 { color: #ffffff; font-size: 2.2em; margin-bottom: 10px; }
+        .chapter-slide h2 { color: #94a3b8; font-size: 1.3em; }
+        .chapter-slide i { color: var(--vibe-green); }
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 6px 12px; margin: 4px 0; border-radius: 6px;
+        }
+        .highlight-box {
+            background: #fef3c7; border: 2px solid var(--vibe-yellow);
+            padding: 6px 10px; margin: 4px auto; border-radius: 8px; max-width: 92%;
+        }
+        .success-box {
+            background: #f0fdf4; border-left: 4px solid var(--vibe-green);
+            padding: 6px 12px; margin: 4px 0; border-radius: 6px;
+        }
+        .warning-box {
+            background: #fff1f2; border-left: 4px solid #ef4444;
+            padding: 6px 12px; margin: 4px 0; border-radius: 6px;
+        }
+        .reveal ul { list-style: none; margin: 5px 0; }
+        .reveal ul li {
+            margin: 4px 0; padding-left: 30px; position: relative;
+            text-align: left; font-size: 0.8em; line-height: 1.35;
+        }
+        .reveal ul li:before {
+            content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            color: var(--vibe-green); font-size: 0.95em; position: absolute; left: 0; top: 1px;
+        }
+        .reveal ul li.cross:before { content: "\f057"; color: var(--vibe-orange); }
+        .reveal ul li.warn:before  { content: "\f071"; color: var(--vibe-yellow); }
+        .reveal ul li.blue:before  { content: "\f058"; color: var(--vibe-blue); }
+        .reveal ul li.dot:before   { content: "\f111"; font-size: 0.45em; top: 6px; color: #94a3b8; }
+        .reveal ul li.red:before   { content: "\f057"; color: #ef4444; }
+        .text-blue   { color: var(--vibe-blue); }
+        .text-green  { color: var(--vibe-green); }
+        .text-orange { color: var(--vibe-orange); }
+        .text-red    { color: #ef4444; }
+        .text-purple { color: #9333ea; }
+        .bold { font-weight: 700; }
+        .badge {
+            display: inline-block; background: var(--vibe-orange); color: white;
+            padding: 4px 10px; border-radius: 20px;
+            font-weight: 600; font-size: 0.75em; margin: 3px;
+        }
+        .badge.blue   { background: var(--vibe-blue); }
+        .badge.green  { background: #16a34a; }
+        .badge.purple { background: #7c3aed; }
+        .badge.grey   { background: #64748b; }
+        .two-col   { display: grid; grid-template-columns: 1fr 1fr;     gap: 10px; margin: 6px 0; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;  margin: 6px 0; }
+        .four-col  { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin: 6px 0; }
+        .compact  { font-size: 0.8em;  line-height: 1.35; }
+        .compact2 { font-size: 0.74em; line-height: 1.3; }
+        .icon-box {
+            text-align: center; padding: 10px 8px;
+            background: var(--vibe-light-bg); border-radius: 8px;
+        }
+        .icon-box i { font-size: 1.5em; margin-bottom: 5px; display: block; }
+        .icon-box.blue   i { color: var(--vibe-blue); }
+        .icon-box.green  i { color: var(--vibe-green); }
+        .icon-box.orange i { color: var(--vibe-orange); }
+        .icon-box.purple i { color: #9333ea; }
+        .icon-box.red    i { color: #ef4444; }
+        .icon-box.grey   i { color: #64748b; }
+        .flow-container { background: #f1f5f9; border-radius: 8px; padding: 10px; margin: 6px 0; }
+        .arrow-flow { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+        .arrow-flow .step {
+            background: var(--vibe-blue); color: white;
+            padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 0.65em;
+        }
+        .arrow-flow .step.green  { background: #16a34a; }
+        .arrow-flow .step.orange { background: var(--vibe-orange); }
+        .arrow-flow .step.purple { background: #9333ea; }
+        .arrow-flow .step.red    { background: #ef4444; }
+        .arrow-flow .step.grey   { background: #64748b; }
+        .arrow-flow .arrow { color: var(--vibe-orange); font-size: 1.1em; }
+        .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.7em; margin: 6px 0; }
+        .cmp-table th { background: var(--vibe-blue); color: white; padding: 5px 8px; text-align: left; font-weight: 600; }
+        .cmp-table td { padding: 4px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+        .cmp-table tr:nth-child(even) td { background: var(--vibe-light-bg); }
+        .cmp-table .good { color: #16a34a; font-weight: 600; }
+        .cmp-table .bad  { color: #dc2626; font-weight: 600; }
+        .cmp-table .warn { color: var(--vibe-orange); font-weight: 600; }
+        .timeline { display: flex; justify-content: space-between; align-items: flex-start; position: relative; margin: 12px 0 6px; }
+        .timeline::before { content: ''; position: absolute; top: 16px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--vibe-orange), var(--vibe-blue), var(--vibe-green)); }
+        .tl-node { text-align: center; flex: 1; position: relative; }
+        .tl-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.85em; position: relative; z-index: 1; }
+        .tl-dot.orange { background: #ffedd5; border: 3px solid var(--vibe-orange); }
+        .tl-dot.blue   { background: #dbeafe; border: 3px solid var(--vibe-blue); }
+        .tl-dot.green  { background: #dcfce7; border: 3px solid var(--vibe-green); }
+        .tl-dot.red    { background: #fee2e2; border: 3px solid #ef4444; }
+        .tl-dot.purple { background: #ede9fe; border: 3px solid #7c3aed; }
+        .tl-label { font-size: 0.72em; font-weight: 700; color: var(--vibe-dark-blue); margin-bottom: 2px; }
+        .tl-sub   { font-size: 0.62em; color: #64748b; line-height: 1.3; }
+        .analogy-box {
+            background: #eff6ff; border: 2px dashed var(--vibe-blue);
+            border-radius: 8px; padding: 8px 14px; margin: 6px 0; font-size: 0.78em;
+        }
+        .analogy-box .label {
+            font-size: 0.7em; font-weight: 700; color: var(--vibe-orange);
+            text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px;
+        }
+        .brain-box {
+            background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+            border-radius: 12px; padding: 12px 16px; text-align: center; margin: 6px 0;
+        }
+        .qa-example {
+            background: #f0fdf4; border-left: 4px solid var(--vibe-green);
+            border-radius: 6px; padding: 6px 12px; margin: 4px 0; font-size: 0.78em;
+        }
+        .qa-example .label {
+            font-size: 0.68em; font-weight: 700; color: #16a34a;
+            text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================
+     TITLE
+     ============================================================ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:560px;width:86%;margin:0 auto 10px;display:block;"
+         onerror="this.style.display='none'">
+    <h1>Understanding AI</h1>
+    <p class="subtitle">Level 1 — For QA Professionals Starting from Zero</p>
+    <p class="tagline">5 Days · AI from Day 1 · Practice-First</p>
+    <div style="margin-top:10px;">
+        <span class="badge"><i class="fas fa-brain"></i> AI Fundamentals</span>
+        <span class="badge blue"><i class="fas fa-vial"></i> QA-Flavoured</span>
+        <span class="badge green"><i class="fas fa-rocket"></i> No Prior AI Knowledge Needed</span>
+    </div>
+    <p class="tagline" style="margin-top:10px;font-size:0.8em;">
+        <strong>Sudhakar Kakunuri (qtpsudhakar)</strong> &nbsp;|&nbsp; 21+ Years · 10,000+ Engineers Trained
+    </p>
+</section>
+
+<!-- ============================================================
+     YOU ALREADY USE AI
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>You Already Use AI Every Day</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;">AI is not new to you. You just didn't call it that.</p>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="icon-box blue">
+            <i class="fas fa-search"></i>
+            <h3>Google Search</h3>
+            <p class="compact2">Predicts what you're searching before you finish typing</p>
+        </div>
+        <div class="icon-box orange">
+            <i class="fas fa-envelope"></i>
+            <h3>Email Smart Reply</h3>
+            <p class="compact2">"Sounds good!" — Gmail suggested it, you clicked it</p>
+        </div>
+        <div class="icon-box green">
+            <i class="fas fa-spell-check"></i>
+            <h3>Autocorrect / Grammarly</h3>
+            <p class="compact2">Fixes your bug reports and emails in real time</p>
+        </div>
+    </div>
+    <div class="three-col">
+        <div class="icon-box purple">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Google Maps ETA</h3>
+            <p class="compact2">Predicts traffic using millions of past journeys</p>
+        </div>
+        <div class="icon-box orange">
+            <i class="fas fa-film"></i>
+            <h3>Netflix / YouTube</h3>
+            <p class="compact2">Recommends what to watch next based on your history</p>
+        </div>
+        <div class="icon-box blue">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Spam Filter</h3>
+            <p class="compact2">Learned what spam looks like — no one programmed every rule</p>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:6px;">
+        <p class="compact"><strong class="text-green">The difference now:</strong> Claude, Copilot, and ChatGPT let you <em>talk</em> to AI directly — in plain English. That's the shift.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     LEVEL 1 ROADMAP
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What We Cover in Level 1</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <p class="bold text-blue">🤖 What is AI / LLM?</p>
+            <p class="compact">Plain-English explanation + QA analogy. Use it before you fully understand it.</p>
+        </div>
+        <div class="content-box" style="border-left-color:#ef4444;">
+            <p class="bold text-blue">⚠️ Hallucination &amp; Verification</p>
+            <p class="compact">What goes wrong, why it matters for QA, how to catch it.</p>
+        </div>
+    </div>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <p class="bold text-blue">🌊 The Disruption &amp; Your Role</p>
+            <p class="compact">Why AI is different from Agile/DevOps. What changes for QA specifically.</p>
+        </div>
+        <div class="content-box" style="border-left-color:#9333ea;">
+            <p class="bold text-blue">⚙️ How AI Works — Just Enough</p>
+            <p class="compact">Training, context window, tokens — explained with QA examples.</p>
+        </div>
+    </div>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <p class="bold text-blue">✍️ Prompts &amp; Context</p>
+            <p class="compact">How to talk to AI effectively. Role, Context, Instruction, Format — with QA examples.</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-yellow);">
+            <p class="bold text-blue">🛠️ VS Code, Copilot &amp; Skills.md</p>
+            <p class="compact">Set up your AI-powered workspace. Write your first Skills.md.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 1
+     ============================================================ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-robot" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>What is an LLM?</h1>
+        <h2>Use AI Before You Learn About It</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Plain English · QA Analogies · No Maths Required</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     WHAT IS AN LLM — ANALOGY
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What is an LLM?</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">An LLM is like a brilliant new QA joiner who has read <em>every</em> test strategy document, every bug report, every Jira ticket, every test automation article ever written — but has never actually opened your application.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>What it CAN do</h3>
+            <ul>
+                <li>Write test cases from requirements</li>
+                <li>Explain what a function does</li>
+                <li>Suggest edge cases you missed</li>
+                <li>Generate Gherkin scenarios</li>
+                <li>Write bug report descriptions</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:#ef4444;">
+            <h3>What it CANNOT do (alone)</h3>
+            <ul>
+                <li class="red">Know your specific application</li>
+                <li class="red">Know your team's conventions</li>
+                <li class="red">Verify its own output is correct</li>
+                <li class="red">Remember your last conversation</li>
+                <li class="red">Replace your QA judgement</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:6px;">
+        <p class="compact bold text-blue" style="text-align:center;">Your job: be the senior QA who briefs, reviews, and guides this brilliant-but-new joiner.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     HOW AN LLM WORKS — TRAINING FLOW
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>How an LLM Actually Works</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">Like preparing for a certification exam. Study millions of books (Training) → Sit the exam (Your Prompt) → Give an answer (Response). The model doesn't look things up — it answers from what it learned.</p>
+    </div>
+    <div class="flow-container" style="margin-top:10px;">
+        <p class="compact bold text-blue" style="text-align:center;margin-bottom:8px;">How the Model Was Built</p>
+        <div class="arrow-flow">
+            <div class="step orange">Billions of text documents<br><span style="font-weight:400;font-size:0.85em;">books, code, articles, Q&amp;A</span></div>
+            <div class="arrow">→</div>
+            <div class="step">Training<br><span style="font-weight:400;font-size:0.85em;">months on GPU clusters</span></div>
+            <div class="arrow">→</div>
+            <div class="step green">Model<br><span style="font-weight:400;font-size:0.85em;">frozen knowledge</span></div>
+        </div>
+        <p class="compact bold text-blue" style="text-align:center;margin:10px 0 8px;">How You Use It</p>
+        <div class="arrow-flow">
+            <div class="step purple">Your Prompt<br><span style="font-weight:400;font-size:0.85em;">"Write test cases for login"</span></div>
+            <div class="arrow">→</div>
+            <div class="step">Model processes<br><span style="font-weight:400;font-size:0.85em;">predicts best response</span></div>
+            <div class="arrow">→</div>
+            <div class="step green">Response<br><span style="font-weight:400;font-size:0.85em;">test cases appear</span></div>
+        </div>
+    </div>
+    <div class="warning-box" style="margin-top:6px;">
+        <p class="compact"><strong>⚠️ Key fact:</strong> The model does not search the internet. It does not look at your app. It answers entirely from patterns learned during training.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     HALLUCINATION
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What is Hallucination?</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">That new joiner — rather than saying "I don't know", they confidently give you an answer that sounds completely right. Formatted beautifully. Totally wrong.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="background:#fff1f2;border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ Real QA Example</h3>
+            <p class="compact">You ask AI: <em>"Write test cases for our checkout page"</em></p>
+            <p class="compact">AI returns 10 perfectly formatted test cases including:</p>
+            <ul>
+                <li class="red">Assertions for a "Save for Later" button</li>
+                <li class="red">A promo code field validation test</li>
+                <li class="red">A loyalty points redemption flow</li>
+            </ul>
+            <p class="compact" style="color:#dc2626;margin-top:4px;"><strong>None of these features exist in your app.</strong></p>
+        </div>
+        <div class="content-box" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3>✅ Why It Looks So Convincing</h3>
+            <ul>
+                <li>Correct Gherkin syntax</li>
+                <li>Realistic field names</li>
+                <li>Proper Given/When/Then structure</li>
+                <li>Matches e-commerce patterns from training data</li>
+            </ul>
+            <p class="compact" style="color:#16a34a;margin-top:4px;"><strong>It is confident because it has seen similar apps — not yours.</strong></p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     HUMAN VERIFICATION MATTERS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Why Human Verification Matters</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;">You are the QA of the AI's output. This is not new — it is literally your job.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>The Familiar Pattern</h3>
+                <p class="compact">Developer writes code → QA reviews and tests it</p>
+                <p class="compact">AI writes test cases → <strong>QA reviews and verifies them</strong></p>
+                <p class="compact">AI generates automation → <strong>QA reviews and runs it</strong></p>
+            </div>
+            <div class="content-box" style="margin-top:6px;">
+                <h3>What to Always Check</h3>
+                <ul>
+                    <li>Does this field/button actually exist?</li>
+                    <li>Does this test cover the real requirement?</li>
+                    <li>Are negative scenarios included?</li>
+                    <li>Are edge cases realistic for our users?</li>
+                </ul>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);background:#f0fdf4;">
+            <h3>The Good News for QA</h3>
+            <p class="compact">AI doesn't eliminate QA thinking. It <strong>amplifies</strong> it.</p>
+            <p class="compact" style="margin-top:6px;">Instead of spending 2 hours writing test cases from scratch — you spend 20 minutes reviewing and improving what AI generated.</p>
+            <p class="compact" style="margin-top:6px;">Your domain knowledge, your understanding of the app, your QA instinct — <strong>that is what AI cannot replace.</strong></p>
+            <div class="analogy-box" style="margin-top:8px;">
+                <div class="label">🎓 Think of it this way</div>
+                <p class="compact">A spell-checker doesn't make you a worse writer. It frees you to focus on the ideas.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     COLLABORATOR VS ANSWER MACHINE
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>AI as Collaborator, Not Answer Machine</h2>
+    <table class="cmp-table">
+        <thead>
+            <tr><th>❌ Answer Machine Mindset</th><th>✅ Collaborator Mindset</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="bad">"Write my test cases." (then copy-paste)</td>
+                <td class="good">"Here's the requirement. Here's my app context. Draft test cases — I'll review."</td>
+            </tr>
+            <tr>
+                <td class="bad">Trust the output because it looks professional</td>
+                <td class="good">Review every test case against the actual application</td>
+            </tr>
+            <tr>
+                <td class="bad">One prompt, one response, done</td>
+                <td class="good">Prompt → review → refine → review again (like a dev review cycle)</td>
+            </tr>
+            <tr>
+                <td class="bad">"The AI got it wrong, AI is useless"</td>
+                <td class="good">"The AI got it wrong — I need to give it more context"</td>
+            </tr>
+            <tr>
+                <td class="bad">Use AI to replace thinking</td>
+                <td class="good">Use AI to do the first draft — your thinking improves it</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="success-box" style="margin-top:6px;">
+        <p class="compact"><strong class="text-green">The shift:</strong> You are not a prompt copier. You are a quality reviewer who uses AI to work 5× faster.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 2
+     ============================================================ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-bolt" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>The Disruption Is Already Here</h1>
+        <h2>What Changes — and What Changes for QA</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Every role · Every process · All at once</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     PREVIOUS SHIFTS TIMELINE
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Why This Shift is Different</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">Every previous SDLC shift changed <em>one</em> thing. AI is changing <em>everything simultaneously</em>.</p>
+    </div>
+    <div class="timeline" style="margin-top:16px;">
+        <div class="tl-node">
+            <div class="tl-dot orange">💧</div>
+            <div class="tl-label">Waterfall</div>
+            <div class="tl-sub">QA at the end. Test what dev built.</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot blue">🔄</div>
+            <div class="tl-label">Agile</div>
+            <div class="tl-sub">QA in the sprint. Shift left. Test earlier.</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot green">⚙️</div>
+            <div class="tl-label">DevOps / CI-CD</div>
+            <div class="tl-sub">QA automates. Tests run in pipeline.</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot purple">🤖</div>
+            <div class="tl-label">AI Era — Now</div>
+            <div class="tl-sub">Every role reimagined. Simultaneously.</div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Previous shifts</h3>
+            <ul>
+                <li>Changed <strong>one phase</strong> at a time</li>
+                <li>QA adapted over 3–5 years</li>
+                <li>New tools replaced old tools</li>
+                <li>Role boundaries stayed roughly intact</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:#9333ea;">
+            <h3>The AI shift</h3>
+            <ul>
+                <li>PM, Dev, QA, DevOps — <strong>all changing now</strong></li>
+                <li>Happening in months, not years</li>
+                <li>AI is not a tool — it is a co-worker in every role</li>
+                <li>Role boundaries are blurring</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     EVERY ROLE TOUCHED
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Every SDLC Role Is Being Touched</h2>
+    <div class="four-col" style="margin-top:10px;">
+        <div class="icon-box blue">
+            <i class="fas fa-clipboard-list"></i>
+            <h3>Product Manager</h3>
+            <p class="compact2">AI drafts requirements, user stories, acceptance criteria</p>
+        </div>
+        <div class="icon-box orange">
+            <i class="fas fa-code"></i>
+            <h3>Developer</h3>
+            <p class="compact2">Copilot writes functions, suggests fixes, reviews code</p>
+        </div>
+        <div class="icon-box green">
+            <i class="fas fa-vial"></i>
+            <h3>QA Engineer</h3>
+            <p class="compact2">AI generates test cases, scripts, data — QA reviews and governs</p>
+        </div>
+        <div class="icon-box purple">
+            <i class="fas fa-infinity"></i>
+            <h3>DevOps / SRE</h3>
+            <p class="compact2">AI writes pipelines, monitors logs, suggests infra changes</p>
+        </div>
+    </div>
+    <div class="warning-box" style="margin-top:10px;">
+        <p class="compact"><strong>⚠️ The risk if you wait:</strong> When every other role moves faster with AI — a QA team that doesn't adapt becomes the bottleneck. Not by choice. By default.</p>
+    </div>
+    <div class="success-box" style="margin-top:6px;">
+        <p class="compact"><strong class="text-green">The opportunity:</strong> QA professionals who learn to govern AI output — not just run it — become the most valuable people in any AI-era team.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     QA ROLE TRANSFORMATION
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>How QA Work Transforms</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">From bricklayer to building inspector. You used to lay every brick yourself. Now AI lays bricks — and you inspect whether they meet the standard, are in the right place, and will hold the building up.</p>
+    </div>
+    <table class="cmp-table" style="margin-top:8px;">
+        <thead>
+            <tr><th>Before AI</th><th>After AI</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Write test cases manually from requirements</td>
+                <td class="good">Review &amp; improve AI-generated test cases</td>
+            </tr>
+            <tr>
+                <td>Run regression tests manually or write scripts line by line</td>
+                <td class="good">Generate automation with AI agents, review and maintain</td>
+            </tr>
+            <tr>
+                <td>Report bugs after features are built</td>
+                <td class="good">Flag quality gaps in requirements before a line of code is written</td>
+            </tr>
+            <tr>
+                <td>Own a test phase at the end of the sprint</td>
+                <td class="good">Own quality governance across the entire AI-driven workflow</td>
+            </tr>
+            <tr>
+                <td>Specialist in one tool or framework</td>
+                <td class="good">AI orchestrator — direct multiple agents, review all outputs</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- ============================================================
+     OLD vs NEW QA SKILLS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Old QA Skills vs New QA Skills</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">You don't throw the old ones away. You add the new ones on top.</p>
+    </div>
+    <table class="cmp-table" style="margin-top:8px;">
+        <thead>
+            <tr><th>Keep — Still Essential</th><th>Add — New AI-Era Skills</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Domain knowledge of the application</td>
+                <td class="good">Prompt engineering — getting useful outputs from AI</td>
+            </tr>
+            <tr>
+                <td>Test design thinking (equivalence, boundary, exploratory)</td>
+                <td class="good">AI output verification — catching hallucinations</td>
+            </tr>
+            <tr>
+                <td>Bug reporting and root cause analysis</td>
+                <td class="good">AI agent orchestration — directing Planner, Generator, Healer agents</td>
+            </tr>
+            <tr>
+                <td>Understanding requirements and acceptance criteria</td>
+                <td class="good">Coverage governance — auditing what AI missed</td>
+            </tr>
+            <tr>
+                <td>Collaboration with developers and product</td>
+                <td class="good">Context building — teaching AI about your specific application</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="success-box" style="margin-top:6px;">
+        <p class="compact"><strong class="text-green">The mindset shift:</strong> From "I test the software" → "I govern the quality system that tests the software."</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     BRIDGE SLIDE
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Now Let's Understand Just Enough of How It Works</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;">You don't need to understand the maths. You need to understand the behaviour — so you can use it confidently and spot its limits.</p>
+    </div>
+    <div class="three-col" style="margin-top:14px;">
+        <div class="icon-box orange">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>Training</h3>
+            <p class="compact2">Why AI knows what it knows — and what it doesn't</p>
+        </div>
+        <div class="icon-box blue">
+            <i class="fas fa-sticky-note"></i>
+            <h3>Context Window</h3>
+            <p class="compact2">Why AI "forgets" and how to work around it</p>
+        </div>
+        <div class="icon-box green">
+            <i class="fas fa-puzzle-piece"></i>
+            <h3>Tokens</h3>
+            <p class="compact2">Why there's a limit to how much you can give AI at once</p>
+        </div>
+    </div>
+    <div class="flow-container" style="margin-top:12px;">
+        <div class="arrow-flow">
+            <div class="step orange">Why it knows things</div>
+            <div class="arrow">→</div>
+            <div class="step">Why it forgets things</div>
+            <div class="arrow">→</div>
+            <div class="step green">Why it has limits</div>
+            <div class="arrow">→</div>
+            <div class="step purple">How to work with all three</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 3
+     ============================================================ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-cogs" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>How AI Works</h1>
+        <h2>Just Enough to Use It Confidently</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Training · Context Window · Tokens · Types of AI · Ethics</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     LLM TRAINING
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>LLM Training — How the Model Learned</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">Like a QA engineer who studied thousands of test plans, bug databases, and automation codebases before their first day at work. All that reading became instinct — but it has a cutoff date. They don't know what changed in your app last week.</p>
+    </div>
+    <div class="flow-container" style="margin-top:10px;">
+        <div class="arrow-flow">
+            <div class="step orange">Collect Data<br><span style="font-weight:400;font-size:0.85em;">books · code · websites · Q&amp;A · articles</span></div>
+            <div class="arrow">→</div>
+            <div class="step">Train the Model<br><span style="font-weight:400;font-size:0.85em;">predict next word, billions of times</span></div>
+            <div class="arrow">→</div>
+            <div class="step">Fine-tune<br><span style="font-weight:400;font-size:0.85em;">human feedback improves responses</span></div>
+            <div class="arrow">→</div>
+            <div class="step green">Deployed Model<br><span style="font-weight:400;font-size:0.85em;">knowledge is now frozen</span></div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box">
+            <h3>What this means for QA</h3>
+            <ul>
+                <li>AI knows general testing patterns very well</li>
+                <li>AI does NOT know your specific application</li>
+                <li>AI's knowledge has a training cutoff date</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>What you must provide</h3>
+            <ul>
+                <li>App context — what it does, who uses it</li>
+                <li>Your specific requirements and constraints</li>
+                <li>Examples of your conventions and standards</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CONTEXT WINDOW
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Context Window — AI's Working Memory</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">Like opening a fresh Jira ticket with no description, no attachments, no history, no comments. The AI has no idea what your app does, what your team conventions are, or what you discussed yesterday — unless you tell it right now.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="content-box" style="border-left-color:#ef4444;">
+                <h3 style="color:#be123c;">❌ What happens without context</h3>
+                <p class="compact"><em>"Write test cases for the checkout page"</em></p>
+                <p class="compact">AI invents an e-commerce checkout based on what it has seen before. Probably not your checkout.</p>
+            </div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);margin-top:6px;">
+                <h3>✅ What happens with context</h3>
+                <p class="compact"><em>"Our checkout has 3 steps: cart review, address, payment. Payment accepts Visa/Mastercard only. No PayPal. Write test cases."</em></p>
+                <p class="compact">Now AI generates test cases for YOUR checkout.</p>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>The Post-it Note Desk</h3>
+            <div style="background:#fef9c3;border-radius:8px;padding:10px;text-align:center;margin:6px 0;">
+                <p style="font-size:0.7em;color:#854d0e;margin:0;">🗒️ Everything you tell AI in this conversation</p>
+                <p style="font-size:0.65em;color:#854d0e;margin:4px 0;">= the post-it notes on the desk</p>
+                <p style="font-size:0.65em;color:#854d0e;margin:0;">When the conversation ends — desk is cleared</p>
+            </div>
+            <ul style="margin-top:6px;">
+                <li>New chat = blank slate every time</li>
+                <li>More context = better responses</li>
+                <li>Skills.md solves this (Day 5)</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     TOKENS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Tokens — Why There Are Limits</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">Like a test execution log with a maximum file size. Once it's full, the oldest entries get dropped. You can't fit your entire 200-page test plan into one AI prompt — it would exceed the limit and get cut off.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="content-box">
+            <h3>What is a Token?</h3>
+            <p class="compact">AI doesn't read word by word. It reads in chunks called tokens.</p>
+            <div style="background:#f1f5f9;border-radius:6px;padding:8px;margin:6px 0;font-size:0.72em;text-align:center;">
+                <span style="background:#dbeafe;color:#1e40af;padding:2px 6px;border-radius:4px;margin:2px;display:inline-block;">test</span>
+                <span style="background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;margin:2px;display:inline-block;">ing</span>
+                <span style="background:#fef3c7;color:#92400e;padding:2px 6px;border-radius:4px;margin:2px;display:inline-block;">the</span>
+                <span style="background:#ede9fe;color:#6b21a8;padding:2px 6px;border-radius:4px;margin:2px;display:inline-block;">check</span>
+                <span style="background:#ede9fe;color:#6b21a8;padding:2px 6px;border-radius:4px;margin:2px;display:inline-block;">out</span>
+                <span style="background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;margin:2px;display:inline-block;">page</span>
+            </div>
+            <p class="compact">Roughly: 1 token ≈ ¾ of a word. 1,000 tokens ≈ 750 words.</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>What this means practically</h3>
+            <ul>
+                <li>Don't paste your entire requirements doc — summarise it</li>
+                <li>Long conversations can lose early context</li>
+                <li>Be concise and specific in prompts</li>
+                <li>Break large tasks into smaller prompts</li>
+            </ul>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">QA Tip</div>
+                <p>Instead of pasting 500 test cases — paste 5 representative examples and ask AI to follow the same pattern.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     TYPES OF AI
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Types of AI You'll Work With</h2>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <div style="text-align:center;margin-bottom:6px;"><i class="fas fa-comment-dots" style="font-size:1.8em;color:var(--vibe-orange);"></i></div>
+            <h3 style="text-align:center;">Generative AI</h3>
+            <p class="compact2"><strong>Creates new content</strong> from your instructions</p>
+            <p class="compact2" style="margin-top:4px;"><strong>QA use:</strong> Write test cases, generate Gherkin, draft bug reports, explain code</p>
+            <p class="compact2" style="margin-top:4px;color:var(--vibe-blue);"><strong>Examples:</strong> Claude, ChatGPT, Copilot</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <div style="text-align:center;margin-bottom:6px;"><i class="fas fa-chart-line" style="font-size:1.8em;color:var(--vibe-blue);"></i></div>
+            <h3 style="text-align:center;">ML Models</h3>
+            <p class="compact2"><strong>Learns patterns</strong> from data to make predictions</p>
+            <p class="compact2" style="margin-top:4px;"><strong>QA use:</strong> Predict flaky tests, classify defect severity, detect anomalies in test results</p>
+            <p class="compact2" style="margin-top:4px;color:var(--vibe-blue);"><strong>Examples:</strong> Custom models in CI pipelines</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <div style="text-align:center;margin-bottom:6px;"><i class="fas fa-robot" style="font-size:1.8em;color:var(--vibe-green);"></i></div>
+            <h3 style="text-align:center;">AI Agents</h3>
+            <p class="compact2"><strong>Takes actions</strong> — browses, executes, plans, decides</p>
+            <p class="compact2" style="margin-top:4px;"><strong>QA use:</strong> Planner, Generator, Healer agents — you'll build and use all three in Level 3</p>
+            <p class="compact2" style="margin-top:4px;color:var(--vibe-blue);"><strong>Examples:</strong> Playwright MCP Agent, Claude with tools</p>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:8px;">
+        <p class="compact bold text-blue" style="text-align:center;">This course focuses on Generative AI + Agents — the two that QA professionals use directly every day.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     AI ETHICS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>AI Ethics &amp; Responsible Use</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">Using AI irresponsibly can create real problems — for your client, your company, and yourself.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div>
+            <div class="warning-box">
+                <h3 style="color:#be123c;">🚫 Never share with AI</h3>
+                <ul>
+                    <li class="red">Real user data or PII (names, emails, IDs)</li>
+                    <li class="red">Client application URLs or credentials</li>
+                    <li class="red">Production test data with sensitive records</li>
+                    <li class="red">Proprietary business logic or trade secrets</li>
+                </ul>
+            </div>
+            <div class="analogy-box" style="margin-top:6px;">
+                <div class="label">🎓 QA Analogy</div>
+                <p class="compact">You wouldn't email your client's user database to a freelance contractor. Same rule applies to AI.</p>
+            </div>
+        </div>
+        <div>
+            <div class="success-box">
+                <h3>✅ Safe practice for QA</h3>
+                <ul>
+                    <li>Use synthetic / anonymised test data</li>
+                    <li>Describe app behaviour — don't paste real data</li>
+                    <li>Check your company's AI usage policy first</li>
+                    <li>Always verify AI output before using it</li>
+                    <li>Disclose when a deliverable was AI-assisted</li>
+                </ul>
+            </div>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">Good habit</div>
+                <p>In Level 2 you will learn to generate synthetic test data — so you never need to use real user data with AI.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 4
+     ============================================================ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-comments" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Prompts &amp; Context</h1>
+        <h2>How to Talk to AI and Get Useful QA Outputs</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Role · Context · Instruction · Format · Iterative Prompting</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     WHAT IS A PROMPT
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What is a Prompt?</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">A prompt is like a work ticket you raise for a contractor. A vague ticket gets vague work. A detailed ticket — with context, acceptance criteria, and examples — gets exactly what you need.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="content-box" style="background:#fff1f2;border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ Vague Prompt</h3>
+            <div style="background:#f1f5f9;border-radius:6px;padding:8px;font-size:0.72em;color:#334155;font-style:italic;margin:6px 0;">
+                "Write test cases for login"
+            </div>
+            <ul>
+                <li class="red">No context about your app</li>
+                <li class="red">AI invents a generic login</li>
+                <li class="red">Output needs heavy rework</li>
+            </ul>
+        </div>
+        <div class="content-box" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3>✅ Detailed Prompt</h3>
+            <div style="background:#f1f5f9;border-radius:6px;padding:8px;font-size:0.72em;color:#334155;font-style:italic;margin:6px 0;">
+                "Act as a QA engineer. Our login accepts email + password. 3 failed attempts locks the account for 15 minutes. Write 6 test cases covering positive, negative and boundary scenarios. Return as a Gherkin feature file."
+            </div>
+            <ul>
+                <li>Role, context, instruction, format — all present</li>
+                <li>AI generates for YOUR login</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PROMPT ANATOMY
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Anatomy of an Effective Prompt</h2>
+    <div class="flow-container">
+        <div class="arrow-flow">
+            <div class="step orange">1. Role</div>
+            <div class="arrow">+</div>
+            <div class="step">2. Context</div>
+            <div class="arrow">+</div>
+            <div class="step green">3. Instruction</div>
+            <div class="arrow">+</div>
+            <div class="step purple">4. Format</div>
+            <div class="arrow">=</div>
+            <div class="step" style="background:#334155;">Great Output</div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>1. Role</h3>
+            <p class="compact">Tell AI who to be before asking anything.</p>
+            <div style="background:#f1f5f9;border-radius:6px;padding:6px 10px;font-size:0.72em;font-style:italic;color:#334155;margin:4px 0;">
+                "Act as a senior QA engineer with expertise in e-commerce applications."
+            </div>
+            <p class="compact">Same question with role vs without role produces noticeably different outputs — role sets the lens.</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>2. Context</h3>
+            <p class="compact">Tell AI about your specific situation.</p>
+            <div style="background:#f1f5f9;border-radius:6px;padding:6px 10px;font-size:0.72em;font-style:italic;color:#334155;margin:4px 0;">
+                "Our checkout has 3 steps: cart → address → payment. We accept Visa and Mastercard only. Guest checkout is supported."
+            </div>
+            <p class="compact">Context is the briefing you give a new QA joiner before asking them to test.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PROMPT ANATOMY — INSTRUCTION & FORMAT
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Instruction &amp; Format — The Difference Makers</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>3. Instruction</h3>
+            <p class="compact">Tell AI exactly what to do. Be specific.</p>
+            <div style="background:#f1f5f9;border-radius:6px;padding:6px 10px;font-size:0.72em;font-style:italic;color:#334155;margin:4px 0;">
+                "Write 8 test cases covering: happy path, empty fields, invalid email format, wrong password, account lockout after 3 attempts, and password reset link."
+            </div>
+            <p class="compact">Vague: <em>"Write some test cases"</em><br>
+            Specific: <em>"Write 8 test cases covering these exact scenarios"</em></p>
+        </div>
+        <div class="content-box" style="border-left-color:#9333ea;">
+            <h3>4. Format</h3>
+            <p class="compact">Tell AI how to structure the output.</p>
+            <div style="background:#f1f5f9;border-radius:6px;padding:6px 10px;font-size:0.72em;font-style:italic;color:#334155;margin:4px 0;">
+                "Return as a Gherkin feature file"<br>
+                "Return as a markdown table with columns: ID, Title, Steps, Expected Result"<br>
+                "Return as a numbered list"
+            </div>
+            <p class="compact"><strong>Format is the most underused part of a prompt.</strong> It decides whether you can paste the output directly into Jira — or spend 20 minutes reformatting.</p>
+        </div>
+    </div>
+    <div class="qa-example" style="margin-top:8px;">
+        <div class="label">🎓 Real QA Format Examples</div>
+        <p>For Jira: <em>"Return as a table with ID, Summary, Steps, Expected Result"</em> &nbsp;|&nbsp; For automation: <em>"Return as a Gherkin .feature file"</em> &nbsp;|&nbsp; For review: <em>"Return as a numbered list with rationale for each test"</em></p>
+    </div>
+</section>
+
+<!-- ============================================================
+     ITERATIVE PROMPTING
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Iterative Prompting</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">Exactly like a QA review cycle. Dev submits code → QA reviews → raises comments → Dev fixes → QA re-reviews. You don't accept the first version. Neither should you accept the first AI output.</p>
+    </div>
+    <div class="flow-container" style="margin-top:10px;">
+        <div class="arrow-flow">
+            <div class="step orange">1. First Prompt<br><span style="font-weight:400;font-size:0.85em;">draft test cases</span></div>
+            <div class="arrow">→</div>
+            <div class="step">2. Review<br><span style="font-weight:400;font-size:0.85em;">what's missing?</span></div>
+            <div class="arrow">→</div>
+            <div class="step purple">3. Refine<br><span style="font-weight:400;font-size:0.85em;">"add negative scenarios"</span></div>
+            <div class="arrow">→</div>
+            <div class="step green">4. Better output<br><span style="font-weight:400;font-size:0.85em;">review again</span></div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ One-shot mindset</h3>
+            <p class="compact">Send one prompt. Get output. Copy-paste into Jira. Done.</p>
+            <p class="compact" style="color:#dc2626;">This is how hallucinations end up in your test suite.</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>✅ Iterative mindset</h3>
+            <ul>
+                <li>Prompt → review → refine → review</li>
+                <li>Ask AI to critique its own output</li>
+                <li>Ask AI what it might have missed</li>
+                <li>Add more context when output is off</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     QA PROMPT EXAMPLES — MANUAL
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Prompt Examples — Manual Testing Tasks</h2>
+    <div class="content-box" style="border-left-color:var(--vibe-orange);">
+        <h3>Test Case Generation</h3>
+        <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.62em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">
+<span style="color:#94a3b8;">// Role + Context + Instruction + Format</span>
+Act as a senior QA engineer. Our registration form has:
+- Email (must be valid format, unique in system)
+- Password (min 8 chars, 1 uppercase, 1 number)
+- Date of Birth (must be 18+ years old)
+
+Write 10 test cases covering positive, negative, and boundary scenarios.
+Return as a Gherkin feature file with Scenario Outlines where applicable.</div>
+    </div>
+    <div class="content-box" style="border-left-color:var(--vibe-blue);margin-top:8px;">
+        <h3>Bug Report Writing</h3>
+        <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.62em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">
+<span style="color:#94a3b8;">// Turn rough notes into a professional bug report</span>
+Act as a QA engineer writing a Jira bug report.
+Issue: Checkout breaks when user has items from 2 different sellers.
+Error appears on payment step. Doesn't happen with single-seller cart.
+
+Write a professional bug report with: Summary, Environment, Steps to Reproduce,
+Expected Result, Actual Result, Severity, and suggested root cause.</div>
+    </div>
+</section>
+
+<!-- ============================================================
+     QA PROMPT EXAMPLES — AUTOMATION / REVIEW
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Prompt Examples — Reviewing &amp; Improving Output</h2>
+    <div class="content-box" style="border-left-color:var(--vibe-green);">
+        <h3>Ask AI to Review Its Own Work</h3>
+        <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.62em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">
+<span style="color:#94a3b8;">// Second prompt — iterative refinement</span>
+Review the test cases you just generated.
+Identify:
+1. Any scenarios that are duplicates
+2. Any critical negative paths you missed
+3. Any boundary value cases not covered
+
+Then add the missing scenarios.</div>
+    </div>
+    <div class="content-box" style="border-left-color:#9333ea;margin-top:8px;">
+        <h3>Ask AI to Explain Code (for QA reviewing automation)</h3>
+        <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.62em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;">
+<span style="color:#94a3b8;">// You don't need to read code like a developer</span>
+Act as a QA engineer reviewing Playwright test code.
+Explain what this test does in plain English.
+Identify any assertions that might be missing.
+Suggest what additional checks a QA would want.
+
+[paste the code here]</div>
+    </div>
+</section>
+
+<!-- ============================================================
+     GOOD VS DECEPTIVE OUTPUT
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Good Output vs Deceptive Output</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">AI output that looks complete is not the same as output that IS complete. This is the most important QA skill you will apply to AI.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="background:#fff1f2;border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ Looks great — has problems</h3>
+            <p class="compact">AI returns 10 well-formatted Gherkin scenarios for your registration form.</p>
+            <ul>
+                <li class="red">3 scenarios are near-duplicates</li>
+                <li class="red">No test for duplicate email (your biggest bug risk)</li>
+                <li class="red">Age validation test uses 17 years — wrong boundary</li>
+                <li class="red">Password validation doesn't test the special char rule</li>
+            </ul>
+            <p class="compact" style="color:#dc2626;margin-top:4px;"><strong>Looks: 10/10 &nbsp;|&nbsp; Coverage: 5/10</strong></p>
+        </div>
+        <div class="content-box" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3>✅ How a QA reviewer catches this</h3>
+            <ul>
+                <li>Map each test case back to a specific requirement</li>
+                <li>Check: is every business rule covered?</li>
+                <li>Check: are boundary values exactly right?</li>
+                <li>Check: what are the top 3 ways this feature breaks?</li>
+                <li>Ask AI: "what negative scenarios did you miss?"</li>
+            </ul>
+            <p class="compact" style="color:#16a34a;margin-top:4px;"><strong>This is QA expertise — and AI can't replace it.</strong></p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER 5
+     ============================================================ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-tools" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>VS Code, Copilot &amp; Skills.md</h1>
+        <h2>Your AI-Powered QA Workspace</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">VS Code · GitHub Copilot · Cursor IDE · Skills.md</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     VS CODE
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>VS Code — Your AI-Powered Workspace</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">VS Code is not just a code editor. It is the hub where your AI tools, test files, automation scripts, and MCP connections all live together.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>What QA professionals use it for</h3>
+            <ul>
+                <li>Writing and running Playwright tests</li>
+                <li>Managing Gherkin feature files</li>
+                <li>Storing skills.md and prompt libraries</li>
+                <li>Connecting to MCP servers (Level 2)</li>
+                <li>Running CI pipelines locally</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>AI tools that live inside VS Code</h3>
+            <ul>
+                <li>GitHub Copilot — inline suggestions as you type</li>
+                <li>Copilot Chat — ask questions about your code</li>
+                <li>Claude via MCP — connected to your file system</li>
+                <li>Cursor IDE — a Copilot-native alternative</li>
+            </ul>
+        </div>
+    </div>
+    <div class="flow-container" style="margin-top:8px;">
+        <div class="arrow-flow">
+            <div class="step orange">Your test files</div>
+            <div class="arrow">+</div>
+            <div class="step">GitHub Copilot</div>
+            <div class="arrow">+</div>
+            <div class="step green">MCP Servers</div>
+            <div class="arrow">+</div>
+            <div class="step purple">Skills.md</div>
+            <div class="arrow">=</div>
+            <div class="step" style="background:#334155;">AI QA Workspace</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     GITHUB COPILOT
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>GitHub Copilot — AI Inside Your Editor</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">Like autocomplete — but instead of completing a word, it completes an entire test function. It reads your intent from the comment or function name, and suggests the implementation.</p>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Inline Suggestions</h3>
+            <p class="compact2">You type a comment or start a function — Copilot suggests the rest in grey text. Press Tab to accept.</p>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">QA use</div>
+                <p>Start typing <code style="font-size:0.85em;">// test login with invalid password</code> — Copilot writes the whole Playwright test</p>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>Copilot Chat</h3>
+            <p class="compact2">Ask questions about your test code in plain English — right inside VS Code.</p>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">QA use</div>
+                <p>"Why is this test flaky?" — "What does this selector mean?" — "Add an assertion for the error message"</p>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Slash Commands</h3>
+            <p class="compact2">Special shortcuts for common tasks.</p>
+            <div class="qa-example" style="margin-top:6px;">
+                <div class="label">QA use</div>
+                <p><code style="font-size:0.85em;">/explain</code> — explain selected code<br>
+                <code style="font-size:0.85em;">/fix</code> — fix a failing test<br>
+                <code style="font-size:0.85em;">/tests</code> — generate tests for selected code</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CURSOR IDE
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Cursor IDE — Copilot's More Agentic Cousin</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>What is Cursor?</h3>
+            <p class="compact">A VS Code fork with AI deeply integrated into every part of the editor — not just as a plugin. The AI can read your entire codebase, not just the current file.</p>
+            <ul style="margin-top:6px;">
+                <li>Built on VS Code — same layout you know</li>
+                <li>Understands your whole project at once</li>
+                <li>Can refactor across multiple files</li>
+                <li>Better at large-scale test suite generation</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>VS Code + Copilot vs Cursor</h3>
+            <table class="cmp-table" style="margin-top:6px;">
+                <thead><tr><th>Feature</th><th>Copilot</th><th>Cursor</th></tr></thead>
+                <tbody>
+                    <tr><td>Inline suggestions</td><td class="good">✅</td><td class="good">✅</td></tr>
+                    <tr><td>Chat in editor</td><td class="good">✅</td><td class="good">✅</td></tr>
+                    <tr><td>Whole-project context</td><td class="warn">⚠️ Limited</td><td class="good">✅ Strong</td></tr>
+                    <tr><td>Agent mode (multi-file)</td><td class="warn">⚠️ Growing</td><td class="good">✅ Native</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:6px;">
+        <p class="compact bold text-blue" style="text-align:center;">This course uses VS Code + Copilot as the primary setup. Cursor is covered as an overview for those who want to explore further.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SKILLS.MD — WHAT IT IS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Skills.md — Solving the Context Window Problem</h2>
+    <div class="analogy-box">
+        <div class="label">🎓 QA Analogy</div>
+        <p class="compact bold">Like your team's Definition of Done — but written for AI. It tells Copilot and Claude: always write tests in TypeScript, always use Page Object Model, always include assertions, our app URL is X, our test data conventions are Y. You write it once. AI reads it every time.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ Without Skills.md</h3>
+            <ul>
+                <li class="red">Every new chat — blank context</li>
+                <li class="red">Repeat your project conventions every time</li>
+                <li class="red">AI uses JavaScript when you want TypeScript</li>
+                <li class="red">AI generates flat tests instead of POM</li>
+                <li class="red">Inconsistent output across sessions</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>✅ With Skills.md</h3>
+            <ul>
+                <li>AI reads your conventions before helping</li>
+                <li>Always TypeScript, always POM, always your patterns</li>
+                <li>Consistent output every session</li>
+                <li>Context is loaded automatically via MCP</li>
+                <li>Your QA standards baked into every AI output</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     WRITING YOUR FIRST SKILLS.MD
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Writing Your First Skills.md</h2>
+    <div class="two-col">
+        <div>
+            <div style="display:flex;align-items:flex-start;gap:8px;background:var(--vibe-light-bg);border-left:4px solid var(--vibe-blue);border-radius:6px;padding:6px 12px;margin:4px 0;font-size:0.77em;">
+                <div style="background:var(--vibe-blue);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">1</div>
+                <div><strong style="color:var(--vibe-dark-blue);">Project context</strong> — what the application does, who the users are, what tech stack is used</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;background:var(--vibe-light-bg);border-left:4px solid var(--vibe-orange);border-radius:6px;padding:6px 12px;margin:4px 0;font-size:0.77em;">
+                <div style="background:var(--vibe-orange);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">2</div>
+                <div><strong style="color:var(--vibe-dark-blue);">Test conventions</strong> — naming patterns, folder structure, TypeScript or JS, framework used</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;background:var(--vibe-light-bg);border-left:4px solid var(--vibe-green);border-radius:6px;padding:6px 12px;margin:4px 0;font-size:0.77em;">
+                <div style="background:#16a34a;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">3</div>
+                <div><strong style="color:var(--vibe-dark-blue);">AI rules</strong> — always use POM, never hardcode test data, always include assertions, always add comments</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;background:var(--vibe-light-bg);border-left:4px solid:#9333ea;border-radius:6px;padding:6px 12px;margin:4px 0;font-size:0.77em;">
+                <div style="background:#9333ea;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;">4</div>
+                <div><strong style="color:var(--vibe-dark-blue);">Examples</strong> — paste 1–2 sample test cases that match your desired style</div>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>Example Skills.md snippet</h3>
+            <div style="background:#0d1117;border-radius:8px;padding:10px 14px;font-family:Consolas,monospace;font-size:0.58em;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;margin:6px 0;"><span style="color:#f472b6;"># QA Skills for ShopEasy App</span>
+
+<span style="color:#fbbf24;">## Project</span>
+E-commerce platform. React frontend.
+Node.js backend. PostgreSQL database.
+
+<span style="color:#fbbf24;">## Test Conventions</span>
+- Always TypeScript
+- Always Page Object Model
+- Tests in /tests folder
+- POMs in /pages folder
+
+<span style="color:#fbbf24;">## AI Rules</span>
+- Never hardcode test data
+- Always add waitFor assertions
+- Always include negative scenarios</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     LEVEL 1 TAKEAWAY
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Level 1 Complete — What You Now Have</h2>
+    <div class="success-box">
+        <p class="compact bold text-green" style="text-align:center;">✅ VS Code + GitHub Copilot set up · Skills.md built · Prompt method mastered · You get useful AI outputs every time.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>Mental models you own</h3>
+                <ul>
+                    <li>LLM = brilliant joiner who hasn't seen your app</li>
+                    <li>Hallucination = confident but wrong output</li>
+                    <li>You are the QA of AI's output</li>
+                    <li>Context window = post-it notes on a desk</li>
+                    <li>Prompt = work ticket for AI</li>
+                    <li>Skills.md = Definition of Done for AI</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);">
+                <h3>Practical skills you have</h3>
+                <ul>
+                    <li>Write Role + Context + Instruction + Format prompts</li>
+                    <li>Iterate and refine AI output like a QA review cycle</li>
+                    <li>Spot deceptive-looking but incomplete output</li>
+                    <li>Use VS Code with GitHub Copilot</li>
+                    <li>Write a Skills.md for your project</li>
+                    <li>Apply responsible AI use in a QA context</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     WHAT'S NEXT — LEVEL 2 TEASER
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What's Coming in Level 2</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">Level 2 — AI for Manual Testing. Every manual QA task, done faster and better with AI tools you set up once.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <p class="bold text-blue"><i class="fas fa-plug" style="color:var(--vibe-orange);"></i> MCP — Model Context Protocol</p>
+                <p class="compact">Connect Claude directly to your file system. AI can read your files, not just your chat.</p>
+            </div>
+            <div class="content-box" style="margin-top:6px;">
+                <p class="bold text-blue"><i class="fas fa-file-alt" style="color:var(--vibe-blue);"></i> Requirements → Gherkin Feature Files</p>
+                <p class="compact">Paste a requirement. Get a complete .feature file. Review and refine.</p>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);">
+                <p class="bold text-blue"><i class="fas fa-binoculars" style="color:var(--vibe-green);"></i> Exploratory Testing with AI Agents</p>
+                <p class="compact">AI browses your live application and surfaces bugs you haven't found yet.</p>
+            </div>
+            <div class="content-box" style="margin-top:6px;">
+                <p class="bold text-blue"><i class="fas fa-database" style="color:#9333ea;"></i> Test Data Generation</p>
+                <p class="compact">Generate synthetic JSON, CSV, and SQL test data — no real user data needed.</p>
+            </div>
+        </div>
+    </div>
+    <div class="flow-container" style="margin-top:8px;">
+        <div class="arrow-flow">
+            <div class="step green">Level 1 ✅ Done</div>
+            <div class="arrow">→</div>
+            <div class="step orange">Level 2: AI for Manual Testing</div>
+            <div class="arrow">→</div>
+            <div class="step">Level 3: Test Automation</div>
+            <div class="arrow">→</div>
+            <div class="step purple">Level 4: AI SDLC</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CLOSING
+     ============================================================ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:500px;width:80%;margin:0 auto 12px;display:block;"
+         onerror="this.style.display='none'">
+    <h1>You Are Already Thinking Like an AI-Era QA</h1>
+    <p class="subtitle">You don't replace your QA expertise. You amplify it with AI.</p>
+    <div class="flow-container" style="max-width:700px;margin:12px auto;">
+        <div class="arrow-flow">
+            <div class="step orange">Understand AI</div>
+            <div class="arrow">→</div>
+            <div class="step">Verify its output</div>
+            <div class="arrow">→</div>
+            <div class="step green">Guide it with context</div>
+            <div class="arrow">→</div>
+            <div class="step purple">Govern quality</div>
+        </div>
+    </div>
+    <div style="margin-top:12px;">
+        <span class="badge"><i class="fas fa-question-circle"></i> Questions?</span>
+        <span class="badge green"><i class="fas fa-arrow-right"></i> Level 2 Next!</span>
+    </div>
+    <p class="tagline" style="margin-top:12px;">
+        <i class="fas fa-globe"></i> vibetestq.com &nbsp;|&nbsp;
+        <i class="fab fa-linkedin"></i> qtpsudhakar
+    </p>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    (function () {
+        var MARGIN = 0.04;
+        function getSize() { return { w: window.innerWidth, h: window.innerHeight }; }
+        function buildConfig() {
+            var s = getSize();
+            return {
+                hash: true, transition: 'slide', transitionSpeed: 'default',
+                slideNumber: true, controls: true, progress: true, center: true,
+                width: s.w, height: s.h, margin: MARGIN, minScale: 0.1, maxScale: 1.0
+            };
+        }
+        var initialized = false;
+        function init() {
+            if (typeof Reveal === 'undefined') return false;
+            Reveal.initialize(buildConfig());
+            initialized = true;
+            return true;
+        }
+        var resizeTimer = null;
+        var lastDPR = window.devicePixelRatio;
+        function onViewportChange() {
+            if (!initialized) return;
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                var s = getSize();
+                Reveal.configure({ width: s.w, height: s.h });
+                Reveal.layout();
+            }, 60);
+        }
+        window.addEventListener('resize', onViewportChange);
+        setInterval(function () {
+            var dpr = window.devicePixelRatio;
+            if (dpr !== lastDPR) { lastDPR = dpr; onViewportChange(); }
+        }, 250);
+        document.addEventListener('keydown', function (e) {
+            if (!initialized) return;
+            if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
+                e.preventDefault();
+                var s = getSize();
+                Reveal.configure({ width: s.w * 0.97, height: s.h * 0.97 });
+                Reveal.layout();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+                e.preventDefault();
+                var s2 = getSize();
+                Reveal.configure({ width: s2.w * 1.03, height: s2.h * 1.03 });
+                Reveal.layout();
+            }
+        });
+        if (!init()) {
+            var attempts = 0;
+            var pollTimer = setInterval(function () {
+                attempts++;
+                if (init()) { clearInterval(pollTimer); }
+                else if (attempts >= 50) {
+                    clearInterval(pollTimer);
+                    console.error('Reveal.js failed to load from CDN.');
+                }
+            }, 100);
+        }
+    })();
+</script>
+</body>
+</html>

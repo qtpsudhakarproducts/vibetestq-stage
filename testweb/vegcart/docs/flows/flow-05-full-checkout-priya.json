@@ -1,0 +1,59 @@
+{
+  "name": "Flow 05 – Full Checkout as Priya",
+  "steps": [
+    {
+      "id": "step_1000000004_0",
+      "toolName": "user_login",
+      "params": { "email": "priya@example.com", "password": "test123" },
+      "label": "Login as Priya Sharma"
+    },
+    {
+      "id": "step_1000000004_1",
+      "toolName": "clear_cart",
+      "params": {},
+      "label": "Clear cart before shopping"
+    },
+    {
+      "id": "step_1000000004_2",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Alphonso Mango", "quantity": 2 },
+      "label": "Add Alphonso Mango ×2 (₹249/kg)"
+    },
+    {
+      "id": "step_1000000004_3",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Tomatoes", "quantity": 1 },
+      "label": "Add Tomatoes ×1 (₹39/kg)"
+    },
+    {
+      "id": "step_1000000004_4",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Spinach", "quantity": 3 },
+      "label": "Add Spinach ×3 (₹29/bunch)"
+    },
+    {
+      "id": "step_1000000004_5",
+      "toolName": "get_cart_contents",
+      "params": {},
+      "label": "Check cart – verify total before checkout"
+    },
+    {
+      "id": "step_1000000004_6",
+      "toolName": "place_order",
+      "params": {
+        "name": "Priya Sharma",
+        "phone": "9876543210",
+        "address": "12 Lotus Colony",
+        "city": "Bengaluru",
+        "pincode": "560001"
+      },
+      "label": "Place order to 12 Lotus Colony, Bengaluru"
+    },
+    {
+      "id": "step_1000000004_7",
+      "toolName": "get_order_history",
+      "params": { "status": "all", "limit": 5 },
+      "label": "Verify new order appears in order history"
+    }
+  ]
+}

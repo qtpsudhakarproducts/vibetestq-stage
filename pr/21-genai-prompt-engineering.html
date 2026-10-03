@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GenAI and Prompt Engineering for QE - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>GenAI &amp; Prompt Engineering for QE</h1>
+    <p class="subtitle">LLMs · GitHub Copilot · Test Generation Prompts</p>
+    <p class="tagline">Use AI to multiply your productivity as a quality engineer — Session 21</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Copilot</span>
+        <span class="badge" style="background:var(--vibe-blue);">ChatGPT / Claude</span>
+        <span class="badge" style="background:var(--vibe-green);">Prompt Patterns</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The QE AI Productivity Stack</h2>
+    <div class="three-col">
+        <div class="content-box" style="text-align:center; border-left:none; border-top:4px solid var(--vibe-dark-blue);">
+            <div style="font-size:2em; color:var(--vibe-dark-blue); margin-bottom:8px;"><i class="fas fa-robot"></i></div>
+            <h3>LLM Assistants</h3>
+            <p style="font-size:0.78em;">ChatGPT, Claude, Gemini for test strategy, test case generation, bug analysis, and documentation</p>
+        </div>
+        <div class="content-box" style="text-align:center; border-left:none; border-top:4px solid var(--vibe-blue);">
+            <div style="font-size:2em; color:var(--vibe-blue); margin-bottom:8px;"><i class="fas fa-code"></i></div>
+            <h3>IDE Copilots</h3>
+            <p style="font-size:0.78em;">GitHub Copilot, Cursor, Tabnine for in-editor autocomplete, page objects, and refactoring</p>
+        </div>
+        <div class="content-box" style="text-align:center; border-left:none; border-top:4px solid var(--vibe-green);">
+            <div style="font-size:2em; color:var(--vibe-green); margin-bottom:8px;"><i class="fas fa-plug"></i></div>
+            <h3>MCP Agents</h3>
+            <p style="font-size:0.78em;">Playwright MCP, browser agents that directly interact with apps to generate and run tests autonomously</p>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:8px;">
+        <p class="compact bold">QEs who use AI effectively produce 3–10× more test coverage in less time. The skill is writing precise prompts, not just using AI.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Effective Prompt Engineering for Test Generation</h2>
+    <div class="content-box">
+        <h3>The CLEAR Prompt Framework</h3>
+        <div class="two-col" style="margin-top:6px;">
+            <ul>
+                <li><span class="bold text-blue">C</span>ontext — what app, what page, what stack</li>
+                <li><span class="bold text-blue">L</span>imitations — what to avoid (no locators in tests)</li>
+                <li><span class="bold text-blue">E</span>xample — sample of existing code style</li>
+            </ul>
+            <ul>
+                <li><span class="bold text-green">A</span>ction — exactly what to generate</li>
+                <li><span class="bold text-green">R</span>equirements — edge cases, patterns, constraints</li>
+            </ul>
+        </div>
+    </div>
+    <div class="code-snippet" style="margin-top:8px; color:#c9d1d9;">PROMPT EXAMPLE:
+Context: Playwright + TypeScript, Page Object pattern.
+No locators in tests — only page methods.
+
+Action: Write a LoginPage class with:
+- getByLabel locators for Email, Password
+- login(email, password) method
+- verifyError(message) method using expect
+
+Requirements: Extend BasePage, TypeScript, all locators private</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Prompts for Test Scenarios</h2>
+    <div class="code-snippet" style="color:#c9d1d9;">PROMPT: Test case generation
+---
+App: E-commerce checkout flow (React, REST API)
+Requirement: Users can apply discount codes at checkout
+
+Generate Playwright test scenarios for:
+1. Valid discount code reduces total price
+2. Expired discount code shows error message
+3. Already-used discount code shows error
+4. Invalid code format shows validation error
+5. Discount applied correctly with multiple items in cart
+
+For each scenario, provide:
+- Test title
+- Preconditions
+- Steps (using page object methods)
+- Expected assertion
+
+Follow POM pattern — no locators or page.goto in tests.
+---
+
+OUTPUT: Test file with test.describe block, beforeEach for
+login + navigation, and 5 test cases using page methods.</div>
+    <div class="highlight-box">
+        <p class="compact">The more specific and structured your prompt, the less cleanup work you need. Use your code style as context.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>GitHub Copilot in VS Code for QE</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Inline Autocomplete</h3>
+            <ul>
+                <li>Type method signature → Copilot completes body</li>
+                <li>Write comment → Copilot generates code</li>
+                <li>Tab to accept, Esc to reject</li>
+                <li>Alt+] to cycle suggestions</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Copilot Chat (Ctrl+I)</h3>
+            <ul>
+                <li>/explain — explain selected code</li>
+                <li>/fix — fix a bug in selection</li>
+                <li>/tests — generate tests for function</li>
+                <li>/doc — add documentation</li>
+                <li>@workspace — ask about whole project</li>
+            </ul>
+        </div>
+    </div>
+    <div class="code-snippet" style="margin-top:8px; color:#c9d1d9;">// Type this comment → Copilot suggests the method
+// Fill the registration form with firstName, lastName, email, password
+// and click the Register button
+async registerUser(data: RegisterData): Promise&lt;void&gt; {
+  // → Copilot completes with getByLabel calls
+}</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>AI for Bug Analysis and Test Review</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Bug Analysis Prompt</h3>
+            <ul>
+                <li>Paste error message + stack trace</li>
+                <li>Ask: "What caused this? How to fix?"</li>
+                <li>Ask: "What test would catch this?"</li>
+                <li>Ask: "Review my test for flakiness risks"</li>
+                <li>Ask: "Suggest better locators for this HTML"</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Test Quality Review</h3>
+            <ul>
+                <li>Paste test file → ask for code review</li>
+                <li>"What scenarios am I missing?"</li>
+                <li>"Make this test more maintainable"</li>
+                <li>"Convert this to use Page Object pattern"</li>
+                <li>"Add boundary value test cases"</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Use AI as a senior pair programmer. It reviews your tests, suggests improvements, and catches gaps in coverage — available 24/7.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 21 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>AI Tools for QE</h3>
+            <ul>
+                <li>ChatGPT/Claude — test strategy and generation</li>
+                <li>GitHub Copilot — IDE autocomplete</li>
+                <li>Copilot Chat — /fix, /tests, /explain</li>
+                <li>Cursor — AI-native coding IDE</li>
+                <li>MCP servers — browser agent testing</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Prompt Mastery</h3>
+            <ul>
+                <li>CLEAR framework — Context, Limitations, Example, Action, Requirements</li>
+                <li>Provide code style examples in prompts</li>
+                <li>Ask for reviews, not just generation</li>
+                <li>Iterate — refine output with follow-up prompts</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 22 — AI IDEs, MCP Integration and Capstone Project</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

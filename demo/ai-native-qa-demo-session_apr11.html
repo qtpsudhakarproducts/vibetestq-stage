@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Native QA Engineering - Demo Session - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+        .reveal h1 { font-size: 1.6em; margin-bottom: 0.15em; }
+        .reveal h2 { font-size: 1.25em; margin-bottom: 0.2em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.15em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.4; }
+        .reveal .slides section { padding: 6px 28px; box-sizing: border-box; overflow: hidden; }
+        .logo-corner { position: absolute; top: 10px; right: 20px; z-index: 100; }
+        .logo-corner img { width: 70px; height: auto; }
+        .title-slide { background: #ffffff !important; }
+        .title-slide h1 { font-size: 1.7em; color: var(--vibe-dark-blue); margin: 8px 0 6px; }
+        .title-slide .subtitle { font-size: 1.05em; color: var(--vibe-orange); margin: 6px 0; }
+        .title-slide .tagline  { font-size: 0.9em; color: var(--vibe-blue); margin: 5px 0 10px; }
+        .chapter-slide { background: #1e3a8a !important; }
+        .chapter-slide h1 { color: #ffffff; font-size: 2.2em; margin-bottom: 10px; }
+        .chapter-slide h2 { color: #94a3b8; font-size: 1.3em; }
+        .chapter-slide i  { color: var(--vibe-green); }
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 5px 10px; margin: 3px 0; border-radius: 6px;
+        }
+        .highlight-box {
+            background: #fef3c7; border: 2px solid var(--vibe-yellow);
+            padding: 5px 10px; margin: 3px auto; border-radius: 8px; max-width: 92%;
+        }
+        .success-box {
+            background: #f0fdf4; border-left: 4px solid var(--vibe-green);
+            padding: 5px 10px; margin: 3px 0; border-radius: 6px;
+        }
+        .warning-box {
+            background: #fff1f2; border-left: 4px solid #ef4444;
+            padding: 5px 10px; margin: 3px 0; border-radius: 6px;
+        }
+        .stat-box {
+            display: inline-block; background: #dbeafe;
+            border: 2px solid var(--vibe-blue);
+            padding: 8px 16px; margin: 4px; border-radius: 8px;
+        }
+        .stat-number { font-size: 1.8em; font-weight: 700; color: var(--vibe-orange); display: block; }
+        .stat-label  { font-size: 0.75em; color: var(--vibe-blue); }
+        .reveal ul { list-style: none; margin: 5px 0; }
+        .reveal ul li {
+            margin: 4px 0; padding-left: 30px; position: relative;
+            text-align: left; font-size: 0.8em; line-height: 1.35;
+        }
+        .reveal ul li:before {
+            content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            color: var(--vibe-green); font-size: 0.95em; position: absolute; left: 0; top: 1px;
+        }
+        .reveal ul li.cross:before { content: "\f057"; color: var(--vibe-orange); }
+        .reveal ul li.warn:before  { content: "\f071"; color: var(--vibe-yellow); }
+        .reveal ul li.blue:before  { content: "\f058"; color: var(--vibe-blue); }
+        .reveal ul li.dot:before   { content: "\f111"; font-size: 0.45em; top: 6px; color: #94a3b8; }
+        .reveal ul li.red:before   { content: "\f057"; color: #ef4444; }
+        .text-blue   { color: var(--vibe-blue); }
+        .text-green  { color: var(--vibe-green); }
+        .text-yellow { color: var(--vibe-yellow); }
+        .text-orange { color: var(--vibe-orange); }
+        .text-red    { color: #ef4444; }
+        .text-purple { color: #9333ea; }
+        .bold { font-weight: 700; }
+        .badge {
+            display: inline-block; background: var(--vibe-orange); color: white;
+            padding: 4px 10px; border-radius: 20px;
+            font-weight: 600; font-size: 0.75em; margin: 3px;
+        }
+        .badge.blue   { background: var(--vibe-blue); }
+        .badge.green  { background: #16a34a; }
+        .badge.purple { background: #7c3aed; }
+        .badge.red    { background: #dc2626; }
+        .two-col   { display: grid; grid-template-columns: 1fr 1fr;       gap: 10px; margin: 6px 0; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 8px;  margin: 6px 0; }
+        .four-col  { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px;  margin: 6px 0; }
+        .compact  { font-size: 0.8em;  line-height: 1.35; }
+        .compact2 { font-size: 0.74em; line-height: 1.3; }
+        .code-snippet {
+            background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+            padding: 10px 14px; font-family: 'Consolas', monospace;
+            font-size: 0.58em; margin: 6px 0;
+            color: #c9d1d9; text-align: left; white-space: pre; line-height: 1.6;
+        }
+        .icon-box {
+            text-align: center; padding: 10px 8px;
+            background: var(--vibe-light-bg); border-radius: 8px;
+        }
+        .icon-box i { font-size: 1.5em; margin-bottom: 5px; display: block; }
+        .icon-box.blue   i { color: var(--vibe-blue); }
+        .icon-box.green  i { color: var(--vibe-green); }
+        .icon-box.orange i { color: var(--vibe-orange); }
+        .icon-box.purple i { color: #9333ea; }
+        .icon-box.red    i { color: #ef4444; }
+        .flow-container { background: #f1f5f9; border-radius: 8px; padding: 7px; margin: 4px 0; }
+        .arrow-flow { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+        .arrow-flow .step {
+            background: var(--vibe-blue); color: white;
+            padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 0.65em;
+        }
+        .arrow-flow .step.green  { background: var(--vibe-green); }
+        .arrow-flow .step.orange { background: var(--vibe-orange); }
+        .arrow-flow .step.purple { background: #9333ea; }
+        .arrow-flow .step.red    { background: #ef4444; }
+        .arrow-flow .arrow { color: var(--vibe-orange); font-size: 1.1em; }
+        .timeline { display: flex; justify-content: space-between; align-items: flex-start; position: relative; margin: 12px 0 6px; }
+        .timeline::before { content: ''; position: absolute; top: 16px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--vibe-orange), var(--vibe-blue), var(--vibe-green)); }
+        .tl-node { text-align: center; flex: 1; position: relative; }
+        .tl-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.85em; position: relative; z-index: 1; }
+        .tl-dot.orange { background: #ffedd5; border: 3px solid var(--vibe-orange); }
+        .tl-dot.blue   { background: #dbeafe; border: 3px solid var(--vibe-blue); }
+        .tl-dot.green  { background: #dcfce7; border: 3px solid var(--vibe-green); }
+        .tl-dot.red    { background: #fee2e2; border: 3px solid #ef4444; }
+        .tl-dot.purple { background: #ede9fe; border: 3px solid #7c3aed; }
+        .tl-label { font-size: 0.72em; font-weight: 700; color: var(--vibe-dark-blue); margin-bottom: 2px; }
+        .tl-sub   { font-size: 0.62em; color: #64748b; line-height: 1.3; }
+        .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.7em; margin: 6px 0; }
+        .cmp-table th { background: var(--vibe-blue); color: white; padding: 5px 8px; text-align: left; font-weight: 600; }
+        .cmp-table td { padding: 4px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+        .cmp-table tr:nth-child(even) td { background: var(--vibe-light-bg); }
+        .cmp-table .good { color: #16a34a; font-weight: 600; }
+        .cmp-table .bad  { color: #dc2626; font-weight: 600; }
+        .cmp-table .warn { color: var(--vibe-orange); font-weight: 600; }
+
+        /* Pyramid visualization */
+        .pyramid-level {
+            text-align: center; margin: 3px auto; border-radius: 6px;
+            padding: 8px 12px; color: white; font-weight: 700; font-size: 0.78em;
+        }
+        /* Big question style */
+        .big-question {
+            font-size: 1.3em; font-weight: 800; color: var(--vibe-dark-blue);
+            text-align: center; margin: 12px 0 8px; line-height: 1.3;
+        }
+        /* Day card */
+        .day-card {
+            border-radius: 8px; padding: 8px 12px; margin: 3px 0;
+            display: flex; align-items: center; gap: 10px; font-size: 0.75em;
+        }
+        .day-card .time-badge {
+            background: var(--vibe-blue); color: white;
+            padding: 3px 8px; border-radius: 20px; font-size: 0.8em;
+            font-weight: 700; white-space: nowrap; flex-shrink: 0;
+        }
+        .day-card.old { background: #fff1f2; }
+        .day-card.new { background: #f0fdf4; }
+        .day-card.old .time-badge { background: #dc2626; }
+        .day-card.new .time-badge { background: #16a34a; }
+
+        /* Skill tier */
+        .skill-tier {
+            border-radius: 8px; padding: 7px 12px; margin: 3px 0;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .skill-tier .tier-icon {
+            font-size: 1.4em; width: 38px; text-align: center; flex-shrink: 0;
+        }
+        .skill-tier .tier-content { flex: 1; }
+        .skill-tier .tier-title { font-weight: 700; font-size: 0.85em; margin-bottom: 2px; }
+        .skill-tier .tier-desc { font-size: 0.72em; color: #64748b; }
+        .skill-tier.t1 { background: #dbeafe; border-left: 4px solid var(--vibe-blue); }
+        .skill-tier.t2 { background: #fef3c7; border-left: 4px solid var(--vibe-yellow); }
+        .skill-tier.t3 { background: #dcfce7; border-left: 4px solid var(--vibe-green); }
+        .skill-tier.t4 { background: #ede9fe; border-left: 4px solid #7c3aed; }
+
+        /* JD highlight pill */
+        .jd-pill {
+            display: inline-block; background: #f0fdf4;
+            border: 1.5px solid var(--vibe-green); color: #15803d;
+            padding: 3px 10px; border-radius: 20px; font-size: 0.68em;
+            font-weight: 600; margin: 2px;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 1 — TITLE
+══════════════════════════════════════════════ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:540px;width:84%;margin:0 auto 10px;display:block;" onerror="this.style.display='none'">
+    <h1>AI-Native QA Engineering</h1>
+    <p class="subtitle">Using AI for Testing &amp; Playwright Automation — Free Demo Session</p>
+    <p class="tagline"><i class="fas fa-robot"></i> GenAI · Playwright · MCP · Agentic QA Workflows</p>
+    <div style="margin-top:10px;">
+        <span class="badge"><i class="fas fa-graduation-cap"></i> Mentor: QTP Sudhakar</span>
+        <span class="badge blue"><i class="fas fa-calendar"></i> Starts April 15 · 7:30–9:00 AM IST</span>
+        <span class="badge green"><i class="fas fa-layer-group"></i> 31 Sessions</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 2 — OPENING HOOK
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2 style="text-align:center;">Before We Start — Four Questions</h2>
+    <div style="margin-top:8px;display:flex;flex-direction:column;gap:6px;">
+        <div style="background:#fff7ed;border-left:5px solid var(--vibe-orange);border-radius:8px;padding:7px 14px;" class="fragment fade-up">
+            <p style="font-size:0.88em;font-weight:700;color:var(--vibe-dark-blue);margin:0;">
+                <i class="fas fa-question-circle" style="color:var(--vibe-orange);margin-right:8px;"></i>
+                Why are you not able to test at the pace of development?
+            </p>
+        </div>
+        <div style="background:#fff7ed;border-left:5px solid var(--vibe-orange);border-radius:8px;padding:7px 14px;" class="fragment fade-up">
+            <p style="font-size:0.88em;font-weight:700;color:var(--vibe-dark-blue);margin:0;">
+                <i class="fas fa-question-circle" style="color:var(--vibe-orange);margin-right:8px;"></i>
+                Why are you not able to automate in the current sprint?
+            </p>
+        </div>
+        <div style="background:#fff7ed;border-left:5px solid var(--vibe-orange);border-radius:8px;padding:7px 14px;" class="fragment fade-up">
+            <p style="font-size:0.88em;font-weight:700;color:var(--vibe-dark-blue);margin:0;">
+                <i class="fas fa-question-circle" style="color:var(--vibe-orange);margin-right:8px;"></i>
+                If developers can generate code with AI — why are testers still writing test cases or developing automated tests manually?
+            </p>
+        </div>
+        <div style="background:#fff7ed;border-left:5px solid var(--vibe-orange);border-radius:8px;padding:7px 14px;" class="fragment fade-up">
+            <p style="font-size:0.88em;font-weight:700;color:var(--vibe-dark-blue);margin:0;">
+                <i class="fas fa-question-circle" style="color:var(--vibe-orange);margin-right:8px;"></i>
+                How will the role of QA look the same in the next year?
+            </p>
+        </div>
+    </div>
+    <div class="success-box fragment fade-up" style="margin-top:10px;text-align:center;">
+        <p class="bold" style="font-size:0.84em;">
+            <i class="fas fa-lightbulb text-green"></i>&nbsp;
+            If any of these felt personal — you are in the right room. This session has answers.
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 1 — WHY THIS PROGRAM. WHY THIS MENTOR.
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:40px 0;">
+        <i class="fas fa-star" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+        <h1>Chapter 1</h1>
+        <h2>Why This Program. Why This Mentor.</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:0.9em;">What Makes This Different · Why Learn From Sudhakar · Your Journey Today</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — What Makes This Program Different
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>What Makes This Program Different</h2>
+    <div class="highlight-box fragment fade-in">
+        <p class="bold text-blue" style="font-size:0.82em;text-align:center;">
+            There are hundreds of Playwright tutorials online. Here is why this is not one of them.
+        </p>
+    </div>
+    <div style="margin-top:8px;">
+        <div class="fragment fade-up" style="display:flex;align-items:flex-start;gap:10px;background:#f0fdf4;border-left:5px solid var(--vibe-green);border-radius:8px;padding:8px 14px;margin:4px 0;">
+            <i class="fas fa-check-circle" style="color:var(--vibe-green);font-size:1.2em;flex-shrink:0;margin-top:2px;"></i>
+            <div>
+                <p style="font-size:0.8em;font-weight:800;color:var(--vibe-dark-blue);margin:0 0 2px;">Most courses teach Playwright. This program teaches you to use Playwright inside an AI-native team.</p>
+                <p style="font-size:0.72em;color:#64748b;margin:0;">Level 4 — QA Workflows for AI SDLC — exists in no other Playwright course. Knowing the tool is not the same as knowing how to use it inside a sprint, an AI-native team, an organisation. That gap is what gets people stuck after training. This program closes it.</p>
+            </div>
+        </div>
+        <div class="fragment fade-up" style="display:flex;align-items:flex-start;gap:10px;background:#eff6ff;border-left:5px solid var(--vibe-blue);border-radius:8px;padding:8px 14px;margin:4px 0;">
+            <i class="fas fa-check-circle" style="color:var(--vibe-blue);font-size:1.2em;flex-shrink:0;margin-top:2px;"></i>
+            <div>
+                <p style="font-size:0.8em;font-weight:800;color:var(--vibe-dark-blue);margin:0 0 2px;">AI helps you build every line of code. You are never left alone with a blank editor.</p>
+                <p style="font-size:0.72em;color:#64748b;margin:0;">From Day 1, AI is your co-builder. Planner, Generator and Healer agents build your test suite alongside you. Every session ends with something that runs. You learn by doing — not by watching.</p>
+            </div>
+        </div>
+        <div class="fragment fade-up" style="display:flex;align-items:flex-start;gap:10px;background:#fef3c7;border-left:5px solid var(--vibe-yellow);border-radius:8px;padding:8px 14px;margin:4px 0;">
+            <i class="fas fa-check-circle" style="color:var(--vibe-yellow);font-size:1.2em;flex-shrink:0;margin-top:2px;"></i>
+            <div>
+                <p style="font-size:0.8em;font-weight:800;color:var(--vibe-dark-blue);margin:0 0 2px;">You leave with a portfolio, a book, interview preparation and a verified practitioner listing.</p>
+                <p style="font-size:0.72em;color:#64748b;margin:0;">Not a certificate. A GitHub portfolio showing what you built. The Complete Playwright Book. Playwright Interview Questions. Resume preparation. VibeTestQ verified practitioner listing. Proof — not just completion.</p>
+            </div>
+        </div>
+    </div>
+    <div class="fragment fade-up" style="background:var(--vibe-dark-blue);border-radius:8px;padding:7px 14px;margin-top:6px;text-align:center;">
+        <p style="color:#fff;font-size:0.76em;font-weight:700;margin:0;">
+            <i class="fas fa-bolt" style="color:var(--vibe-yellow);margin-right:6px;"></i>
+            This is not a Playwright tutorial with AI added on top. This is a program designed for the QA professional of 2026.
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Why Learn From Sudhakar
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Why Learn From Sudhakar</h2>
+    <div class="highlight-box fragment fade-in">
+        <p class="bold text-blue" style="font-size:0.82em;text-align:center;">
+            You can watch Playwright tutorials for free. What you cannot get for free is someone who has seen 10,000 engineers make every mistake — and knows exactly which path avoids them.
+        </p>
+    </div>
+    <div style="margin-top:8px;">
+        <div class="fragment fade-up" style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-left:4px solid var(--vibe-orange);border-radius:7px;padding:7px 12px;margin:3px 0;font-size:0.76em;">
+            <i class="fas fa-history" style="color:var(--vibe-orange);flex-shrink:0;margin-top:2px;font-size:1.1em;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">The Early Mover</strong><span style="color:#64748b;"> — Training engineers on Playwright since 2020, before the ecosystem caught up. Before LinkedIn posts and conference talks. India's First Playwright Corporate Trainer. Saw what it was becoming before most people had heard of it.</span></div>
+        </div>
+        <div class="fragment fade-up" style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-left:4px solid var(--vibe-blue);border-radius:7px;padding:7px 12px;margin:3px 0;font-size:0.76em;">
+            <i class="fas fa-lightbulb" style="color:var(--vibe-blue);flex-shrink:0;margin-top:2px;font-size:1.1em;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">The Philosophy — "What Is Needed" vs "What Is There"</strong><span style="color:#64748b;"> — Every other course teaches what exists in the tool. This program teaches what your role actually requires. The difference sounds small. The outcome is completely different.</span></div>
+        </div>
+        <div class="fragment fade-up" style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-left:4px solid var(--vibe-green);border-radius:7px;padding:7px 12px;margin:3px 0;font-size:0.76em;">
+            <i class="fas fa-users" style="color:var(--vibe-green);flex-shrink:0;margin-top:2px;font-size:1.1em;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">The Track Record</strong><span style="color:#64748b;"> — 21+ years. 200+ corporate training engagements. 10,000+ engineers trained. GenAI and Agentic Testing Pioneer.</span></div>
+        </div>
+        <div class="fragment fade-up" style="display:flex;align-items:flex-start;gap:10px;background:#f8fafc;border-left:4px solid #9333ea;border-radius:7px;padding:7px 12px;margin:3px 0;font-size:0.76em;">
+            <i class="fas fa-hands-helping" style="color:#9333ea;flex-shrink:0;margin-top:2px;font-size:1.1em;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">The Access</strong><span style="color:#64748b;"> — Limited batch. Direct mentor access every session. Code reviews. 1:1 guidance. You are not watching a recording. You are learning live — and your specific questions get answered.</span></div>
+        </div>
+    </div>
+    <div class="fragment fade-up" style="background:var(--vibe-dark-blue);border-radius:8px;padding:7px 14px;margin-top:6px;text-align:center;">
+        <p style="color:#fff;font-size:0.76em;font-weight:700;margin:0;">
+            <i class="fas fa-quote-left" style="color:var(--vibe-yellow);margin-right:6px;"></i>
+            The mentorship gap is real. Most people who learn from tutorials know the syntax. They do not know how to think like a QA lead. That is what this program teaches.
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Agenda
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Your Journey Today</h2>
+    <div class="highlight-box fragment fade-in">
+        <p class="bold text-blue" style="font-size:0.82em;text-align:center;">
+            Six chapters. Each one moves you closer to the transformation. Each one connects to the program.
+        </p>
+    </div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);">
+            <p class="bold text-orange"><i class="fas fa-theater-masks"></i> &nbsp;2. This Is What You Came For</p>
+            <p class="compact">Why Playwright wins, 4 phases of evolution, what you will build</p>
+        </div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-blue);">
+            <p class="bold text-blue"><i class="fas fa-globe"></i> &nbsp;3. The World Is Moving Faster</p>
+            <p class="compact">What Playwright alone cannot solve — the bigger picture</p>
+        </div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-green);">
+            <p class="bold text-green"><i class="fas fa-exclamation-triangle"></i> &nbsp;4. The Fear — Addressed</p>
+            <p class="compact">What you already have that AI cannot replace</p>
+        </div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-yellow);">
+            <p class="bold text-yellow"><i class="fas fa-robot"></i> &nbsp;5. AI for Your Daily Work</p>
+            <p class="compact">What Level 1 and Level 2 look like in practice — this week</p>
+        </div>
+        <div class="content-box fragment fade-up" style="border-left-color:#9333ea;">
+            <p class="bold text-purple"><i class="fas fa-road"></i> &nbsp;6. Your Path Through the Program</p>
+            <p class="compact">Level 3, Level 4 — and why both exist</p>
+        </div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);">
+            <p class="bold text-orange"><i class="fas fa-sitemap"></i> &nbsp;7. Where This Path Takes You</p>
+            <p class="compact">The QA professional you become — and how the program gets you there</p>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 2 — THIS IS WHAT YOU CAME FOR
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:40px 0;">
+        <i class="fas fa-theater-masks" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+        <h1>Chapter 2</h1>
+        <h2>This Is What You Came For</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:0.9em;">Why Playwright Wins · 4 Phases of Evolution · What You Will Build</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Why Playwright? 20 Years of Watching the Gap
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Why Playwright? 20 Years of Watching the Gap</h2>
+    <div class="success-box fragment fade-in" style="margin-bottom:3px;">
+        <p style="font-size:0.78em;color:#334155;margin:0;">
+            <i class="fas fa-user-circle text-green" style="margin-right:6px;"></i>
+            <em>"I started with QTP in 2005. I watched every tool rise and fall. The ones that won always filled the gap the previous tool left open. Here is why Playwright is different this time."</em>
+            <span style="color:var(--vibe-blue);font-weight:700;"> — QTPSudhakar</span>
+        </p>
+    </div>
+    <div class="highlight-box fragment fade-in">
+        <p class="bold text-blue" style="font-size:0.82em;text-align:center;">
+            Every tool in history won by filling the gap the previous tool left open. Playwright is doing it again — in the AI era.
+        </p>
+    </div>
+    <div style="margin-top:4px;">
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#f8fafc;border-left:4px solid #6b7280;border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="flex-shrink:0;font-size:1.1em;">🧪</div>
+            <div><strong style="color:var(--vibe-dark-blue);">QTP / WinRunner</strong> <span style="color:#64748b;">— Complete. GUI, recovery, reporting. But expensive and closed.</span> <span style="color:var(--vibe-orange);font-weight:600;">Gap: cost &amp; vendor lock-in.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dbeafe;border-left:4px solid var(--vibe-blue);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="flex-shrink:0;font-size:1.1em;">🌐</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Selenium</strong> <span style="color:#64748b;">— Free, parallel, distributed. Filled the cost gap. But just a browser hammer. No framework, no reporting, no integrated experience.</span> <span style="color:var(--vibe-orange);font-weight:600;">Gap: developer experience.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#fef3c7;border-left:4px solid var(--vibe-yellow);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="flex-shrink:0;font-size:1.1em;">🌲</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Cypress</strong> <span style="color:#64748b;">— Built everything together. Great DX. But ran inside the browser — cross-origin, cross-tab, multi-browser were limited.</span> <span style="color:var(--vibe-orange);font-weight:600;">Gap: architecture constraints.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dcfce7;border-left:4px solid var(--vibe-green);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="flex-shrink:0;font-size:1.1em;">🎭</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Playwright</strong> <span style="color:#64748b;">— One install: cross-browser, API testing, test runner, trace viewer, HTML reports, CI-ready — and now MCP, AI agents, VS Code integration.</span> <span style="color:var(--vibe-green);font-weight:700;">Gap closed. Again.</span></div>
+        </div>
+    </div>
+    <div class="success-box fragment fade-up" style="margin-top:4px;text-align:center;">
+        <p style="font-size:0.76em;" class="bold">
+            <i class="fas fa-user text-green"></i>&nbsp;
+            QTPSudhakar trained engineers on Playwright in 2020 — before the ecosystem caught up. <span class="text-orange">This program teaches what's needed, not just what's there.</span>
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — How Playwright Evolved: 4 Phases
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>How Playwright Evolved — 4 Phases</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">Playwright transformed from a script runner to the <span class="text-orange">infrastructure AI operates</span> — in 4 distinct phases</p></div>
+    <div style="margin-top:5px;">
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#f8fafc;border-left:4px solid #6b7280;border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="background:#6b7280;color:white;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">1</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Deterministic Automation (2020–2024)</strong><span style="color:#64748b;"> — Humans write scripts, Playwright executes. Reliable, but coverage bounded by imagination. Tests encode implementation, not intent.</span></div>
+            <div style="background:#e2e8f0;color:#475569;font-size:0.78em;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;">Script Era</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dbeafe;border-left:4px solid var(--vibe-blue);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="background:var(--vibe-blue);color:white;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">2</div>
+            <div><strong style="color:var(--vibe-dark-blue);">AI-Assisted Testing (2024–Early 2025)</strong><span style="color:#64748b;"> — AI generates tests from natural language. But humans still ran Playwright. Testing was still a <em>separate phase after development</em>.</span></div>
+            <div style="background:#dbeafe;color:var(--vibe-blue);font-size:0.78em;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;">AI Assist</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#fef3c7;border-left:4px solid var(--vibe-yellow);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="background:var(--vibe-yellow);color:#92400e;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">3</div>
+            <div><strong style="color:var(--vibe-dark-blue);">MCP Disruption (March 2025)</strong><span style="color:#64748b;"> — AI now <em>directly operates</em> Playwright via Model Context Protocol. AI interacts with the accessibility tree, observes results, decides next steps. Playwright became callable infrastructure for AI.</span></div>
+            <div style="background:#fef3c7;color:#92400e;font-size:0.78em;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;">MCP Era</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dcfce7;border-left:4px solid var(--vibe-green);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="background:var(--vibe-green);color:white;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">4</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Agentic Playwright (Oct 2025 · v1.56 → 1.59)</strong><span style="color:#64748b;"> — Planner/Generator/Healer agents + VS Code integration. Testing is now a continuous intelligence layer. Not a phase — a <em>system that runs while you build</em>.</span></div>
+            <div style="background:#dcfce7;color:#15803d;font-size:0.78em;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;">Agentic Era</div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — What You Will Build in This Program
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>What You Will Build in This Program</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">Not a tutorial. Not theory. A real, working system — built by you, with AI, from day one.</p></div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);"><h3 style="color:var(--vibe-orange);">🛠️ Your AI Testing Toolkit</h3><ul><li>Claude Desktop connected to your project via MCP</li><li>Gherkin feature files generated from requirements</li><li>Test data, bug reports and exploration — all AI-assisted</li><li>Skills.md that teaches AI about your application</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-blue);"><h3>🎭 Your Playwright Automation Suite</h3><ul><li>Playwright POM framework — built with Generator Agent</li><li>Cucumber BDD test suite from your Gherkin feature files</li><li>API tests generated from Swagger / OpenAPI specs</li><li>Self-healing tests — Healer Agent repairs broken locators</li></ul></div>
+    </div>
+    <div class="two-col" style="margin-top:4px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-green);"><h3>🚀 Your CI/CD Pipeline</h3><ul><li>GitHub Actions running your full test suite on every push</li><li>Multi-browser matrix, scheduled regression, PR smoke gate</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:#9333ea;"><h3 style="color:#9333ea;">📋 Your QA Workflow Design</h3><ul><li>AI-Native SDLC applied to your team type</li><li>Personal AI-Native QA action plan — committed to GitHub</li></ul></div>
+    </div>
+    <div style="background:var(--vibe-dark-blue);border-radius:8px;padding:7px 14px;margin-top:6px;text-align:center;" class="fragment fade-up"><p style="color:#fff;font-size:0.76em;font-weight:700;margin:0;"><i class="fas fa-github" style="color:var(--vibe-yellow);margin-right:6px;"></i>Everything lives in your GitHub repository. You leave with a portfolio, not just knowledge.</p></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 3 — THE WORLD IS MOVING FASTER
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:40px 0;">
+        <i class="fas fa-globe" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+        <h1>Chapter 3</h1>
+        <h2>The World Is Moving Faster Than You Think</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:0.9em;">Velocity Shift · Everyone Validates · Testing Is No Longer a Phase</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — The Velocity Shift
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>The Velocity Shift in Software Development</h2>
+    <div class="highlight-box fragment fade-in"><p class="bold text-blue" style="text-align:center;font-size:0.9em;"><i class="fas fa-bolt text-orange"></i>&nbsp; Speed is the new competitive advantage — and AI is the engine</p></div>
+    <div class="timeline" style="margin-top:10px;">
+        <div class="tl-node fragment fade-up"><div class="tl-dot orange">⌨️</div><div class="tl-label">Manual Era</div><div class="tl-sub">Humans write every line. Weeks to ship.</div></div>
+        <div class="tl-node fragment fade-up"><div class="tl-dot blue">🔧</div><div class="tl-label">DevOps Era</div><div class="tl-sub">CI/CD pipelines. Days to ship.</div></div>
+        <div class="tl-node fragment fade-up"><div class="tl-dot purple">🤖</div><div class="tl-label">AI-Assisted Era</div><div class="tl-sub">Copilot helps. Hours to ship.</div></div>
+        <div class="tl-node fragment fade-up"><div class="tl-dot green">⚡</div><div class="tl-label">AI-Native Era</div><div class="tl-sub">AI generates. Humans validate. Minutes.</div></div>
+    </div>
+    <div class="two-col" style="margin-top:6px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);"><h3 style="color:var(--vibe-orange);">What AI Generates Today</h3><ul><li>Full application code from specs</li><li>UI components from design mockups</li><li>API contracts from requirements</li><li>Database schemas and migrations</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-green);"><h3>What Humans Do Now</h3><ul><li>Validate AI output is correct</li><li>Define acceptance criteria</li><li>Catch hallucinations and edge cases</li><li>Architect the quality strategy</li></ul></div>
+    </div>
+    <div style="background:var(--vibe-dark-blue);border-radius:8px;padding:7px 14px;margin-top:6px;text-align:center;" class="fragment fade-up"><p style="color:#fff;font-size:0.76em;font-weight:700;margin:0;"><i class="fas fa-users" style="color:var(--vibe-yellow);margin-right:6px;"></i>The teams that used to need 10 testers now ship with 3. The 3 who stayed know more than Playwright syntax. They know how to operate inside an AI-native team. That is what this program builds.</p></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Everyone Becomes a Validator
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Everyone Becomes a Validator</h2>
+    <div class="highlight-box fragment fade-in"><p class="bold text-blue" style="text-align:center;font-size:0.88em;">In the AI-first world: <span class="text-orange">AI generates</span>, <span class="text-green">humans validate</span> — QA becomes the most critical skill in every team</p></div>
+    <div class="flow-container fragment fade-up" style="margin-top:5px;">
+        <div class="arrow-flow">
+            <div class="step orange">Requirement</div><div class="arrow">→</div>
+            <div class="step purple">AI Generates Code</div><div class="arrow">→</div>
+            <div class="step">AI Generates Tests</div><div class="arrow">→</div>
+            <div class="step green">Human Validates</div><div class="arrow">→</div>
+            <div class="step orange">Ship</div>
+        </div>
+    </div>
+    <div class="three-col" style="margin-top:6px;">
+        <div class="icon-box orange fragment fade-up"><i class="fas fa-tachometer-alt"></i><h3>Speed Pressure</h3><p class="compact2">Release cycles shrink. Testers who can't keep up get left behind.</p></div>
+        <div class="icon-box blue fragment fade-up"><i class="fas fa-shield-alt"></i><h3>Validator Role</h3><p class="compact2">QA becomes the last line of defense against AI-generated bugs and hallucinations.</p></div>
+        <div class="icon-box green fragment fade-up"><i class="fas fa-crown"></i><h3>Your Opportunity</h3><p class="compact2">That person could be you. You don't need to be a developer to get there.</p></div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Testing Is No Longer a Phase
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Testing Is No Longer a Phase</h2>
+    <div class="highlight-box fragment fade-in"><p class="bold text-blue" style="text-align:center;font-size:0.88em;"><i class="fas fa-infinity text-orange"></i>&nbsp; Testing is becoming a <span class="text-orange">continuous system</span> AI performs <em>while you write code</em> — not after</p></div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box fragment fade-up" style="background:#fff1f2;border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ Old Pipeline Thinking</h3>
+            <div class="flow-container" style="background:#fee2e2;margin:3px 0;">
+                <div class="arrow-flow">
+                    <div class="step" style="background:#6b7280;">Dev</div><div class="arrow">→</div>
+                    <div class="step" style="background:#6b7280;">Build</div><div class="arrow">→</div>
+                    <div class="step red">QA Phase</div><div class="arrow">→</div>
+                    <div class="step" style="background:#6b7280;">Ship</div>
+                </div>
+            </div>
+            <ul><li class="red">Testing happens at the end</li><li class="red">Bugs found late = expensive fixes</li><li class="red">QA is a bottleneck before release</li></ul>
+        </div>
+        <div class="content-box fragment fade-up" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3>✅ New Continuous Reality</h3>
+            <div class="flow-container" style="background:#dcfce7;margin:3px 0;">
+                <div class="arrow-flow">
+                    <div class="step green">Dev + AI Test</div><div class="arrow">→</div>
+                    <div class="step green">Validate</div><div class="arrow">→</div>
+                    <div class="step green">Ship</div>
+                </div>
+            </div>
+            <ul><li>AI runs app and validates as you code</li><li>VS Code 1.110 — browser inside the editor</li><li>QA is embedded in every commit</li></ul>
+        </div>
+    </div>
+    <div style="background:var(--vibe-dark-blue);border-radius:8px;padding:7px 14px;margin-top:6px;text-align:center;" class="fragment fade-up"><p style="color:#fff;font-size:0.76em;font-weight:700;margin:0;"><i class="fas fa-star" style="color:var(--vibe-yellow);margin-right:6px;"></i>The QA professional who understands this shift becomes the architect of quality — not the person waiting at the end of the pipeline.</p></div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 4 — THE FEAR — ADDRESSED
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:40px 0;">
+        <i class="fas fa-exclamation-circle" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+        <h1>Chapter 4</h1>
+        <h2>The Fear — Addressed</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:0.9em;">Will AI Replace You? · You Already Have What AI Cannot Buy</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Will AI Replace Testers?
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Will AI Replace Testers?</h2>
+    <div class="highlight-box fragment fade-in" style="margin-bottom:6px;"><p class="bold text-blue" style="text-align:center;font-size:0.95em;">The honest answer: <span class="text-orange">Yes and No</span> — and the difference is entirely in your hands</p></div>
+    <div class="two-col">
+        <div class="content-box fragment fade-up" style="background:#fff1f2;border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ AI Will Replace...</h3>
+            <ul>
+                <li class="red">Testers who only write manual test cases</li>
+                <li class="red">Those who can't read or validate code</li>
+                <li class="red">QA who treat tools as magic black boxes</li>
+                <li class="red">Anyone who doesn't learn how AI works</li>
+            </ul>
+        </div>
+        <div class="content-box fragment fade-up" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3>✅ AI Cannot Replace...</h3>
+            <ul>
+                <li>Engineers who <strong>validate AI output</strong></li>
+                <li>Testers who architect QA workflows</li>
+                <li>Those who prompt and <strong>govern AI agents</strong></li>
+                <li>QA leads who define <strong>quality strategy for AI SDLC</strong></li>
+            </ul>
+        </div>
+    </div>
+    <div class="success-box fragment fade-up" style="margin-top:5px;text-align:center;">
+        <p class="bold" style="font-size:0.84em;"><i class="fas fa-fire text-orange"></i>&nbsp;
+        <span class="text-orange">"AI will replace those who cannot use AI in their workflows.</span>
+        <span class="text-green"> It cannot replace those who make AI work for them."</span></p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — You Already Have What AI Cannot Buy
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>You Already Have What AI Cannot Buy</h2>
+    <div style="text-align:center;padding:6px 0 4px;margin-bottom:4px;">
+        <p style="font-size:0.88em;font-style:italic;color:var(--vibe-dark-blue);font-weight:700;line-height:1.5;margin:0;">
+            <i class="fas fa-umbrella" style="color:var(--vibe-blue);margin-right:8px;"></i>
+            This program is your umbrella in the AI QA storm — it cannot stop what is coming, but it gives you the confidence to stand in it.
+        </p>
+    </div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3 style="color:#15803d;">✅ What You Already Have</h3>
+            <ul>
+                <li class="fragment fade-up">Domain knowledge of your product — its quirks, its users, its history</li>
+                <li class="fragment fade-up">Instinct for what users will complain about before they log a ticket</li>
+                <li class="fragment fade-up">Knowing which edge cases matter for your specific users and context</li>
+                <li class="fragment fade-up">Business judgment — knowing which bug cannot ship regardless of its severity</li>
+                <li class="fragment fade-up">The ability to say "this feels wrong" before you can prove it</li>
+            </ul>
+            <p class="compact2 fragment fade-up" style="color:#15803d;font-weight:600;margin-top:4px;">These come from experience, context, and human presence — not from training data.</p>
+        </div>
+        <div class="content-box" style="background:#eff6ff;border-left-color:var(--vibe-blue);">
+            <h3 style="color:var(--vibe-blue);">🤖 What AI Adds</h3>
+            <ul>
+                <li class="fragment fade-up">Generates test cases, Gherkin scenarios and test data in seconds</li>
+                <li class="fragment fade-up">Explores your live app via MCP — finds what you missed</li>
+                <li class="fragment fade-up">Generates Playwright automation scripts from your test scenarios</li>
+                <li class="fragment fade-up">Self-heals broken locators when the UI changes — automatically</li>
+                <li class="fragment fade-up">Plans test strategy and coverage gaps from requirements</li>
+            </ul>
+            <p class="compact2 fragment fade-up" style="color:var(--vibe-blue);font-weight:600;margin-top:4px;">Generation, execution, and self-healing — at machine speed.</p>
+        </div>
+    </div>
+    <div style="background:var(--vibe-dark-blue);border-radius:8px;padding:8px 16px;margin-top:6px;text-align:center;" class="fragment fade-up">
+        <p style="color:#ffffff;font-size:0.9em;font-weight:800;margin:0;line-height:1.5;">
+            <i class="fas fa-bolt" style="color:var(--vibe-yellow);margin-right:8px;"></i>
+            AI has the horsepower. You have the wisdom. <span style="color:var(--vibe-yellow);">This program teaches you how to drive.</span>
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 5 — AI FOR YOUR DAILY WORK
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:40px 0;">
+        <i class="fas fa-robot" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+        <h1>Chapter 5</h1>
+        <h2>AI for Your Daily Work — Right Now</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:0.9em;">AI for Test Design · QA Workflows with MCP · Level 1 &amp; 2 in Practice</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — AI for Test Design
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>AI for Test Design</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">Manual testing is not dying — it's <span class="text-green">supercharging with AI</span>. Tasks that took hours now take minutes.</p></div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);"><h3 style="color:var(--vibe-orange);">Requirements &amp; Test Case Generation</h3><ul><li>AI analyses requirements and spots ambiguity</li><li>Generate test cases in tabular &amp; Gherkin formats</li><li>Create .feature files from user stories instantly</li><li>Edge cases humans typically miss — AI surfaces them</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-blue);"><h3>Prompt Engineering for QA</h3><ul><li>CRAFT framework — role, context, action, format, tone</li><li>Build a reusable prompt library for your team</li><li>Iterative prompting — AI gets better with context</li><li>skills.md — teach AI your app, your standards</li></ul></div>
+    </div>
+    <div class="two-col" style="margin-top:4px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-green);"><h3>Test Data Generation</h3><ul><li>Generate valid, invalid &amp; edge case data as JSON/CSV/SQL</li><li>Synthetic data with privacy — no real PII in tests</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:#9333ea;"><h3 style="color:#9333ea;">Bug Reporting &amp; Analysis</h3><ul><li>AI writes clear bug reports from your rough notes</li><li>Root cause analysis &amp; defect pattern detection</li></ul></div>
+    </div>
+    <div class="fragment fade-up success-box" style="margin-top:4px;text-align:center;">
+        <p style="font-size:0.73em;font-weight:700;color:#15803d;margin:0;"><i class="fas fa-layer-group text-green" style="margin-right:6px;"></i>This is Level 2 of the program — 5 days. You do all of this in the first two weeks, before you write a single line of automation code.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — QA Workflows in Manual Testing
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>QA Workflows in Manual Testing — With AI</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">AI doesn't replace your judgment — it removes the busywork so you can use it more</p></div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-blue);"><h3>🔌 MCP + Claude Desktop</h3><ul><li>Connect AI to Jira, Xray, Zephyr, Excel directly</li><li>AI reads tickets, generates test cases, updates results</li><li>Playwright MCP browses your live app — no script needed</li><li>Filesystem MCP organises your entire toolkit in the repo</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);"><h3 style="color:var(--vibe-orange);">🔍 Exploratory Testing with AI Agents</h3><ul><li>AI explores the app alongside you — finds what you miss</li><li>Structured exploration capture stored for reuse</li><li>AI as a co-explorer: pattern recognition &amp; anomaly detection</li><li>Session notes auto-converted to actionable findings</li></ul></div>
+    </div>
+    <div class="two-col" style="margin-top:4px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-green);"><h3>🧠 Human-in-the-Loop (HITL)</h3><ul><li>You decide what AI generates, what you review, what ships</li><li>Evaluation criteria: when to trust, when to override</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:#9333ea;"><h3 style="color:#9333ea;">🛡️ Human-Irreplaceable Skills</h3><ul><li>UX, accessibility, security, performance testing judgment</li><li>Multi-tenant SaaS &amp; context-sensitive test design</li></ul></div>
+    </div>
+    <div class="fragment fade-up success-box" style="margin-top:4px;text-align:center;">
+        <p style="font-size:0.73em;font-weight:700;color:#15803d;margin:0;"><i class="fas fa-toolbox text-green" style="margin-right:6px;"></i>By the end of Level 2 you have a complete AI Testing Toolkit — prompts, skills.md, feature files, exploration results — organised in your project. This becomes the input for Level 3 automation.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 6 — YOUR PATH THROUGH THE PROGRAM
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:40px 0;">
+        <i class="fas fa-road" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+        <h1>Chapter 6</h1>
+        <h2>Your Path Through the Program</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:0.9em;">Level 3 — Why Coding · Your 4-Level Journey · Why QA Workflows Is Level 4</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Why Coding Still Matters
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Why Coding Still Matters in the AI Era</h2>
+    <div class="highlight-box fragment fade-in"><p class="bold text-blue" style="font-size:0.88em;text-align:center;">You don't need to become a developer. You need to know enough to ask the right questions — and recognise when AI gets it wrong.</p></div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);"><h3 style="color:var(--vibe-orange);">AI Generates, You Govern</h3><p class="compact">AI writes the code — but you need enough knowledge to:</p><ul><li>Spot AI hallucinations in test logic</li><li>Understand what the test is actually asserting</li><li>Debug when AI-generated tests fail</li><li>Know when to trust vs reject AI output</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-blue);"><h3>What You Will Learn</h3><ul><li class="blue"><strong>JavaScript</strong> — Variables, Functions, Async/Await, ES6+</li><li class="blue"><strong>TypeScript</strong> — Types, Interfaces, Classes</li><li class="blue"><strong>Node.js</strong> — Runtime, npm, package.json</li><li class="blue"><strong>Playwright</strong> — Locators, Actions, Assertions, POM</li><li class="blue"><strong>API Testing</strong> — APIRequestContext, Swagger/OpenAPI</li><li class="blue"><strong>CI/CD</strong> — GitHub Actions pipelines</li></ul></div>
+    </div>
+    <div class="success-box" style="text-align:center;margin-top:6px;"><p class="bold" style="font-size:0.8em;"><i class="fas fa-check-circle text-green"></i>&nbsp; We teach you to <strong>code well enough to govern AI</strong> — not to compete with AI</p></div>
+    <div class="fragment fade-up" style="background:#eff6ff;border-left:4px solid var(--vibe-blue);border-radius:7px;padding:6px 12px;margin-top:4px;text-align:center;">
+        <p style="font-size:0.73em;font-weight:700;color:var(--vibe-blue);margin:0;"><i class="fas fa-robot" style="margin-right:6px;"></i>AI writes the code. You review it. You understand it. You own it. Every line.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Your 4-Level Learning Journey
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Your 4-Level Learning Journey</h2>
+    <div class="highlight-box fragment fade-in"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">Each level builds on the last — you leave each level more capable than when you entered</p></div>
+    <div style="margin-top:5px;">
+        <div class="skill-tier t1 fragment fade-up" style="background:#f0fdf4;border-left:4px solid var(--vibe-green);margin:2px 0;">
+            <div class="tier-icon">🧠</div>
+            <div class="tier-content"><div class="tier-title" style="color:#15803d;">Level 1 — Learning AI</div><div class="tier-desc">LLMs, hallucination, prompts &amp; context, iterative prompting. VS Code + GitHub Copilot. Skills.md.</div></div>
+            <span class="badge green">5 Days</span>
+        </div>
+        <div class="skill-tier t1 fragment fade-up" style="margin:2px 0;">
+            <div class="tier-icon">🛠️</div>
+            <div class="tier-content"><div class="tier-title" style="color:var(--vibe-blue);">Level 2 — Using AI in Testing</div><div class="tier-desc">MCP setup, Claude Desktop, Playwright MCP. Requirements analysis, Gherkin, exploratory testing with AI agents, test data &amp; bug reporting.</div></div>
+            <span class="badge blue">5 Days</span>
+        </div>
+        <div class="skill-tier t2 fragment fade-up" style="margin:2px 0;">
+            <div class="tier-icon">🤖</div>
+            <div class="tier-content"><div class="tier-title" style="color:#92400e;">Level 3 — Using AI in Test Automation</div><div class="tier-desc">JavaScript, TypeScript, Playwright, POM, Cucumber BDD, API Testing — built with Planner, Generator &amp; Healer agents. Running in GitHub Actions CI.</div>
+                <div class="tier-desc" style="color:#92400e;font-weight:700;margin-top:2px;">→ You have a working automation framework built with AI agents.</div></div>
+            <span class="badge" style="background:var(--vibe-yellow);color:#92400e;">16 Days</span>
+        </div>
+        <div class="skill-tier t4 fragment fade-up" style="margin:2px 0;">
+            <div class="tier-icon">🏗️</div>
+            <div class="tier-content"><div class="tier-title" style="color:#7c3aed;">Level 4 — Developing QA Workflows for AI SDLC</div><div class="tier-desc">AI-Native SDLC &amp; STLC. Parallel stream model. Self-healing risks &amp; coverage governance. What needs to change — for you, your team, your company.</div></div>
+            <span class="badge purple">5 Days</span>
+        </div>
+    </div>
+    <div class="fragment fade-up" style="background:var(--vibe-dark-blue);border-radius:8px;padding:7px 14px;margin-top:5px;text-align:center;">
+        <p style="color:#fff;font-size:0.74em;font-weight:700;margin:0;"><i class="fas fa-star" style="color:var(--vibe-yellow);margin-right:6px;"></i>Most courses stop at Level 3. We built Level 4 because knowing the tool is not the same as knowing how to use it inside an AI-native team. That gap is what gets people stuck after training. Level 4 closes it.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 7 — WHERE THIS PATH TAKES YOU
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:40px 0;">
+        <i class="fas fa-sitemap" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+        <h1>Chapter 7</h1>
+        <h2>Where This Path Takes You</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:0.9em;">2026 Industry Shift · New Skills · AI SDLC Maturity Model · Two Dimensions</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — The Industry Is Shifting
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>The Industry Is Shifting — Right Now, In 2026</h2>
+    <div class="highlight-box fragment fade-in"><p class="bold text-blue" style="font-size:0.92em;text-align:center;"><i class="fas fa-question-circle text-orange"></i>&nbsp; If developers themselves are not writing code anymore — why should testers write tests?</p></div>
+    <div class="flow-container fragment fade-up" style="margin-top:6px;">
+        <p class="bold text-blue" style="font-size:0.72em;margin-bottom:4px;text-align:center;">Where the industry is heading — and it's already starting</p>
+        <div class="arrow-flow">
+            <div class="step orange">Dev Architect<br><span style="font-weight:400;font-size:0.85em;">designs the system</span></div><div class="arrow">→</div>
+            <div class="step purple">AI generates<br><span style="font-weight:400;font-size:0.85em;">the entire codebase</span></div><div class="arrow">→</div>
+            <div class="step">AI generates<br><span style="font-weight:400;font-size:0.85em;">the tests</span></div><div class="arrow">→</div>
+            <div class="step green">QA governs<br><span style="font-weight:400;font-size:0.85em;">validates &amp; fixes with AI</span></div><div class="arrow">→</div>
+            <div class="step orange">Ship</div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box fragment fade-up" style="background:#fff1f2;border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ The Tester Who Waits</h3>
+            <ul><li class="red">Waits for AI to fully replace their current job</li><li class="red">Keeps doing the same manual tasks the same way</li><li class="red">Watches the window close from the outside</li></ul>
+        </div>
+        <div class="content-box fragment fade-up" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3>✅ The Tester Who Moves Now</h3>
+            <ul><li>Uses AI to 10x their testing output today</li><li>Learns to govern AI — not just use it</li><li>Becomes the person the team cannot ship without</li></ul>
+        </div>
+    </div>
+    <div class="success-box fragment fade-up" style="margin-top:4px;text-align:center;">
+        <p class="bold" style="font-size:0.8em;"><i class="fas fa-fire text-orange"></i>&nbsp; This window is open <span class="text-orange">right now</span>. The question is whether you walk through it.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — New Skills the 4 Phases Demand
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>New Skills the 4 Phases Demand from QA</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">Each phase shift added a new skill layer — QA must master all four to stay relevant</p></div>
+    <div style="margin-top:5px;">
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#f8fafc;border-left:4px solid #6b7280;border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="background:#6b7280;color:white;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">1</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Phase 1 — Script Era:</strong><span style="color:#64748b;"> Understand what Playwright executes. Know locators, assertions, waits. Read and validate test code.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dbeafe;border-left:4px solid var(--vibe-blue);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="background:var(--vibe-blue);color:white;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">2</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Phase 2 — AI-Assisted:</strong><span style="color:#64748b;"> Prompts &amp; context engineering. Use VS Code + GitHub Copilot. Generate and review AI-produced test cases and Gherkin feature files.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#fef3c7;border-left:4px solid var(--vibe-yellow);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="background:var(--vibe-yellow);color:#92400e;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">3</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Phase 3 — MCP Era:</strong><span style="color:#64748b;"> Configure MCP servers. Use Claude Desktop + Playwright MCP for live app exploration. Structured exploration capture &amp; toolkit organisation.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dcfce7;border-left:4px solid var(--vibe-green);border-radius:6px;padding:4px 10px;margin:2px 0;font-size:0.73em;" class="fragment fade-up">
+            <div style="background:var(--vibe-green);color:white;border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8em;">4</div>
+            <div><strong style="color:var(--vibe-dark-blue);">Phase 4 — Agentic Era:</strong><span style="color:#64748b;"> Govern Planner, Generator &amp; Healer agents. Design the AI-Native SDLC &amp; STLC. Apply the parallel stream model. Be the Quality System Architect — not just the executor.</span></div>
+        </div>
+    </div>
+    <div class="warning-box fragment fade-up" style="margin-top:5px;text-align:center;">
+        <p class="bold" style="font-size:0.78em;"><i class="fas fa-exclamation-triangle text-orange"></i>&nbsp; <span class="text-orange">None of these skills</span> are taught in standard Playwright tutorials — this is exactly the gap this program fills</p>
+    </div>
+    <div class="fragment fade-up success-box" style="margin-top:4px;text-align:center;">
+        <p style="font-size:0.73em;font-weight:700;color:#15803d;margin:0;"><i class="fas fa-graduation-cap text-green" style="margin-right:6px;"></i>The 4 levels of this program map directly to these 4 phases. You do not just learn about the evolution — you develop the skill each phase requires.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — The AI SDLC Maturity Model
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>The AI SDLC Maturity Model</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">5 types of AI SDLC — the workflow must match the type. Mismatch = failure.</p></div>
+    <div class="timeline" style="margin-top:10px;">
+        <div class="tl-node fragment fade-up"><div class="tl-dot orange"><i class="fas fa-wrench" style="font-size:0.7em;"></i></div><div class="tl-label">Type 1</div><div class="tl-sub">AI-Assisted<br>Tools added<br>SDLC unchanged</div></div>
+        <div class="tl-node fragment fade-up"><div class="tl-dot blue"><i class="fas fa-file-alt" style="font-size:0.7em;"></i></div><div class="tl-label">Type 2</div><div class="tl-sub">Spec-Driven<br>Requirements<br>gate everything</div></div>
+        <div class="tl-node fragment fade-up"><div class="tl-dot green"><i class="fas fa-stream" style="font-size:0.7em;"></i></div><div class="tl-label">Type 3</div><div class="tl-sub">Parallel Stream<br>Dev + QA run<br>simultaneously</div></div>
+        <div class="tl-node fragment fade-up"><div class="tl-dot purple"><i class="fas fa-robot" style="font-size:0.7em;"></i></div><div class="tl-label">Type 4</div><div class="tl-sub">Agentic<br>Agents handle<br>entire phases</div></div>
+        <div class="tl-node fragment fade-up"><div class="tl-dot red"><i class="fas fa-balance-scale" style="font-size:0.7em;"></i></div><div class="tl-label">Type 5</div><div class="tl-sub">Regulated<br>AI + mandatory<br>human sign-off</div></div>
+    </div>
+    <div class="two-col" style="margin-top:6px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);"><p class="compact"><span style="background:#ffedd5;padding:2px 6px;border-radius:4px;font-weight:700;color:var(--vibe-orange);">Most teams today</span> — Type 1. AI tools added, but all structural gaps still exist. QA still enters after dev completes.</p></div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-green);"><p class="compact"><span style="background:#dcfce7;padding:2px 6px;border-radius:4px;font-weight:700;color:#16a34a;">Target model</span> — Type 3. Dev and QA start at the same moment. Same-sprint delivery. Neither waits.</p></div>
+    </div>
+    <div class="fragment fade-up" style="background:#eff6ff;border-left:4px solid var(--vibe-blue);border-radius:7px;padding:6px 12px;margin-top:4px;text-align:center;">
+        <p style="font-size:0.73em;font-weight:700;color:var(--vibe-blue);margin:0;"><i class="fas fa-layer-group" style="margin-right:6px;"></i>Level 4 of this program teaches you to identify your team's type and design the right QA workflow for it. This is what makes you valuable at an organisational level — not just a team level.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — The Framework: Two Dimensions
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>The Framework — Two Dimensions</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">Every QA workflow in the AI era sits on two axes — <span class="text-orange">what QA is doing</span> and <span class="text-green">how AI is involved</span></p></div>
+    <div class="two-col" style="margin-top:6px;">
+        <div class="content-box fragment fade-up">
+            <h3><i class="fas fa-question-circle"></i> What QA Is Doing</h3>
+            <div class="three-col" style="gap:5px;margin-top:4px;">
+                <div style="text-align:center;background:#dbeafe;border-radius:8px;padding:6px 4px;"><i class="fas fa-pencil-alt" style="color:var(--vibe-blue);display:block;font-size:1.1em;margin-bottom:3px;"></i><p style="font-size:0.65em;font-weight:700;color:var(--vibe-dark-blue);margin:0;">DESIGN</p><p style="font-size:0.58em;color:#64748b;">Before testing</p></div>
+                <div style="text-align:center;background:#dcfce7;border-radius:8px;padding:6px 4px;"><i class="fas fa-play-circle" style="color:var(--vibe-green);display:block;font-size:1.1em;margin-bottom:3px;"></i><p style="font-size:0.65em;font-weight:700;color:#15803d;margin:0;">EXECUTION</p><p style="font-size:0.58em;color:#64748b;">While testing</p></div>
+                <div style="text-align:center;background:#ede9fe;border-radius:8px;padding:6px 4px;"><i class="fas fa-brain" style="color:#9333ea;display:block;font-size:1.1em;margin-bottom:3px;"></i><p style="font-size:0.65em;font-weight:700;color:#6d28d9;margin:0;">INTELLIGENCE</p><p style="font-size:0.58em;color:#64748b;">What it learns</p></div>
+            </div>
+        </div>
+        <div class="content-box fragment fade-up">
+            <h3><i class="fas fa-sliders-h"></i> How AI Is Involved</h3>
+            <div style="display:flex;flex-direction:column;gap:3px;margin-top:4px;">
+                <div style="display:flex;align-items:center;gap:7px;padding:3px 6px;background:#dbeafe;border-radius:6px;"><span style="background:#dbeafe;color:var(--vibe-blue);padding:2px 7px;border-radius:10px;font-size:0.62em;font-weight:700;border:1px solid var(--vibe-blue);">AI-Assisted</span><span style="font-size:0.68em;">Human drives · AI accelerates</span></div>
+                <div style="display:flex;align-items:center;gap:7px;padding:3px 6px;background:#dcfce7;border-radius:6px;"><span style="background:#dcfce7;color:#15803d;padding:2px 7px;border-radius:10px;font-size:0.62em;font-weight:700;border:1px solid #16a34a;">Exploration</span><span style="font-size:0.68em;">Human + AI explore via MCP</span></div>
+                <div style="display:flex;align-items:center;gap:7px;padding:3px 6px;background:#ede9fe;border-radius:6px;"><span style="background:#ede9fe;color:#6d28d9;padding:2px 7px;border-radius:10px;font-size:0.62em;font-weight:700;border:1px solid #9333ea;">Agentic</span><span style="font-size:0.68em;">AI agents execute · human governs</span></div>
+                <div style="display:flex;align-items:center;gap:7px;padding:3px 6px;background:#ffedd5;border-radius:6px;"><span style="background:#ffedd5;color:#9a3412;padding:2px 7px;border-radius:10px;font-size:0.62em;font-weight:700;border:1px solid var(--vibe-orange);">Autonomous</span><span style="font-size:0.68em;">System monitors without trigger</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="success-box" style="text-align:center;margin-top:6px;"><p class="bold" style="font-size:0.8em;"><i class="fas fa-info-circle text-green"></i>&nbsp; Every QA workflow in this program maps to one of these dimensions — Design, Execution, or Intelligence</p></div>
+    <div class="fragment fade-up" style="background:#eff6ff;border-left:4px solid var(--vibe-blue);border-radius:7px;padding:6px 12px;margin-top:4px;text-align:center;">
+        <p style="font-size:0.73em;font-weight:700;color:var(--vibe-blue);margin:0;"><i class="fas fa-th" style="margin-right:6px;"></i>Every session in this program sits on this framework. You will finish Level 4 knowing where every workflow belongs on this grid — and how to design new ones.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — What This Program Covers
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>What This Program Covers</h2>
+    <div class="highlight-box fragment fade-in">
+        <p class="bold text-blue" style="font-size:0.82em;text-align:center;">
+            4 structured levels — from AI fundamentals to architecting QA workflows for AI SDLC
+        </p>
+    </div>
+    <div class="two-col" style="margin-top:5px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-blue);">
+            <h3 style="color:var(--vibe-blue);">🤖 Understanding AI</h3>
+            <ul>
+                <li>LLMs, hallucination &amp; how AI models work</li>
+                <li>Prompt engineering — role, context, instruction, format</li>
+                <li>VS Code + GitHub Copilot setup &amp; usage</li>
+                <li>skills.md — teaching AI your codebase</li>
+            </ul>
+        </div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">🔍 AI for Manual Testing</h3>
+            <ul>
+                <li>MCP setup — Claude Desktop + Playwright MCP</li>
+                <li>Requirements analysis, Gherkin &amp; test cases</li>
+                <li>Exploratory testing with AI agents</li>
+                <li>Test data generation &amp; AI bug reporting</li>
+            </ul>
+        </div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-green);">
+            <h3 style="color:var(--vibe-green);">⚙️ AI for Test Automation</h3>
+            <ul>
+                <li>JavaScript, TypeScript &amp; Playwright (POM, fixtures)</li>
+                <li>Planner, Generator &amp; Healer agents</li>
+                <li>Cucumber BDD — feature files &amp; step definitions</li>
+                <li>API testing, Git &amp; GitHub Actions CI</li>
+            </ul>
+        </div>
+        <div class="content-box fragment fade-up" style="border-left-color:#9333ea;">
+            <h3 style="color:#9333ea;">🏗️ QA Workflows for AI SDLC</h3>
+            <ul>
+                <li>AI-Native SDLC &amp; parallel stream model</li>
+                <li>Design, Execution &amp; Intelligence workflows of QA</li>
+                <li>Coverage governance every sprint</li>
+                <li>Your personal AI-Native QA action plan</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Questions We Already Know You Have
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Questions We Already Know You Have</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.82em;text-align:center;">From the registration form — these are your exact questions. Let us answer them.</p></div>
+    <div style="margin-top:6px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border-left:4px solid var(--vibe-orange);border-radius:7px;padding:6px 12px;margin:3px 0;font-size:0.77em;" class="fragment fade-up">
+            <i class="fas fa-question-circle" style="color:var(--vibe-orange);flex-shrink:0;margin-top:2px;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">"I have no coding experience. Can I still join?"</strong><span style="color:#64748b;"> — Yes. Level 1 and 2 need zero code. Level 3 teaches JS and TS from scratch, with AI helping you every step.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border-left:4px solid var(--vibe-orange);border-radius:7px;padding:6px 12px;margin:3px 0;font-size:0.77em;" class="fragment fade-up">
+            <i class="fas fa-question-circle" style="color:var(--vibe-orange);flex-shrink:0;margin-top:2px;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">"Are we learning JavaScript and TypeScript basics?"</strong><span style="color:#64748b;"> — Yes. Variables, functions, async/await, types, interfaces — all covered in Level 3, starting from zero.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border-left:4px solid var(--vibe-orange);border-radius:7px;padding:6px 12px;margin:3px 0;font-size:0.77em;" class="fragment fade-up">
+            <i class="fas fa-question-circle" style="color:var(--vibe-orange);flex-shrink:0;margin-top:2px;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">"I am from embedded / non-web testing background. Will this work for me?"</strong><span style="color:#64748b;"> — Yes. Your testing experience is an advantage. The program builds from AI fundamentals.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border-left:4px solid var(--vibe-orange);border-radius:7px;padding:6px 12px;margin:3px 0;font-size:0.77em;" class="fragment fade-up">
+            <i class="fas fa-question-circle" style="color:var(--vibe-orange);flex-shrink:0;margin-top:2px;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">"How does GenAI + Playwright actually work? Is it hands-on?"</strong><span style="color:#64748b;"> — Every session is practice-first. You build with Planner, Generator and Healer agents. You leave every session with something that runs.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;background:#fff7ed;border-left:4px solid var(--vibe-orange);border-radius:7px;padding:6px 12px;margin:3px 0;font-size:0.77em;" class="fragment fade-up">
+            <i class="fas fa-question-circle" style="color:var(--vibe-orange);flex-shrink:0;margin-top:2px;"></i>
+            <div><strong style="color:var(--vibe-dark-blue);">"I am looking for a job / planning a switch. Will this make me interview-ready?"</strong><span style="color:#64748b;"> — Yes. Resume prep, mock interviews, Playwright Interview Questions book and a GitHub portfolio are all part of the program.</span></div>
+        </div>
+    </div>
+    <div style="background:var(--vibe-dark-blue);border-radius:8px;padding:6px 14px;margin-top:5px;text-align:center;" class="fragment fade-up">
+        <p style="color:#fff;font-size:0.76em;font-weight:700;margin:0;"><i class="fas fa-comments" style="color:var(--vibe-yellow);margin-right:6px;"></i>Fee details — we will cover that personally. Ask me after this session.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Here Is What 40–45 Days Looks Like
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Here Is What 40–45 Days Looks Like</h2>
+    <div class="highlight-box"><p class="bold text-blue" style="font-size:0.85em;text-align:center;">A concrete picture of where you will be — week by week</p></div>
+    <div style="margin-top:5px;">
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#dbeafe;border-left:5px solid var(--vibe-blue);border-radius:8px;padding:6px 12px;margin:3px 0;font-size:0.76em;" class="fragment fade-up">
+            <div style="background:var(--vibe-blue);color:white;border-radius:6px;padding:2px 7px;font-weight:800;white-space:nowrap;flex-shrink:0;">Week 1–2</div>
+            <div style="color:var(--vibe-dark-blue);">Generating test cases with AI in under 2 minutes. Claude Desktop is set up. MCP connected to your project.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#fef3c7;border-left:5px solid var(--vibe-yellow);border-radius:8px;padding:6px 12px;margin:3px 0;font-size:0.76em;" class="fragment fade-up">
+            <div style="background:var(--vibe-yellow);color:#92400e;border-radius:6px;padding:2px 7px;font-weight:800;white-space:nowrap;flex-shrink:0;">Week 2–3</div>
+            <div style="color:var(--vibe-dark-blue);">AI is exploring your live application via Playwright MCP. AI Testing Toolkit is built. Gherkin feature files ready for automation.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#dcfce7;border-left:5px solid var(--vibe-green);border-radius:8px;padding:6px 12px;margin:3px 0;font-size:0.76em;" class="fragment fade-up">
+            <div style="background:var(--vibe-green);color:white;border-radius:6px;padding:2px 7px;font-weight:800;white-space:nowrap;flex-shrink:0;">Week 3–6</div>
+            <div style="color:var(--vibe-dark-blue);">Working Playwright automation suite — Planner, Generator and Healer agents built it. Cucumber BDD, API tests and GitHub Actions CI running.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:#ede9fe;border-left:5px solid #7c3aed;border-radius:8px;padding:6px 12px;margin:3px 0;font-size:0.76em;" class="fragment fade-up">
+            <div style="background:#7c3aed;color:white;border-radius:6px;padding:2px 7px;font-weight:800;white-space:nowrap;flex-shrink:0;">Week 6–7</div>
+            <div style="color:var(--vibe-dark-blue);">You understand the AI SDLC. You can design QA workflows for your team type. You know when and how to apply each workflow.</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;background:var(--vibe-dark-blue);border-radius:8px;padding:6px 12px;margin:3px 0;font-size:0.76em;" class="fragment fade-up">
+            <div style="background:var(--vibe-yellow);color:#92400e;border-radius:6px;padding:2px 7px;font-weight:800;white-space:nowrap;flex-shrink:0;">End</div>
+            <div style="color:#e2e8f0;">GitHub portfolio &nbsp;·&nbsp; Playwright Book &nbsp;·&nbsp; Interview Preparation &nbsp;·&nbsp; Program Certificate &nbsp;·&nbsp; VibeTestQ verified practitioner</div>
+        </div>
+    </div>
+    <div style="text-align:center;margin-top:6px;" class="fragment fade-up">
+        <p style="font-size:0.8em;color:#64748b;font-style:italic;font-weight:600;">This is not a course about AI. This is a course about <span style="color:var(--vibe-blue);font-style:normal;font-weight:800;">you</span> — in the AI era.</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Program Summary
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>The Program — Everything You Need to Know</h2>
+    <div class="four-col" style="margin-top:6px;">
+        <div class="stat-box fragment fade-up" style="text-align:center;width:100%;box-sizing:border-box;"><span class="stat-number">31</span><span class="stat-label">Sessions</span></div>
+        <div class="stat-box fragment fade-up" style="text-align:center;width:100%;box-sizing:border-box;"><span class="stat-number">1.5</span><span class="stat-label">Hours per Session</span></div>
+        <div class="stat-box fragment fade-up" style="text-align:center;width:100%;box-sizing:border-box;"><span class="stat-number">7:30</span><span class="stat-label">AM–9:00 AM IST</span></div>
+        <div class="stat-box fragment fade-up" style="text-align:center;width:100%;box-sizing:border-box;"><span class="stat-number" style="font-size:1.3em;">Apr 15</span><span class="stat-label">Start · Mon–Fri</span></div>
+    </div>
+    <div class="two-col" style="margin-top:6px;">
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-blue);"><h3>What's Included</h3><ul><li>Daily 1.5 hr live sessions</li><li>In-session practice — hands-on every day</li><li>Practice assignments &amp; assessments</li><li>Resume review + mock interviews</li><li>Mentor: QTPSudhakar — 20+ years, 10,000+ engineers trained</li></ul></div>
+        <div class="content-box fragment fade-up" style="border-left-color:var(--vibe-green);"><h3>What You Walk Away With</h3><ul><li>Production-ready AI-native Playwright framework on GitHub</li><li>Verified practitioner on VibeTestQ.com</li><li>Complete AI SDLC testing skillset</li><li>📗 <strong>Complete Playwright Book</strong></li><li>❓ <strong>Playwright Interview Questions</strong></li></ul></div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE — Closing CTA
+══════════════════════════════════════════════ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:500px;width:78%;margin:0 auto 10px;display:block;" onerror="this.style.display='none'">
+    <h1>Your Move</h1>
+    <p class="subtitle">The AI era won't wait. Become the QA professional it demands.</p>
+    <p style="font-size:0.88em;font-style:italic;color:var(--vibe-dark-blue);font-weight:700;line-height:1.6;margin:8px 0 4px;">
+        <i class="fas fa-star" style="color:var(--vibe-yellow);margin-right:6px;"></i>
+        This program gives you the confidence to face whatever AI brings in QA — and the skills to make it work for you.
+    </p>
+    <div class="flow-container" style="max-width:740px;margin:10px auto;">
+        <div class="arrow-flow">
+            <div class="step">Enroll</div><div class="arrow">→</div>
+            <div class="step green">40–45 Days</div><div class="arrow">→</div>
+            <div class="step orange">AI-Native QA</div><div class="arrow">→</div>
+            <div class="step purple">Land the Role</div>
+        </div>
+    </div>
+    <div style="margin-top:10px;">
+        <span class="badge"><i class="fas fa-whatsapp"></i> &nbsp;WhatsApp: +91-8328152362</span>
+        <span class="badge blue"><i class="fas fa-globe"></i> &nbsp;VibeTestQ.com</span>
+        <span class="badge green"><i class="fas fa-question-circle"></i> &nbsp;Questions Welcome!</span>
+    </div>
+    <p class="tagline" style="margin-top:12px;">
+        <i class="fab fa-linkedin"></i> QTP Sudhakar &nbsp;|&nbsp;
+        India's First Playwright Corporate Trainer &nbsp;|&nbsp; 10,000+ Engineers Trained
+    </p>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    (function () {
+        var MARGIN = 0.04;
+        function getSize() { return { w: window.innerWidth, h: window.innerHeight }; }
+        function buildConfig() {
+            var s = getSize();
+            return {
+                hash: true, transition: 'slide', transitionSpeed: 'default',
+                slideNumber: true, controls: true, progress: true, center: true,
+                width: s.w, height: s.h, margin: MARGIN, minScale: 0.1, maxScale: 1.0
+            };
+        }
+        var initialized = false;
+        function init() {
+            if (typeof Reveal === 'undefined') return false;
+            Reveal.initialize(buildConfig());
+            initialized = true;
+            return true;
+        }
+        var resizeTimer = null;
+        var lastDPR = window.devicePixelRatio;
+        function onViewportChange() {
+            if (!initialized) return;
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                var s = getSize();
+                Reveal.configure({ width: s.w, height: s.h });
+                Reveal.layout();
+            }, 60);
+        }
+        window.addEventListener('resize', onViewportChange);
+        setInterval(function () {
+            var dpr = window.devicePixelRatio;
+            if (dpr !== lastDPR) { lastDPR = dpr; onViewportChange(); }
+        }, 250);
+        document.addEventListener('keydown', function (e) {
+            if (!initialized) return;
+            if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
+                e.preventDefault();
+                var s = getSize();
+                Reveal.configure({ width: s.w * 0.97, height: s.h * 0.97 });
+                Reveal.layout();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+                e.preventDefault();
+                var s2 = getSize();
+                Reveal.configure({ width: s2.w * 1.03, height: s2.h * 1.03 });
+                Reveal.layout();
+            }
+        });
+        if (!init()) {
+            var attempts = 0;
+            var pollTimer = setInterval(function () {
+                attempts++;
+                if (init()) { clearInterval(pollTimer); }
+                else if (attempts >= 50) {
+                    clearInterval(pollTimer);
+                    console.error('Reveal.js failed to load from CDN.');
+                }
+            }, 100);
+        }
+    })();
+</script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Organization, Hooks & Annotations - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+        .vibe-table { width:100%; border-collapse:collapse; font-size:0.75em; }
+        .vibe-table th { background:var(--vibe-dark-blue); color:white; padding:6px 10px; text-transform:none; }
+        .vibe-table td { padding:6px 10px; border-bottom:1px solid #e2e8f0; }
+        .vibe-table tr:nth-child(even) td { background:#f1f5f9; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Test Organization, Hooks &amp; Annotations</h1>
+    <p class="subtitle">describe, beforeEach, Tags, Filtering and Parallel Strategies</p>
+    <p class="tagline">Structure your test suite like a senior QE engineer — Session 13</p>
+    <div style="margin-top:15px;">
+        <span class="badge">describe</span>
+        <span class="badge" style="background:var(--vibe-blue);">Hooks</span>
+        <span class="badge" style="background:var(--vibe-green);">@smoke · @regression</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>test.describe — Grouping and Nesting</h2>
+    <div class="code-snippet">import { test, expect } from '@playwright/test';
+
+// Top-level describe = feature or page
+test.describe('User Authentication', () => {
+
+  // Nested describe = sub-scenario
+  test.describe('Login', () => {
+    test('valid credentials', async ({ page }) => { /* ... */ });
+    test('invalid credentials', async ({ page }) => { /* ... */ });
+    test('empty fields validation', async ({ page }) => { /* ... */ });
+  });
+
+  test.describe('Register', () => {
+    test('successful registration', async ({ page }) => { /* ... */ });
+    test('duplicate email error', async ({ page }) => { /* ... */ });
+  });
+
+  test.describe('Logout', () => {
+    test('logout from header', async ({ page }) => { /* ... */ });
+  });
+});
+
+// describe.configure — control parallelism per suite
+test.describe.configure({ mode: 'serial' }); // run these in order
+test.describe.configure({ mode: 'parallel' }); // run concurrently (default)</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Hooks: Setup and Teardown</h2>
+    <div class="code-snippet">test.describe('Shopping Cart', () => {
+
+  // runs once before all tests in this describe block
+  test.beforeAll(async ({ browser }) => {
+    // create shared state, seed test database
+    console.log('Suite starting...');
+  });
+
+  // runs before EACH test — most common hook
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/shop');
+    await page.getByRole('button', { name: 'Login' }).click();
+    await page.getByLabel('Email').fill('test@example.com');
+    await page.getByLabel('Password').fill('Test1234!');
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page).toHaveURL(/shop/);
+  });
+
+  // runs after each test (cleanup)
+  test.afterEach(async ({ page }) => {
+    await page.getByRole('button', { name: 'Clear cart' }).click();
+  });
+
+  // runs once after all tests
+  test.afterAll(async () => {
+    // cleanup test data, close shared connections
+  });
+
+  test('add item to cart', async ({ page }) => { /* already logged in */ });
+  test('remove item from cart', async ({ page }) => { /* already logged in */ });
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Test Annotations: Tags and Metadata</h2>
+    <div class="code-snippet">// Tag tests with @tag in the title — used with --grep filtering
+test('login with valid creds @smoke @critical', async ({ page }) => {});
+test('advanced search filters @regression', async ({ page }) => {});
+test('export report as PDF @regression @slow', async ({ page }) => {});
+
+// Built-in annotations
+test('new feature in progress', async ({ page }) => {
+  test.skip();  // skip this test entirely
+});
+
+test('known flaky on Safari', async ({ page, browserName }) => {
+  test.fixme(browserName === 'webkit'); // mark as fixme — runs but expected to fail
+});
+
+test('only run this for now', async ({ page }) => {
+  test.only(); // only this test runs in the file — REMOVE BEFORE COMMIT
+});
+
+// Conditional skip
+test('Linux-only test', async ({ page }) => {
+  test.skip(process.platform !== 'linux', 'Linux only');
+});
+
+// Add structured info to test report
+test('upload file', async ({ page }) => {
+  test.info().annotations.push({ type: 'JIRA', description: 'QA-1234' });
+  test.info().attachments.push({ name: 'screenshot', path: 'shot.png', contentType: 'image/png' });
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Filtering Tests with --grep</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>CLI Filter Commands</h3>
+            <div class="code-snippet" style="margin-top:4px; font-size:0.6em;">npx playwright test --grep @smoke
+npx playwright test --grep @critical
+npx playwright test --grep "@smoke|@critical"
+npx playwright test --grep-invert @slow
+npx playwright test --grep @regression
+
+# Run specific file
+npx playwright test login.spec.ts
+
+# Run by test name pattern
+npx playwright test -g "login"</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Tag Strategy</h3>
+            <ul>
+                <li><span class="text-orange bold">@smoke</span> — 5–15 critical path tests, runs per deploy</li>
+                <li><span class="text-blue bold">@regression</span> — full suite, runs nightly</li>
+                <li><span class="text-green bold">@sanity</span> — post-deploy validation</li>
+                <li><span class="bold">@slow</span> — excluded from fast pipelines</li>
+                <li><span class="bold">@api</span> — API-only tests subset</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Define your tagging strategy in the team wiki and enforce it in CI pipeline configs. Consistent tagging = effective filtering.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Test File Naming and Folder Structure</h2>
+    <div class="two-col">
+        <div class="code-snippet" style="margin-top:0; font-size:0.62em;">tests/
+  auth/
+    login.spec.ts
+    register.spec.ts
+    logout.spec.ts
+  shop/
+    product-search.spec.ts
+    cart.spec.ts
+    checkout.spec.ts
+  admin/
+    user-management.spec.ts
+    reports.spec.ts
+  api/
+    auth-api.spec.ts
+    products-api.spec.ts
+  visual/
+    homepage.spec.ts
+
+pages/              # Page Objects
+  LoginPage.ts
+  CartPage.ts
+
+fixtures/
+  auth.fixtures.ts  # Custom fixtures
+
+tests/fixtures/     # Test data files
+  users.json
+  products.csv</div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <h3>File Naming Rules</h3>
+                <ul>
+                    <li>Always end with <code>.spec.ts</code></li>
+                    <li>Use kebab-case: <code>user-login.spec.ts</code></li>
+                    <li>One feature per spec file</li>
+                    <li>Group by feature/module in folders</li>
+                </ul>
+            </div>
+            <div class="highlight-box">
+                <p class="compact">Structure tests to match the app's navigation hierarchy. Testers and devs can find tests intuitively.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 13 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Organization Patterns</h3>
+            <ul>
+                <li>test.describe() — group by feature</li>
+                <li>Nested describe for sub-scenarios</li>
+                <li>beforeEach — shared setup per test</li>
+                <li>beforeAll / afterAll — suite-level setup</li>
+                <li>File structure mirrors app structure</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Annotations and Control</h3>
+            <ul>
+                <li>@smoke, @regression tags via test title</li>
+                <li>--grep filters on CLI and in CI</li>
+                <li>test.skip(), test.fixme(), test.only()</li>
+                <li>Conditional skips with platform checks</li>
+                <li>test.info() for attachments and JIRA links</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 14 — Deep Dive into playwright.config.ts</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

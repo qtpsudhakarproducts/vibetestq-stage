@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3 QA Workflows We've Built — VibeTestQ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/plugin/notes/notes.min.js"></script>
+<style>
+:root {
+    --vibe-blue: #1e40af;
+    --vibe-dark-blue: #1e3a8a;
+    --vibe-green: #22c55e;
+    --vibe-yellow: #fbbf24;
+    --vibe-orange: #f97316;
+    --vibe-light-bg: #f8fafc;
+}
+.reveal { background: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 700; color: var(--vibe-dark-blue); }
+.reveal h1 { font-size: 1.6em; margin-bottom: 0.15em; }
+.reveal h2 { font-size: 1.25em; margin-bottom: 0.2em; color: var(--vibe-blue); }
+.reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.15em; }
+.reveal p, .reveal li { color: #334155; line-height: 1.4; }
+.reveal .slides section { padding: 6px 28px; box-sizing: border-box; }
+.logo-corner { position: absolute; top: 10px; right: 20px; z-index: 100; }
+.logo-corner img { width: 70px; height: auto; }
+.title-slide { background: #ffffff !important; }
+.title-slide h1 { font-size: 1.7em; color: var(--vibe-dark-blue); margin: 8px 0 6px; }
+.title-slide .subtitle { font-size: 1em; color: var(--vibe-orange); margin: 6px 0; }
+.title-slide .tagline  { font-size: 0.88em; color: var(--vibe-blue); margin: 5px 0 10px; }
+.chapter-slide { background: #1e3a8a !important; }
+.chapter-slide h1 { color: #ffffff; font-size: 2em; margin-bottom: 10px; }
+.chapter-slide h2 { color: #94a3b8; font-size: 1.2em; }
+.chapter-slide i  { color: var(--vibe-green); }
+.chapter-slide p  { color: #94a3b8; }
+.content-box { background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+.highlight-box { background: #fef3c7; border: 2px solid var(--vibe-yellow); padding: 6px 10px; margin: 4px auto; border-radius: 8px; max-width: 92%; }
+.success-box { background: #f0fdf4; border-left: 4px solid var(--vibe-green); padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+.warning-box { background: #fff1f2; border-left: 4px solid #ef4444; padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+.failure-box { background: #fef3c7; border: 2px dashed #f59e0b; padding: 10px 14px; margin: 6px 0; border-radius: 8px; }
+.failure-box h3 { color: #92400e; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.failure-box p { color: #78350f; font-size: 0.82em; }
+.metric-placeholder { background: #fff7ed; border: 2px dashed var(--vibe-orange); padding: 4px 10px; border-radius: 4px; color: #c2410c; font-weight: 700; display: inline-block; font-size: 0.88em; }
+.before-after { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 6px 0; }
+.before-after .before { background: #fff1f2; border-left: 4px solid #ef4444; padding: 8px 12px; border-radius: 6px; }
+.before-after .after  { background: #f0fdf4; border-left: 4px solid var(--vibe-green); padding: 8px 12px; border-radius: 6px; }
+.before-after .before p, .before-after .after p { font-size: 0.82em; margin: 4px 0; }
+.before-after h4 { font-size: 0.82em; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: 1px; }
+.before-after .before h4 { color: #be123c; }
+.before-after .after h4 { color: #166534; }
+.reveal ul { list-style: none; margin: 5px 0; }
+.reveal ul li { margin: 4px 0; padding-left: 30px; position: relative; text-align: left; font-size: 0.8em; line-height: 1.35; }
+.reveal ul li:before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--vibe-green); font-size: 0.95em; position: absolute; left: 0; top: 1px; }
+.reveal ul li.cross:before { content: "\f057"; color: var(--vibe-orange); }
+.reveal ul li.warn:before  { content: "\f071"; color: var(--vibe-yellow); }
+.reveal ul li.blue:before  { content: "\f058"; color: var(--vibe-blue); }
+.reveal ul li.red:before   { content: "\f057"; color: #ef4444; }
+.reveal ul li.dot:before   { content: "\f111"; font-size: 0.45em; top: 6px; color: #94a3b8; }
+.text-blue { color: var(--vibe-blue); }
+.text-green { color: var(--vibe-green); }
+.text-orange { color: var(--vibe-orange); }
+.text-red { color: #ef4444; }
+.bold { font-weight: 700; }
+.badge { display: inline-block; background: var(--vibe-orange); color: white; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 0.75em; margin: 3px; }
+.badge.blue { background: var(--vibe-blue); }
+.badge.green { background: #16a34a; }
+.badge.purple { background: #7c3aed; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 6px 0; }
+.compact { font-size: 0.8em; line-height: 1.35; }
+.compact2 { font-size: 0.74em; line-height: 1.3; }
+.icon-box { text-align: center; padding: 10px 8px; background: var(--vibe-light-bg); border-radius: 8px; }
+.icon-box i { font-size: 1.5em; margin-bottom: 5px; display: block; }
+.icon-box.blue i { color: var(--vibe-blue); }
+.icon-box.green i { color: var(--vibe-green); }
+.icon-box.orange i { color: var(--vibe-orange); }
+.flow-container { background: #f1f5f9; border-radius: 8px; padding: 10px; margin: 6px 0; }
+.arrow-flow { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+.arrow-flow .step { background: var(--vibe-blue); color: white; padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 0.65em; }
+.arrow-flow .step.green { background: var(--vibe-green); }
+.arrow-flow .step.orange { background: var(--vibe-orange); }
+.arrow-flow .step.purple { background: #9333ea; }
+.arrow-flow .step.red { background: #ef4444; }
+.arrow-flow .step.dark { background: #334155; }
+.arrow-flow .arrow { color: var(--vibe-orange); font-size: 1.1em; }
+.code-snippet { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 10px 14px; font-family: 'Consolas', monospace; font-size: 0.58em; margin: 6px 0; color: #c9d1d9; text-align: left; white-space: pre; line-height: 1.6; }
+.stack-row { display: flex; align-items: center; gap: 8px; background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); border-radius: 6px; padding: 6px 12px; margin: 4px 0; font-size: 0.78em; }
+.stack-row .num { background: var(--vibe-orange); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.9em; }
+.stack-row .tool { font-weight: 700; color: var(--vibe-dark-blue); flex: 0 0 auto; }
+.stack-row .act { color: #64748b; font-style: italic; }
+.metric-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; border-bottom: 1px solid #e2e8f0; font-size: 0.78em; }
+.metric-row:last-child { border-bottom: none; }
+.metric-row .label { color: #64748b; }
+.metric-row .value { font-weight: 700; color: var(--vibe-dark-blue); }
+</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ═══ TITLE ═══ -->
+<section class="title-slide">
+<img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ" style="max-width:560px;width:86%;margin:0 auto 10px;display:block;" onerror="this.style.display='none'">
+<h1>3 QA Workflows We've Built</h1>
+<p class="subtitle">What we ran. What worked. What broke first time.</p>
+<p class="tagline">Sudhakar Kakunuri &middot; Founder, VibeTestQ &middot; 21 years in QA</p>
+<div style="margin-top:10px;">
+<span class="badge"><i class="fas fa-flask"></i> WF1 &middot; Scenarios</span>
+<span class="badge blue"><i class="fas fa-heart-pulse"></i> WF7 &middot; Self-Healing</span>
+<span class="badge green"><i class="fas fa-infinity"></i> WF11 &middot; Prod Feedback</span>
+</div>
+<aside class="notes">
+<strong>[30 sec]</strong> Walk on. Pause. Then: "Quick follow-up to the keynote — you heard the theory. Now here's what we actually built. 3 workflows. The wins, the failures, the code. In 25 minutes."
+</aside>
+</section>
+
+<!-- ─── S2: Frame ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-bullseye" style="color:var(--vibe-orange)"></i> Why a Second Talk</h2>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-orange);">
+<p class="bold text-blue">The keynote was about thesis</p>
+<ul>
+<li class="dot">Validation is a generation behind generation</li>
+<li class="dot">The gap is our job</li>
+<li class="dot">11 workflows close it</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-green);">
+<p class="bold text-blue">This talk is about proof</p>
+<ul>
+<li>3 workflows we've actually built</li>
+<li>Real prompts. Real code. Real outcomes.</li>
+<li>What broke first time — the honest stories</li>
+</ul>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;">Thesis without receipts = opinion. Receipts without thesis = anecdote. Today: both.</p>
+</div>
+<aside class="notes">
+<strong>[60 sec]</strong> "In the keynote I said the generation gap is our career. Today I'll show you what closing that gap actually looks like — on our project, not in theory. Three workflows. Wins AND failures. Then you judge."
+</aside>
+</section>
+
+<!-- ─── S3: What you'll see ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-list-check" style="color:var(--vibe-blue)"></i> What You'll See — For Each Workflow</h2>
+<div class="three-col">
+<div class="icon-box orange"><i class="fas fa-arrows-left-right"></i><h3>Before &rarr; After</h3><p class="compact2">What the workflow changed</p></div>
+<div class="icon-box blue"><i class="fas fa-layer-group"></i><h3>The Stack</h3><p class="compact2">Tools composed together</p></div>
+<div class="icon-box green"><i class="fas fa-code"></i><h3>Real Code / Prompts</h3><p class="compact2">Exactly what we ran</p></div>
+</div>
+<div class="three-col" style="margin-top:6px;">
+<div class="icon-box" style="background:#fef3c7;"><i class="fas fa-triangle-exclamation" style="color:#f59e0b;"></i><h3 style="color:#92400e;">Failure Story</h3><p class="compact2">What broke first time</p></div>
+<div class="icon-box blue"><i class="fas fa-chart-line"></i><h3>Measured Outcomes</h3><p class="compact2">Our numbers</p></div>
+<div class="icon-box green"><i class="fas fa-compass"></i><h3>Where It Fits</h3><p class="compact2">Which SDLC type</p></div>
+</div>
+<p class="compact" style="text-align:center;margin-top:10px;color:#64748b;"><em>3 workflows. 6 sections each. 25 minutes. Go.</em></p>
+<aside class="notes">
+<strong>[45 sec]</strong> "Same structure for each workflow. Before/after. Stack. Code. Failure. Outcome. Fit. If you see any section gloss over the failure — ask me in Q&A. I'll be honest."
+</aside>
+</section>
+
+<!-- ═══════════ WF1 ═══════════ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:60px 0;">
+<i class="fas fa-file-alt" style="font-size:3.5em;margin-bottom:14px;display:block;color:var(--vibe-orange)"></i>
+<h1>Workflow 1</h1>
+<h2>Requirements &rarr; Test Scenarios</h2>
+<p style="margin-top:12px;font-size:0.88em;">"Minutes, not days — and ambiguity caught before dev starts."</p>
+</div>
+<aside class="notes">
+<strong>[15 sec]</strong> "First one. The gateway workflow. If you don't have WF1, nothing downstream matters."
+</aside>
+</section>
+
+<!-- ─── WF1 Before / After ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-arrows-left-right" style="color:var(--vibe-orange)"></i> WF1 &middot; Before &rarr; After</h2>
+<div class="before-after">
+<div class="before">
+<h4><i class="fas fa-xmark-circle"></i> BEFORE</h4>
+<p>BA drops a 3-line user story into Jira.</p>
+<p>QA schedules a 45-minute "scenario walkthrough" 2 days later.</p>
+<p>3 rounds of clarifying questions over Slack.</p>
+<p>Scenarios finalized in TestRail. Dev has already started.</p>
+<p class="bold" style="color:#991b1b;">Cycle: <span class="metric-placeholder">{3 days average}</span></p>
+</div>
+<div class="after">
+<h4><i class="fas fa-check-circle"></i> AFTER</h4>
+<p>BA drops the same story. Sync job copies it to <code>requirements/REQ-*.md</code>.</p>
+<p>WF1 prompt runs. Ambiguities flagged in 90 seconds.</p>
+<p>BA answers questions asynchronously; scenarios drafted.</p>
+<p>QA approves. Dev starts from approved specs.</p>
+<p class="bold" style="color:#166534;">Cycle: <span class="metric-placeholder">{~2 hours}</span></p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="compact bold text-blue" style="text-align:center;">The real unlock isn't speed. It's catching ambiguity <em>before</em> code.</p>
+</div>
+<aside class="notes">
+<strong>[90 sec]</strong> Walk them through both sides slowly. Pause on "the real unlock isn't speed." That's the line. <strong>REPLACE THE BRACKETED METRICS</strong> with your actual numbers before presenting.
+</aside>
+</section>
+
+<!-- ─── WF1 Stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-layer-group" style="color:var(--vibe-blue)"></i> WF1 &middot; The Stack We Built</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">Jira webhook</div><div class="act">fires when a story moves to "Ready for QA"</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Custom sync script</div><div class="act">copies the story into requirements/REQ-{id}.md</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Cursor + Claude plugin</div><div class="act">runs the WF1 prompt against the requirement</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Playwright MCP</div><div class="act">validates scenarios are testable against current staging</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">graph.json update</div><div class="act">stores REQ &harr; scenarios link</div></div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>5 tools. 1 workflow. Composed from categories 2, 3, 4 of the 7 categories.</strong></p>
+</div>
+<aside class="notes">
+<strong>[45 sec]</strong> Read down the stack. "No single vendor. Five tools. Glued together with about a hundred lines of our own code."
+</aside>
+</section>
+
+<!-- ─── WF1 Real Prompt ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-code" style="color:var(--vibe-green)"></i> WF1 &middot; The Real Prompt We Run</h2>
+<div class="code-snippet" style="font-size:0.5em;"><span style="color:#94a3b8;"># Task: Generate test scenarios from a requirement</span>
+
+<span style="color:#fcd34d;">## Context files (read in order)</span>
+1. .ai/project-context.md
+2. .ai/conventions.md
+3. requirements/REQ-{id}.md
+4. .ai/graph.json
+
+<span style="color:#fcd34d;">## Your job</span>
+1. Read the requirement fully
+2. Detect ambiguity - list anything vague
+3. Generate scenarios: happy path, edge cases, error states
+4. Link every scenario to REQ-ID
+
+<span style="color:#fcd34d;">## Rules</span>
+- NEVER invent acceptance criteria not in the requirement
+- If ambiguity exists, LIST IT. Don't guess.
+- Scenarios must be executable by a tester
+
+<span style="color:#fcd34d;">## Output</span>
+Write to: scenarios/REQ-{id}-scenarios.md
+Append to graph.json</div>
+<p class="compact" style="text-align:center;margin-top:6px;color:#64748b;"><em>This prompt is in our repo at <code>.ai/prompts/wf1-generate-scenarios.md</code> — versioned like code.</em></p>
+<aside class="notes">
+<strong>[60 sec]</strong> "This is the actual prompt file. Versioned. PR-reviewed. 40 lines. That's it. No secret sauce."
+</aside>
+</section>
+
+<!-- ─── WF1 Failure Story ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-triangle-exclamation" style="color:#f59e0b"></i> WF1 &middot; What Broke First Time</h2>
+<div class="failure-box">
+<h3>The prompt was too polite.</h3>
+<p>Our first version said: <em>"If you notice ambiguity, please list it."</em></p>
+<p>Claude interpreted "please" as optional. It generated scenarios with <strong>confident-looking guesses</strong> for every gap.</p>
+<p>BA never got asked clarifying questions. Dev built on guesses. Staging surfaced 3 bugs that were really spec ambiguities.</p>
+</div>
+<div class="success-box" style="margin-top:10px;">
+<p class="compact bold"><i class="fas fa-wrench text-green"></i> What we changed</p>
+<p class="compact">Replaced polite language with strict rules: <em>"NEVER invent acceptance criteria. If ambiguity exists, LIST IT. Don't guess."</em></p>
+<p class="compact">Capital letters. No politeness. AI models respect strictness.</p>
+</div>
+<p class="compact" style="text-align:center;margin-top:8px;color:#64748b;"><em>Lesson: prompts are code. Draft, test, harden.</em></p>
+<aside class="notes">
+<strong>[75 sec — honest moment]</strong> Slow down. This is the trust builder. "We made this mistake. Here's exactly how. Here's what we changed." Quote both versions of the prompt — the old polite one and the new strict one. Don't minimize it.
+</aside>
+</section>
+
+<!-- ─── WF1 Outcomes ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-chart-line" style="color:var(--vibe-blue)"></i> WF1 &middot; What We Measure Now</h2>
+<div class="content-box">
+<div class="metric-row"><span class="label">Time from requirement to approved scenarios</span><span class="value"><span class="metric-placeholder">{2 hours avg}</span></span></div>
+<div class="metric-row"><span class="label">Ambiguity hit rate (AI flags per requirement)</span><span class="value"><span class="metric-placeholder">{~40%}</span></span></div>
+<div class="metric-row"><span class="label">Scenarios approved without human rewrite</span><span class="value"><span class="metric-placeholder">{~75%}</span></span></div>
+<div class="metric-row"><span class="label">BA round-trip reduction</span><span class="value"><span class="metric-placeholder">{3 rounds &rarr; 1 round}</span></span></div>
+<div class="metric-row"><span class="label">Staging bugs traced to spec ambiguity</span><span class="value"><span class="metric-placeholder">{~70% reduction}</span></span></div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="compact bold text-blue" style="text-align:center;">The one that matters: <strong>spec ambiguity bugs drop.</strong> That's what "before dev starts" actually buys you.</p>
+</div>
+<aside class="notes">
+<strong>[60 sec]</strong> "Speed is the flashy number. But the one I care about is the last row — bugs traced to unclear specs. That's quality going up at source." <strong>REPLACE ALL METRICS</strong> with your real numbers.
+</aside>
+</section>
+
+<!-- ─── WF1 SDLC Fit ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-compass" style="color:var(--vibe-green)"></i> WF1 &middot; Where It Fits</h2>
+<div class="two-col">
+<div class="success-box">
+<p class="bold"><i class="fas fa-check text-green"></i> Fits well</p>
+<ul>
+<li><strong>Type 2 (Spec-Driven)</strong> — this IS the core gate</li>
+<li><strong>Type 3 (Parallel Stream)</strong> — runs the moment a spec is ready</li>
+<li><strong>Type 4 (Agentic)</strong> — fully automated trigger</li>
+</ul>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;"><i class="fas fa-xmark text-red"></i> Premature for</p>
+<ul>
+<li class="red"><strong>Type 1 (AI-Assisted)</strong> — unless you're willing to manually invoke it per story. Culture may not support gates yet.</li>
+</ul>
+</div>
+</div>
+<div class="content-box" style="margin-top:8px;">
+<p class="compact bold text-blue">Recommendation for learners:</p>
+<p class="compact">WF1 is the first workflow worth adopting. Lowest setup cost. Highest visibility. Creates natural demand for graph.json, which unlocks everything else.</p>
+</div>
+<aside class="notes">
+<strong>[45 sec]</strong> "If you leave today and implement one thing — make it WF1. It's the cheapest win."
+</aside>
+</section>
+
+<!-- ═══════════ WF7 ═══════════ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:60px 0;">
+<i class="fas fa-heart-pulse" style="font-size:3.5em;margin-bottom:14px;display:block;color:var(--vibe-green)"></i>
+<h1>Workflow 7</h1>
+<h2>Self-Healing Tests</h2>
+<p style="margin-top:12px;font-size:0.88em;">"30 lines of glue code. One API key. No more 2am pages for cosmetic changes."</p>
+</div>
+<aside class="notes">
+<strong>[15 sec]</strong> "Second one. The most visceral. A test fails. AI fixes it. You see the log. No silent heals."
+</aside>
+</section>
+
+<!-- ─── WF7 Before / After ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-arrows-left-right" style="color:var(--vibe-orange)"></i> WF7 &middot; Before &rarr; After</h2>
+<div class="before-after">
+<div class="before">
+<h4><i class="fas fa-xmark-circle"></i> BEFORE</h4>
+<p>Dev renames <code>data-testid="email"</code> to <code>data-testid="email-input"</code>.</p>
+<p>3am UTC: Playwright CI goes red across 14 tests.</p>
+<p>PagerDuty. QA on-call wakes up.</p>
+<p>Patch the locators by hand. Re-run. Fall asleep at 5am.</p>
+<p class="bold" style="color:#991b1b;">Flaky nights per sprint: <span class="metric-placeholder">{2-3}</span></p>
+</div>
+<div class="after">
+<h4><i class="fas fa-check-circle"></i> AFTER</h4>
+<p>Same dev rename.</p>
+<p>Test fails once. Framework sends DOM + intent to Claude API.</p>
+<p>AI proposes new selector. Test retries. Passes.</p>
+<p>Heal logged to <code>heal-log.jsonl</code>. QA reviews it in the morning.</p>
+<p class="bold" style="color:#166534;">Flaky nights: <span class="metric-placeholder">{≈0}</span>. Review effort: <span class="metric-placeholder">{~15 min/week}</span></p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="compact bold text-blue" style="text-align:center;">Not automation replacing QA. Automation giving QA their sleep back.</p>
+</div>
+<aside class="notes">
+<strong>[90 sec]</strong> "Be honest here — every QA person in the room has had that 3am page." Pause. Let them nod. Then walk the after side. Emphasize the heal log — the safety net.
+</aside>
+</section>
+
+<!-- ─── WF7 Stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-layer-group" style="color:var(--vibe-blue)"></i> WF7 &middot; The Stack We Built</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">Playwright (existing)</div><div class="act">our framework — no replacement needed</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Anthropic API key</div><div class="act">Claude Sonnet — cents per heal</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">~30 lines of TypeScript</div><div class="act">the healingLocator wrapper + retry logic</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">heal-log.jsonl</div><div class="act">one line per heal, committed to artifacts</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">Weekly review job</div><div class="act">QA lead sees heal count + escalations</div></div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>Category 7 (Runtime Self-Healing). No new vendor. No migration.</strong></p>
+</div>
+<aside class="notes">
+<strong>[45 sec]</strong> "Notice: no new test framework. No vendor migration. We kept Playwright. We added 30 lines and an API key. That's it."
+</aside>
+</section>
+
+<!-- ─── WF7 Real Code ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-code" style="color:var(--vibe-green)"></i> WF7 &middot; The 30 Lines (abridged)</h2>
+<div class="code-snippet" style="font-size:0.5em;"><span style="color:#c084fc;">export async function</span> <span style="color:#60a5fa;">healingLocator</span>(page, selector, intent) {
+  <span style="color:#c084fc;">try</span> {
+    <span style="color:#c084fc;">const</span> loc = page.<span style="color:#60a5fa;">locator</span>(selector);
+    <span style="color:#c084fc;">await</span> loc.<span style="color:#60a5fa;">waitFor</span>({ timeout: <span style="color:#fb923c;">5000</span> });
+    <span style="color:#c084fc;">return</span> loc;
+  } <span style="color:#c084fc;">catch</span> (err) {
+    <span style="color:#94a3b8;">// Original failed — ask Claude for a working selector</span>
+    <span style="color:#c084fc;">const</span> dom = <span style="color:#c084fc;">await</span> page.<span style="color:#60a5fa;">content</span>();
+    <span style="color:#c084fc;">const</span> screenshot = <span style="color:#c084fc;">await</span> page.<span style="color:#60a5fa;">screenshot</span>();
+    <span style="color:#c084fc;">const</span> newSelector = <span style="color:#c084fc;">await</span> <span style="color:#60a5fa;">askClaudeForSelector</span>(dom, screenshot, selector, intent);
+
+    <span style="color:#c084fc;">if</span> (newSelector === <span style="color:#86efac;">"NO_HEAL"</span>) <span style="color:#c084fc;">throw</span> err;
+
+    <span style="color:#94a3b8;">// NON-NEGOTIABLE: log every heal</span>
+    <span style="color:#c084fc;">await</span> <span style="color:#60a5fa;">logHeal</span>({ timestamp: <span style="color:#c084fc;">new</span> <span style="color:#60a5fa;">Date</span>().<span style="color:#60a5fa;">toISOString</span>(),
+      original: selector, proposed: newSelector, intent, test: testName });
+
+    <span style="color:#c084fc;">return</span> page.<span style="color:#60a5fa;">locator</span>(newSelector);
+  }
+}</div>
+<p class="compact" style="text-align:center;margin-top:4px;color:#64748b;"><em>Full file including <code>logHeal</code> and <code>askClaudeForSelector</code> ≈ 60 lines. That's the entire implementation.</em></p>
+<aside class="notes">
+<strong>[60 sec]</strong> "Look at line 13-14. The comment says NON-NEGOTIABLE. Every single heal gets logged. No silent fixes. That's the rule that saved this workflow from becoming an anti-pattern."
+</aside>
+</section>
+
+<!-- ─── WF7 Failure Story ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-triangle-exclamation" style="color:#f59e0b"></i> WF7 &middot; What Broke First Time</h2>
+<div class="failure-box">
+<h3>The near-miss: a silent heal almost shipped a real bug.</h3>
+<p>Week 2 of WF7. A selector for <code>[data-testid="confirm-order"]</code> started healing. Once. Twice. Four times in a day.</p>
+<p>Each heal passed. Dashboard stayed green. Nobody had a reason to look.</p>
+<p>On Friday morning, a user reported a stuck checkout. <strong>The button had been moved to a confirmation modal by a dev PR.</strong> Tests were clicking a similar button elsewhere on the page — a button that had nothing to do with confirming the order.</p>
+<p>AI didn't lie. It found a button that looked plausible. But plausible &ne; correct.</p>
+</div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact bold"><i class="fas fa-wrench text-green"></i> What we changed</p>
+<p class="compact">Added the <strong>5-heals-per-week escalation rule</strong>. Same selector healing more than 5 times → WF7 refuses to heal and fails loudly. Plus: weekly heal log review, no exceptions.</p>
+</div>
+<aside class="notes">
+<strong>[90 sec — the key moment of this workflow]</strong> This is the story that makes the whole talk credible. Tell it slowly. Admit you almost shipped a bug. THEN explain the fix. Audiences respect honesty — they get suspicious of "it just worked."
+</aside>
+</section>
+
+<!-- ─── WF7 Outcomes ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-chart-line" style="color:var(--vibe-blue)"></i> WF7 &middot; What We Measure Now</h2>
+<div class="content-box"><div class="metric-row"><span class="label">Heals per week</span><span class="value"><span class="metric-placeholder">{~35}</span></span></div>
+<div class="metric-row"><span class="label">Heal count trend (8-week)</span><span class="value"><span class="metric-placeholder">{declining}</span></span></div>
+<div class="metric-row"><span class="label">Silent heals</span><span class="value text-green"><strong>0</strong></span></div>
+<div class="metric-row"><span class="label">Repeat-heal escalations triggered</span><span class="value"><span class="metric-placeholder">{~2 per month}</span></span></div>
+<div class="metric-row"><span class="label">Post-heal test pass rate</span><span class="value"><span class="metric-placeholder">{~96%}</span></span></div>
+<div class="metric-row"><span class="label">Heal API cost</span><span class="value"><span class="metric-placeholder">{~$8 / month}</span></span></div>
+<div class="metric-row"><span class="label">3am pages avoided</span><span class="value" style="color:var(--vibe-green);"><strong>all of them</strong></span></div>
+</div>
+<p class="compact" style="text-align:center;margin-top:6px;color:#64748b;"><em>Total cost: API bill + 15 min weekly review. That's it.</em></p>
+<aside class="notes">
+<strong>[45 sec]</strong> "Line 3 — zero silent heals. That's the one I watch every week. If that ever becomes non-zero, the workflow is broken, not the tests."
+</aside>
+</section>
+
+<!-- ─── WF7 SDLC Fit ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-compass" style="color:var(--vibe-green)"></i> WF7 &middot; Where It Fits</h2>
+<div class="two-col">
+<div class="success-box">
+<p class="bold"><i class="fas fa-check text-green"></i> Fits well (any type)</p>
+<ul>
+<li><strong>Any team with an existing test suite</strong></li>
+<li><strong>Type 3+ teams</strong> see compounding value</li>
+<li><strong>Type 4 / Agentic</strong> — part of the core loop</li>
+</ul>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;"><i class="fas fa-xmark text-red"></i> Don't adopt if</p>
+<ul>
+<li class="red">Tests don't exist yet (fix that first)</li>
+<li class="red">No appetite for weekly heal log review</li>
+<li class="red">Team won't escalate repeated heals properly</li>
+</ul>
+</div>
+</div>
+<div class="content-box" style="margin-top:8px;">
+<p class="compact bold text-blue">Recommendation for learners:</p>
+<p class="compact">Easiest of the 11 workflows to implement. Lowest risk if you keep the heal log discipline. Can ship in a week.</p>
+</div>
+<aside class="notes">
+<strong>[30 sec]</strong> "If your suite exists and flakiness is eating your life — start here. Don't start with WF4. Don't start with WF11. WF7 is the fastest path to a better Monday."
+</aside>
+</section>
+
+<!-- ═══════════ WF11 ═══════════ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:60px 0;">
+<i class="fas fa-infinity" style="font-size:3.5em;margin-bottom:14px;display:block;color:var(--vibe-green)"></i>
+<h1>Workflow 11</h1>
+<h2>Production Feedback Loop</h2>
+<p style="margin-top:12px;font-size:0.88em;">"Production bugs stop being the end. They become the next sprint's starting point."</p>
+</div>
+<aside class="notes">
+<strong>[15 sec]</strong> "Third one. The compounding workflow. This is where we went from fixing bugs to preventing recurrence."
+</aside>
+</section>
+
+<!-- ─── WF11 Before / After ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-arrows-left-right" style="color:var(--vibe-orange)"></i> WF11 &middot; Before &rarr; After</h2>
+<div class="before-after">
+<div class="before">
+<h4><i class="fas fa-xmark-circle"></i> BEFORE</h4>
+<p>Datadog alerts on an error spike. On-call fixes the root cause.</p>
+<p>Jira ticket closed as "Fixed — deployed to prod."</p>
+<p>6 weeks later — <strong>same bug</strong>. Same alert. Same fix.</p>
+<p>Nobody asked: "Why didn't we have a regression test?"</p>
+<p class="bold" style="color:#991b1b;">Repeat production bugs: <span class="metric-placeholder">{~1 every 2-3 sprints}</span></p>
+</div>
+<div class="after">
+<h4><i class="fas fa-check-circle"></i> AFTER</h4>
+<p>Datadog webhook &rarr; MCP agent correlates to graph.json.</p>
+<p>Agent proposes a regression scenario + identifies why existing tests missed it.</p>
+<p>QA reviews, approves. WF5 generates the automated test for next sprint.</p>
+<p>Same bug never recurs.</p>
+<p class="bold" style="color:#166534;">Repeat bugs last 6 months: <span class="metric-placeholder">{1 (and we learned from it)}</span></p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="compact bold text-blue" style="text-align:center;">A human approves. A human does not write. <em>The loop is the product.</em></p>
+</div>
+<aside class="notes">
+<strong>[90 sec]</strong> "This is the slide that matters most. Read both sides. Pause at 'Same bug never recurs.' That's what compounding looks like — each incident makes the test suite smarter, and the same failure doesn't come back."
+</aside>
+</section>
+
+<!-- ─── WF11 Stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-layer-group" style="color:var(--vibe-blue)"></i> WF11 &middot; The Stack We Built</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">Datadog (existing)</div><div class="act">fires webhook on monitor alerts of severity &ge; high</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Custom MCP agent</div><div class="act">pulls stack trace, correlates to graph.json</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Claude</div><div class="act">proposes regression scenario + gap analysis</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Jira via Rovo</div><div class="act">files ticket with proposed scenario, linked REQ-ID</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">Playwright Generator agent</div><div class="act">next sprint: QA approves &rarr; agent generates automated test</div></div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>Composed from categories 3, 4, 5 + observability (Datadog).</strong></p>
+</div>
+<aside class="notes">
+<strong>[45 sec]</strong> "This is the most composed workflow of the three. Five tools, two of them built by us — the MCP agent and the Datadog handler. Took longest to build. Pays back every sprint."
+</aside>
+</section>
+
+<!-- ─── WF11 Real Incident Walkthrough ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-clock-rotate-left" style="color:var(--vibe-orange)"></i> WF11 &middot; A Real Incident (anonymized)</h2>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step red">09:14 &mdash; Datadog alert</div>
+<div class="arrow">&rarr;</div>
+<div class="step orange">09:14 &mdash; MCP agent starts</div>
+<div class="arrow">&rarr;</div>
+<div class="step">09:15 &mdash; Correlated to REQ-142</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">09:16 &mdash; Jira ticket filed</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:6px;">
+<div class="content-box" style="border-left-color:#ef4444;">
+<p class="bold text-blue"><i class="fas fa-bug"></i> Incident</p>
+<p class="compact">Password reset emails delayed &gt;60s. ~200 users over 10 min.</p>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-green);">
+<p class="bold text-blue"><i class="fas fa-lightbulb"></i> Agent's gap analysis</p>
+<p class="compact">"Scenario 5 exists for email failure — but only asserts an error is shown. Doesn't check the 60s timeout boundary."</p>
+</div>
+</div>
+<div class="success-box" style="margin-top:6px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>QA approved the new scenario by 10:30. Automated test generated by end of day. Same incident hasn't recurred in 4 months.</strong></p>
+</div>
+<aside class="notes">
+<strong>[90 sec]</strong> Walk through the timestamps slowly. "09:14 alert. 09:16 Jira ticket. Two minutes. Then a human approved it. Then WF5 wrote the test. The gap analysis is the part that matters — AI didn't just say 'add a test.' It said 'your existing test is too shallow, here's why.'"
+</aside>
+</section>
+
+<!-- ─── WF11 Failure Story ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-triangle-exclamation" style="color:#f59e0b"></i> WF11 &middot; What Broke First Time</h2>
+<div class="failure-box">
+<h3>We overtriggered. The backlog exploded.</h3>
+<p>First version of WF11 triggered on <strong>every</strong> Datadog alert — including third-party outages, flaky network retries, and cron job warnings.</p>
+<p>By end of Week 1: <strong>47 WF11-generated Jira tickets</strong>. Most were noise. QA spent a whole day cleaning up.</p>
+<p>Team's trust in the workflow cratered. "This thing is spam."</p>
+</div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact bold"><i class="fas fa-wrench text-green"></i> What we changed</p>
+<p class="compact">Wrote strict triggers in <code>.ai/conventions/production-feedback-rules.md</code> — <strong>only</strong> trigger on P0/P1 OR recurrence 3+ times OR &gt;1% users affected. Everything else: skip.</p>
+<p class="compact">Trigger rate dropped from 47/week to ~3/week. Signal, not noise.</p>
+</div>
+<p class="compact" style="text-align:center;margin-top:6px;color:#64748b;"><em>Lesson: AI workflows must have strict "when not to trigger" rules before "when to trigger" rules.</em></p>
+<aside class="notes">
+<strong>[75 sec]</strong> "47 tickets in a week. The team wanted to kill the workflow. We didn't — we fixed the triggers. That's the general lesson: tune the noise filter BEFORE scaling. Every AI workflow needs a 'when NOT to act' rule."
+</aside>
+</section>
+
+<!-- ─── WF11 Outcomes ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-chart-line" style="color:var(--vibe-blue)"></i> WF11 &middot; What We Measure Now</h2>
+<div class="content-box">
+<div class="metric-row"><span class="label">Events that trigger WF11 per week</span><span class="value"><span class="metric-placeholder">{~3}</span></span></div>
+<div class="metric-row"><span class="label">Scenarios approved (vs proposed)</span><span class="value"><span class="metric-placeholder">{~75%}</span></span></div>
+<div class="metric-row"><span class="label">Time from incident to Jira ticket</span><span class="value"><span class="metric-placeholder">{&lt; 5 min}</span></span></div>
+<div class="metric-row"><span class="label">Same production bug recurring</span><span class="value" style="color:var(--vibe-green);"><strong><span class="metric-placeholder">{~0}</span></strong></span></div>
+<div class="metric-row"><span class="label">Gap-analysis accuracy (post-mortem audit)</span><span class="value"><span class="metric-placeholder">{~80%}</span></span></div>
+<div class="metric-row"><span class="label">Release confidence (READY &rarr; no P0/P1 first week)</span><span class="value"><span class="metric-placeholder">{9 of last 10 releases}</span></span></div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="compact bold text-blue" style="text-align:center;">The row that matters: <strong>same bug doesn't come back.</strong> That's the loop working.</p>
+</div>
+<aside class="notes">
+<strong>[60 sec]</strong> "Look at row 4. Same bug recurring — approaching zero. That's what six months of WF11 running looks like. Every incident made the suite smarter. That's compounding, not just speed."
+</aside>
+</section>
+
+<!-- ─── WF11 SDLC Fit ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-compass" style="color:var(--vibe-green)"></i> WF11 &middot; Where It Fits</h2>
+<div class="two-col">
+<div class="success-box">
+<p class="bold"><i class="fas fa-check text-green"></i> Fits well</p>
+<ul>
+<li><strong>Type 3+</strong> — this IS the loop that separates Type 3 from Type 1</li>
+<li><strong>Type 4 (Agentic)</strong> — fully automated end-to-end</li>
+<li><strong>Type 5 (Regulated)</strong> — every incident must be analyzed anyway</li>
+</ul>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;"><i class="fas fa-xmark text-red"></i> Don't adopt if</p>
+<ul>
+<li class="red">No observability stack yet (Datadog/Sentry/etc.)</li>
+<li class="red">graph.json doesn't exist or is stale — WF11 depends on it</li>
+<li class="red">Backlog has no capacity for generated scenarios</li>
+</ul>
+</div>
+</div>
+<div class="content-box" style="margin-top:8px;">
+<p class="compact bold text-blue">Recommendation for learners:</p>
+<p class="compact">This is the most rewarding workflow — but it's also the most composed. Build WF1 and WF8 first. WF11 on top of those is a superpower. WF11 alone is noise.</p>
+</div>
+<aside class="notes">
+<strong>[45 sec]</strong> "Don't start here. If you try to build WF11 without WF1 and graph.json underneath, you'll get 47 Jira tickets too. Build the base. Then this one pays off."
+</aside>
+</section>
+
+<!-- ═══════════ CLOSE ═══════════ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:60px 0;">
+<i class="fas fa-check-double" style="font-size:3.5em;margin-bottom:14px;display:block;"></i>
+<h1>3 Workflows. 1 Principle.</h1>
+<h2>Composition, not purchase.</h2>
+</div>
+<aside class="notes">
+<strong>[15 sec]</strong> "Let me land this."
+</aside>
+</section>
+
+<!-- ─── S: The principle ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-cubes" style="color:var(--vibe-blue)"></i> What All Three Have in Common</h2>
+<div class="three-col">
+<div class="icon-box orange"><i class="fas fa-file-alt"></i><h3>WF1</h3><p class="compact2">5 tools from categories 2, 3, 4</p></div>
+<div class="icon-box green"><i class="fas fa-heart-pulse"></i><h3>WF7</h3><p class="compact2">1 framework + 1 API key + 30 lines</p></div>
+<div class="icon-box blue"><i class="fas fa-infinity"></i><h3>WF11</h3><p class="compact2">5 tools from categories 3, 4, 5 + observability</p></div>
+</div>
+<div class="highlight-box" style="margin-top:12px;">
+<p class="bold text-blue" style="text-align:center;font-size:1em;">None of these came from one vendor.</p>
+<p class="bold text-blue" style="text-align:center;font-size:1em;">All came from <span style="color:var(--vibe-orange);">composing</span> tools and <span style="color:var(--vibe-green);">enforcing discipline</span>.</p>
+</div>
+<p class="compact" style="text-align:center;margin-top:8px;color:#64748b;"><em>Every workflow in the 11 follows the same posture. These three are just the three we've done longest.</em></p>
+<aside class="notes">
+<strong>[45 sec]</strong> "This is the pattern. Every workflow — composed, not purchased. That's the durable skill. The tools change. The composition stays."
+</aside>
+</section>
+
+<!-- ─── S: What to try this week ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-rocket" style="color:var(--vibe-orange)"></i> What to Try This Week</h2>
+<div class="content-box" style="border-left-color:var(--vibe-green);border-left-width:6px;padding:10px 14px;">
+<p class="bold text-blue" style="font-size:1em;">Start with WF7.</p>
+<p class="compact">Easiest to implement. Works with your existing test suite. Pays off in a week. Zero net-new tool adoption.</p>
+</div>
+<div class="content-box" style="margin-top:6px;">
+<p class="bold text-blue">Then build WF1.</p>
+<p class="compact">Creates demand for graph.json. Teaches your team what prompts-as-code means.</p>
+</div>
+<div class="content-box" style="margin-top:6px;">
+<p class="bold text-blue">Only then think about WF11.</p>
+<p class="compact">Without WF1 and graph.json underneath, WF11 is noise. With them, it compounds.</p>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;">3 workflows. Order matters. Don't skip.</p>
+</div>
+<aside class="notes">
+<strong>[60 sec]</strong> "Order matters. If you try to build WF11 first — you'll fail. Start small. WF7 this week. WF1 next month. WF11 when your foundation is solid."
+</aside>
+</section>
+
+<!-- ─── Final slide ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<div style="text-align:center;padding:20px 20px;">
+<p style="color:var(--vibe-orange);font-size:0.8em;letter-spacing:2px;font-weight:700;margin-bottom:10px;">3 WORKFLOWS &middot; 6 MONTHS &middot; ONE PATTERN</p>
+<h1 style="color:var(--vibe-dark-blue);font-size:1.3em;line-height:1.35;margin-bottom:6px;">Validation is a generation behind generation.</h1>
+<h1 style="color:var(--vibe-orange);font-size:1.3em;line-height:1.35;margin-bottom:14px;">We're closing our gap one workflow at a time.</h1>
+<div style="background:var(--vibe-light-bg);border:2px solid var(--vibe-blue);border-radius:10px;padding:12px 20px;max-width:620px;margin:0 auto;text-align:left;">
+<p class="bold text-blue" style="font-size:0.9em;margin-bottom:8px;"><i class="fas fa-book"></i> The full implementation guide</p>
+<p class="compact" style="margin:2px 0;">20 markdown files covering all 11 workflows</p>
+<p class="compact" style="margin:2px 0;">Real prompts, schemas, code, anti-patterns</p>
+<p class="compact" style="margin:2px 0;">Available at <strong>vibetestq.com/workflows</strong></p>
+</div>
+<p style="color:var(--vibe-green);font-size:0.95em;font-weight:700;margin-top:14px;">Questions? Let's talk.</p>
+<p style="color:#64748b;font-size:0.75em;margin-top:10px;">Sudhakar Kakunuri &middot; VibeTestQ &middot; vibetestq.com</p>
+</div>
+<aside class="notes">
+<strong>[45 sec — close]</strong> "Three workflows. Six months of running. Hundreds of alerts closed. One principle — composition, not purchase. The full guide is at vibetestq.com. And I'm around for questions."<br><br>
+Step back. Take a breath. Q&A.
+</aside>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+(function () {
+    var MARGIN = 0.04;
+    function getSize() { return { w: window.innerWidth, h: window.innerHeight }; }
+    function buildConfig() {
+        var s = getSize();
+        return {
+            hash: true, transition: 'slide', transitionSpeed: 'default',
+            slideNumber: true, controls: true, progress: true, center: true,
+            width: s.w, height: s.h, margin: MARGIN, minScale: 0.1, maxScale: 1.0,
+            plugins: [ RevealNotes ]
+        };
+    }
+    var initialized = false;
+    function init() {
+        if (typeof Reveal === 'undefined') return false;
+        Reveal.initialize(buildConfig());
+        initialized = true;
+        return true;
+    }
+    var resizeTimer = null;
+    var lastDPR = window.devicePixelRatio;
+    function onViewportChange() {
+        if (!initialized) return;
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+            var s = getSize();
+            Reveal.configure({ width: s.w, height: s.h });
+            Reveal.layout();
+        }, 60);
+    }
+    window.addEventListener('resize', onViewportChange);
+    setInterval(function () {
+        var dpr = window.devicePixelRatio;
+        if (dpr !== lastDPR) { lastDPR = dpr; onViewportChange(); }
+    }, 250);
+    if (!init()) {
+        var attempts = 0;
+        var pollTimer = setInterval(function () {
+            attempts++;
+            if (init()) { clearInterval(pollTimer); }
+            else if (attempts >= 50) {
+                clearInterval(pollTimer);
+                console.error('Reveal.js failed to load from CDN.');
+            }
+        }, 100);
+    }
+})();
+</script>
+</body>
+</html>

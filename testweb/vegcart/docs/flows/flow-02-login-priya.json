@@ -1,0 +1,23 @@
+{
+  "name": "Flow 02 – User Login (Priya)",
+  "steps": [
+    {
+      "id": "step_1000000001_0",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "profile" },
+      "label": "Navigate to Profile / Sign-In tab"
+    },
+    {
+      "id": "step_1000000001_1",
+      "toolName": "user_login",
+      "params": { "email": "priya@example.com", "password": "test123" },
+      "label": "Login as Priya Sharma (priya@example.com)"
+    },
+    {
+      "id": "step_1000000001_2",
+      "toolName": "get_user_info",
+      "params": {},
+      "label": "Verify login – get current user info"
+    }
+  ]
+}

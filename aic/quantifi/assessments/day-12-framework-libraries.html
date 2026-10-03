@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Framework Architecture &amp; Libraries - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;border:none;gap:8px;font-size:1rem;transition:all 0.2s;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background:white;padding:0;}.card{box-shadow:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}@media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Assessment</h1><p>Loading topics...</p></div>
+    </header>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: Framework Architecture & Libraries
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** Project Structure, Data-Driven Testing, storageState, dotenv, Environment Variables, @faker-js/faker, Test Helpers, Utilities
+
+---
+
+## Questions
+
+### Question 1
+In a well-structured Playwright framework, what is the `tests/` folder used for?
+
+A) Storing page object TypeScript files
+B) Containing Playwright configuration files
+C) Holding all test spec files that define test cases
+D) Storing JSON test data files
+
+**Answer: C) Holding all test spec files that define test cases**
+
+**Explanation:** The recommended structure separates concerns: `tests/` for spec files, `pages/` for page objects, `fixtures/` for custom fixtures, and `data/` for test data. Tests should only contain test logic.
+
+---
+
+### Question 2
+What is data-driven testing?
+
+A) Testing only database endpoints
+B) Running the same test logic with multiple different sets of input data
+C) Generating test data with AI
+D) Testing that data is displayed correctly in tables only
+
+**Answer: B) Running the same test logic with multiple different sets of input data**
+
+**Explanation:** Data-driven testing separates test logic from test data. The same `loginTest` can run with valid credentials, invalid credentials, and empty fields — each as a separate test case using the same code.
+
+---
+
+### Question 3
+What is `storageState` in Playwright used for across a test framework?
+
+A) Storing screenshots after each test
+B) Saving the browser's cookies and local storage so tests can reuse a logged-in session
+C) Caching all API responses
+D) Storing environment variables for CI/CD
+
+**Answer: B) Saving the browser's cookies and local storage so tests can reuse a logged-in session**
+
+**Explanation:** After logging in once (in `globalSetup`), you save `storageState` to a JSON file. Tests load this file to start pre-authenticated, eliminating login UI steps from every test.
+
+---
+
+### Question 4
+What npm package is used to load environment variables from a `.env` file in Node.js?
+
+A) env-loader
+B) node-config
+C) dotenv
+D) process-env
+
+**Answer: C) dotenv**
+
+**Explanation:** `dotenv` reads key-value pairs from a `.env` file and adds them to `process.env`. This avoids hard-coding sensitive values (URLs, passwords) in source code.
+
+---
+
+### Question 5
+What should be added to `.gitignore` when using dotenv in a project?
+
+A) `node_modules/`
+B) `playwright-report/`
+C) `.env` (the environment variable file containing secrets)
+D) `tsconfig.json`
+
+**Answer: C) `.env` (the environment variable file containing secrets)**
+
+**Explanation:** The `.env` file contains credentials and sensitive configuration. It must never be committed to version control. Use a `.env.example` file with placeholder values as a template for team members.
+
+---
+
+### Question 6
+What does `process.env.BASE_URL` return in a Playwright test?
+
+A) The base URL hardcoded in playwright.config.ts
+B) The current page URL
+C) The value of the `BASE_URL` variable from environment variables or the .env file
+D) The Playwright version number
+
+**Answer: C) The value of the `BASE_URL` variable from environment variables or the .env file**
+
+**Explanation:** After `dotenv.config()` runs, `process.env.BASE_URL` returns the value from `.env`. In CI/CD, the same variable is set as a pipeline environment variable, so the code works everywhere.
+
+---
+
+### Question 7
+What is `@faker-js/faker` used for in a test framework?
+
+A) Generating locators automatically
+B) Creating realistic random test data (names, emails, addresses, etc.) for test scenarios
+C) Faking network responses
+D) Mocking the browser environment
+
+**Answer: B) Creating realistic random test data (names, emails, addresses, etc.) for test scenarios**
+
+**Explanation:** `faker.person.fullName()`, `faker.internet.email()`, `faker.date.birthdate()` generate unique realistic data for each test run — preventing data collisions without manually specifying unique values.
+
+---
+
+### Question 8
+Where should helper utility functions (e.g., `generateRandomEmail()`, `formatDate()`) be placed in a framework?
+
+A) Directly inside each test file
+B) Inside page objects
+C) In a `utils/` or `helpers/` folder as shared utility modules
+D) In playwright.config.ts
+
+**Answer: C) In a `utils/` or `helpers/` folder as shared utility modules**
+
+**Explanation:** Utility functions that are reusable across multiple page objects or tests belong in a dedicated `utils/` folder. This avoids duplication and keeps page objects and tests focused on their primary responsibilities.
+
+---
+
+### Question 9
+What command installs a package as a dev dependency in Node.js?
+
+A) npm install package-name
+B) npm install --save package-name
+C) npm add package-name
+D) npm install --save-dev package-name
+
+**Answer: D) npm install --save-dev package-name**
+
+**Explanation:** `--save-dev` adds the package to `devDependencies` in `package.json`. Test frameworks, linters, and TypeScript compilers go here — they only needed during development and testing, not in production.
+
+---
+
+### Question 10
+What is the purpose of a `fixtures/` folder in a Playwright framework?
+
+A) Storing screenshot and video artifacts
+B) Containing custom `test.extend()` fixture definitions shared across test files
+C) Holding sample HTML files for visual testing
+D) Storing playwright.config.ts variants
+
+**Answer: B) Containing custom `test.extend()` fixture definitions shared across test files**
+
+**Explanation:** The `fixtures/` folder holds `fixtures.ts` (or similar) files that export the custom `test` object with page object fixtures. Test files import this custom `test` object instead of the default Playwright one.
+
+---
+
+### Question 11
+What does `import { test, expect } from '../fixtures/fixtures'` do in a test file?
+
+A) Imports the default Playwright test object without any customization
+B) Imports a custom test object that includes project-specific fixtures (page objects, auth, etc.)
+C) Imports only the expect assertion function
+D) Imports the playwright.config.ts settings
+
+**Answer: B) Imports a custom test object that includes project-specific fixtures (page objects, auth, etc.)**
+
+**Explanation:** By extending the base `test` object, all fixtures (page objects, custom setups) are automatically available in tests as function parameters — with no manual instantiation required.
+
+---
+
+### Question 12
+What is a `data/` or `test-data/` folder used for in a Playwright project?
+
+A) Storing compiled JavaScript output
+B) Containing `.env` files
+C) Holding JSON, CSV, or TypeScript files with test input data separated from test logic
+D) Storing browser binaries
+
+**Answer: C) Holding JSON, CSV, or TypeScript files with test input data separated from test logic**
+
+**Explanation:** Separating test data from test code enables data-driven testing and makes it easy to update test inputs without touching test logic. It also supports reading different data sets per environment.
+
+---
+
+### Question 13
+What is the recommended way to read a JSON test data file in a Playwright test?
+
+A) `page.goto('./data/employees.json')`
+B) `import employeeData from '../data/employees.json'` or `JSON.parse(fs.readFileSync(...))`
+C) `request.get('./data/employees.json')`
+D) `require('./data/employees.json')` only in the browser context
+
+**Answer: B) `import employeeData from '../data/employees.json'` or `JSON.parse(fs.readFileSync(...))`**
+
+**Explanation:** TypeScript supports JSON imports directly with `resolveJsonModule: true` in tsconfig.json. Alternatively, Node.js `fs.readFileSync` reads the file at test runtime. Both approaches are valid.
+
+---
+
+### Question 14
+What problem does the `storageState` approach solve compared to logging in via the UI in every test?
+
+A) It prevents cookies from being set
+B) It eliminates the need for a backend server
+C) It dramatically speeds up tests by skipping the login UI flow on every test
+D) It prevents parallel test execution
+
+**Answer: C) It dramatically speeds up tests by skipping the login UI flow on every test**
+
+**Explanation:** A UI login might take 2-5 seconds. If 50 tests each login through the UI, that's up to 4+ minutes of login time. Loading a saved state takes milliseconds.
+
+---
+
+### Question 15
+What TypeScript configuration enables importing JSON files as modules?
+
+A) `"allowJs": true`
+B) `"resolveJsonModule": true`
+C) `"esModuleInterop": true`
+D) `"moduleResolution": "bundler"`
+
+**Answer: B) `"resolveJsonModule": true`**
+
+**Explanation:** Adding `"resolveJsonModule": true` to `compilerOptions` in `tsconfig.json` allows TypeScript to `import` JSON files directly with full type inference based on the JSON structure.
+
+---
+
+### Question 16
+What is the benefit of creating a `TestUser` TypeScript interface for test data?
+
+A) It enables test data to be stored in a database
+B) It adds type safety to test data, preventing typos and structural errors
+C) It automatically generates the test data
+D) It allows test data to be used in playwright.config.ts directly
+
+**Answer: B) It adds type safety to test data, preventing typos and structural errors**
+
+**Explanation:** `interface TestUser { username: string; password: string; role: string }` ensures all test data objects have the correct shape. TypeScript will catch missing or misspelled properties at compile time.
+
+---
+
+### Question 17
+What does setting `CI=true` as an environment variable typically affect in a Playwright framework?
+
+A) It enables verbose console logging
+B) It triggers Playwright to run in headless mode and may enable CI-specific reporter/retry settings
+C) It disables all tests
+D) It enables recording of test videos only
+
+**Answer: B) It triggers Playwright to run in headless mode and may enable CI-specific reporter/retry settings**
+
+**Explanation:** Playwright's config can read `process.env.CI` to conditionally set `headless: true`, increase `retries`, or use a different reporter in CI environments vs. local development.
+
+---
+
+### Question 18
+What is the purpose of an `auth/` folder containing `auth.json` in a Playwright project?
+
+A) Storing encrypted user passwords
+B) Holding saved browser storage states (cookies/localStorage) for authentication reuse
+C) Containing login page HTML files
+D) Storing API authentication certificates
+
+**Answer: B) Holding saved browser storage states (cookies/localStorage) for authentication reuse**
+
+**Explanation:** `auth.json` is the output of `page.context().storageState({ path: 'auth/auth.json' })`. It contains session cookies and local storage, allowing tests to load a pre-authenticated state.
+
+---
+
+### Question 19
+What does the `path` module from Node.js provide in a Playwright framework?
+
+A) Locator paths for finding elements
+B) URL path management for navigation
+C) Cross-platform file system path utilities for constructing file paths reliably
+D) Browser navigation paths
+
+**Answer: C) Cross-platform file system path utilities for constructing file paths reliably**
+
+**Explanation:** `path.join(__dirname, '../../data/employees.json')` constructs correct file paths on both Windows and Unix. Hard-coding paths with `/` or `\` can cause cross-platform issues.
+
+---
+
+### Question 20
+What is the advantage of exporting test configuration constants (base URLs, credentials) from a single `config.ts` file rather than defining them in each test?
+
+A) It makes playwright.config.ts optional
+B) It allows test data to be shared in the browser
+C) It provides a single location for environment-specific values, making changes easy and consistent
+D) It enables tests to run without Node.js
+
+**Answer: C) It provides a single location for environment-specific values, making changes easy and consistent**
+
+**Explanation:** A `config.ts` or `constants.ts` file centralizes environment-specific settings. When a URL changes, you update one file instead of searching through all test files.
+
+---
+
+</script>
+<script>(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'Perfect Score! Framework architecture fully mastered!':pct>=80?'Excellent! Strong framework and library knowledge.':pct>=60?'Good job! Review storageState, dotenv, and project structure.':'Keep learning! Re-read Chapter 12 and build a complete project structure.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Student: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();</script>
+</body>
+</html>

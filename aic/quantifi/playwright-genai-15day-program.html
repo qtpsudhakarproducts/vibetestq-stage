@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Playwright with GenAI - 15 Day Corporate Training</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #1e293b;
+      --muted: #64748b;
+      --bg: #f8fafc;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--secondary);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 48px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin-top: 48px;
+      font-size: 1.6rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 6px;
+    }
+
+    h3 {
+      margin-top: 32px;
+      font-size: 1.25rem;
+      color: var(--primary);
+    }
+
+    h4 {
+      margin-top: 20px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 8px 0 16px;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 24px 0 40px;
+      padding: 16px;
+      background: #f1f5f9;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      margin: 8px 0 16px 20px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    code {
+      background: #e5e7eb;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9em;
+      color: #1e293b;
+    }
+
+    .day {
+      margin-top: 28px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+    }
+
+    .practice {
+      margin-top: 10px;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .section-box {
+      margin-top: 24px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .section-box h4 {
+      margin-top: 16px;
+      margin-bottom: 8px;
+      color: var(--secondary);
+      font-size: 1.05rem;
+    }
+
+    .section-box h4:first-child {
+      margin-top: 0;
+    }
+
+    .trainer-info {
+      margin: 24px 0;
+      padding: 20px;
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+    }
+
+    .trainer-info h4 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    .highlight-box {
+      margin: 24px 0;
+      padding: 20px;
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      border-radius: 8px;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        font-size: 11.5pt;
+        line-height: 1.45;
+      }
+
+      .container {
+        max-width: 100%;
+        padding: 24px 32px;
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      h1, h2, h3 {
+        page-break-after: avoid;
+        page-break-inside: avoid;
+      }
+
+      h2 {
+        margin-top: 28px;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        margin-top: 18px;
+        margin-bottom: 8px;
+      }
+
+      p {
+        margin: 6px 0 10px;
+      }
+
+      ul {
+        margin: 6px 0 10px 18px;
+      }
+
+      code {
+        background: #f0f0f0;
+        padding: 1px 4px;
+        border-radius: 2px;
+        font-size: 9pt;
+      }
+
+      .day,
+      .section-box,
+      .practice,
+      .meta,
+      .trainer-info,
+      .highlight-box {
+        background: none;
+        border: 1px solid #ddd;
+        box-shadow: none;
+        padding: 12px 14px;
+        margin-top: 14px;
+      }
+
+      .day {
+        page-break-inside: avoid;
+      }
+
+      footer {
+        margin-top: 24px;
+        font-size: 9.5pt;
+      }
+    }
+  </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+  <div class="container">
+    <h1>Playwright with GenAI - Corporate Training for Quantiphi</h1>
+    <p><strong>15 Days | 3 Hours Daily | AI-Enhanced Testing | BDD | Practice-Focused | Corporate Teams</strong></p>
+
+    <div class="trainer-info">
+      <h4>Program Trainer</h4>
+      <p><strong>Sudhakar Kakunuri (QTP Sudhakar)</strong></p>
+      <p>Product QA Head | India's First Playwright Corporate Trainer | 21+ Years Experience | 10,000+ Engineers Trained | GenAI &amp; Agentic Testing Pioneer</p>
+      <p>Known globally as "QTP Sudhakar", Sudhakar Kakunuri is a recognized authority in test automation with over 21+ years of experience. He has delivered 200+ corporate training programs worldwide and is a pioneer in GenAI-powered testing and agentic test automation.</p>
+    </div>
+
+    <div class="meta">
+      <div><strong>Duration:</strong> 15 Working Days</div>
+      <div><strong>Daily Schedule:</strong> 3 Hours</div>
+      <div><strong>Instruction:</strong> 2 Hours</div>
+      <div><strong>Hands-on Practice:</strong> 1 Hour</div>
+      <div><strong>Total Training:</strong> 45 Hours</div>
+      <div><strong>Assessment:</strong> Daily Assignments</div>
+    </div>
+
+    <div class="highlight-box">
+      <h4>Program Structure</h4>
+      <p><strong>Days 1-3:</strong> JavaScript & TypeScript Foundations | <strong>Days 4-6:</strong> Playwright Core Library | 
+      <strong>Day 7:</strong> Playwright Test Framework | <strong>Days 8-9:</strong> AI IDEs, MCP & Agents | 
+      <strong>Day 10:</strong> API Testing | <strong>Days 11-12:</strong> POM Framework & Automation Libraries | 
+      <strong>Day 13:</strong> Cucumber BDD | <strong>Day 14:</strong> Reporting & AWS CI/CD | 
+      <strong>Day 15:</strong> Capstone Project</p>
+    </div>
+
+    <h2>Program Overview</h2>
+    <p>
+      This intensive 15-day training program has been <strong>customized specifically for Quantiphi's requirements 
+      and timelines</strong>, delivering comprehensive Playwright automation with AI-enhanced testing capabilities. 
+      The curriculum progresses strategically: JavaScript/TypeScript foundations (3 days), Playwright Core Library 
+      (3 days), Test Framework (1 day), AI IDEs & MCP Agents (2 days), API Testing (1 day), POM Framework & 
+      Automation Libraries (2 days), BDD with Cucumber (1 day), AWS CodeBuild CI/CD & Reporting (1 day), and 
+      Capstone Project (1 day). With 3-hour daily sessions (2 hours instruction + 1 hour practice), Quantiphi 
+      team members will gain practical skills to immediately apply modern automation practices in their projects.
+    </p>
+
+    <h2>Prerequisites</h2>
+    <div class="section-box">
+      <ul>
+        <li>Currently working in software testing or development</li>
+        <li>Basic understanding of software testing concepts</li>
+        <li>Familiarity with web applications and browsers</li>
+        <li>Basic programming knowledge (any language) is helpful but not mandatory</li>
+        <li>Basic Cloud knowledge</li>
+        <li>Commitment to intensive 3-hour daily sessions</li>
+        <li>Ability to complete daily assignments</li>
+      </ul>
+    </div>
+
+    <h2>Target Audience</h2>
+    <div class="section-box">
+      <ul>
+        <li>Manual Testers and QA Engineers transitioning to modern test automation</li>
+        <li>Test Automation Engineers and SDETs upskilling to Playwright with AI/GenAI</li>
+        <li>Developers and Technical Leads involved in test automation</li>
+        <li>Teams adopting BDD, AI-powered testing, and AWS CI/CD pipelines</li>
+      </ul>
+    </div>
+
+
+    <h2>Module 1: JavaScript &amp; TypeScript (Days 1-3)</h2>
+
+    <div class="day">
+      <h3>Day 1: JavaScript Fundamentals</h3>
+      <ul>
+        <li>Testing Evolution in the GenAI Era</li>
+        <li>Node.js &amp; npm Setup</li>
+        <li>Variables, Data Types &amp; Operators</li>
+        <li>Control Flow &amp; Loops</li>
+        <li>Functions &amp; Scope</li>
+      </ul>
+      <div class="practice">Practice: Basic JavaScript exercises</div>
+    </div>
+
+    <div class="day">
+      <h3>Day 2: Advanced JavaScript</h3>
+      <ul>
+        <li>Arrays &amp; Objects</li>
+        <li>ES6+ Features: Destructuring, Spread, Template Literals</li>
+        <li>Asynchronous JavaScript: Promises &amp; Async/Await</li>
+        <li>Error Handling</li>
+      </ul>
+      <div class="practice">Practice: Arrays, objects, and async operations</div>
+    </div>
+
+    <div class="day">
+      <h3>Day 3: TypeScript Essentials</h3>
+      <ul>
+        <li>TypeScript Introduction &amp; Setup</li>
+        <li>Types, Interfaces &amp; Classes</li>
+        <li>Modules: Import &amp; Export</li>
+        <li>TypeScript Configuration</li>
+        <li>Best Practices for Test Automation</li>
+      </ul>
+      <div class="practice">Practice: TypeScript fundamentals</div>
+    </div>
+
+    <h2>Module 2: Playwright Core Library (Days 4-6)</h2>
+
+    <div class="day">
+      <h3>Day 4: Playwright Introduction &amp; Configuration</h3>
+      <ul>
+        <li>Playwright Architecture &amp; Browser Support</li>
+        <li>Installation &amp; Project Setup</li>
+        <li>Configuration: playwright.config.ts</li>
+        <li>Browser Context &amp; Page Objects</li>
+        <li>Writing &amp; Running Your First Test</li>
+      </ul>
+      <div class="practice">Practice: Set up Playwright and write basic tests</div>
+    </div>
+
+    <div class="day">
+      <h3>Day 5: Locators &amp; Element Selection</h3>
+      <ul>
+        <li>Locator Strategies: Role, Text, CSS, XPath</li>
+        <li>Locator Chaining &amp; Filtering</li>
+        <li>Best Practices for Reliable Locators</li>
+        <li>Playwright Inspector &amp; Codegen</li>
+      </ul>
+      <div class="practice">Practice: Working with different locators</div>
+    </div>
+
+    <div class="day">
+      <h3>Day 6: Interactions, Actions &amp; Navigation</h3>
+      <ul>
+        <li>Element Interactions: Click, Fill, Select, Check</li>
+        <li>Mouse &amp; Keyboard Operations</li>
+        <li>Auto-Waiting &amp; Actionability</li>
+        <li>Navigation &amp; Load States</li>
+        <li>File Input, Frames, Windows, Alerts &amp; Screenshots</li>
+      </ul>
+      <div class="practice">Practice: Interactive tests with actions</div>
+    </div>
+
+    <h2>Module 3: Playwright Test Framework (Day 7)</h2>
+
+    <div class="day">
+      <h3>Day 7: Playwright Test Runner</h3>
+      <ul>
+        <li>Test Structure &amp; Lifecycle Hooks</li>
+        <li>Assertions &amp; Expectations</li>
+        <li>Fixtures: Built-in &amp; Custom</li>
+        <li>Test Organization &amp; Configuration</li>
+        <li>Parallel Execution &amp; Debugging</li>
+      </ul>
+      <div class="practice">Practice: Structured tests with fixtures</div>
+    </div>
+
+    <h2>Module 4: AI IDEs, MCP &amp; Playwright Agents (Days 8-9)</h2>
+
+    <div class="day">
+      <h3>Day 8: AI IDEs, MCP &amp; Planner Agents</h3>
+      <ul>
+        <li>AI in Test Automation Overview</li>
+        <li>AI IDEs: Cursor &amp; GitHub Copilot</li>
+        <li>Model Context Protocol (MCP) Architecture</li>
+        <li>Setting Up MCP for Playwright</li>
+        <li>Planner Agents: Test Strategy &amp; Planning</li>
+      </ul>
+      <div class="practice">Practice: AI IDEs and Planner agents</div>
+    </div>
+
+    <div class="day">
+      <h3>Day 9: Generator &amp; Healer Agents</h3>
+      <ul>
+        <li>Generator Agents: Automated Test Generation</li>
+        <li>Test Generation with AI (GPT, Claude, Gemini)</li>
+        <li>Healer Agents: Self-Healing Tests</li>
+        <li>AI-Powered Locator Maintenance</li>
+        <li>Agentic Testing Best Practices</li>
+      </ul>
+      <div class="practice">Practice: Generator and Healer agents</div>
+    </div>
+
+    <h2>Module 5: API Testing (Day 10)</h2>
+
+    <div class="day">
+      <h3>Day 10: API Testing with Playwright</h3>
+      <ul>
+        <li>API Testing &amp; APIRequestContext</li>
+        <li>HTTP Methods &amp; Authentication</li>
+        <li>Response Validation &amp; Assertions</li>
+        <li>Hybrid Testing: UI + API</li>
+        <li>Network Interception &amp; Mocking</li>
+      </ul>
+      <div class="practice">Practice: API test suite with UI integration</div>
+    </div>
+
+    <h2>Module 6: POM Framework &amp; Test Automation Libraries (Days 11-12)</h2>
+
+    <div class="day">
+      <h3>Day 11: Page Object Model (POM)</h3>
+      <ul>
+        <li>POM Design Principles &amp; Benefits</li>
+        <li>Creating Page Classes &amp; Components</li>
+        <li>Base Page Pattern &amp; Inheritance</li>
+        <li>POM Best Practices with TypeScript</li>
+      </ul>
+      <div class="practice">Practice: Build POM structure</div>
+    </div>
+
+    <div class="day">
+      <h3>Day 12: Test Automation Framework Libraries</h3>
+      <ul>
+        <li>Framework Architecture &amp; Design</li>
+        <li>Test Data Management &amp; Data-Driven Testing</li>
+        <li>Environment Configuration &amp; Utilities</li>
+        <li>Creating Framework Helpers</li>
+      </ul>
+      <div class="practice">Practice: Framework libraries development</div>
+    </div>
+
+    <h2>Module 7: Cucumber BDD (Day 13)</h2>
+
+    <div class="day">
+      <h3>Day 13: BDD with Cucumber</h3>
+      <ul>
+        <li>BDD Principles &amp; Gherkin Syntax</li>
+        <li>Cucumber Setup &amp; Playwright Integration</li>
+        <li>Step Definitions &amp; World Context</li>
+        <li>Data Tables &amp; Scenario Outlines</li>
+        <li>BDD with POM &amp; Reporting</li>
+      </ul>
+      <div class="practice">Practice: BDD scenarios with Cucumber</div>
+    </div>
+
+    <h2>Module 8: Reporting &amp; CI/CD (Day 14)</h2>
+
+    <div class="day">
+      <h3>Day 14: Reporting &amp; CI/CD with AWS CodeBuild</h3>
+      <ul>
+        <li>Test Reporters &amp; Report Portal</li>
+        <li>Parallelization &amp; Retry Strategies</li>
+        <li>AWS CodeBuild Setup &amp; Configuration</li>
+        <li>Running Tests in AWS CodeBuild</li>
+      </ul>
+      <div class="practice">Practice: Reporting and AWS CI/CD pipeline</div>
+    </div>
+
+    <h2>Module 9: Capstone Project (Day 15)</h2>
+
+    <div class="day">
+      <h3>Day 15: Capstone Project</h3>
+      <ul>
+        <li>Project Requirements &amp; Architecture</li>
+        <li>UI Tests with POM &amp; API Tests</li>
+        <li>AI Agents Integration</li>
+        <li>BDD with Cucumber</li>
+        <li>AWS CodeBuild CI/CD &amp; Reporting</li>
+        <li>Project Presentation &amp; Next Steps</li>
+      </ul>
+      <div class="practice">Practice: Complete capstone project</div>
+    </div>
+
+    <h2>Lab Environment &amp; System Requirements</h2>
+    <div class="section-box">
+      <h4>Hardware Requirements</h4>
+      <ul>
+        <li><strong>Laptop/Desktop:</strong> Windows 10/11, macOS 11+, or Linux (Ubuntu 20.04+)</li>
+        <li><strong>Processor:</strong> Minimum Intel i5 or equivalent (i7 or higher recommended)</li>
+        <li><strong>RAM:</strong> Minimum 8GB (16GB recommended for parallel test execution)</li>
+        <li><strong>Storage:</strong> Minimum 10GB free disk space (SSD recommended)</li>
+        <li><strong>Display:</strong> Minimum 1366x768 resolution (1920x1080 recommended)</li>
+        <li><strong>Internet:</strong> Stable broadband connection (minimum 10 Mbps)</li>
+      </ul>
+
+      <h4>Required System Permissions</h4>
+      <ul>
+        <li><strong>Administrator Rights:</strong> Required for installing Node.js, VS Code, and browsers</li>
+        <li><strong>Firewall Permissions:</strong> Allow outbound connections on ports 80, 443, 3000-9223</li>
+        <li><strong>Antivirus Exclusions:</strong> Add project folders to antivirus whitelist (if applicable)</li>
+        <li><strong>Proxy Configuration:</strong> Corporate proxy settings configured for npm and Git</li>
+        <li><strong>Execution Policy (Windows):</strong> PowerShell execution policy set to RemoteSigned</li>
+      </ul>
+
+      <h4>Software Installation Permissions</h4>
+      <ul>
+        <li>Permission to install <strong>Node.js LTS</strong> (v18.x or v20.x)</li>
+        <li>Permission to install <strong>Visual Studio Code</strong> (latest version)</li>
+        <li>Permission to install <strong>Git</strong> (latest version)</li>
+        <li>Permission to download and install browser binaries (Chromium, Firefox, WebKit)</li>
+        <li>Permission to install VS Code extensions from marketplace</li>
+        <li>Permission to install global npm packages</li>
+      </ul>
+
+      <h4>Cloud &amp; External Access</h4>
+      <ul>
+        <li><strong>AWS Account:</strong> Access to AWS Console (IAM permissions for CodeBuild, S3)</li>
+        <li><strong>GitHub Account:</strong> For repository access and GitHub Actions (optional)</li>
+        <li><strong>AI API Access:</strong> API keys for OpenAI, Claude, or Gemini (will be provided)</li>
+        <li><strong>Report Portal:</strong> Access to Report Portal instance (will be set up)</li>
+        <li><strong>Network Access:</strong> Ability to access external APIs and npm registry</li>
+      </ul>
+
+      <h4>Pre-Training Setup (Recommended)</h4>
+      <ul>
+        <li>Install <strong>Node.js LTS</strong> from nodejs.org</li>
+        <li>Install <strong>Visual Studio Code</strong> from code.visualstudio.com</li>
+        <li>Install <strong>Git</strong> from git-scm.com</li>
+        <li>Verify Node.js installation: <code>node --version</code> and <code>npm --version</code></li>
+        <li>Configure Git with username and email</li>
+        <li>Create a dedicated folder for training materials (ensure write permissions)</li>
+        <li>Test npm installation: <code>npm install -g npm@latest</code></li>
+      </ul>
+
+      <h4>Corporate Environment Considerations</h4>
+      <ul>
+        <li><strong>IT Approval:</strong> Obtain necessary approvals before training starts</li>
+        <li><strong>Proxy Settings:</strong> Configure npm proxy if behind corporate firewall</li>
+        <li><strong>VPN Access:</strong> Ensure VPN allows access to required cloud services</li>
+        <li><strong>Port Restrictions:</strong> Request IT to open required ports if blocked</li>
+        <li><strong>Certificate Issues:</strong> Configure npm to work with corporate SSL certificates</li>
+        <li><strong>Package Registry:</strong> Access to npmjs.com or internal npm registry</li>
+      </ul>
+
+      <h4>Lab Environment Verification</h4>
+      <ul>
+        <li>Pre-training system check will be conducted on Day 1</li>
+        <li>Trainer will provide setup assistance if needed</li>
+        <li>Backup cloud environment available if local setup faces issues</li>
+        <li>All software and tools will be verified during initial setup session</li>
+      </ul>
+    </div>
+
+    <h2>Tools &amp; Technologies Covered</h2>
+    <div class="section-box">
+      <ul>
+        <li><strong>Core:</strong> Playwright (Latest version), Node.js, TypeScript</li>
+        <li><strong>AI &amp; MCP:</strong> Model Context Protocol Servers, Planner/Generator/Healer Agents</li>
+        <li><strong>AI IDEs:</strong> GitHub Copilot</li>
+        <li><strong>BDD:</strong> Cucumber, Gherkin</li>
+        <li><strong>CI/CD:</strong> AWS CodeBuild, GitHub Actions</li>
+        <li><strong>Reporting:</strong> Report Portal, HTML/JSON reporters</li>
+        <li><strong>Development:</strong> VS Code with Playwright extension</li>
+        <li><strong>Version Control:</strong> Git workflows</li>
+      </ul>
+    </div>
+
+    <footer>
+      QtpSudhakar - VibeTestQ.com | Engineering Intelligent Testing
+    </footer>
+  </div>
+</body>
+</html>

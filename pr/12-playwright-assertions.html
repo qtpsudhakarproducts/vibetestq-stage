@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Assertions - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Playwright Assertions</h1>
+    <p class="subtitle">Web-First Assertions, Soft Assertions &amp; the expect() API</p>
+    <p class="tagline">Assert like a professional — auto-retry, rich matchers, clear failures — Session 12</p>
+    <div style="margin-top:15px;">
+        <span class="badge">expect()</span>
+        <span class="badge" style="background:var(--vibe-blue);">Web-First</span>
+        <span class="badge" style="background:var(--vibe-green);">Soft Assertions</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Web-First Assertions: Why They're Different</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Classic (Bad) Approach</h3>
+            <div class="code-snippet" style="margin-top:4px; font-size:0.6em;">// Check snapshot immediately — FLAKY!
+const text = await page
+  .getByTestId('status')
+  .textContent();
+expect(text).toBe('Saved'); // fails if slow</div>
+            <ul>
+                <li class="cross">Reads DOM at one instant in time</li>
+                <li class="cross">Fails if app not yet updated</li>
+                <li class="cross">Forces manual waits before</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Web-First (Right) Approach</h3>
+            <div class="code-snippet" style="margin-top:4px; font-size:0.6em;">// Retries until it passes or timeout
+await expect(
+  page.getByTestId('status')
+).toContainText('Saved'); // auto-polls!</div>
+            <ul>
+                <li>Automatically retries up to timeout</li>
+                <li>Waits for DOM to settle</li>
+                <li>No manual waits needed</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">ALWAYS use <code>await expect(locator).*</code> for UI assertions — never read a value and assert separately.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Locator Assertions: The Essential Set</h2>
+    <div class="code-snippet">// Visibility
+await expect(element).toBeVisible();
+await expect(element).toBeHidden();
+await expect(element).toBeAttached(); // exists in DOM (even if hidden)
+
+// Text content
+await expect(element).toHaveText('Exact match');
+await expect(element).toHaveText(/partial match/);    // regex
+await expect(element).toContainText('part of text');  // substring
+
+// Form state
+await expect(input).toHaveValue('expected value');
+await expect(checkbox).toBeChecked();
+await expect(button).toBeEnabled();
+await expect(button).toBeDisabled();
+await expect(input).toBeFocused();
+
+// Attributes and CSS
+await expect(element).toHaveAttribute('href', '/home');
+await expect(element).toHaveAttribute('aria-expanded', 'true');
+await expect(element).toHaveClass('active');
+await expect(element).toHaveCSS('color', 'rgb(255, 0, 0)');
+
+// Count
+await expect(page.getByRole('listitem')).toHaveCount(5);
+
+// Screenshot
+await expect(element).toHaveScreenshot('component.png');</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Page-Level Assertions</h2>
+    <div class="code-snippet">// Page URL
+await expect(page).toHaveURL('https://example.com/dashboard');
+await expect(page).toHaveURL(/dashboard/);
+await expect(page).toHaveURL(url => url.searchParams.has('token'));
+
+// Page title
+await expect(page).toHaveTitle('My App - Dashboard');
+await expect(page).toHaveTitle(/Dashboard/);
+
+// Full page screenshot
+await expect(page).toHaveScreenshot('full-page.png');
+await expect(page).toHaveScreenshot({ maxDiffPixels: 100 });
+
+// Not assertions — negate with .not
+await expect(element).not.toBeVisible();
+await expect(element).not.toHaveText('Error');
+await expect(page).not.toHaveURL(/login/);
+
+// Custom timeout override
+await expect(element).toBeVisible({ timeout: 10000 });
+await expect(element).toHaveText('Processing...', { timeout: 30000 });</div>
+    <div class="highlight-box">
+        <p class="compact">Use <code>.not</code> to invert any assertion. The retry still applies — it waits for the condition to become NOT true.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Soft Assertions: Collect All Failures</h2>
+    <div class="code-snippet">import { test, expect } from '@playwright/test';
+
+test('profile page validation', async ({ page }) => {
+  await page.goto('/profile');
+
+  // Soft assertions — test continues even if one fails
+  await expect.soft(page.getByTestId('name')).toHaveText('Jane Doe');
+  await expect.soft(page.getByTestId('email')).toHaveText('jane@example.com');
+  await expect.soft(page.getByTestId('role')).toHaveText('Admin');
+  await expect.soft(page.getByTestId('avatar')).toBeVisible();
+
+  // This hard assertion still works after soft failures
+  await page.getByRole('button', { name: 'Edit' }).click();
+
+  // Check all soft failures at end
+  expect(test.info().errors).toHaveLength(0);
+});</div>
+    <div class="two-col" style="margin-top:4px;">
+        <div class="content-box">
+            <h3>Use Soft Assertions When:</h3>
+            <ul>
+                <li>Validating multiple fields on a form/page</li>
+                <li>Checking a list of items</li>
+                <li>Running bulk data verifications</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Use Hard Assertions When:</h3>
+            <ul>
+                <li>A failure should stop the test</li>
+                <li>Subsequent steps depend on this passing</li>
+                <li>Login / navigation prerequisite checks</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>expect() for Non-UI Values</h2>
+    <div class="code-snippet">// Standard Jest-compatible assertions (no auto-retry)
+expect(2 + 2).toBe(4);
+expect('hello').toContain('hell');
+expect([1, 2, 3]).toHaveLength(3);
+expect({ name: 'Jane' }).toMatchObject({ name: 'Jane' });
+expect(null).toBeNull();
+expect(undefined).toBeUndefined();
+expect(value).toBeTruthy();
+expect(value).toBeFalsy();
+
+// Number matchers
+expect(response.status()).toBe(200);
+expect(items.length).toBeGreaterThan(0);
+expect(price).toBeCloseTo(9.99, 2);
+
+// Array matchers
+expect(titles).toEqual(['A', 'B', 'C']);
+expect(tags).toContain('playwright');
+expect(tags).toEqual(expect.arrayContaining(['qa', 'test']));
+
+// Object matchers
+const data = await response.json();
+expect(data).toMatchObject({ success: true });
+expect(data.user).toHaveProperty('email');</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 12 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Web-First Assertions</h3>
+            <ul>
+                <li>Always use <code>await expect(locator).*</code></li>
+                <li>Auto-retries until condition is true</li>
+                <li>toBeVisible, toHaveText, toHaveValue</li>
+                <li>toBeChecked, toBeEnabled, toBeDisabled</li>
+                <li>.not inverts any assertion</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Advanced Patterns</h3>
+            <ul>
+                <li>Soft assertions — collect multiple failures</li>
+                <li>Page URL and title assertions</li>
+                <li>Screenshot diff comparisons</li>
+                <li>Custom timeout per assertion</li>
+                <li>Standard expect() for non-UI values</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 13 — Test Organization, Hooks, and Annotations</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

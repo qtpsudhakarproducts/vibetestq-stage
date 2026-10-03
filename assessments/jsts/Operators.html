@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #1e40af;
+    --primary-dark: #1e3a8a;
+    --secondary: #22c55e;
+    --accent: #f97316;
+    --warning: #fbbf24;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+}
+
+.logo img {
+    height: 50px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--primary-dark);
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #eff6ff;
+    color: var(--primary);
+}
+
+.assessment-title {
+    text-align: right;
+}
+
+.assessment-title h1 {
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+}
+
+.assessment-title p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
+
+.question {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.question:last-child {
+    border-bottom: none;
+}
+
+.question-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.question-number {
+    color: var(--primary);
+    min-width: 25px;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    background-color: #f1f5f9;
+    border-color: var(--primary);
+}
+
+.option input {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.option.correct {
+    border-color: var(--secondary);
+    background-color: #ecfdf5;
+}
+
+.option.incorrect {
+    border-color: var(--danger);
+    background-color: #fef2f2;
+}
+
+.question.unanswered {
+    border: 2px solid var(--danger) !important;
+    background-color: #fef2f2 !important;
+    border-radius: 8px;
+    padding: 15px !important;
+    margin-bottom: 25px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-success {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.result-section {
+    display: none;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.score-display {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+.feedback-text {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.name-input-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.name-input-section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.name-input-section input {
+    padding: 10px 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: #ef4444;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: none;
+    z-index: 1000;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.explanation {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    display: none;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary);
+}
+
+@media print {
+
+    .btn,
+    .name-input-section {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+        padding: 0;
+    }
+
+    .card {
+        box-shadow: none;
+        border: none;
+    }
+
+    .explanation,
+    .result-section {
+        display: block !important;
+    }
+
+    #printed-name {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 10px;
+    }
+}
+
+#printed-name {
+    display: none;
+}
+
+code {
+    background: #f1f5f9;
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: #e11d48;
+    font-family: monospace;
+}
+
+pre {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 10px 0;
+    font-size: 0.85rem;
+}
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><img src="../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+            <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+            <div class="assessment-title">
+                <h1>Assessment</h1>
+                <p>Loading topics...</p>
+            </div>
+        </header>
+
+        <div id="result-container" class="card result-section">
+            <div id="printed-name"></div>
+            <h2>Assessment Completed!</h2>
+            <div id="score-display" class="score-display">0 / 0</div>
+            <p id="feedback-text" class="feedback-text"></p>
+            <div class="name-input-section">
+                <label for="student-name">Enter your name for the report:</label>
+                <input type="text" id="student-name" placeholder="Your Full Name"><br>
+                <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print
+                    Result</button>
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <div class="card">
+                <form id="quiz-form"></form>
+            </div>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; color: var(--text-light); font-size: 0.8rem;">
+            &copy; 2026 VibeTestQ. All rights reserved.
+        </footer>
+    </div>
+
+    <script type="text/plain" id="assessment-markdown">
+# Assessment 02: Operators MCQ
+
+**Total Questions:** 25  
+**Time:** 25 minutes  
+**Pass Mark:** 60%  
+**Topics:** Arithmetic, Comparison, Logical, Assignment Operators
+
+---
+
+## Questions
+
+### Question 1
+What is the result of `10 % 3`?
+
+A) 3  
+B) 1  
+C) 3.33  
+D) 0
+
+**Answer: B) 1**
+
+**Explanation:** The modulus operator (%) returns the remainder of division. 10 divided by 3 is 3 with remainder 1.
+
+---
+
+### Question 2
+What does the `**` operator do?
+
+A) Multiplication  
+B) Exponentiation  
+C) Comparison  
+D) String concatenation
+
+**Answer: B) Exponentiation**
+
+**Explanation:** The ** operator raises the first operand to the power of the second. For example, 2 ** 3 = 8.
+
+---
+
+### Question 3
+What is the output of: `5 + "5"`?
+
+A) 10  
+B) "55"  
+C) 55  
+D) Error
+
+**Answer: B) "55"**
+
+**Explanation:** When + is used with a string, it performs string concatenation. The number 5 is converted to a string.
+
+---
+
+### Question 4
+What is the difference between `==` and `===`?
+
+A) No difference  
+B) == checks value only, === checks value and type  
+C) === is faster  
+D) == is deprecated
+
+**Answer: B) == checks value only, === checks value and type**
+
+**Explanation:** == performs type coercion before comparison, while === checks both value and type without coercion.
+
+---
+
+### Question 5
+What will be the output?
+```javascript
+let x = 10;
+x += 5;
+console.log(x);
+```
+
+A) 10  
+B) 15  
+C) 5  
+D) 105
+
+**Answer: B) 15**
+
+**Explanation:** The += operator is shorthand for x = x + 5. So 10 + 5 = 15.
+
+---
+
+### Question 6
+What is the result of `true && false`?
+
+A) true  
+B) false  
+C) undefined  
+D) 1
+
+**Answer: B) false**
+
+**Explanation:** The logical AND (&&) operator returns true only if both operands are true. Since one is false, the result is false.
+
+---
+
+### Question 7
+What is the result of `false || true`?
+
+A) true  
+B) false  
+C) undefined  
+D) 0
+
+**Answer: A) true**
+
+**Explanation:** The logical OR (||) operator returns true if at least one operand is true.
+
+---
+
+### Question 8
+What does the `!` operator do?
+
+A) Factorial  
+B) Not equal  
+C) Logical NOT  
+D) Negation
+
+**Answer: C) Logical NOT**
+
+**Explanation:** The ! operator inverts a boolean value. !true returns false, !false returns true.
+
+---
+
+### Question 9
+What is the output?
+```javascript
+let a = 5;
+let b = 10;
+console.log(a > 3 && b < 15);
+```
+
+A) true  
+B) false  
+C) undefined  
+D) Error
+
+**Answer: A) true**
+
+**Explanation:** Both conditions are true (5 > 3 is true, 10 < 15 is true), so the AND operation returns true.
+
+---
+
+### Question 10
+What is the result of the ternary operator: `10 > 5 ? "Yes" : "No"`?
+
+A) true  
+B) "Yes"  
+C) "No"  
+D) 10
+
+**Answer: B) "Yes"**
+
+**Explanation:** Since 10 > 5 is true, the ternary operator returns the first value "Yes".
+
+---
+
+### Question 11
+What will be logged?
+```javascript
+let x = 10;
+console.log(++x);
+```
+
+A) 10  
+B) 11  
+C) undefined  
+D) Error
+
+**Answer: B) 11**
+
+**Explanation:** The prefix increment (++x) increments the value before returning it. x becomes 11 and 11 is logged.
+
+---
+
+### Question 12
+What is the difference between `++x` and `x++`?
+
+A) No difference  
+B) ++x increments before use, x++ increments after use  
+C) ++x is faster  
+D) x++ is deprecated
+
+**Answer: B) ++x increments before use, x++ increments after use**
+
+**Explanation:** ++x (prefix) increments then returns, x++ (postfix) returns then increments.
+
+---
+
+### Question 13
+What is the output?
+```javascript
+console.log(5 == "5");
+```
+
+A) true  
+B) false  
+C) undefined  
+D) Error
+
+**Answer: A) true**
+
+**Explanation:** The == operator performs type coercion. "5" is converted to 5, so 5 == 5 is true.
+
+---
+
+### Question 14
+What is the output?
+```javascript
+console.log(5 === "5");
+```
+
+A) true  
+B) false  
+C) undefined  
+D) Error
+
+**Answer: B) false**
+
+**Explanation:** The === operator checks both value and type. 5 (number) is not strictly equal to "5" (string).
+
+---
+
+### Question 15
+What does `x *= 3` mean?
+
+A) x = x * 3  
+B) x = 3  
+C) x = x + 3  
+D) x = 3 * 3
+
+**Answer: A) x = x * 3**
+
+**Explanation:** The *= operator is shorthand for multiplying and assigning: x = x * 3.
+
+---
+
+### Question 16
+What is the result of `!true`?
+
+A) true  
+B) false  
+C) undefined  
+D) 1
+
+**Answer: B) false**
+
+**Explanation:** The NOT operator (!) inverts the boolean value. !true returns false.
+
+---
+
+### Question 17
+What is the output?
+```javascript
+let result = 10 > 5 ? 10 < 15 ? "A" : "B" : "C";
+console.log(result);
+```
+
+A) "A"  
+B) "B"  
+C) "C"  
+D) true
+
+**Answer: A) "A"**
+
+**Explanation:** First condition (10 > 5) is true, so we evaluate the second ternary. Second condition (10 < 15) is also true, so "A" is returned.
+
+---
+
+### Question 18
+What is the result of `"5" - "2"`?
+
+A) "52"  
+B) "3"  
+C) 3  
+D) Error
+
+**Answer: C) 3**
+
+**Explanation:** The - operator converts strings to numbers and performs subtraction: 5 - 2 = 3.
+
+---
+
+### Question 19
+What will be the output?
+```javascript
+let x = 5;
+let y = x++;
+console.log(y);
+```
+
+A) 5  
+B) 6  
+C) undefined  
+D) Error
+
+**Answer: A) 5**
+
+**Explanation:** x++ (postfix) returns the current value (5) before incrementing. So y gets 5, then x becomes 6.
+
+---
+
+### Question 20
+Which operator has the highest precedence?
+
+A) +  
+B) *  
+C) **  
+D) ==
+
+**Answer: C) ****
+
+**Explanation:** Exponentiation (**) has higher precedence than multiplication (*), which has higher precedence than addition (+).
+
+---
+
+### Question 21
+What is the output?
+```javascript
+console.log(10 + 5 * 2);
+```
+
+A) 30  
+B) 20  
+C) 25  
+D) 15
+
+**Answer: B) 20**
+
+**Explanation:** Multiplication has higher precedence than addition. So 5 * 2 = 10, then 10 + 10 = 20.
+
+---
+
+### Question 22
+What is the result of `0 || "Hello"`?
+
+A) 0  
+B) "Hello"  
+C) true  
+D) false
+
+**Answer: B) "Hello"**
+
+**Explanation:** The || operator returns the first truthy value. Since 0 is falsy, it returns "Hello".
+
+---
+
+### Question 23
+What is the result of `"" && "World"`?
+
+A) ""  
+B) "World"  
+C) true  
+D) false
+
+**Answer: A) ""**
+
+**Explanation:** The && operator returns the first falsy value. Since "" is falsy, it returns "".
+
+---
+
+### Question 24
+What does the expression `x ??= 5` do?
+
+A) Assigns 5 to x if x is null or undefined  
+B) Always assigns 5 to x  
+C) Compares x with 5  
+D) Adds 5 to x
+
+**Answer: A) Assigns 5 to x if x is null or undefined**
+
+**Explanation:** The ??= (nullish coalescing assignment) operator assigns the right value only if the left value is null or undefined.
+
+---
+
+### Question 25
+What is the result of `null == undefined`?
+
+A) true  
+B) false  
+C) null  
+D) undefined
+
+**Answer: A) true**
+
+**Explanation:** In JavaScript, null == undefined is true (they're considered equal with ==), but null === undefined is false.
+
+---
+
+## Answer Key
+
+| Q# | Answer | Q# | Answer | Q# | Answer |
+|----|--------|----|--------|----|--------|
+| 1  | B      | 10 | B      | 19 | A      |
+| 2  | B      | 11 | B      | 20 | C      |
+| 3  | B      | 12 | B      | 21 | B      |
+| 4  | B      | 13 | A      | 22 | B      |
+| 5  | B      | 14 | B      | 23 | A      |
+| 6  | B      | 15 | A      | 24 | A      |
+| 7  | A      | 16 | B      | 25 | A      |
+| 8  | C      | 17 | A      |    |        |
+| 9  | A      | 18 | C      |    |        |
+
+---
+
+## Scoring Guide
+
+- **23-25 correct (92-100%)**: Excellent! Operator mastery
+- **20-22 correct (80-88%)**: Very Good! Minor gaps
+- **18-19 correct (72-76%)**: Good. Practice more
+- **15-17 correct (60-68%)**: Pass. Review concepts
+- **Below 15 (< 60%)**: Study operators again
+
+---
+
+## Topics to Review Based on Incorrect Answers
+
+**Questions 1-5:** Arithmetic operators and assignment  
+**Questions 6-9:** Logical operators (&&, ||, !)  
+**Questions 10-12:** Ternary and increment operators  
+**Questions 13-18:** Comparison and type coercion  
+**Questions 19-25:** Operator precedence and advanced operators
+
+---
+
+**Reference:** Documentation File 03
+    </script>
+    <script>
+(() => {
+    const markdownNode = document.getElementById('assessment-markdown');
+    if (!markdownNode) {
+        return;
+    }
+
+    const markdown = markdownNode.textContent.trim();
+    const form = document.getElementById('quiz-form');
+    const titleElement = document.querySelector('.assessment-title h1');
+    const subtitleElement = document.querySelector('.assessment-title p');
+    const scoreDisplay = document.getElementById('score-display');
+
+    const assessmentData = parseAssessmentMarkdown(markdown);
+    renderAssessment(assessmentData);
+
+    function parseAssessmentMarkdown(raw) {
+        const lines = raw.replace(/\r\n/g, '\n').split('\n');
+        const titleLine = lines.find((line) => line.trim().startsWith('# ')) || '';
+        const rawTitle = titleLine.replace(/^#\s*/, '').trim();
+        const cleanedTitle = rawTitle
+            .replace(/^Assessment\s*\d*\s*:?\s*/i, '')
+            .replace(/\bMCQ\b/i, '')
+            .trim();
+
+        let topics = '';
+        const topicsLine =
+            lines.find((line) => /^\*\*Topics/i.test(line)) ||
+            lines.find((line) => /^\*\*Topics Covered/i.test(line));
+        if (topicsLine) {
+            const parts = topicsLine.split(':');
+            topics = parts.length > 1 ? parts.slice(1).join(':').replace(/\*\*/g, '').trim() : '';
+        }
+
+        if (!topics) {
+            const subtitleLine = lines.find((line) => line.trim().startsWith('## '));
+            if (subtitleLine) {
+                topics = subtitleLine.replace(/^##\s*/, '').trim();
+            }
+        }
+
+        const questionBlocks = [];
+        const hasQuestionsHeading = lines.some((line) => /^##\s*Questions/i.test(line.trim()));
+        let inQuestions = !hasQuestionsHeading;
+        let stopQuestions = false;
+        let current = null;
+
+        for (const line of lines) {
+            const trimmed = line.trim();
+
+            if (/^##\s*Questions/i.test(trimmed)) {
+                inQuestions = true;
+                continue;
+            }
+
+            if (inQuestions && /^##\s+/i.test(trimmed) && !/^##\s*Questions/i.test(trimmed)) {
+                stopQuestions = true;
+                if (current) {
+                    questionBlocks.push(current);
+                    current = null;
+                }
+                continue;
+            }
+
+            if (!inQuestions || stopQuestions) {
+                continue;
+            }
+
+            if (/^###\s*Question\s*\d+/i.test(trimmed)) {
+                if (current) {
+                    questionBlocks.push(current);
+                }
+                current = [];
+                continue;
+            }
+
+            if (current) {
+                current.push(line);
+            }
+        }
+
+        if (current) {
+            questionBlocks.push(current);
+        }
+
+        const questions = questionBlocks
+            .map((block) => parseQuestionBlock(block))
+            .filter((question) => question.options.length > 0);
+
+        return {
+            title: cleanedTitle || rawTitle || 'Assessment',
+            topics,
+            questions
+        };
+    }
+
+    function parseQuestionBlock(lines) {
+        const questionLines = [];
+        const options = [];
+        let answer = '';
+        const explanationLines = [];
+        let capturingExplanation = false;
+
+        lines.forEach((line) => {
+            const trimmed = line.trim();
+
+            if (/^\*\*Answer:/i.test(trimmed)) {
+                const match = trimmed.match(/Answer:\s*([A-D])/i);
+                if (match) {
+                    answer = match[1].toLowerCase();
+                }
+                capturingExplanation = false;
+                return;
+            }
+
+            if (/^\*\*Explanation:/i.test(trimmed)) {
+                capturingExplanation = true;
+                const explanationText = trimmed
+                    .replace(/^\*\*Explanation:\*\*\s*/i, '')
+                    .replace(/^\*\*Explanation:\s*/i, '')
+                    .trim();
+                if (explanationText) {
+                    explanationLines.push(explanationText);
+                }
+                return;
+            }
+
+            if (capturingExplanation) {
+                if (trimmed === '---') {
+                    capturingExplanation = false;
+                } else {
+                    explanationLines.push(line);
+                }
+                return;
+            }
+
+            const optionMatch = trimmed.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);
+            if (optionMatch) {
+                options.push({
+                    letter: optionMatch[1].toLowerCase(),
+                    text: optionMatch[2].trim()
+                });
+                return;
+            }
+
+            if (trimmed === '---' || /^##/.test(trimmed)) {
+                return;
+            }
+
+            questionLines.push(line);
+        });
+
+        if (!answer && options.length > 0) {
+            answer = options[0].letter;
+        }
+
+        const { promptLine, bodyLines } = splitPromptAndBody(questionLines);
+
+        return {
+            promptHtml: formatInlineCode(promptLine || 'Select the correct option.'),
+            bodyHtml: formatLinesToHtml(bodyLines),
+            options: options.map((opt) => ({
+                letter: opt.letter,
+                html: formatInlineCode(opt.text)
+            })),
+            answer,
+            explanationHtml: formatLinesToHtml(explanationLines)
+        };
+    }
+
+    function splitPromptAndBody(lines) {
+        let promptLine = '';
+        const bodyLines = [];
+        let foundPrompt = false;
+
+        lines.forEach((line) => {
+            if (!foundPrompt && line.trim() && !line.trim().startsWith('```')) {
+                promptLine = line.trim();
+                foundPrompt = true;
+            } else {
+                bodyLines.push(line);
+            }
+        });
+
+        return { promptLine, bodyLines };
+    }
+
+    function formatLinesToHtml(lines) {
+        if (!lines.length) {
+            return '';
+        }
+
+        const parts = [];
+        let inCodeBlock = false;
+        let codeLines = [];
+        let textLines = [];
+
+        const flushText = () => {
+            if (!textLines.length) {
+                return;
+            }
+            parts.push(textLines.map(formatInlineCode).join('<br>'));
+            textLines = [];
+        };
+
+        lines.forEach((line) => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('```')) {
+                if (inCodeBlock) {
+                    parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+                    codeLines = [];
+                    inCodeBlock = false;
+                } else {
+                    flushText();
+                    inCodeBlock = true;
+                }
+                return;
+            }
+
+            if (inCodeBlock) {
+                codeLines.push(line);
+            } else if (trimmed !== '') {
+                textLines.push(line);
+            }
+        });
+
+        if (codeLines.length) {
+            parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+        }
+
+        flushText();
+        return parts.join('');
+    }
+
+    function formatInlineCode(text) {
+        if (!text) {
+            return '';
+        }
+
+        const segments = text.split('`');
+        return segments
+            .map((segment, index) => {
+                if (index % 2 === 1) {
+                    return `<code>${escapeHtml(segment)}</code>`;
+                }
+                return escapeHtml(segment);
+            })
+            .join('');
+    }
+
+    function escapeHtml(value) {
+        return value
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function renderAssessment(data) {
+        const heading = data.title ? `Assessment: ${data.title}` : 'Assessment';
+        titleElement.textContent = heading;
+        subtitleElement.textContent = data.topics || data.title || 'Multiple Choice Questions';
+        document.title = `${heading} - VibeTestQ`;
+
+        form.innerHTML = '';
+
+        data.questions.forEach((question, index) => {
+            form.appendChild(buildQuestionElement(question, index));
+        });
+
+        const submitWrap = document.createElement('div');
+        submitWrap.style.textAlign = 'center';
+        submitWrap.style.marginTop = '30px';
+        submitWrap.innerHTML = `
+            <button type="button" class="btn btn-primary" onclick="submitQuiz()">
+                <i class="fas fa-paper-plane"></i> Submit Assessment
+            </button>
+        `;
+        form.appendChild(submitWrap);
+
+        scoreDisplay.textContent = `0 / ${data.questions.length}`;
+    }
+
+    function buildQuestionElement(question, index) {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.dataset.answer = question.answer;
+
+        const questionText = document.createElement('div');
+        questionText.className = 'question-text';
+
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'question-number';
+        numberSpan.textContent = `${index + 1}.`;
+
+        const textSpan = document.createElement('span');
+        textSpan.innerHTML = question.promptHtml;
+
+        questionText.appendChild(numberSpan);
+        questionText.appendChild(textSpan);
+        questionElement.appendChild(questionText);
+
+        if (question.bodyHtml) {
+            const body = document.createElement('div');
+            body.className = 'question-body';
+            body.innerHTML = question.bodyHtml;
+            questionElement.appendChild(body);
+        }
+
+        const options = document.createElement('div');
+        options.className = 'options';
+
+        question.options.forEach((option) => {
+            const label = document.createElement('label');
+            label.className = 'option';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `q${index + 1}`;
+            input.value = option.letter;
+
+            const optionText = document.createElement('span');
+            optionText.innerHTML = option.html;
+
+            label.appendChild(input);
+            label.appendChild(optionText);
+            options.appendChild(label);
+        });
+
+        questionElement.appendChild(options);
+
+        const explanation = document.createElement('p');
+        explanation.className = 'explanation';
+        explanation.innerHTML = question.explanationHtml || '';
+        questionElement.appendChild(explanation);
+
+        return questionElement;
+    }
+
+    window.submitQuiz = function submitQuiz() {
+        const questions = document.querySelectorAll('.question');
+        let score = 0;
+        const unAnsweredSet = [];
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const selected = form.querySelector(`input[name="q${qNum}"]:checked`);
+            if (!selected) {
+                unAnsweredSet.push(q);
+                q.classList.add('unanswered');
+            } else {
+                q.classList.remove('unanswered');
+            }
+        });
+
+        if (unAnsweredSet.length > 0) {
+            showToast("Please answer all questions before submitting.");
+            unAnsweredSet[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const selected = form.querySelector(`input[name="q${qNum}"]:checked`);
+            const correctAnswer = q.getAttribute('data-answer');
+            const options = q.querySelectorAll('.option');
+            const explanation = q.querySelector('.explanation');
+
+            if (explanation) {
+                explanation.style.display = 'block';
+            }
+
+            options.forEach(opt => {
+                const radio = opt.querySelector('input');
+                if (radio.value === correctAnswer) {
+                    opt.classList.add('correct');
+                }
+                if (selected && radio === selected && radio.value !== correctAnswer) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selected && selected.value === correctAnswer) {
+                score += 1;
+            }
+        });
+
+        document.getElementById('result-container').style.display = 'block';
+        document.getElementById('score-display').innerText = `${score} / ${questions.length}`;
+
+        let feedback = "";
+        const percentage = (score / questions.length) * 100;
+        if (percentage === 100) feedback = "Perfect Score! You are a JS Wizard!";
+        else if (percentage >= 80) feedback = "Excellent! You have a strong grasp of fundamentals.";
+        else if (percentage >= 60) feedback = "Good job! Keep practicing to master the concepts.";
+        else feedback = "Keep learning! Review the Docs to strengthen your basics.";
+
+        document.getElementById('feedback-text').innerText = feedback;
+
+        form.querySelectorAll('input').forEach(input => input.disabled = true);
+        const submitButton = form.querySelector('button');
+        if (submitButton) {
+            submitButton.style.display = 'none';
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.preparePrint = function preparePrint() {
+        const name = document.getElementById('student-name').value;
+        if (name) {
+            document.getElementById('printed-name').innerText = "Student: " + name;
+        } else {
+            document.getElementById('printed-name').innerText = "";
+        }
+        window.print();
+    };
+
+    function showToast(message) {
+        let toast = document.getElementById('toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.className = 'toast';
+            document.body.appendChild(toast);
+        }
+        toast.innerText = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+})();
+    </script>
+</body>
+
+</html>

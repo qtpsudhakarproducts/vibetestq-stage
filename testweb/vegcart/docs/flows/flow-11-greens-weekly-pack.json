@@ -1,0 +1,77 @@
+{
+  "name": "Flow 11 – Greens Weekly Pack – Checkout",
+  "steps": [
+    {
+      "id": "step_1000000010_0",
+      "toolName": "user_login",
+      "params": { "email": "priya@example.com", "password": "test123" },
+      "label": "Login as Priya Sharma"
+    },
+    {
+      "id": "step_1000000010_1",
+      "toolName": "clear_cart",
+      "params": {},
+      "label": "Clear cart"
+    },
+    {
+      "id": "step_1000000010_2",
+      "toolName": "filter_products_by_category",
+      "params": { "category": "greens" },
+      "label": "Browse Greens & Herbs category"
+    },
+    {
+      "id": "step_1000000010_3",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Spinach", "quantity": 2 },
+      "label": "Add Spinach ×2"
+    },
+    {
+      "id": "step_1000000010_4",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Coriander", "quantity": 2 },
+      "label": "Add Coriander ×2"
+    },
+    {
+      "id": "step_1000000010_5",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Mint Leaves", "quantity": 1 },
+      "label": "Add Mint Leaves ×1"
+    },
+    {
+      "id": "step_1000000010_6",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Fenugreek", "quantity": 1 },
+      "label": "Add Fenugreek (Methi) ×1"
+    },
+    {
+      "id": "step_1000000010_7",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Curry Leaves", "quantity": 2 },
+      "label": "Add Curry Leaves ×2"
+    },
+    {
+      "id": "step_1000000010_8",
+      "toolName": "get_cart_contents",
+      "params": {},
+      "label": "Review greens pack – verify total"
+    },
+    {
+      "id": "step_1000000010_9",
+      "toolName": "place_order",
+      "params": {
+        "name": "Priya Sharma",
+        "phone": "9876543210",
+        "address": "12 Lotus Colony",
+        "city": "Bengaluru",
+        "pincode": "560001"
+      },
+      "label": "Place weekly greens order"
+    },
+    {
+      "id": "step_1000000010_10",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "orders" },
+      "label": "Navigate to Orders tab to confirm"
+    }
+  ]
+}

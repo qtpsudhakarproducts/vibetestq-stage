@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssetExplorer Testing Guide | Automation Practice</title>
+    <meta name="description" content="Automation practice guide for AssetExplorer IT asset management application">
+    <link rel="stylesheet" href="../shared/css/portal.css">
+    <link rel="stylesheet" href="asset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .guide-hero {
+            background: linear-gradient(135deg, #1e1b4b, #312e81, #4f46e5);
+            padding: 3rem 2rem;
+        }
+
+        .guide-hero h1 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem;
+        }
+
+        .guide-hero p {
+            color: #c7d2fe;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .guide-content {
+            padding: 2rem;
+            max-width: 960px;
+        }
+
+        .feature-section {
+            background: white;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .feature-section-header {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .feature-section-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+            flex: 1;
+        }
+
+        .feature-section-header .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .feature-section-body {
+            padding: 1.5rem;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .step-list li {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.88rem;
+            color: #475569;
+        }
+
+        .step-list li:last-child {
+            border-bottom: none;
+        }
+
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .locator-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            margin-top: 0.75rem;
+        }
+
+        .locator-table th {
+            background: #f8fafc;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            color: #64748b;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .locator-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #475569;
+            vertical-align: top;
+        }
+
+        .locator-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tag-green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .tag-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .tag-orange {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .tag-purple {
+            background: #ede9fe;
+            color: #4c1d95;
+        }
+
+        .scenario-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid #4f46e5;
+        }
+
+        .scenario-card h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.5rem;
+        }
+
+        .scenario-card p {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+        .toc {
+            background: white;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toc h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.75rem;
+        }
+
+        .toc-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.35rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list a {
+            font-size: 0.82rem;
+            color: #4f46e5;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .toc-list a:hover {
+            text-decoration: underline;
+        }
+
+        .chevron {
+            transition: transform 0.2s;
+        }
+
+        .collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+
+        .collapsed .feature-section-body {
+            display: none;
+        }
+
+        .note-box {
+            margin-top: 1rem;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 0.82rem;
+        }
+
+        .note-warn {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .note-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .note-tip {
+            background: #d1fae5;
+            color: #065f46;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div style="background:#0f172a;min-height:100vh;">
+
+        <div class="guide-hero">
+            <div style="max-width:960px;margin:0 auto;">
+                <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+                    <a href="index.html" style="color:#c7d2fe;font-size:0.85rem;text-decoration:none;"><i class="fas fa-arrow-left"></i> Back to App</a>
+                </div>
+                <h1><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>AssetExplorer — Testing Guide</h1>
+                <p>Practice guide for test automation on the IT Asset Management application.</p>
+                <div style="display:flex;gap:0.75rem;margin-top:1.25rem;flex-wrap:wrap;">
+                    <span class="tag tag-green">Practice</span>
+                    <span class="tag tag-blue">CRUD Operations</span>
+                    <span class="tag tag-orange">40+ Scenarios</span>
+                    <span class="tag tag-purple">Enterprise ITSM</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-content" style="margin:0 auto;">
+
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3><i class="fas fa-list" style="color:#4f46e5;margin-right:0.5rem;"></i>Table of Contents</h3>
+                <ul class="toc-list">
+                    <li><a href="#overview"><i class="fas fa-info-circle"></i> App Overview</a></li>
+                    <li><a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="#it-assets"><i class="fas fa-laptop"></i> IT Assets</a></li>
+                    <li><a href="#nonit-assets"><i class="fas fa-chair"></i> Non-IT Assets</a></li>
+                    <li><a href="#software"><i class="fas fa-cube"></i> Software Management</a></li>
+                    <li><a href="#cmdb"><i class="fas fa-project-diagram"></i> CMDB</a></li>
+                    <li><a href="#purchases"><i class="fas fa-shopping-cart"></i> Purchase Orders</a></li>
+                    <li><a href="#contracts"><i class="fas fa-file-contract"></i> Contracts</a></li>
+                    <li><a href="#consumables"><i class="fas fa-box-open"></i> Consumables</a></li>
+                    <li><a href="#scenarios"><i class="fas fa-vial"></i> Test Scenarios</a></li>
+                </ul>
+            </div>
+
+            <!-- App Overview -->
+            <div class="feature-section" id="overview">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#6366f1;"><i class="fas fa-info-circle"></i></div>
+                    <h3>App Overview & Architecture</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">AssetExplorer is a full-featured IT Asset Management application simulating ManageEngine's AssetExplorer. It covers the complete asset lifecycle — from procurement to disposal — across 8 functional modules. Data is stored locally and simulates real network delays for realistic testing.</p>
+                    <table class="locator-table">
+                        <tr>
+                            <th>Module</th>
+                            <th>Navigation</th>
+                            <th>Key Functionality</th>
+                        </tr>
+                        <tr>
+                            <td>Dashboard</td>
+                            <td>Default tab on load</td>
+                            <td>Stats overview, quick actions, recent assets, low stock alerts</td>
+                        </tr>
+                        <tr>
+                            <td>IT Assets</td>
+                            <td>Sidebar → IT Assets</td>
+                            <td>CRUD operations, search, filter, view/edit/delete modals</td>
+                        </tr>
+                        <tr>
+                            <td>Non-IT Assets</td>
+                            <td>Sidebar → Non-IT Assets</td>
+                            <td>Furniture, AV equipment register with delete</td>
+                        </tr>
+                        <tr>
+                            <td>Software</td>
+                            <td>Sidebar → Software</td>
+                            <td>License compliance, metering, usage tracking</td>
+                        </tr>
+                        <tr>
+                            <td>CMDB</td>
+                            <td>Sidebar → CMDB</td>
+                            <td>CI relationship map — Network → Server → Endpoint → Software</td>
+                        </tr>
+                        <tr>
+                            <td>Purchase Orders</td>
+                            <td>Sidebar → Purchase Orders</td>
+                            <td>PO approval/rejection workflow</td>
+                        </tr>
+                        <tr>
+                            <td>Contracts</td>
+                            <td>Sidebar → Contracts</td>
+                            <td>Vendor contracts with expiry tracking</td>
+                        </tr>
+                        <tr>
+                            <td>Consumables</td>
+                            <td>Sidebar → Consumables</td>
+                            <td>Stock levels, min stock alerts</td>
+                        </tr>
+                    </table>
+                    <div class="note-box note-warn">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Important for automation:</strong> The app uses simulated async delays (800ms–1.2s). Always wait for elements to be visible after triggering actions. Data resets on each page load.
+                    </div>
+                    <div class="note-box note-info" style="margin-top:0.75rem;">
+                        <i class="fas fa-database"></i> <strong>Default data:</strong> Contains 12 hardware assets, 5 non-IT assets, 10 software licenses, 6 purchase orders, 6 contracts, and 6 consumables.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="feature-section" id="dashboard">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#4f46e5;"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3>1. Dashboard</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The dashboard provides a unified overview with 8 stat cards, 6 quick action buttons, a recent assets table, and low stock alerts.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>On page load, the Dashboard tab is displayed as the default active view</li>
+                        <li><span class="step-num">2</span>Locate the 8 stat cards showing counts for: IT Assets, Non-IT Assets, Software Licenses, Pending POs, Contracts, Consumables, Compliance percentage, and Expiring contracts</li>
+                        <li><span class="step-num">3</span>Click on any stat card to navigate to the corresponding module tab</li>
+                        <li><span class="step-num">4</span>Find the Quick Actions section with 6 buttons: Register Asset, License Compliance, New PO, View CMDB, Manage Contracts, Check Stock</li>
+                        <li><span class="step-num">5</span>Scroll down to view the Recent Assets table showing the 6 most recently purchased IT assets</li>
+                        <li><span class="step-num">6</span>Check the Low Stock Alerts section displaying consumables below their minimum stock level</li>
+                    </ul>
+                    <div class="note-box note-tip">
+                        <i class="fas fa-lightbulb"></i> <strong>Practice tip:</strong> Identify and interact with the stat cards. Verify that clicking each card navigates to the correct module tab.
+                    </div>
+                </div>
+            </div>
+
+            <!-- IT Assets -->
+            <div class="feature-section" id="it-assets">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#0ea5e9;"><i class="fas fa-laptop"></i></div>
+                    <h3>2. IT Assets (CRUD)</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The IT Assets tab provides complete CRUD (Create, Read, Update, Delete) operations for hardware assets. This is the primary module for practicing form interactions, modal workflows, and table manipulation.</p>
+
+                    <strong style="font-size:0.85rem;color:#4f46e5;">Asset Types in Dataset:</strong>
+                    <p style="font-size:0.82rem;color:#64748b;margin:0.25rem 0 1rem;">Workstation, Laptop, Server, Monitor, Printer, Network Switch — 12 items total with statuses: In Use, In Stock, Maintenance, Retired</p>
+
+                    <strong style="font-size:0.85rem;">Viewing Assets:</strong>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Click on "IT Assets" in the left sidebar navigation menu</li>
+                        <li><span class="step-num">2</span>Wait for the assets table to load (there's a brief loading delay)</li>
+                        <li><span class="step-num">3</span>Observe each row displaying: Asset Tag, Hostname, Type, Model, Assigned User, Location, Status badge, and Action buttons</li>
+                        <li><span class="step-num">4</span>Find the asset count label above the table showing the total number of IT assets</li>
+                    </ul>
+
+                    <strong style="font-size:0.85rem;margin-top:1rem;display:block;">Search & Filter:</strong>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the search input field and type a keyword — the table filters in real-time as you type</li>
+                        <li><span class="step-num">2</span>Find the status filter dropdown and select from: All, In Use, In Stock, Maintenance, or Retired to filter assets by status</li>
+                    </ul>
+
+                    <strong style="font-size:0.85rem;margin-top:1rem;display:block;">View Asset (Read):</strong>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the view button (eye icon) in the Actions column of any row and click it</li>
+                        <li><span class="step-num">2</span>A modal dialog opens displaying the complete asset details in read-only format</li>
+                        <li><span class="step-num">3</span>Review all 17 fields: Tag, Hostname, Type, Model, Serial, IP, OS, CPU, RAM, Storage, User, Department, Location, Status, Purchase Date, Warranty End, Cost</li>
+                        <li><span class="step-num">4</span>Close the modal by clicking the X button or the "Close" button in the footer</li>
+                    </ul>
+
+                    <strong style="font-size:0.85rem;margin-top:1rem;display:block;">Edit Asset (Update):</strong>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the edit button (pencil icon) in the Actions column of any row and click it</li>
+                        <li><span class="step-num">2</span>An edit modal opens with all fields pre-populated with the current asset values</li>
+                        <li><span class="step-num">3</span>Modify any of the editable fields: Tag, Hostname, Type, Model, Serial, IP Address, Assigned User, Department, Location, or Status</li>
+                        <li><span class="step-num">4</span>Click the "Save Changes" button to submit — a success notification appears and the table refreshes with updated data</li>
+                    </ul>
+
+                    <strong style="font-size:0.85rem;margin-top:1rem;display:block;">Register Asset (Create):</strong>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Click the "New Asset" button in the toolbar, or use the Quick Action "Register IT Asset" from Dashboard</li>
+                        <li><span class="step-num">2</span>A registration modal opens with an empty form</li>
+                        <li><span class="step-num">3</span>Fill in the required fields (marked with *): Asset Tag, Hostname, and Model</li>
+                        <li><span class="step-num">4</span>Optionally fill in: Type (dropdown), Serial Number, IP Address, Assign To, Department (dropdown), and Location</li>
+                        <li><span class="step-num">5</span>Click the "Register Asset" button — a loading spinner appears briefly, then a success notification shows</li>
+                        <li><span class="step-num">6</span>The new asset appears in the IT Assets table with status "In Stock"</li>
+                    </ul>
+
+                    <strong style="font-size:0.85rem;margin-top:1rem;display:block;">Delete Asset (Decommission):</strong>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the delete button (trash icon) in the Actions column of any row and click it</li>
+                        <li><span class="step-num">2</span>A browser confirmation dialog appears asking to confirm the decommission action</li>
+                        <li><span class="step-num">3</span>Click "OK" to confirm — the asset is removed, a warning notification shows, and the table refreshes</li>
+                        <li><span class="step-num">4</span>Click "Cancel" to abort — no changes are made</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Non-IT Assets -->
+            <div class="feature-section" id="nonit-assets">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#0284c7;"><i class="fas fa-chair"></i></div>
+                    <h3>3. Non-IT Assets</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Non-IT assets are items without an IP address: furniture, AV equipment, appliances, office equipment. 5 items in the default dataset.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Click on "Non-IT Assets" in the left sidebar navigation menu</li>
+                        <li><span class="step-num">2</span>Wait for the non-IT assets table to load</li>
+                        <li><span class="step-num">3</span>Review the columns: Asset Tag, Name, Type, Location, Assigned To, Status, and Actions (delete only)</li>
+                        <li><span class="step-num">4</span>Asset types include: Furniture, AV Equipment, Office Equipment, and Appliance</li>
+                        <li><span class="step-num">5</span>Delete functionality works the same as IT assets — click trash icon and confirm in the dialog</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Software -->
+            <div class="feature-section" id="software">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#8b5cf6;"><i class="fas fa-cube"></i></div>
+                    <h3>4. Software Asset Management</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Tracks 10 software licenses with three key metrics: compliance status, usage metering, and cost analysis.</p>
+
+                    <strong style="font-size:0.85rem;">License Compliance:</strong>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Click on "Software" in the left sidebar navigation menu</li>
+                        <li><span class="step-num">2</span>Wait for the software licenses table to load</li>
+                        <li><span class="step-num">3</span>Look for <strong>Compliant</strong> badges (green) — these indicate licenses where installed count is within purchased limit</li>
+                        <li><span class="step-num">4</span>Identify <strong>Over-Licensed</strong> badges (red) — these show more installations than purchased licenses (e.g., Adobe CC: 24 installed but only 20 purchased)</li>
+                        <li><span class="step-num">5</span>Find <strong>Under-Utilized</strong> badges (yellow) — these indicate low usage ratio compared to available licenses (e.g., Zoom: only 42 of 100 licenses used)</li>
+                    </ul>
+
+                    <strong style="font-size:0.85rem;margin-top:1rem;display:block;">Software Metering:</strong>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Look for <strong>Frequent</strong> usage badges — indicates actively and regularly used licenses</li>
+                        <li><span class="step-num">2</span>Find <strong>Occasional</strong> usage badges — software used sometimes but not regularly</li>
+                        <li><span class="step-num">3</span>Identify <strong>Rarely</strong> usage badges — these are candidates for license reclamation</li>
+                    </ul>
+
+                    <strong style="font-size:0.85rem;margin-top:1rem;display:block;">Compliance Bar Visual:</strong>
+                    <p style="font-size:0.82rem;color:#64748b;margin:0.25rem 0;">Each software row has a visual compliance bar showing the percentage of licenses used. Green bars indicate healthy compliance, yellow bars show warning levels, and red bars indicate over-licensing issues.</p>
+                </div>
+            </div>
+
+            <!-- CMDB -->
+            <div class="feature-section" id="cmdb">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#10b981;"><i class="fas fa-project-diagram"></i></div>
+                    <h3>5. Configuration Management Database (CMDB)</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The CMDB provides a visual CI (Configuration Item) relationship map with 4 layers. Each node is clickable to view the full asset details.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Click on "CMDB" in the left sidebar navigation menu</li>
+                        <li><span class="step-num">2</span>Wait for the visual map to render showing a hierarchical structure</li>
+                        <li><span class="step-num">3</span>Observe the <strong>Infrastructure Layer</strong> at the top — Network Switches represented with blue icons</li>
+                        <li><span class="step-num">4</span>Below that, find the <strong>Server Layer</strong> — Production and Development servers shown with purple icons</li>
+                        <li><span class="step-num">5</span>Next is the <strong>Endpoint Layer</strong> — Laptops and Workstations displayed with green icons (shows first 5 plus a count for remaining)</li>
+                        <li><span class="step-num">6</span>At the bottom, see the <strong>Software Layer</strong> — Top 4 software titles shown with yellow icons</li>
+                        <li><span class="step-num">7</span>Notice the vertical connector lines between layers showing the relationships</li>
+                        <li><span class="step-num">8</span>Click on any IT asset node to open the View Asset modal with complete details</li>
+                    </ul>
+                    <div class="note-box note-info">
+                        <i class="fas fa-info-circle"></i> <strong>Note:</strong> The CMDB map is dynamically generated from live hardware and software data. Adding or removing assets will automatically update the CMDB view.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchases -->
+            <div class="feature-section" id="purchases">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#f59e0b;"><i class="fas fa-shopping-cart"></i></div>
+                    <h3>6. Purchase Management</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Manage purchase orders with approval workflows. 6 POs in default dataset with 3 statuses: approved, pending, rejected.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Click on "Purchase Orders" in the left sidebar navigation menu</li>
+                        <li><span class="step-num">2</span>Wait for the purchase orders table to load</li>
+                        <li><span class="step-num">3</span>Review the columns: PO Number, Description with line items, Vendor, Amount, Requested By, Status, and Actions</li>
+                        <li><span class="step-num">4</span>Find rows with <strong>Pending</strong> status — these display both "Approve" and "Reject" buttons in the Actions column</li>
+                        <li><span class="step-num">5</span>Click the green <strong>Approve</strong> button on a pending PO — the status updates to "approved", the approval date is recorded, and a success notification appears</li>
+                        <li><span class="step-num">6</span>Click the red <strong>Reject</strong> button on a pending PO — a confirmation dialog appears, then the status updates to "rejected"</li>
+                        <li><span class="step-num">7</span>Note that already approved or rejected POs display the action date instead of buttons</li>
+                    </ul>
+                    <div class="note-box note-tip">
+                        <i class="fas fa-lightbulb"></i> <strong>Test Tip:</strong> After approving a PO, navigate back to the Dashboard and verify that the "Pending POs" stat card count has decreased by 1.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contracts -->
+            <div class="feature-section" id="contracts">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#3b82f6;"><i class="fas fa-file-contract"></i></div>
+                    <h3>7. Contract Management</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Vendor contract tracking with expiry alerts. 6 contracts covering Software, Cloud, Maintenance, Service, Security, and Facility types.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Click on "Contracts" in the left sidebar navigation menu</li>
+                        <li><span class="step-num">2</span>Wait for the contracts table to load</li>
+                        <li><span class="step-num">3</span>Review the columns: Contract ID, Title with notes, Vendor name, Type, Contract Value, Validity Period (start to end dates), and Status</li>
+                        <li><span class="step-num">4</span>Identify <strong>Active</strong> contracts (green badge) — these are within their validity period</li>
+                        <li><span class="step-num">5</span>Find <strong>Expiring Soon</strong> contracts (yellow badge) — these are within the renewal alert window and need attention</li>
+                        <li><span class="step-num">6</span>Look for <strong>Expired</strong> contracts (red badge) — these are past their end date and require renewal</li>
+                    </ul>
+                    <div class="note-box note-warn">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Automation note:</strong> The Dashboard's "Expiring Contracts" stat card counts both contracts with "Expiring Soon" and "Expired" statuses combined.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Consumables -->
+            <div class="feature-section" id="consumables">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#ef4444;"><i class="fas fa-box-open"></i></div>
+                    <h3>8. Consumables</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Bulk-managed single-use items with stock level tracking. 6 items with minimum stock thresholds.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Click on "Consumables" in the left sidebar navigation menu</li>
+                        <li><span class="step-num">2</span>Wait for the consumables table to load</li>
+                        <li><span class="step-num">3</span>Review the columns: Item ID, Name, Category, Current Stock (with warning icon if low), Minimum Stock threshold, and Unit Cost</li>
+                        <li><span class="step-num">4</span>Identify items below minimum stock — these are highlighted in red bold text with a warning triangle icon</li>
+                        <li><span class="step-num">5</span>Note that low stock items also appear on the Dashboard's "Low Stock Alerts" section</li>
+                    </ul>
+                    <div class="note-box note-info">
+                        <i class="fas fa-database"></i> <strong>Default low stock items:</strong> USB-C Adapter Hub (8 in stock, minimum 15) and Keyboard Replacement (5 in stock, minimum 10)
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Scenarios -->
+            <div class="feature-section" id="scenarios">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#10b981;"><i class="fas fa-vial"></i></div>
+                    <h3>Test Scenarios</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div>
+                            <p style="font-size:0.82rem;font-weight:700;color:#4f46e5;margin:0 0 0.5rem;text-transform:uppercase;">Happy Path Scenarios</p>
+                            <div class="scenario-card">
+                                <h4>TC-001: Dashboard Stats Verification</h4>
+                                <p>Load the page and verify all 8 stat cards display correct counts matching the stored data</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-002: Register New IT Asset (Create)</h4>
+                                <p>Open the register modal, fill in asset tag, hostname, and model, submit the form, and verify the success notification appears along with the new row in the table</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-003: View Asset Details (Read)</h4>
+                                <p>Click the view button on any asset and verify the modal displays all 17 fields correctly</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-004: Edit Asset (Update)</h4>
+                                <p>Click edit on an asset, change the assigned user name, save changes, and verify the table shows the updated value</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-005: Decommission Asset (Delete)</h4>
+                                <p>Click the delete button, accept the confirmation dialog, and verify the row is removed with a notification shown</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-006: Search IT Assets</h4>
+                                <p>Type "MacBook" in the search field and verify only matching rows remain visible</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-007: Filter by Status</h4>
+                                <p>Select "Retired" from the status dropdown and verify only retired assets are shown</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-008: Software Compliance Check</h4>
+                                <p>Navigate to Software and verify Adobe Creative Cloud shows "Over-Licensed" status with a red compliance bar</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-009: Approve Purchase Order</h4>
+                                <p>Navigate to Purchase Orders, click Approve on a pending PO, and verify the status changes with a success notification</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-010: CMDB Navigation</h4>
+                                <p>Open the CMDB, click on a server node, and verify the View Asset modal opens with the correct server data</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-011: Low Stock Alert</h4>
+                                <p>On the Dashboard, verify the low stock alerts table shows USB-C Adapter Hub (8 current vs 15 minimum)</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-012: Contract Expiry Tracking</h4>
+                                <p>Navigate to Contracts and verify the AWS contract displays an "Expiring Soon" badge</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p style="font-size:0.82rem;font-weight:700;color:#ef4444;margin:0 0 0.5rem;text-transform:uppercase;">Negative / Edge Cases</p>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-013: Register Without Required Fields</h4>
+                                <p>Open the register modal, leave tag and hostname empty, click submit, and verify an error notification is shown</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-014: Cancel Delete Confirmation</h4>
+                                <p>Click the delete button on an asset, dismiss the confirmation dialog, and verify the asset still exists in the table</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-015: Reject Purchase Order</h4>
+                                <p>Click reject on a pending PO, accept the confirmation, and verify the status changes to "rejected"</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-016: Search No Results</h4>
+                                <p>Type "ZZZZ" in the IT Assets search field and verify all table rows are hidden (no matching results)</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-017: Modal Close Without Saving</h4>
+                                <p>Open the edit modal, change field values, close without saving, and verify the original data remains unchanged</p>
+                            </div>
+
+                            <p style="font-size:0.82rem;font-weight:700;color:#8b5cf6;margin:1.5rem 0 0.5rem;text-transform:uppercase;">Cross-Module Scenarios</p>
+                            <div class="scenario-card" style="border-color:#8b5cf6;">
+                                <h4>TC-018: Dashboard → IT Assets Navigation</h4>
+                                <p>Click the IT Assets stat card on Dashboard and verify the tab switches to IT Assets with data loaded</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#8b5cf6;">
+                                <h4>TC-019: Quick Action → Register → Dashboard</h4>
+                                <p>Use Dashboard Quick Action to register a new asset, then verify the Dashboard stats are updated accordingly</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#8b5cf6;">
+                                <h4>TC-020: PO Approve → Dashboard Sync</h4>
+                                <p>Approve a PO, navigate back to Dashboard, and verify the pending PO count has decreased</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#8b5cf6;">
+                                <h4>TC-021: Delete Asset → CMDB Update</h4>
+                                <p>Delete a server from IT Assets, navigate to CMDB, and verify the server is removed from the relationship map</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#8b5cf6;">
+                                <h4>TC-022: Full Sidebar Navigation Cycle</h4>
+                                <p>Click through all 8 sidebar navigation links and verify each tab loads with the correct content</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            header.parentElement.classList.toggle('collapsed');
+        }
+    </script>
+</body>
+
+</html>

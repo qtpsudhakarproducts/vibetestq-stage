@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #1e40af;
+    --primary-dark: #1e3a8a;
+    --secondary: #22c55e;
+    --accent: #f97316;
+    --warning: #fbbf24;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+}
+
+.logo img {
+    height: 50px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--primary-dark);
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #eff6ff;
+    color: var(--primary);
+}
+
+.assessment-title {
+    text-align: right;
+}
+
+.assessment-title h1 {
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+}
+
+.assessment-title p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
+
+.question {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.question:last-child {
+    border-bottom: none;
+}
+
+.question-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.question-number {
+    color: var(--primary);
+    min-width: 25px;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    background-color: #f1f5f9;
+    border-color: var(--primary);
+}
+
+.option input {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.option.correct {
+    border-color: var(--secondary);
+    background-color: #ecfdf5;
+}
+
+.option.incorrect {
+    border-color: var(--danger);
+    background-color: #fef2f2;
+}
+
+.question.unanswered {
+    border: 2px solid var(--danger) !important;
+    background-color: #fef2f2 !important;
+    border-radius: 8px;
+    padding: 15px !important;
+    margin-bottom: 25px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-success {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.result-section {
+    display: none;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.score-display {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+.feedback-text {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.name-input-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.name-input-section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.name-input-section input {
+    padding: 10px 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: #ef4444;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: none;
+    z-index: 1000;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.explanation {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    display: none;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary);
+}
+
+@media print {
+
+    .btn,
+    .name-input-section {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+        padding: 0;
+    }
+
+    .card {
+        box-shadow: none;
+        border: none;
+    }
+
+    .explanation,
+    .result-section {
+        display: block !important;
+    }
+
+    #printed-name {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 10px;
+    }
+}
+
+#printed-name {
+    display: none;
+}
+
+code {
+    background: #f1f5f9;
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: #e11d48;
+    font-family: monospace;
+}
+
+pre {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 10px 0;
+    font-size: 0.85rem;
+}
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><img src="../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+            <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+            <div class="assessment-title">
+                <h1>Assessment</h1>
+                <p>Loading topics...</p>
+            </div>
+        </header>
+
+        <div id="result-container" class="card result-section">
+            <div id="printed-name"></div>
+            <h2>Assessment Completed!</h2>
+            <div id="score-display" class="score-display">0 / 0</div>
+            <p id="feedback-text" class="feedback-text"></p>
+            <div class="name-input-section">
+                <label for="student-name">Enter your name for the report:</label>
+                <input type="text" id="student-name" placeholder="Your Full Name"><br>
+                <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print
+                    Result</button>
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <div class="card">
+                <form id="quiz-form"></form>
+            </div>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; color: var(--text-light); font-size: 0.8rem;">
+            &copy; 2026 VibeTestQ. All rights reserved.
+        </footer>
+    </div>
+
+    <script type="text/plain" id="assessment-markdown">
+# Assessment 11: Node.js Project Configuration MCQ
+
+**Total Questions:** 25  
+**Time:** 25 minutes  
+**Pass Mark:** 60%  
+**Topics:** package.json, npm, dependencies, scripts
+
+---
+
+## Questions
+
+### Question 1
+What is package.json?
+
+A) A JavaScript file  
+B) Project metadata and configuration file  
+C) A module  
+D) A database
+
+**Answer: B) Project metadata and configuration file**
+
+**Explanation:** package.json contains project information, dependencies, and scripts.
+
+---
+
+### Question 2
+How do you create package.json?
+
+A) `npm init`  
+B) `npm create`  
+C) `npm start`  
+D) `npm package`
+
+**Answer: A) npm init**
+
+**Explanation:** `npm init` creates a package.json file interactively.
+
+---
+
+### Question 3
+What does `npm init -y` do?
+
+A) Asks questions  
+B) Creates package.json with defaults  
+C) Deletes package.json  
+D) Installs packages
+
+**Answer: B) Creates package.json with defaults**
+
+**Explanation:** The `-y` flag accepts all defaults without prompting.
+
+---
+
+### Question 4
+What is the difference between dependencies and devDependencies?
+
+A) No difference  
+B) dependencies for production, devDependencies for development  
+C) dependencies are faster  
+D) devDependencies are optional
+
+**Answer: B) dependencies for production, devDependencies for development**
+
+**Explanation:** dependencies are needed in production, devDependencies only during development.
+
+---
+
+### Question 5
+How do you install a package as a dev dependency?
+
+A) `npm install package`  
+B) `npm install --save-dev package`  
+C) `npm install --dev package`  
+D) `npm dev install package`
+
+**Answer: B) npm install --save-dev package**
+
+**Explanation:** Use `--save-dev` or `-D` flag to install as devDependency.
+
+---
+
+### Question 6
+What does `npm install` do?
+
+A) Deletes packages  
+B) Installs all dependencies from package.json  
+C) Creates package.json  
+D) Updates npm
+
+**Answer: B) Installs all dependencies from package.json**
+
+**Explanation:** Running `npm install` without arguments installs all listed dependencies.
+
+---
+
+### Question 7
+What is node_modules/?
+
+A) Your source code  
+B) Folder containing installed packages  
+C) Configuration folder  
+D) Test folder
+
+**Answer: B) Folder containing installed packages**
+
+**Explanation:** node_modules/ contains all installed npm packages.
+
+---
+
+### Question 8
+Should you commit node_modules/ to Git?
+
+A) Yes, always  
+B) No, add to .gitignore  
+C) Only on Fridays  
+D) Only for production
+
+**Answer: B) No, add to .gitignore**
+
+**Explanation:** node_modules/ should not be committed; it's regenerated by `npm install`.
+
+---
+
+### Question 9
+What is package-lock.json?
+
+A) Security file  
+B) Locks exact dependency versions  
+C) Configuration file  
+D) Deleted automatically
+
+**Answer: B) Locks exact dependency versions**
+
+**Explanation:** package-lock.json ensures consistent installations across environments.
+
+---
+
+### Question 10
+What does "scripts" in package.json do?
+
+A) Runs JavaScript code  
+B) Defines custom npm commands  
+C) Installs packages  
+D) Tests code automatically
+
+**Answer: B) Defines custom npm commands**
+
+**Explanation:** Scripts section contains custom commands run with `npm run <script>`.
+
+---
+
+### Question 11
+How do you run a custom script?
+
+A) `npm <script-name>`  
+B) `npm run <script-name>`  
+C) `npm start <script-name>`  
+D) `npm execute <script-name>`
+
+**Answer: B) npm run <script-name>**
+
+**Explanation:** Use `npm run` to execute custom scripts (except start and test).
+
+---
+
+### Question 12
+Which scripts can run without "run"?
+
+A) All scripts  
+B) Only start  
+C) start and test  
+D) None
+
+**Answer: C) start and test**
+
+**Explanation:** `npm start` and `npm test` work without the "run" keyword.
+
+---
+
+### Question 13
+What is Semantic Versioning (SemVer)?
+
+A) Random versioning  
+B) MAJOR.MINOR.PATCH format  
+C) Date-based versioning  
+D) Alphabetical versioning
+
+**Answer: B) MAJOR.MINOR.PATCH format**
+
+**Explanation:** SemVer uses three numbers: MAJOR (breaking), MINOR (features), PATCH (fixes).
+
+---
+
+### Question 14
+What does ^ mean in version "^1.2.3"?
+
+A) Exact version only  
+B) Compatible updates (MINOR and PATCH)  
+C) Any version  
+D) Beta version
+
+**Answer: B) Compatible updates (MINOR and PATCH)**
+
+**Explanation:** ^ allows updates that don't change the MAJOR version.
+
+---
+
+### Question 15
+What does ~ mean in version "~1.2.3"?
+
+A) Exact version  
+B) Compatible PATCH updates only  
+C) Any version  
+D) MAJOR updates
+
+**Answer: B) Compatible PATCH updates only**
+
+**Explanation:** ~ allows only PATCH-level changes (1.2.x).
+
+---
+
+### Question 16
+What is .env file used for?
+
+A) Environment variables  
+B) JavaScript code  
+C) Package list  
+D) Test data
+
+**Answer: A) Environment variables**
+
+**Explanation:** .env stores configuration and secrets outside code.
+
+---
+
+### Question 17
+Should you commit .env to Git?
+
+A) Yes, always  
+B) No, keep it private  
+C) Only for public repos  
+D) Only on production
+
+**Answer: B) No, keep it private**
+
+**Explanation:** .env contains sensitive data and should be in .gitignore.
+
+---
+
+### Question 18
+What package is used to load .env files?
+
+A) env-loader  
+B) dotenv  
+C) environment  
+D) config
+
+**Answer: B) dotenv**
+
+**Explanation:** The `dotenv` package loads environment variables from .env files.
+
+---
+
+### Question 19
+How do you access environment variables in Node.js?
+
+A) `env.PORT`  
+B) `process.env.PORT`  
+C) `environment.PORT`  
+D) `ENV.PORT`
+
+**Answer: B) process.env.PORT**
+
+**Explanation:** Environment variables are accessed via `process.env` object.
+
+---
+
+### Question 20
+What is .gitignore used for?
+
+A) Ignoring errors  
+B) Specifying files to exclude from Git  
+C) Installing packages  
+D) Running tests
+
+**Answer: B) Specifying files to exclude from Git**
+
+**Explanation:** .gitignore tells Git which files/folders to not track.
+
+---
+
+### Question 21
+What does `npm update` do?
+
+A) Updates npm itself  
+B) Updates packages to latest allowed versions  
+C) Deletes packages  
+D) Creates new packages
+
+**Answer: B) Updates packages to latest allowed versions**
+
+**Explanation:** npm update updates dependencies within the version ranges specified.
+
+---
+
+### Question 22
+What does `npm audit` do?
+
+A) Audits your code quality  
+B) Checks for security vulnerabilities  
+C) Counts lines of code  
+D) Tests your app
+
+**Answer: B) Checks for security vulnerabilities**
+
+**Explanation:** npm audit scans dependencies for known security issues.
+
+---
+
+### Question 23
+How do you uninstall a package?
+
+A) `npm delete package`  
+B) `npm remove package`  
+C) `npm uninstall package`  
+D) Both B and C
+
+**Answer: D) Both B and C**
+
+**Explanation:** Both `npm remove` and `npm uninstall` work to remove packages.
+
+---
+
+### Question 24
+What is the "main" field in package.json?
+
+A) Main developer  
+B) Entry point of the application  
+C) Main dependency  
+D) Main script
+
+**Answer: B) Entry point of the application**
+
+**Explanation:** "main" specifies the entry file when the package is imported.
+
+---
+
+### Question 25
+What does "type": "module" do?
+
+A) Creates a module  
+B) Enables ES6 module syntax (import/export)  
+C) Disables modules  
+D) Nothing
+
+**Answer: B) Enables ES6 module syntax (import/export)**
+
+**Explanation:** Setting "type": "module" allows using import/export instead of require.
+    </script>
+    <script>
+(() => {
+    const markdownNode = document.getElementById('assessment-markdown');
+    if (!markdownNode) {
+        return;
+    }
+
+    const markdown = markdownNode.textContent.trim();
+    const form = document.getElementById('quiz-form');
+    const titleElement = document.querySelector('.assessment-title h1');
+    const subtitleElement = document.querySelector('.assessment-title p');
+    const scoreDisplay = document.getElementById('score-display');
+
+    const assessmentData = parseAssessmentMarkdown(markdown);
+    renderAssessment(assessmentData);
+
+    function parseAssessmentMarkdown(raw) {
+        const lines = raw.replace(/\r\n/g, '\n').split('\n');
+        const titleLine = lines.find((line) => line.trim().startsWith('# ')) || '';
+        const rawTitle = titleLine.replace(/^#\s*/, '').trim();
+        const cleanedTitle = rawTitle
+            .replace(/^Assessment\s*\d*\s*:?\s*/i, '')
+            .replace(/\bMCQ\b/i, '')
+            .trim();
+
+        let topics = '';
+        const topicsLine =
+            lines.find((line) => /^\*\*Topics/i.test(line)) ||
+            lines.find((line) => /^\*\*Topics Covered/i.test(line));
+        if (topicsLine) {
+            const parts = topicsLine.split(':');
+            topics = parts.length > 1 ? parts.slice(1).join(':').replace(/\*\*/g, '').trim() : '';
+        }
+
+        if (!topics) {
+            const subtitleLine = lines.find((line) => line.trim().startsWith('## '));
+            if (subtitleLine) {
+                topics = subtitleLine.replace(/^##\s*/, '').trim();
+            }
+        }
+
+        const questionBlocks = [];
+        const hasQuestionsHeading = lines.some((line) => /^##\s*Questions/i.test(line.trim()));
+        let inQuestions = !hasQuestionsHeading;
+        let stopQuestions = false;
+        let current = null;
+
+        for (const line of lines) {
+            const trimmed = line.trim();
+
+            if (/^##\s*Questions/i.test(trimmed)) {
+                inQuestions = true;
+                continue;
+            }
+
+            if (inQuestions && /^##\s+/i.test(trimmed) && !/^##\s*Questions/i.test(trimmed)) {
+                stopQuestions = true;
+                if (current) {
+                    questionBlocks.push(current);
+                    current = null;
+                }
+                continue;
+            }
+
+            if (!inQuestions || stopQuestions) {
+                continue;
+            }
+
+            if (/^###\s*Question\s*\d+/i.test(trimmed)) {
+                if (current) {
+                    questionBlocks.push(current);
+                }
+                current = [];
+                continue;
+            }
+
+            if (current) {
+                current.push(line);
+            }
+        }
+
+        if (current) {
+            questionBlocks.push(current);
+        }
+
+        const questions = questionBlocks
+            .map((block) => parseQuestionBlock(block))
+            .filter((question) => question.options.length > 0);
+
+        return {
+            title: cleanedTitle || rawTitle || 'Assessment',
+            topics,
+            questions
+        };
+    }
+
+    function parseQuestionBlock(lines) {
+        const questionLines = [];
+        const options = [];
+        let answer = '';
+        const explanationLines = [];
+        let capturingExplanation = false;
+
+        lines.forEach((line) => {
+            const trimmed = line.trim();
+
+            if (/^\*\*Answer:/i.test(trimmed)) {
+                const match = trimmed.match(/Answer:\s*([A-D])/i);
+                if (match) {
+                    answer = match[1].toLowerCase();
+                }
+                capturingExplanation = false;
+                return;
+            }
+
+            if (/^\*\*Explanation:/i.test(trimmed)) {
+                capturingExplanation = true;
+                const explanationText = trimmed
+                    .replace(/^\*\*Explanation:\*\*\s*/i, '')
+                    .replace(/^\*\*Explanation:\s*/i, '')
+                    .trim();
+                if (explanationText) {
+                    explanationLines.push(explanationText);
+                }
+                return;
+            }
+
+            if (capturingExplanation) {
+                if (trimmed === '---') {
+                    capturingExplanation = false;
+                } else {
+                    explanationLines.push(line);
+                }
+                return;
+            }
+
+            const optionMatch = trimmed.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);
+            if (optionMatch) {
+                options.push({
+                    letter: optionMatch[1].toLowerCase(),
+                    text: optionMatch[2].trim()
+                });
+                return;
+            }
+
+            if (trimmed === '---' || /^##/.test(trimmed)) {
+                return;
+            }
+
+            questionLines.push(line);
+        });
+
+        if (!answer && options.length > 0) {
+            answer = options[0].letter;
+        }
+
+        const { promptLine, bodyLines } = splitPromptAndBody(questionLines);
+
+        return {
+            promptHtml: formatInlineCode(promptLine || 'Select the correct option.'),
+            bodyHtml: formatLinesToHtml(bodyLines),
+            options: options.map((opt) => ({
+                letter: opt.letter,
+                html: formatInlineCode(opt.text)
+            })),
+            answer,
+            explanationHtml: formatLinesToHtml(explanationLines)
+        };
+    }
+
+    function splitPromptAndBody(lines) {
+        let promptLine = '';
+        const bodyLines = [];
+        let foundPrompt = false;
+
+        lines.forEach((line) => {
+            if (!foundPrompt && line.trim() && !line.trim().startsWith('```')) {
+                promptLine = line.trim();
+                foundPrompt = true;
+            } else {
+                bodyLines.push(line);
+            }
+        });
+
+        return { promptLine, bodyLines };
+    }
+
+    function formatLinesToHtml(lines) {
+        if (!lines.length) {
+            return '';
+        }
+
+        const parts = [];
+        let inCodeBlock = false;
+        let codeLines = [];
+        let textLines = [];
+
+        const flushText = () => {
+            if (!textLines.length) {
+                return;
+            }
+            parts.push(textLines.map(formatInlineCode).join('<br>'));
+            textLines = [];
+        };
+
+        lines.forEach((line) => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('```')) {
+                if (inCodeBlock) {
+                    parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+                    codeLines = [];
+                    inCodeBlock = false;
+                } else {
+                    flushText();
+                    inCodeBlock = true;
+                }
+                return;
+            }
+
+            if (inCodeBlock) {
+                codeLines.push(line);
+            } else if (trimmed !== '') {
+                textLines.push(line);
+            }
+        });
+
+        if (codeLines.length) {
+            parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+        }
+
+        flushText();
+        return parts.join('');
+    }
+
+    function formatInlineCode(text) {
+        if (!text) {
+            return '';
+        }
+
+        const segments = text.split('`');
+        return segments
+            .map((segment, index) => {
+                if (index % 2 === 1) {
+                    return `<code>${escapeHtml(segment)}</code>`;
+                }
+                return escapeHtml(segment);
+            })
+            .join('');
+    }
+
+    function escapeHtml(value) {
+        return value
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function renderAssessment(data) {
+        const heading = data.title ? `Assessment: ${data.title}` : 'Assessment';
+        titleElement.textContent = heading;
+        subtitleElement.textContent = data.topics || data.title || 'Multiple Choice Questions';
+        document.title = `${heading} - VibeTestQ`;
+
+        form.innerHTML = '';
+
+        data.questions.forEach((question, index) => {
+            form.appendChild(buildQuestionElement(question, index));
+        });
+
+        const submitWrap = document.createElement('div');
+        submitWrap.style.textAlign = 'center';
+        submitWrap.style.marginTop = '30px';
+        submitWrap.innerHTML = `
+            <button type="button" class="btn btn-primary" onclick="submitQuiz()">
+                <i class="fas fa-paper-plane"></i> Submit Assessment
+            </button>
+        `;
+        form.appendChild(submitWrap);
+
+        scoreDisplay.textContent = `0 / ${data.questions.length}`;
+    }
+
+    function buildQuestionElement(question, index) {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.dataset.answer = question.answer;
+
+        const questionText = document.createElement('div');
+        questionText.className = 'question-text';
+
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'question-number';
+        numberSpan.textContent = `${index + 1}.`;
+
+        const textSpan = document.createElement('span');
+        textSpan.innerHTML = question.promptHtml;
+
+        questionText.appendChild(numberSpan);
+        questionText.appendChild(textSpan);
+        questionElement.appendChild(questionText);
+
+        if (question.bodyHtml) {
+            const body = document.createElement('div');
+            body.className = 'question-body';
+            body.innerHTML = question.bodyHtml;
+            questionElement.appendChild(body);
+        }
+
+        const options = document.createElement('div');
+        options.className = 'options';
+
+        question.options.forEach((option) => {
+            const label = document.createElement('label');
+            label.className = 'option';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `q${index + 1}`;
+            input.value = option.letter;
+
+            const optionText = document.createElement('span');
+            optionText.innerHTML = option.html;
+
+            label.appendChild(input);
+            label.appendChild(optionText);
+            options.appendChild(label);
+        });
+
+        questionElement.appendChild(options);
+
+        const explanation = document.createElement('p');
+        explanation.className = 'explanation';
+        explanation.innerHTML = question.explanationHtml || '';
+        questionElement.appendChild(explanation);
+
+        return questionElement;
+    }
+
+    window.submitQuiz = function submitQuiz() {
+        const questions = document.querySelectorAll('.question');
+        let score = 0;
+        const unAnsweredSet = [];
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const selected = form.querySelector(`input[name="q${qNum}"]:checked`);
+            if (!selected) {
+                unAnsweredSet.push(q);
+                q.classList.add('unanswered');
+            } else {
+                q.classList.remove('unanswered');
+            }
+        });
+
+        if (unAnsweredSet.length > 0) {
+            showToast("Please answer all questions before submitting.");
+            unAnsweredSet[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const selected = form.querySelector(`input[name="q${qNum}"]:checked`);
+            const correctAnswer = q.getAttribute('data-answer');
+            const options = q.querySelectorAll('.option');
+            const explanation = q.querySelector('.explanation');
+
+            if (explanation) {
+                explanation.style.display = 'block';
+            }
+
+            options.forEach(opt => {
+                const radio = opt.querySelector('input');
+                if (radio.value === correctAnswer) {
+                    opt.classList.add('correct');
+                }
+                if (selected && radio === selected && radio.value !== correctAnswer) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selected && selected.value === correctAnswer) {
+                score += 1;
+            }
+        });
+
+        document.getElementById('result-container').style.display = 'block';
+        document.getElementById('score-display').innerText = `${score} / ${questions.length}`;
+
+        let feedback = "";
+        const percentage = (score / questions.length) * 100;
+        if (percentage === 100) feedback = "Perfect Score! You are a JS Wizard!";
+        else if (percentage >= 80) feedback = "Excellent! You have a strong grasp of fundamentals.";
+        else if (percentage >= 60) feedback = "Good job! Keep practicing to master the concepts.";
+        else feedback = "Keep learning! Review the Docs to strengthen your basics.";
+
+        document.getElementById('feedback-text').innerText = feedback;
+
+        form.querySelectorAll('input').forEach(input => input.disabled = true);
+        const submitButton = form.querySelector('button');
+        if (submitButton) {
+            submitButton.style.display = 'none';
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.preparePrint = function preparePrint() {
+        const name = document.getElementById('student-name').value;
+        if (name) {
+            document.getElementById('printed-name').innerText = "Student: " + name;
+        } else {
+            document.getElementById('printed-name').innerText = "";
+        }
+        window.print();
+    };
+
+    function showToast(message) {
+        let toast = document.getElementById('toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.className = 'toast';
+            document.body.appendChild(toast);
+        }
+        toast.innerText = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+})();
+    </script>
+</body>
+
+</html>
