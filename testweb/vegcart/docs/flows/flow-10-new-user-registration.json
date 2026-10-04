@@ -1,0 +1,46 @@
+{
+  "name": "Flow 10 – New User Registration",
+  "steps": [
+    {
+      "id": "step_1000000009_0",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "profile" },
+      "label": "Navigate to Profile tab (Create Account)"
+    },
+    {
+      "id": "step_1000000009_1",
+      "toolName": "user_register",
+      "params": {
+        "name": "Test User",
+        "email": "testuser@vegcart.com",
+        "password": "pass123",
+        "phone": "9111222333"
+      },
+      "label": "Register new account – testuser@vegcart.com"
+    },
+    {
+      "id": "step_1000000009_2",
+      "toolName": "get_user_info",
+      "params": {},
+      "label": "Verify auto-login after registration"
+    },
+    {
+      "id": "step_1000000009_3",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Lettuce", "quantity": 1 },
+      "label": "New user adds Lettuce ×1 to cart"
+    },
+    {
+      "id": "step_1000000009_4",
+      "toolName": "get_cart_contents",
+      "params": {},
+      "label": "Verify cart contents"
+    },
+    {
+      "id": "step_1000000009_5",
+      "toolName": "user_logout",
+      "params": {},
+      "label": "Logout test user"
+    }
+  ]
+}

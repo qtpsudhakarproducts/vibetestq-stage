@@ -1,0 +1,606 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript History & Foundations - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+
+        .reveal { background: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 700; color: var(--vibe-dark-blue); }
+        .reveal h1 { font-size: 1.8em; margin-bottom: 0.2em; }
+        .reveal h2 { font-size: 1.4em; margin-bottom: 0.3em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 1.1em; color: var(--vibe-green); margin-bottom: 0.2em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.5; }
+        .logo-corner { position: absolute; top: 15px; right: 25px; z-index: 100; }
+        .logo-corner img { width: 80px; height: auto; }
+        .title-slide { background: #ffffff !important; }
+        .title-slide .company-header { max-width: 800px; margin: 0 auto 15px; }
+        .title-slide h1 { font-size: 2em; color: var(--vibe-dark-blue); margin: 10px 0 8px; }
+        .title-slide .subtitle { font-size: 1.2em; color: var(--vibe-orange); margin: 10px 0; }
+        .title-slide .tagline { font-size: 1em; color: var(--vibe-blue); margin: 8px 0 15px; }
+        .content-box { background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); padding: 8px 15px; margin: 5px 0; border-radius: 6px; }
+        .highlight-box { background: #fef3c7; border: 2px solid var(--vibe-yellow); padding: 8px 12px; margin: 5px auto; border-radius: 8px; max-width: 90%; }
+        .stat-box { display: inline-block; background: #dbeafe; border: 2px solid var(--vibe-blue); padding: 12px 20px; margin: 6px; border-radius: 8px; }
+        .stat-number { font-size: 1.8em; font-weight: 700; color: var(--vibe-orange); display: block; }
+        .stat-label { font-size: 0.8em; color: var(--vibe-blue); }
+        .reveal ul { list-style: none; margin: 8px 0; }
+        .reveal ul li { margin: 6px 0; padding-left: 35px; position: relative; text-align: left; font-size: 0.85em; }
+        .reveal ul li:before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--vibe-green); font-size: 1em; position: absolute; left: 0; top: 2px; }
+        .reveal ul li.cross:before { content: "\f057"; color: var(--vibe-orange); }
+        .text-blue { color: var(--vibe-blue); } .text-green { color: var(--vibe-green); } .text-orange { color: var(--vibe-orange); } .bold { font-weight: 700; }
+        .badge { display: inline-block; background: var(--vibe-orange); color: white; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8em; margin: 4px; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 10px 0; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0; }
+        .reveal .slides section { padding: 10px 30px; }
+        .compact { font-size: 0.85em; }
+        .code-snippet { background: #0d1117; border: 1px solid #30363d; border-radius: 10px; padding: 15px; font-family: 'Consolas', monospace; font-size: 0.65em; overflow-x: auto; margin: 10px 0; color: #c9d1d9; text-align: left; white-space: pre; }
+        .timeline-item { display: flex; align-items: flex-start; margin: 6px 0; gap: 12px; }
+        .timeline-year { background: var(--vibe-dark-blue); color: white; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-size: 0.75em; min-width: 48px; text-align: center; margin-top: 2px; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>JavaScript History &amp; Foundations</h1>
+                <p class="subtitle">From 10 Days in 1995 to Running the World</p>
+                <p class="tagline">Understanding the language that powers Playwright â€” Session 2</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge">ES6+</span>
+                    <span class="badge" style="background: var(--vibe-blue);">Modern JS</span>
+                    <span class="badge" style="background: var(--vibe-dark-blue);">V8 Engine</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: Why JS History Matters to Testers -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Why Does History Matter to a Tester?</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>The Confusion Points</h3>
+                        <ul>
+                            <li>Why does <code>var</code> behave so weirdly?</li>
+                            <li>Why are there 3 ways to write functions?</li>
+                            <li>Why does Playwright use <code>async/await</code>?</li>
+                            <li>Where did <code>const</code> and <code>let</code> come from?</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3>The Answer</h3>
+                        <p class="compact">Every "weird" behaviour in JavaScript has a historical reason. Once you understand <em>why</em>, the <em>how</em> becomes obvious.</p>
+                        <p class="compact" style="margin-top: 8px;">Playwright is modern JS. To debug it, you need to know the old JS it was designed to replace.</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact bold">JavaScript is 29 years old. Playwright is 5. The past explains the present.</p>
+                </div>
+            </section>
+
+            <!-- Slide 3: 1995 â€” Birth in 10 Days -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>1995: Born in 10 Days</h2>
+                <div class="content-box">
+                    <div class="timeline-item">
+                        <span class="timeline-year">May 1995</span>
+                        <p class="compact">Brendan Eich at Netscape. CEO: "We need a scripting language for the browser." Deadline: <strong>10 days.</strong></p>
+                    </div>
+                    <div class="timeline-item" style="margin-top: 6px;">
+                        <span class="timeline-year">Mocha</span>
+                        <p class="compact">First code name. Renamed to LiveScript. Then renamed again â€” to <strong>JavaScript</strong> to ride Java marketing hype.</p>
+                    </div>
+                    <div class="timeline-item" style="margin-top: 6px;">
+                        <span class="timeline-year">Mistake</span>
+                        <p class="compact">Java and JavaScript share a name but are completely unrelated languages. This confusion persists in 2026.</p>
+                    </div>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="stat-box" style="text-align: center; width: 100%; box-sizing: border-box;">
+                        <span class="stat-number">10</span>
+                        <span class="stat-label">Days to create the language</span>
+                    </div>
+                    <div class="stat-box" style="text-align: center; width: 100%; box-sizing: border-box;">
+                        <span class="stat-number">#1</span>
+                        <span class="stat-label">Most used language (Stack Overflow 13 years running)</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 4: Browser Wars 1996-2004 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Browser Wars: The Dark Ages (1996â€“2004)</h2>
+                <div class="two-col">
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3 style="color: var(--vibe-orange);">Netscape vs Internet Explorer</h3>
+                        <ul>
+                            <li>Microsoft cloned JS as <strong>JScript</strong></li>
+                            <li>Each browser added proprietary APIs</li>
+                            <li>Code: <code>if (netscape) else if (IE)</code></li>
+                            <li class="cross">Cross-browser testing was a nightmare</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>ECMAScript to the Rescue</h3>
+                        <ul>
+                            <li>1997: ECMA standardises JS</li>
+                            <li>Official name: <strong>ECMAScript</strong></li>
+                            <li>"JavaScript" is just a brand name</li>
+                            <li>ES = the standard; JS = the implementation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact">This is why testers existed! Cross-browser bugs were so bad that manual testing became a profession. Playwright was built to end this era.</p>
+                </div>
+            </section>
+
+            <!-- Slide 5: ES5 Era -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>ES5 (2009): The jQuery Era</h2>
+                <div class="content-box">
+                    <h3>What ES5 Added</h3>
+                    <div class="two-col">
+                        <ul>
+                            <li><code>Array.forEach()</code>, <code>map()</code>, <code>filter()</code></li>
+                            <li><code>JSON.parse()</code> and <code>JSON.stringify()</code></li>
+                            <li>Strict mode: <code>'use strict'</code></li>
+                        </ul>
+                        <ul>
+                            <li>Getter / setter on objects</li>
+                            <li><code>Object.keys()</code>, <code>Object.create()</code></li>
+                            <li>Stable browser compatibility</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="code-snippet">// ES5: Old Way â€” functions everywhere
+var obj = {
+  name: "VibeTestQ",
+  greet: function() {
+    return "Hello from " + this.name;
+  }
+};
+var arr = [1, 2, 3];
+var doubled = arr.map(function(x) { return x * 2; });
+// [2, 4, 6]</div>
+                <div class="highlight-box">
+                    <p class="compact">jQuery rose because browsers still didn't agree on APIs. "Write once, run everywhere" was jQuery's promise â€” and ES5 was its foundation.</p>
+                </div>
+            </section>
+
+            <!-- Slide 6: The ES6 Revolution -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>ES6 / ES2015: The JavaScript Revolution</h2>
+                <p class="compact text-blue" style="margin-bottom: 8px;">The biggest update in JavaScript history. Everything you write in Playwright uses ES6+ features.</p>
+                <div class="three-col">
+                    <div class="content-box">
+                        <h3><code>let</code> &amp; <code>const</code></h3>
+                        <p class="compact" style="font-size: 0.75em;">Block-scoped variables. Replace <code>var</code>. <code>const</code> for values that don't change.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Arrow Functions</h3>
+                        <p class="compact" style="font-size: 0.75em;"><code>(x) =&gt; x * 2</code> â€” shorter syntax, preserves <code>this</code> context automatically.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Template Literals</h3>
+                        <p class="compact" style="font-size: 0.75em;"><code>`Hello ${name}`</code> â€” string interpolation without concatenation.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Destructuring</h3>
+                        <p class="compact" style="font-size: 0.75em;"><code>const { page } = test</code> â€” extract values from objects and arrays elegantly.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Spread &amp; Rest</h3>
+                        <p class="compact" style="font-size: 0.75em;"><code>...args</code> â€” expand arrays or collect function arguments flexibly.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Classes</h3>
+                        <p class="compact" style="font-size: 0.75em;">Syntax sugar over prototypes. Foundation of Page Object Model.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: const let var comparison -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The var vs let vs const Problem</h2>
+                <div class="code-snippet">// VAR â€” function scoped, hoisted, re-declarable (the wild west)
+var count = 1;
+var count = 2;  // No error! Dangerous.
+if (true) { var x = 10; }
+console.log(x);  // 10 â€” leaks out of if block!
+
+// LET â€” block scoped, no hoisting chaos
+let score = 1;
+if (true) { let score = 99; }
+console.log(score);  // Still 1 â€” stays in block
+
+// CONST â€” block scoped, must assign immediately, cannot reassign
+const BASE_URL = "https://demo.app";
+// BASE_URL = "other";  // TypeError - cannot reassign!</div>
+                <div class="highlight-box">
+                    <p class="compact bold">Rule: Use <code>const</code> by default. Use <code>let</code> only when you need to reassign. <strong>Never</strong> use <code>var</code>.</p>
+                </div>
+            </section>
+
+            <!-- Slide 8: Arrow Functions -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Arrow Functions â€” Why Playwright Uses Them</h2>
+                <div class="code-snippet">// Traditional function â€” has its own 'this'
+function double(x) { return x * 2; }
+
+// Arrow function â€” shorter, captures outer 'this'
+const double2 = (x) =&gt; x * 2;
+const add = (a, b) =&gt; a + b;
+
+// Multiline arrow functions need braces + return
+const processUser = (user) =&gt; {
+  const name = user.name.toUpperCase();
+  return `Hello, ${name}!`;
+};
+
+// Real Playwright usage â€” every test uses an arrow function callback
+test('login works', async ({ page }) =&gt; {
+  await page.goto('https://demo.app');
+  const title = await page.title();
+  expect(title).toBe('Welcome');
+});</div>
+                <div class="highlight-box">
+                    <p class="compact">Arrow functions are the dominant pattern in Playwright. They are <strong>not</strong> the same as regular functions â€” key difference is lexical <code>this</code> binding.</p>
+                </div>
+            </section>
+
+            <!-- Slide 9: Template Literals and Destructuring -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Template Literals &amp; Destructuring</h2>
+                <div class="two-col">
+                    <div>
+                        <div class="content-box">
+                            <h3>Template Literals</h3>
+                            <div class="code-snippet" style="margin-top: 4px;">const user = "Admin";
+const url = "https://app.com";
+
+// Old way
+const msg = "Hello " + user + " at " + url;
+
+// Template literal â€” backtick, ${expr}
+const msg2 = `Hello ${user} at ${url}`;
+
+// Multi-line strings
+const html = `
+  &lt;div&gt;
+    &lt;p&gt;${user}&lt;/p&gt;
+  &lt;/div&gt;
+`;</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="content-box" style="border-left-color: var(--vibe-green);">
+                            <h3>Destructuring â€” Objects</h3>
+                            <div class="code-snippet" style="margin-top: 4px;">// Object destructuring
+const config = {
+  baseURL: "https://demo.app",
+  timeout: 30000,
+  retries: 2
+};
+const { baseURL, timeout } = config;
+
+// Playwright fixture destructuring
+test('test', async ({ page, browser }) =&gt; {
+  // page and browser destructured from fixture
+});</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 10: Spread, Rest, Default Params -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Spread, Rest &amp; Default Parameters</h2>
+                <div class="code-snippet">// Default parameters
+function navigate(url, timeout = 30000) {
+  console.log(`Going to ${url} with timeout ${timeout}`);
+}
+navigate("https://app.com");         // uses default 30000
+navigate("https://app.com", 5000);   // overrides to 5000
+
+// Spread â€” expand an array/object into individual items
+const browsers = ["chromium", "firefox"];
+const allBrowsers = [...browsers, "webkit"];  // ["chromium", "firefox", "webkit"]
+
+// Spread to merge objects
+const base = { timeout: 30000 };
+const overrides = { timeout: 5000, retries: 2 };
+const merged = { ...base, ...overrides };  // { timeout: 5000, retries: 2 }
+
+// Rest â€” collect remaining arguments
+function log(level, ...messages) {
+  messages.forEach(msg =&gt; console.log(`[${level}] ${msg}`));
+}
+log("INFO", "Test started", "Navigating", "Asserting");</div>
+                <div class="highlight-box">
+                    <p class="compact">You will see <code>...spread</code> constantly in Playwright config and fixture files.</p>
+                </div>
+            </section>
+
+            <!-- Slide 11: Classes -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Classes â€” Foundation of Page Object Model</h2>
+                <div class="code-snippet">// ES6 Class â€” Page Object pattern
+class LoginPage {
+  constructor(page) {
+    this.page = page;
+    // Locators defined in constructor
+    this.usernameInput = page.getByLabel('Username');
+    this.passwordInput = page.getByLabel('Password');
+    this.loginButton = page.getByRole('button', { name: 'Login' });
+  }
+
+  async navigate() {
+    await this.page.goto('/login');
+  }
+
+  async login(username, password) {
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
+  }
+}
+
+// Extend with inheritance
+class AdminLoginPage extends LoginPage {
+  async loginAsAdmin() {
+    await this.login('admin', 'admin123');
+  }
+}</div>
+                <div class="highlight-box">
+                    <p class="compact bold">This is exactly how you will structure Page Objects in Sessions 15â€“16.</p>
+                </div>
+            </section>
+
+            <!-- Slide 12: Modules: import/export -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>ES Modules: import / export</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Exporting</h3>
+                        <div class="code-snippet" style="margin-top: 4px;">// Named exports
+export const BASE_URL = "https://app.com";
+export function formatDate(d) {
+  return d.toISOString().split('T')[0];
+}
+
+// Default export
+export default class LoginPage {
+  // ...
+}</div>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3>Importing</h3>
+                        <div class="code-snippet" style="margin-top: 4px;">// Named imports
+import { BASE_URL, formatDate } from './helpers';
+
+// Default import
+import LoginPage from './pages/LoginPage';
+
+// Import everything
+import * as helpers from './helpers';
+
+// Playwright uses this everywhere
+import { test, expect } from '@playwright/test';</div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact">Every Playwright test file starts with <code>import &#123; test, expect &#125; from '@playwright/test'</code>. Now you know exactly what that means.</p>
+                </div>
+            </section>
+
+            <!-- Slide 13: JS Engine â€” V8 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The V8 Engine â€” Why JavaScript is Fast</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>What is V8?</h3>
+                        <ul>
+                            <li>Google's open-source JavaScript engine</li>
+                            <li>Written in C++, built for Chrome (2008)</li>
+                            <li>Compiles JS directly to machine code (JIT)</li>
+                            <li>Powers <strong>Node.js</strong> and <strong>Playwright</strong></li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3>JIT Compilation</h3>
+                        <ul>
+                            <li>Just-In-Time: compiles during execution</li>
+                            <li>Hot code paths get optimised automatically</li>
+                            <li>Up to 100Ã— faster than interpreted JS</li>
+                            <li>This is why Node.js became viable as server runtime</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="three-col" style="margin-top: 10px;">
+                    <div class="stat-box" style="text-align: center; width: 100%; box-sizing: border-box;">
+                        <span class="stat-number">2008</span>
+                        <span class="stat-label">V8 first released</span>
+                    </div>
+                    <div class="stat-box" style="text-align: center; width: 100%; box-sizing: border-box;">
+                        <span class="stat-number">2009</span>
+                        <span class="stat-label">Node.js born via V8</span>
+                    </div>
+                    <div class="stat-box" style="text-align: center; width: 100%; box-sizing: border-box;">
+                        <span class="stat-number">2020</span>
+                        <span class="stat-label">Playwright uses Node.js + V8</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 14: Modern ES Timeline -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Modern JavaScript Timeline</h2>
+                <div class="content-box">
+                    <div class="timeline-item">
+                        <span class="timeline-year">ES5 2009</span>
+                        <p class="compact">Array methods, strict mode, JSON support. The jQuery era.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">ES6 2015</span>
+                        <p class="compact">let/const, arrows, classes, modules, Promises, template literals. <strong>The revolution.</strong></p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">ES2017</span>
+                        <p class="compact"><strong>async/await</strong> â€” the feature that makes Playwright readable.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">ES2020+</span>
+                        <p class="compact">Optional chaining <code>?.</code>, nullish coalescing <code>??</code>, BigInt, Promise.allSettled</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">Today</span>
+                        <p class="compact">Annual releases. TypeScript compiles down to whatever ES version you target.</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact bold">You read ES2015+ code every time you open a Playwright test. This is why ES6 matters.</p>
+                </div>
+            </section>
+
+            <!-- Slide 15: Optional Chaining & Nullish Coalescing -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Modern Operators: <code>?.</code> and <code>??</code></h2>
+                <div class="code-snippet">// Optional chaining â€” safe property access
+const user = null;
+
+// Without optional chaining â€” CRASHES
+// const name = user.profile.name; // TypeError: Cannot read property of null
+
+// With optional chaining â€” returns undefined safely
+const name = user?.profile?.name;  // undefined â€” no crash
+
+// Useful in test helpers
+const errorMsg = await page.locator('.error')?.textContent?.();
+
+// Nullish Coalescing â€” use default when null or undefined
+const timeout = config.timeout ?? 30000;
+// If config.timeout is null OR undefined, use 30000
+// If config.timeout is 0 or "", KEEPS the value (unlike || which replaces 0 and "")
+
+// Combined â€” very common pattern in Playwright config
+const retries = options?.retries ?? 2;
+const baseURL = options?.baseURL ?? "https://default.app";</div>
+                <div class="highlight-box">
+                    <p class="compact"><code>??</code> vs <code>||</code>: Use <code>??</code> when 0 and empty string are valid values. Use <code>||</code> only for falsy-based defaults.</p>
+                </div>
+            </section>
+
+            <!-- Slide 16: Array Methods -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Array Methods Used in Playwright Tests</h2>
+                <div class="code-snippet">const testData = [
+  { user: "admin", role: "admin", active: true },
+  { user: "viewer", role: "viewer", active: true },
+  { user: "deactivated", role: "viewer", active: false }
+];
+
+// filter â€” keep matching items
+const activeUsers = testData.filter(u =&gt; u.active);
+// [admin, viewer]
+
+// map â€” transform each item
+const usernames = testData.map(u =&gt; u.user);
+// ["admin", "viewer", "deactivated"]
+
+// find â€” first matching item
+const adminUser = testData.find(u =&gt; u.role === 'admin');
+// { user: "admin", role: "admin", active: true }
+
+// every / some â€” boolean checks
+const allActive = testData.every(u =&gt; u.active);   // false
+const anyAdmin = testData.some(u =&gt; u.role === 'admin');  // true
+
+// In Playwright: test.for() iterates test data just like this</div>
+            </section>
+
+            <!-- Slide 17: Summary â€” What Changed Everything -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What You Now Know</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>History</h3>
+                        <ul>
+                            <li>JavaScript: 10 days to build, 29 years of dominance</li>
+                            <li>Browser Wars created the need for testers</li>
+                            <li>ECMAScript standardises JS evolution</li>
+                            <li>V8 made JS server-capable via Node.js</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>ES6+ Foundations</h3>
+                        <ul>
+                            <li><code>const</code> / <code>let</code> â€” proper scoping</li>
+                            <li>Arrow functions â€” Playwright's callback style</li>
+                            <li>Classes â€” Page Object Model backbone</li>
+                            <li>Modules â€” how Playwright files are structured</li>
+                            <li>Destructuring, spread, template literals</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="text-align: center; background: #eff6ff; border-color: var(--vibe-blue);">
+                    <p class="bold text-blue">Next: Session 3 â€” JavaScript for Testers (deeper practice with all ES6+ patterns)</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            if (typeof Reveal !== 'undefined') {
+                Reveal.initialize({
+                    hash: true,
+                    transition: 'slide',
+                    transitionSpeed: 'default',
+                    slideNumber: true,
+                    controls: true,
+                    progress: true,
+                    center: true,
+                    width: 1280,
+                    height: 720,
+                    margin: 0.04
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

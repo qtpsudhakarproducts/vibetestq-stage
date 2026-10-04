@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VegCart – TAMASH Flow Library</title>
+    <link rel="stylesheet" href="../vegcart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f0fdf4; margin: 0; padding: 2rem; color: #1a2e1a; }
+        .page-header { background: linear-gradient(135deg, #16a34a, #15803d); color: #fff; border-radius: 1rem; padding: 2rem 2.5rem; margin-bottom: 2rem; }
+        .page-header h1 { margin: 0 0 .5rem; font-size: 1.8rem; }
+        .page-header p { margin: 0; opacity: .85; font-size: 1rem; }
+        .section-title { font-size: 1.2rem; font-weight: 700; color: #15803d; margin: 2rem 0 1rem; display: flex; align-items: center; gap: .5rem; border-bottom: 2px solid #bbf7d0; padding-bottom: .5rem; }
+        .flow-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 1.25rem; }
+        .flow-card { background: #fff; border-radius: .75rem; border: 1px solid #d1fae5; box-shadow: 0 1px 4px rgba(0,0,0,.06); overflow: hidden; }
+        .flow-card-header { background: #f0fdf4; border-bottom: 1px solid #d1fae5; padding: .875rem 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+        .flow-card-header h3 { margin: 0; font-size: .95rem; color: #166534; }
+        .flow-num { background: #16a34a; color: #fff; font-size: .75rem; font-weight: 700; padding: .2rem .6rem; border-radius: 999px; }
+        .flow-card-body { padding: 1rem 1.25rem; }
+        .flow-card-desc { font-size: .875rem; color: #374151; margin-bottom: .875rem; }
+        .step-list { list-style: none; margin: 0; padding: 0; }
+        .step-list li { display: flex; gap: .6rem; align-items: flex-start; font-size: .8rem; color: #374151; padding: .3rem 0; border-bottom: 1px dotted #e5e7eb; }
+        .step-list li:last-child { border-bottom: none; }
+        .step-num { background: #e0f2fe; color: #0369a1; font-weight: 700; border-radius: 999px; width: 1.4rem; height: 1.4rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: .7rem; }
+        .tool-chip { background: #f0fdf4; border: 1px solid #86efac; color: #166534; font-size: .7rem; padding: .1rem .45rem; border-radius: .3rem; font-family: monospace; flex-shrink: 0; }
+        .import-btn { display: inline-flex; align-items: center; gap: .4rem; background: #16a34a; color: #fff; text-decoration: none; font-size: .8rem; padding: .45rem .9rem; border-radius: .5rem; margin-top: .875rem; font-weight: 600; }
+        .import-btn:hover { background: #15803d; }
+        .tag-grid { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .75rem; }
+        .tag { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; font-size: .7rem; padding: .15rem .5rem; border-radius: .3rem; }
+        .tag.orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+        .tag.purple { background: #faf5ff; border-color: #ddd6fe; color: #7c3aed; }
+        .tag.green { background: #f0fdf4; border-color: #86efac; color: #166534; }
+        .legend { background: #fff; border: 1px solid #d1fae5; border-radius: .75rem; padding: 1.25rem 1.5rem; margin-bottom: 2rem; }
+        .legend h3 { margin: 0 0 .75rem; font-size: 1rem; color: #166534; }
+        .legend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: .5rem .75rem; }
+        .legend-row { display: flex; gap: .5rem; align-items: center; font-size: .8rem; color: #374151; }
+        .json-path { font-family: monospace; font-size: .75rem; background: #f8fafc; border: 1px solid #e2e8f0; padding: .2rem .5rem; border-radius: .3rem; color: #334155; }
+        .back-link { display: inline-flex; align-items: center; gap: .4rem; color: #16a34a; text-decoration: none; font-size: .875rem; margin-bottom: 1.5rem; font-weight: 600; }
+        .back-link:hover { text-decoration: underline; }
+        .info-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: .5rem; padding: .875rem 1.25rem; font-size: .85rem; color: #92400e; margin-bottom: 1.5rem; }
+        .info-box strong { display: block; margin-bottom: .3rem; color: #78350f; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+
+<a href="../guide.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Testing Guide</a>
+
+<div class="page-header">
+    <h1><i class="fas fa-project-diagram"></i> &nbsp;VegCart – TAMASH Flow Library</h1>
+    <p>Pre-built importable flows for testing VegCart with the TAMASH browser extension. Import any JSON file into the TAMASH Flow tab and run it without AI.</p>
+</div>
+
+<div class="info-box">
+    <strong><i class="fas fa-info-circle"></i> How to use these flows</strong>
+    1. Open TAMASH in Chrome and switch to the <strong>🔀 Flow</strong> tab.<br>
+    2. Click <strong>Import</strong> and pick one of the <code>.json</code> files from the <code>docs/flows/</code> folder.<br>
+    3. Review the steps, then press <strong>▶ Run</strong>. Each step executes against the live VegCart tab.<br>
+    4. Flows are saved in the extension's local storage so you can reuse them across sessions.
+</div>
+
+<!-- ── Tool Reference ───────────────────────────────────────────────── -->
+<div class="section-title"><i class="fas fa-tools"></i> Available WebMCP Tools</div>
+<div class="legend">
+    <div class="legend-grid">
+        <div class="legend-row"><span class="tool-chip">get_product_list</span> Returns all 24 products</div>
+        <div class="legend-row"><span class="tool-chip">search_products</span> Search by name (query)</div>
+        <div class="legend-row"><span class="tool-chip">filter_products_by_category</span> Filter by category</div>
+        <div class="legend-row"><span class="tool-chip">add_item_to_cart</span> Add item by name + qty</div>
+        <div class="legend-row"><span class="tool-chip">remove_from_cart</span> Remove item by name</div>
+        <div class="legend-row"><span class="tool-chip">get_cart_contents</span> View cart &amp; totals</div>
+        <div class="legend-row"><span class="tool-chip">clear_cart</span> Empty the cart</div>
+        <div class="legend-row"><span class="tool-chip">place_order</span> Checkout with address</div>
+        <div class="legend-row"><span class="tool-chip">get_order_history</span> List orders (filter, limit)</div>
+        <div class="legend-row"><span class="tool-chip">user_login</span> Login with email + password</div>
+        <div class="legend-row"><span class="tool-chip">user_logout</span> Logout current user</div>
+        <div class="legend-row"><span class="tool-chip">user_register</span> Create new account</div>
+        <div class="legend-row"><span class="tool-chip">get_user_info</span> Current logged-in user</div>
+        <div class="legend-row"><span class="tool-chip">add_to_wishlist</span> Toggle wishlist by name</div>
+        <div class="legend-row"><span class="tool-chip">get_wishlist</span> View wishlist items</div>
+        <div class="legend-row"><span class="tool-chip">navigate_to_tab</span> Jump to any app tab</div>
+    </div>
+</div>
+
+<!-- ── Test Credentials ─────────────────────────────────────────────── -->
+<div class="section-title"><i class="fas fa-user-circle"></i> Test Credentials</div>
+<div class="legend">
+    <div class="legend-grid">
+        <div class="legend-row">
+            <strong>Priya Sharma</strong>&nbsp;
+            <span class="json-path">priya@example.com</span>&nbsp;/&nbsp;<span class="json-path">test123</span>
+            &nbsp;— Bengaluru, PIN 560001
+        </div>
+        <div class="legend-row">
+            <strong>Ravi Kumar</strong>&nbsp;
+            <span class="json-path">ravi@example.com</span>&nbsp;/&nbsp;<span class="json-path">demo123</span>
+            &nbsp;— Chennai, PIN 600040
+        </div>
+    </div>
+</div>
+
+<!-- ── Flow Cards ───────────────────────────────────────────────────── -->
+<div class="section-title"><i class="fas fa-list-check"></i> Flow Catalogue</div>
+<div class="flow-grid">
+
+    <!-- Flow 01 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-search"></i> Product Search</h3>
+            <span class="flow-num">01</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag">Search</span><span class="tag green">Browse</span><span class="tag">No Login</span></div>
+            <p class="flow-card-desc">Navigate to the Products tab, load all products, search for "tomato", clear the search, then filter by Vegetables category.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">navigate_to_tab</span> Products tab</li>
+                <li><span class="step-num">2</span><span class="tool-chip">get_product_list</span> Load all 24 products</li>
+                <li><span class="step-num">3</span><span class="tool-chip">search_products</span> query="tomato"</li>
+                <li><span class="step-num">4</span><span class="tool-chip">search_products</span> query="" (clear)</li>
+                <li><span class="step-num">5</span><span class="tool-chip">filter_products_by_category</span> vegetables</li>
+                <li><span class="step-num">6</span><span class="tool-chip">filter_products_by_category</span> all</li>
+            </ul>
+            <a href="flows/flow-01-product-search.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 02 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-sign-in-alt"></i> Login – Priya Sharma</h3>
+            <span class="flow-num">02</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag orange">Auth</span><span class="tag">Login</span></div>
+            <p class="flow-card-desc">Login with Priya's credentials (priya@example.com / test123) and verify the session with <code>get_user_info</code>.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">navigate_to_tab</span> profile</li>
+                <li><span class="step-num">2</span><span class="tool-chip">user_login</span> priya@example.com</li>
+                <li><span class="step-num">3</span><span class="tool-chip">get_user_info</span> verify session</li>
+            </ul>
+            <a href="flows/flow-02-login-priya.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 03 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-sign-in-alt"></i> Login – Ravi Kumar</h3>
+            <span class="flow-num">03</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag orange">Auth</span><span class="tag">Login</span></div>
+            <p class="flow-card-desc">Login with Ravi's credentials (ravi@example.com / demo123) and verify the session.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">navigate_to_tab</span> profile</li>
+                <li><span class="step-num">2</span><span class="tool-chip">user_login</span> ravi@example.com</li>
+                <li><span class="step-num">3</span><span class="tool-chip">get_user_info</span> verify session</li>
+            </ul>
+            <a href="flows/flow-03-login-ravi.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 04 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-shopping-basket"></i> Add Daily Essentials</h3>
+            <span class="flow-num">04</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag green">Cart</span><span class="tag">No Login</span></div>
+            <p class="flow-card-desc">Clear cart and add 5 everyday items: Tomatoes, Onions, Carrots, Spinach, Coriander. Verifies cart total at the end.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">clear_cart</span></li>
+                <li><span class="step-num">2–6</span><span class="tool-chip">add_item_to_cart</span> 5 items</li>
+                <li><span class="step-num">7</span><span class="tool-chip">get_cart_contents</span> verify total</li>
+                <li><span class="step-num">8</span><span class="tool-chip">navigate_to_tab</span> cart</li>
+            </ul>
+            <a href="flows/flow-04-add-daily-essentials.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 05 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-credit-card"></i> Full Checkout – Priya</h3>
+            <span class="flow-num">05</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag orange">Auth</span><span class="tag green">Cart</span><span class="tag purple">Checkout</span></div>
+            <p class="flow-card-desc">End-to-end flow: login → add Mango, Tomatoes, Spinach → review cart → place order to Bengaluru → check order history.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">user_login</span> priya@example.com</li>
+                <li><span class="step-num">2</span><span class="tool-chip">clear_cart</span></li>
+                <li><span class="step-num">3–5</span><span class="tool-chip">add_item_to_cart</span> 3 items</li>
+                <li><span class="step-num">6</span><span class="tool-chip">get_cart_contents</span></li>
+                <li><span class="step-num">7</span><span class="tool-chip">place_order</span> Bengaluru 560001</li>
+                <li><span class="step-num">8</span><span class="tool-chip">get_order_history</span></li>
+            </ul>
+            <a href="flows/flow-05-full-checkout-priya.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 06 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-bolt"></i> Guest Quick Order</h3>
+            <span class="flow-num">06</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag green">Cart</span><span class="tag purple">Checkout</span><span class="tag">No Login</span></div>
+            <p class="flow-card-desc">Place an order as a guest (no login required): Banana, Onions, Garlic — delivered to Mumbai.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">clear_cart</span></li>
+                <li><span class="step-num">2–4</span><span class="tool-chip">add_item_to_cart</span> 3 items</li>
+                <li><span class="step-num">5</span><span class="tool-chip">get_cart_contents</span></li>
+                <li><span class="step-num">6</span><span class="tool-chip">place_order</span> Mumbai 400001</li>
+            </ul>
+            <a href="flows/flow-06-guest-quick-order.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 07 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-heart"></i> Wishlist – Organic Products</h3>
+            <span class="flow-num">07</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag purple">Wishlist</span><span class="tag">Browse</span><span class="tag">No Login</span></div>
+            <p class="flow-card-desc">Browse Greens and Fruits categories; wishlist 4 organic products (Spinach, Fenugreek, Pomegranate, Strawberries), then verify.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1–2</span><span class="tool-chip">filter_products_by_category</span></li>
+                <li><span class="step-num">3–6</span><span class="tool-chip">add_to_wishlist</span> 4 items</li>
+                <li><span class="step-num">7</span><span class="tool-chip">get_wishlist</span> verify count</li>
+                <li><span class="step-num">8</span><span class="tool-chip">navigate_to_tab</span> wishlist</li>
+            </ul>
+            <a href="flows/flow-07-wishlist-organic.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 08 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-cart-arrow-down"></i> Cart Management</h3>
+            <span class="flow-num">08</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag green">Cart</span><span class="tag">Add/Remove</span><span class="tag">No Login</span></div>
+            <p class="flow-card-desc">Tests add, get, and remove operations: adds Avocado, Dragon Fruit, Baby Corn; removes Dragon Fruit; verifies updated cart.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">clear_cart</span></li>
+                <li><span class="step-num">2–4</span><span class="tool-chip">add_item_to_cart</span> 3 items</li>
+                <li><span class="step-num">5</span><span class="tool-chip">get_cart_contents</span> 3 lines</li>
+                <li><span class="step-num">6</span><span class="tool-chip">remove_from_cart</span> Dragon Fruit</li>
+                <li><span class="step-num">7</span><span class="tool-chip">get_cart_contents</span> 2 lines</li>
+            </ul>
+            <a href="flows/flow-08-cart-management.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 09 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-box"></i> Order History Check</h3>
+            <span class="flow-num">09</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag orange">Auth</span><span class="tag purple">Orders</span></div>
+            <p class="flow-card-desc">Login as Priya, check all orders and delivered orders; logout; login as Ravi and check his order history.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">user_login</span> priya</li>
+                <li><span class="step-num">2–3</span><span class="tool-chip">get_order_history</span> all / delivered</li>
+                <li><span class="step-num">4</span><span class="tool-chip">navigate_to_tab</span> orders</li>
+                <li><span class="step-num">5</span><span class="tool-chip">user_logout</span></li>
+                <li><span class="step-num">6–7</span><span class="tool-chip">user_login</span> ravi + orders</li>
+            </ul>
+            <a href="flows/flow-09-order-history.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 10 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-user-plus"></i> New User Registration</h3>
+            <span class="flow-num">10</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag orange">Auth</span><span class="tag">Register</span></div>
+            <p class="flow-card-desc">Register a new account, verify auto-login, add an item to cart as the new user, then logout.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">navigate_to_tab</span> profile</li>
+                <li><span class="step-num">2</span><span class="tool-chip">user_register</span> testuser@vegcart.com</li>
+                <li><span class="step-num">3</span><span class="tool-chip">get_user_info</span> verify</li>
+                <li><span class="step-num">4</span><span class="tool-chip">add_item_to_cart</span> Lettuce</li>
+                <li><span class="step-num">5</span><span class="tool-chip">get_cart_contents</span></li>
+                <li><span class="step-num">6</span><span class="tool-chip">user_logout</span></li>
+            </ul>
+            <a href="flows/flow-10-new-user-registration.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 11 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-seedling"></i> Greens Weekly Pack Checkout</h3>
+            <span class="flow-num">11</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag orange">Auth</span><span class="tag green">Cart</span><span class="tag purple">Checkout</span></div>
+            <p class="flow-card-desc">Login as Priya, browse greens category, fill cart with 5 greens (Spinach, Coriander, Mint, Fenugreek, Curry Leaves), place order.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">user_login</span> priya</li>
+                <li><span class="step-num">2</span><span class="tool-chip">clear_cart</span></li>
+                <li><span class="step-num">3</span><span class="tool-chip">filter_products_by_category</span> greens</li>
+                <li><span class="step-num">4–8</span><span class="tool-chip">add_item_to_cart</span> 5 greens</li>
+                <li><span class="step-num">9</span><span class="tool-chip">get_cart_contents</span></li>
+                <li><span class="step-num">10–11</span><span class="tool-chip">place_order</span> + navigate orders</li>
+            </ul>
+            <a href="flows/flow-11-greens-weekly-pack.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+    <!-- Flow 12 -->
+    <div class="flow-card">
+        <div class="flow-card-header">
+            <h3><i class="fas fa-star"></i> Exotic Produce Explorer</h3>
+            <span class="flow-num">12</span>
+        </div>
+        <div class="flow-card-body">
+            <div class="tag-grid"><span class="tag">Browse</span><span class="tag purple">Wishlist</span><span class="tag green">Cart</span><span class="tag">No Login</span></div>
+            <p class="flow-card-desc">Browse exotic category; wishlist Avocado and Dragon Fruit; add Zucchini, Kale, Cherry Tomatoes to cart; verify both cart and wishlist.</p>
+            <ul class="step-list">
+                <li><span class="step-num">1</span><span class="tool-chip">filter_products_by_category</span> exotic</li>
+                <li><span class="step-num">2</span><span class="tool-chip">get_product_list</span></li>
+                <li><span class="step-num">3</span><span class="tool-chip">search_products</span> avocado</li>
+                <li><span class="step-num">4–5</span><span class="tool-chip">add_to_wishlist</span> 2 items</li>
+                <li><span class="step-num">6–8</span><span class="tool-chip">add_item_to_cart</span> 3 items</li>
+                <li><span class="step-num">9–10</span><span class="tool-chip">get_cart_contents</span> + <span class="tool-chip">get_wishlist</span></li>
+            </ul>
+            <a href="flows/flow-12-exotic-produce.json" download class="import-btn"><i class="fas fa-file-import"></i> Download JSON</a>
+        </div>
+    </div>
+
+</div>
+
+<!-- ── Product Reference ─────────────────────────────────────────────── -->
+<div class="section-title"><i class="fas fa-box-open"></i> Product Reference</div>
+<div class="legend">
+    <h3>Fruits</h3>
+    <div class="legend-grid">
+        <div class="legend-row">🥭 Alphonso Mango — ₹249/kg (P001)</div>
+        <div class="legend-row">🍓 Strawberries — ₹149/250g, organic (P002)</div>
+        <div class="legend-row">🍉 Watermelon — ₹59/kg (P003)</div>
+        <div class="legend-row">🍌 Banana — ₹49/doz (P004)</div>
+        <div class="legend-row">🍎 Pomegranate — ₹199/kg, organic (P005)</div>
+        <div class="legend-row">🍇 Grapes (Green) — ₹129/500g (P006)</div>
+    </div>
+    <h3 style="margin-top:1rem">Vegetables</h3>
+    <div class="legend-grid">
+        <div class="legend-row">🍅 Tomatoes — ₹39/kg (P007)</div>
+        <div class="legend-row">🥕 Carrots — ₹45/kg, organic (P008)</div>
+        <div class="legend-row">🥦 Broccoli — ₹89/piece (P009)</div>
+        <div class="legend-row">🫑 Bell Peppers Mix — ₹79/500g (P010)</div>
+        <div class="legend-row">🧅 Onions — ₹35/kg (P011)</div>
+        <div class="legend-row">🧄 Garlic — ₹99/250g, organic (P012)</div>
+    </div>
+    <h3 style="margin-top:1rem">Greens &amp; Herbs</h3>
+    <div class="legend-grid">
+        <div class="legend-row">🥬 Spinach — ₹29/bunch, organic (P013)</div>
+        <div class="legend-row">🌿 Coriander — ₹15/bunch (P014)</div>
+        <div class="legend-row">🌱 Mint Leaves — ₹19/bunch (P015)</div>
+        <div class="legend-row">🌾 Fenugreek (Methi) — ₹25/bunch, organic (P016)</div>
+        <div class="legend-row">🍃 Curry Leaves — ₹12/bunch (P017)</div>
+        <div class="legend-row">🥗 Lettuce — ₹59/head, organic (P018)</div>
+    </div>
+    <h3 style="margin-top:1rem">Exotic Produce</h3>
+    <div class="legend-grid">
+        <div class="legend-row">🥑 Avocado — ₹149/piece (P019)</div>
+        <div class="legend-row">🌽 Baby Corn — ₹89/250g (P020)</div>
+        <div class="legend-row">🫒 Zucchini — ₹99/kg (P021)</div>
+        <div class="legend-row">🐉 Dragon Fruit — ₹199/piece (P022)</div>
+        <div class="legend-row">🍒 Cherry Tomatoes — ₹129/250g, organic (P023)</div>
+        <div class="legend-row">🥦 Kale — ₹119/bunch, organic (P024)</div>
+    </div>
+</div>
+
+<footer style="margin-top:3rem;padding-top:1.5rem;border-top:1px solid #d1fae5;font-size:.8rem;color:#6b7280;text-align:center">
+    VegCart TAMASH Flow Library &bull; Import the JSON files into the TAMASH extension <strong>🔀 Flow</strong> tab
+</footer>
+
+</body>
+</html>

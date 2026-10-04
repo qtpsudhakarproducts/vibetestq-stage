@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Reporting &amp; CI/CD - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;border:none;gap:8px;font-size:1rem;transition:all 0.2s;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background:white;padding:0;}.card{box-shadow:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}@media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Assessment</h1><p>Loading topics...</p></div>
+    </header>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: Reporting & CI/CD
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** Playwright HTML Reporter, Allure, GitHub Actions, Parallelism, Retries in CI, Sharding, Artifacts, CI=true, Pipeline Configuration
+
+---
+
+## Questions
+
+### Question 1
+What command opens the Playwright HTML test report after a test run?
+
+A) npx playwright open-report
+B) npx playwright show-report
+C) npx playwright view-results
+D) npx playwright html-report
+
+**Answer: B) npx playwright show-report**
+
+**Explanation:** `npx playwright show-report` opens the generated HTML report in your default browser. The report is saved in `playwright-report/` by default and contains detailed results, screenshots, and traces.
+
+---
+
+### Question 2
+What does setting `reporter: [['html'], ['json', { outputFile: 'results.json' }]]` in playwright.config.ts do?
+
+A) Runs tests twice — once for each reporter
+B) Disables the default reporter
+C) Generates both an HTML report and a JSON results file simultaneously
+D) Uses HTML for passing tests and JSON for failing tests
+
+**Answer: C) Generates both an HTML report and a JSON results file simultaneously**
+
+**Explanation:** Playwright supports multiple reporters in an array. Each entry is an independent reporter that processes the same test run results — useful for combining human-readable HTML with machine-parsable JSON for CI dashboards.
+
+---
+
+### Question 3
+What is the purpose of the Allure reporter in a Playwright framework?
+
+A) To replace playwright.config.ts with a visual editor
+B) To provide a rich, interactive test report with graphs, history, and failure analysis
+C) To record browser videos automatically
+D) To send test results to a database
+
+**Answer: B) To provide a rich, interactive test report with graphs, history, and failure analysis**
+
+**Explanation:** Allure generates comprehensive reports with trend charts, test timeline, categorized failures, and attachments (screenshots, traces). It is especially useful in enterprise CI/CD environments.
+
+---
+
+### Question 4
+What does setting `CI=true` as an environment variable do for Playwright tests?
+
+A) Enables interactive mode
+B) Playwright uses this to run tests in headless mode and may apply CI-specific settings like retries
+C) It uploads results to a cloud dashboard
+D) It disables all test reporters
+
+**Answer: B) Playwright uses this to run tests in headless mode and may apply CI-specific settings like retries**
+
+**Explanation:** `CI=true` is a convention recognized by many tools. In playwright.config.ts you can use `process.env.CI` to conditionally set `headless: true`, increase retries, or change the reporter for CI environments.
+
+---
+
+### Question 5
+In a GitHub Actions workflow, what does the `actions/checkout@v4` step do?
+
+A) Checks out a specific browser version
+B) Clones the repository code into the workflow runner
+C) Installs Playwright browsers
+D) Publishes test reports to GitHub Pages
+
+**Answer: B) Clones the repository code into the workflow runner**
+
+**Explanation:** `actions/checkout` is the standard step to pull the repository code onto the CI runner. Without it, subsequent steps like `npm install` and test runs would have no code to work with.
+
+---
+
+### Question 6
+What does `npx playwright install --with-deps` do in a CI pipeline?
+
+A) Installs Playwright as a dependency in package.json
+B) Updates all npm packages
+C) Installs Playwright browser binaries and their OS-level system dependencies
+D) Installs the Playwright VS Code extension
+
+**Answer: C) Installs Playwright browser binaries and their OS-level system dependencies**
+
+**Explanation:** CI runners typically don't have browsers pre-installed. `--with-deps` also installs the required OS libraries (for Chromium, Firefox, WebKit) that the browser binaries depend on.
+
+---
+
+### Question 7
+What does `retries: 2` in playwright.config.ts do specifically in a CI context?
+
+A) Runs every test exactly 3 times
+B) Retries each failed test up to 2 additional times before marking it as failed
+C) Adds a 2-second delay between tests
+D) Puts the test in a retry queue for the next pipeline run
+
+**Answer: B) Retries each failed test up to 2 additional times before marking it as failed**
+
+**Explanation:** Retries help handle environmental flakiness in CI (network delays, resource contention). A test must fail consistently across all attempts before being marked as failed in the report.
+
+---
+
+### Question 8
+What does `--shard=1/4` do when running Playwright tests?
+
+A) Runs the first test file only
+B) Divides the test suite into 4 parts and runs only the first part — used with parallel CI runners
+C) Limits workers to 1 and runs 4 test files
+D) Runs tests in a 4-second time window
+
+**Answer: B) Divides the test suite into 4 parts and runs only the first part — used with parallel CI runners**
+
+**Explanation:** Sharding splits the total test suite across multiple CI jobs. Job 1 runs `--shard=1/4`, job 2 runs `--shard=2/4`, etc. Combined with parallel runners, it dramatically reduces pipeline duration.
+
+---
+
+### Question 9
+What GitHub Actions trigger runs a workflow on every push to the `main` branch?
+
+A) `on: commit`
+B) `on: push: branches: [main]`
+C) `on: deploy: main`
+D) `on: branch: [main]`
+
+**Answer: B) `on: push: branches: [main]`**
+
+**Explanation:** The `on` key defines workflow triggers. `push: branches: [main]` fires whenever a commit is pushed to the `main` branch. Add `pull_request` to also run on PRs.
+
+---
+
+### Question 10
+What does `upload-artifact` in a GitHub Actions workflow do for Playwright?
+
+A) Uploads browser binaries to the runner
+B) Saves the `playwright-report/` folder as a downloadable artifact in the workflow run
+C) Publishes reports to a CDN
+D) Uploads test source code to GitHub
+
+**Answer: B) Saves the `playwright-report/` folder as a downloadable artifact in the workflow run**
+
+**Explanation:** After tests run, `actions/upload-artifact` saves the report folder so team members can download it from the GitHub Actions run page to review detailed results including screenshots and traces.
+
+---
+
+### Question 11
+What does `workers` in playwright.config.ts control in CI?
+
+A) The number of browser tabs per test
+B) The maximum number of tests running in parallel within a single pipeline job
+C) The number of pipeline jobs
+D) The number of retries per worker
+
+**Answer: B) The maximum number of tests running in parallel within a single pipeline job**
+
+**Explanation:** `workers: 4` runs up to 4 test files (or tests with `fullyParallel`) simultaneously within a single CI job, using the runner's available CPU cores effectively.
+
+---
+
+### Question 12
+What is the difference between `workers` and `--shard` in Playwright CI configuration?
+
+A) They are identical features
+B) `workers` controls parallelism within a single job; `--shard` distributes tests across multiple separate jobs
+C) `workers` is for local runs; `--shard` is only for GitHub Actions
+D) `--shard` controls parallelism within one job; `workers` splits across multiple jobs
+
+**Answer: B) `workers` controls parallelism within a single job; `--shard` distributes tests across multiple separate jobs**
+
+**Explanation:** Combine both: multiple shards run simultaneously on different CI machines (horizontal scaling), and each shard uses multiple workers internally (vertical scaling). Together they provide maximum parallelism.
+
+---
+
+### Question 13
+What does `trace: 'on-first-retry'` do in playwright.config.ts?
+
+A) Records a trace for every test
+B) Records a trace only for tests that pass on first run
+C) Records a trace starting from the first retry of a failing test
+D) Enables video recording for all tests
+
+**Answer: C) Records a trace starting from the first retry of a failing test**
+
+**Explanation:** Traces are rich debugging files containing screenshots, actions, network, and console. Recording on first retry means test failures in CI come with a trace automatically, without the overhead of tracing all tests.
+
+---
+
+### Question 14
+What does `screenshot: 'only-on-failure'` do in playwright.config.ts?
+
+A) Takes a screenshot before every test starts
+B) Captures a screenshot only when a test fails, attaching it to the report
+C) Disables screenshots on the first run
+D) Takes a screenshot of the full page every 5 seconds
+
+**Answer: B) Captures a screenshot only when a test fails, attaching it to the report**
+
+**Explanation:** This setting balances storage (no screenshots for passing tests) with debuggability (screenshots for failures). The screenshot appears in the HTML report alongside the failure details.
+
+---
+
+### Question 15
+In a GitHub Actions `matrix` strategy, what does defining `browser: [chromium, firefox, webkit]` do?
+
+A) Runs all three browsers sequentially in one job
+B) Creates three parallel jobs, each running the full test suite against one browser
+C) Installs all browsers on a single runner
+D) Configures the default browser in playwright.config.ts
+
+**Answer: B) Creates three parallel jobs, each running the full test suite against one browser**
+
+**Explanation:** Matrix strategy creates one job per matrix value. With `browser: [chromium, firefox, webkit]`, GitHub Actions automatically creates 3 parallel jobs — one per browser — each receiving the `browser` variable via `process.env`.
+
+---
+
+### Question 16
+What does `allure generate allure-results --clean` do?
+
+A) Runs Allure tests from scratch
+B) Processes raw Allure result files into a full HTML report in the `allure-report/` folder
+C) Cleans the Playwright cache
+D) Deletes all previous test results
+
+**Answer: B) Processes raw Allure result files into a full HTML report in the `allure-report/` folder**
+
+**Explanation:** Allure tests produce XML result files in `allure-results/`. The `allure generate` command converts these into a full interactive HTML report. The `--clean` flag removes any previous report before generating.
+
+---
+
+### Question 17
+What is the purpose of `globalSetup` in CI/CD pipelines?
+
+A) Configures the GitHub Actions runner
+B) Runs once before all tests to perform one-time setup like authentication and saving storageState
+C) Sets up the Playwright browser installation
+D) Configures the test sharding strategy
+
+**Answer: B) Runs once before all tests to perform one-time setup like authentication and saving storageState**
+
+**Explanation:** In CI, `globalSetup` typically performs the real login once, saves `auth.json`, and all parallel test workers then load this state instead of each logging in independently — saving significant time.
+
+---
+
+### Question 18
+What does `npx playwright test --reporter=dot` do?
+
+A) Creates a dot file with test results
+B) Runs tests with a minimal one-character-per-test console reporter suitable for CI output
+C) Runs only dot-prefixed test files
+D) Only reports failed tests
+
+**Answer: B) Runs tests with a minimal one-character-per-test console reporter suitable for CI output**
+
+**Explanation:** The `dot` reporter outputs `.` for passing tests, `F` for failing, and `E` for errors — producing compact output ideal for CI logs where verbose output would be overwhelming.
+
+---
+
+### Question 19
+What happens when `fullyParallel: true` is combined with `workers: 8` in playwright.config.ts?
+
+A) Tests run sequentially in groups of 8
+B) Up to 8 individual test functions run concurrently across the entire test suite
+C) Only 8 test files can exist in the project
+D) Tests retry 8 times on failure
+
+**Answer: B) Up to 8 individual test functions run concurrently across the entire test suite**
+
+**Explanation:** Normally, Playwright parallelizes by file (one file per worker). With `fullyParallel: true`, individual tests within files can run on different workers simultaneously — maximizing throughput.
+
+---
+
+### Question 20
+In a CI pipeline, why is it important to fail the pipeline when Playwright tests fail?
+
+A) It speeds up the pipeline
+B) It prevents broken code from being merged, ensuring quality gates are enforced automatically
+C) It sends an email to the QE team
+D) It forces developers to manually re-run tests
+
+**Answer: B) It prevents broken code from being merged, ensuring quality gates are enforced automatically**
+
+**Explanation:** A CI pipeline that passes despite test failures provides false confidence. Playwright's exit code propagates to the CI job status — failing the job blocks PRs from merging and alerts the team immediately.
+
+---
+
+</script>
+<script>(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'Perfect Score! Reporting and CI/CD fully mastered!':pct>=80?'Excellent! Strong CI/CD and reporting knowledge.':pct>=60?'Good job! Review sharding, matrix strategy, and artifact upload.':'Keep learning! Re-read Chapter 14 and set up a GitHub Actions pipeline.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Student: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();</script>
+</body>
+</html>

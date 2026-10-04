@@ -1,0 +1,23 @@
+{
+  "name": "Flow 03 – User Login (Ravi)",
+  "steps": [
+    {
+      "id": "step_1000000002_0",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "profile" },
+      "label": "Navigate to Profile / Sign-In tab"
+    },
+    {
+      "id": "step_1000000002_1",
+      "toolName": "user_login",
+      "params": { "email": "ravi@example.com", "password": "demo123" },
+      "label": "Login as Ravi Kumar (ravi@example.com)"
+    },
+    {
+      "id": "step_1000000002_2",
+      "toolName": "get_user_info",
+      "params": {},
+      "label": "Verify login – get current user info"
+    }
+  ]
+}

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoanEdge – User Guide</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary:#1d4ed8; --primary-light:#eff6ff; --accent:#f59e0b;
+      --success:#10b981; --text:#1e293b; --text-muted:#64748b;
+      --border:#e2e8f0; --bg:#f8fafc; --white:#ffffff; --radius:10px;
+    }
+    body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+    .guide-layout { display:flex; min-height:100vh; }
+    .guide-sidebar { width:260px; min-height:100vh; background:#0f172a; color:#e2e8f0; position:sticky; top:0; height:100vh; overflow-y:auto; flex-shrink:0; }
+    .gs-brand { padding:1.5rem 1.25rem 1rem; border-bottom:1px solid rgba(255,255,255,.1); }
+    .gs-brand-name { font-size:1.1rem; font-weight:700; color:#fff; display:flex; align-items:center; gap:.5rem; }
+    .gs-brand-sub { font-size:.72rem; color:#94a3b8; margin-top:.2rem; }
+    .gs-nav { padding:.75rem 0; }
+    .gs-group { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:#475569; padding:.75rem 1.25rem .25rem; }
+    .gs-link { display:flex; align-items:center; gap:.6rem; padding:.5rem 1.25rem; font-size:.82rem; color:#cbd5e1; text-decoration:none; transition:.15s; border-left:3px solid transparent; }
+    .gs-link:hover { background:rgba(255,255,255,.05); color:#fff; }
+    .gs-link.active { background:rgba(29,78,216,.2); color:#93c5fd; border-left-color:#3b82f6; }
+    .guide-main { flex:1; max-width:900px; padding:2.5rem 3rem; }
+    .guide-hero { background:linear-gradient(135deg,var(--primary) 0%,#1e40af 100%); color:#fff; border-radius:var(--radius); padding:2rem 2.5rem; margin-bottom:2.5rem; position:relative; overflow:hidden; }
+    .guide-hero::after { content:''; position:absolute; right:-40px; top:-40px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,.05); }
+    .guide-hero-tag { font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; background:rgba(255,255,255,.2); display:inline-block; padding:.2rem .6rem; border-radius:20px; margin-bottom:.5rem; }
+    .guide-hero h1 { font-size:1.8rem; font-weight:700; margin-bottom:.5rem; }
+    .guide-hero p { opacity:.85; max-width:580px; }
+    .guide-hero-actions { margin-top:1.25rem; display:flex; gap:.75rem; }
+    .btn-hero { display:inline-flex; align-items:center; gap:.4rem; padding:.5rem 1.1rem; border-radius:6px; font-size:.82rem; font-weight:600; cursor:pointer; border:none; text-decoration:none; }
+    .btn-hero-primary { background:#fff; color:var(--primary); }
+    .btn-hero-outline { background:rgba(255,255,255,.15); color:#fff; border:1px solid rgba(255,255,255,.35); }
+    .guide-section { background:var(--white); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:1rem; overflow:hidden; }
+    .section-trigger { width:100%; display:flex; align-items:center; gap:.75rem; padding:1rem 1.25rem; background:none; border:none; cursor:pointer; text-align:left; font-family:inherit; }
+    .section-trigger:hover { background:var(--primary-light); }
+    .section-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+    .icon-blue   { background:#dbeafe; color:#1d4ed8; }
+    .icon-green  { background:#d1fae5; color:#065f46; }
+    .icon-amber  { background:#fef3c7; color:#92400e; }
+    .icon-red    { background:#fee2e2; color:#991b1b; }
+    .icon-indigo { background:#e0e7ff; color:#3730a3; }
+    .icon-teal   { background:#ccfbf1; color:#0f766e; }
+    .icon-purple { background:#ede9fe; color:#5b21b6; }
+    .icon-slate  { background:#f1f5f9; color:#334155; }
+    .icon-sky    { background:#e0f2fe; color:#0369a1; }
+    .section-title-wrap { flex:1; }
+    .section-title { font-size:.95rem; font-weight:600; color:var(--text); }
+    .section-desc  { font-size:.78rem; color:var(--text-muted); margin-top:.1rem; }
+    .section-arrow { color:var(--text-muted); transition:transform .25s; margin-left:auto; font-size:.9rem; }
+    .guide-section.open .section-arrow { transform:rotate(180deg); }
+    .section-body { display:none; padding:0 1.25rem 1.25rem; border-top:1px solid var(--border); }
+    .guide-section.open .section-body { display:block; }
+    .section-body h4 { font-size:.9rem; font-weight:600; color:var(--text); margin:1rem 0 .4rem; }
+    .section-body p  { font-size:.875rem; color:#374151; margin-bottom:.6rem; }
+    .section-body ul, .section-body ol { padding-left:1.4rem; margin-bottom:.6rem; }
+    .section-body li { font-size:.875rem; color:#374151; margin-bottom:.3rem; }
+    .info-box { background:var(--primary-light); border-left:3px solid var(--primary); border-radius:6px; padding:.6rem .9rem; font-size:.83rem; margin:.6rem 0; color:#1e3a8a; }
+    .warn-box  { background:#fffbeb; border-left:3px solid var(--accent); border-radius:6px; padding:.6rem .9rem; font-size:.83rem; margin:.6rem 0; color:#78350f; }
+    .tip-box   { background:#f0fdf4; border-left:3px solid var(--success); border-radius:6px; padding:.6rem .9rem; font-size:.83rem; margin:.6rem 0; color:#14532d; }
+    .step-list { list-style:none; padding:0; }
+    .step-list li { display:flex; gap:.75rem; margin-bottom:.6rem; align-items:flex-start; }
+    .step-num { width:22px; height:22px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.7rem; font-weight:700; flex-shrink:0; margin-top:.1rem; }
+    .step-text { font-size:.875rem; color:#374151; }
+    .module-table { width:100%; border-collapse:collapse; font-size:.82rem; margin-top:.5rem; }
+    .module-table th { background:#f1f5f9; padding:.5rem .75rem; text-align:left; font-weight:600; border:1px solid var(--border); color:var(--text-muted); }
+    .module-table td { padding:.45rem .75rem; border:1px solid var(--border); vertical-align:top; }
+    .module-table tr:hover td { background:var(--primary-light); }
+    .badge { display:inline-block; padding:.15rem .5rem; border-radius:20px; font-size:.7rem; font-weight:600; }
+    .badge-blue   { background:#dbeafe; color:#1d4ed8; }
+    .badge-green  { background:#d1fae5; color:#065f46; }
+    .badge-amber  { background:#fef3c7; color:#92400e; }
+    .badge-red    { background:#fee2e2; color:#991b1b; }
+    .badge-purple { background:#ede9fe; color:#5b21b6; }
+    .badge-teal   { background:#ccfbf1; color:#0f766e; }
+    .back-bar { display:flex; align-items:center; gap:.5rem; margin-bottom:1.5rem; }
+    .back-link { display:inline-flex; align-items:center; gap:.4rem; font-size:.82rem; color:var(--primary); text-decoration:none; font-weight:500; }
+    .back-link:hover { text-decoration:underline; }
+    @media (max-width:768px) { .guide-sidebar { display:none; } .guide-main { padding:1.5rem; } }
+  </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="guide-layout">
+
+  <!-- Sidebar -->
+  <aside class="guide-sidebar">
+    <div class="gs-brand">
+      <div class="gs-brand-name">&#127960; LoanEdge</div>
+      <div class="gs-brand-sub">User Guide &amp; Reference</div>
+    </div>
+    <nav class="gs-nav">
+      <div class="gs-group">Overview</div>
+      <a class="gs-link active" href="#overview">&#8962; Introduction</a>
+      <a class="gs-link" href="#modules">&#9783; Modules Summary</a>
+
+      <div class="gs-group">Modules</div>
+      <a class="gs-link" href="#sec-dashboard">&#8962; Dashboard</a>
+      <a class="gs-link" href="#sec-borrowers">&#128100; Borrowers</a>
+      <a class="gs-link" href="#sec-applications">&#128203; Applications</a>
+      <a class="gs-link" href="#sec-products">&#128230; Loan Products</a>
+      <a class="gs-link" href="#sec-credit">&#9889; Credit Review</a>
+      <a class="gs-link" href="#sec-documents">&#128196; Documents</a>
+      <a class="gs-link" href="#sec-disbursements">&#128184; Disbursements</a>
+      <a class="gs-link" href="#sec-repayments">&#128197; EMI Repayments</a>
+      <a class="gs-link" href="#sec-support">&#127915; Support Tickets</a>
+
+      <div class="gs-group">Reference</div>
+      <a class="gs-link" href="#statuses">&#128308; Status Reference</a>
+      <a class="gs-link" href="#scenarios">&#128300; Test Scenarios</a>
+
+      <div class="gs-group">Navigation</div>
+      <a class="gs-link" href="index.html">&#8592; Back to App</a>
+      <a class="gs-link" href="../index.html">&#128187; Command Center</a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="guide-main">
+
+    <div class="back-bar">
+      <a class="back-link" href="index.html">&#8592; Back to LoanEdge</a>
+      <span style="color:#cbd5e1">|</span>
+      <a class="back-link" href="../index.html">&#128187; Command Center</a>
+    </div>
+
+    <!-- Hero -->
+    <div class="guide-hero" id="overview">
+      <div class="guide-hero-tag">User Guide</div>
+      <h1>&#127960; LoanEdge – Loan Management System</h1>
+      <p>Complete reference guide for bank officers: manage borrowers, process loan applications, perform credit assessments, track documents, disburse funds, and monitor repayments — all from one dashboard.</p>
+      <div class="guide-hero-actions">
+        <a href="index.html" class="btn-hero btn-hero-primary">&#128640; Launch App</a>
+        <a href="../index.html" class="btn-hero btn-hero-outline">&#128187; Command Center</a>
+      </div>
+    </div>
+
+    <!-- ── Introduction ── -->
+    <div class="guide-section open" id="intro-section">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-blue">&#8505;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Introduction</div>
+          <div class="section-desc">What LoanEdge is and how it works</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>LoanEdge is a <strong>bank officer management system</strong> for practicing end-to-end loan lifecycle management. It is designed for QA learners to test real-world banking workflows — from registering a borrower to closing a disbursed loan.</p>
+        <p>All data is stored in your browser's <strong>localStorage</strong> via the shared MockAPI layer. No network calls are made. Seed data is pre-loaded on first launch.</p>
+        <h4>Who uses this system?</h4>
+        <ul>
+          <li><strong>Loan Officers</strong> — process applications, conduct credit reviews, update statuses</li>
+          <li><strong>Operations Staff</strong> — manage document checklists and disbursement records</li>
+          <li><strong>Collections Team</strong> — monitor EMI schedules and flag overdue payments</li>
+          <li><strong>Support Staff</strong> — handle borrower queries via the ticketing module</li>
+        </ul>
+        <div class="info-box">&#8505; This is a demo QA practice application. Reload the page to restore seed data. Clear localStorage to start fresh.</div>
+      </div>
+    </div>
+
+    <!-- ── Modules Summary ── -->
+    <div class="guide-section" id="modules">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-indigo">&#9783;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Modules Summary</div>
+          <div class="section-desc">All 9 modules and their purpose at a glance</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <table class="module-table">
+          <thead><tr><th>Module</th><th>Purpose</th><th>Key Actions</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-blue">Dashboard</span></td><td>KPIs, funnel, recent activity</td><td>View metrics, monitor funnel</td></tr>
+            <tr><td><span class="badge badge-purple">Borrowers</span></td><td>Borrower registry with credit profiles</td><td>Create, view, edit, delete</td></tr>
+            <tr><td><span class="badge badge-blue">Applications</span></td><td>Loan application lifecycle</td><td>Create, approve, reject, advance status</td></tr>
+            <tr><td><span class="badge badge-teal">Loan Products</span></td><td>Product catalog (rates, limits, fees)</td><td>Create, configure, activate/deactivate</td></tr>
+            <tr><td><span class="badge badge-amber">Credit Review</span></td><td>Underwriting: DTI, credit score, risk</td><td>Assess, record decision, submit remarks</td></tr>
+            <tr><td><span class="badge badge-amber">Documents</span></td><td>Document checklist per application</td><td>Add, update status (Missing/Received/Verified)</td></tr>
+            <tr><td><span class="badge badge-green">Disbursements</span></td><td>Fund transfer records</td><td>Record disbursement, NEFT/RTGS details</td></tr>
+            <tr><td><span class="badge badge-green">Repayments</span></td><td>EMI schedule and payment tracking</td><td>Record payments, flag overdue</td></tr>
+            <tr><td><span class="badge badge-red">Support</span></td><td>Borrower query tickets</td><td>Create, assign priority, resolve</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── Dashboard ── -->
+    <div class="guide-section" id="sec-dashboard">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-blue">&#8962;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Dashboard</div>
+          <div class="section-desc">Portfolio overview and activity monitoring</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>The dashboard loads automatically when you open LoanEdge. It gives a real-time snapshot of all operational data.</p>
+        <h4>Stat Cards (8 KPIs)</h4>
+        <ul>
+          <li><strong>Total Applications</strong> — all applications across all statuses</li>
+          <li><strong>Active Borrowers</strong> — borrowers with Active status</li>
+          <li><strong>Total Portfolio</strong> — sum of all disbursed amounts (&#8377;)</li>
+          <li><strong>Pending Review</strong> — applications in Under Review or Submitted</li>
+          <li><strong>Approved</strong> — applications with Approved status</li>
+          <li><strong>Overdue EMIs</strong> — repayment records with Overdue status</li>
+          <li><strong>Disbursed Loans</strong> — active disbursed applications</li>
+          <li><strong>Active Products</strong> — loan product types with status Active</li>
+        </ul>
+        <h4>Application Funnel</h4>
+        <p>Visual pipeline showing count at each stage: New/Docs Required &#8594; Under Review &#8594; Approved &#8594; Disbursed.</p>
+        <h4>Recent Activity</h4>
+        <p>Timeline of the 8 most recently modified records across all modules.</p>
+      </div>
+    </div>
+
+    <!-- ── Borrowers ── -->
+    <div class="guide-section" id="sec-borrowers">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-purple">&#128100;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Borrowers</div>
+          <div class="section-desc">Manage the borrower registry</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>The Borrower Registry contains demographic, financial, and creditworthiness data for each individual or entity applying for a loan.</p>
+        <h4>Fields</h4>
+        <table class="module-table">
+          <thead><tr><th>Field</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Full Name</td><td>Borrower's legal name</td></tr>
+            <tr><td>PAN</td><td>Permanent Account Number (10-char)</td></tr>
+            <tr><td>Email / Phone</td><td>Contact details</td></tr>
+            <tr><td>Occupation</td><td>Salaried / Business / Self-Employed</td></tr>
+            <tr><td>City</td><td>Residential city</td></tr>
+            <tr><td>Annual Income</td><td>Pre-tax annual income in &#8377;</td></tr>
+            <tr><td>Credit Score</td><td>CIBIL score 300–900</td></tr>
+            <tr><td>Status</td><td>Active / Inactive</td></tr>
+          </tbody>
+        </table>
+        <h4>How to add a borrower</h4>
+        <ol class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Click the <strong>Borrowers</strong> tab in the sidebar</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Click <strong>+ Add Borrower</strong> in the toolbar</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Fill in all required fields (Name, PAN, Email)</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Click <strong>Save Borrower</strong></span></li>
+        </ol>
+        <div class="tip-box">&#10003; Credit Score and Annual Income are used in the EMI pre-fill when creating an application.</div>
+      </div>
+    </div>
+
+    <!-- ── Applications ── -->
+    <div class="guide-section" id="sec-applications">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-blue">&#128203;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Loan Applications</div>
+          <div class="section-desc">Core lifecycle management for loan requests</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>Applications are the central entity in LoanEdge. Each application links a borrower to a loan product and carries full lifecycle data: status, officer, amount, and timeline.</p>
+        <h4>Application Statuses</h4>
+        <table class="module-table">
+          <thead><tr><th>Status</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><span class="badge badge-blue">Submitted</span></td><td>Borrower has submitted; awaiting initial review</td></tr>
+            <tr><td><span class="badge badge-amber">Under Review</span></td><td>Loan officer is reviewing the application</td></tr>
+            <tr><td><span class="badge badge-amber">Docs Required</span></td><td>Additional documents needed</td></tr>
+            <tr><td><span class="badge badge-purple">Credit Check</span></td><td>Underwriting in progress</td></tr>
+            <tr><td><span class="badge badge-green">Approved</span></td><td>Application approved, pending disbursement</td></tr>
+            <tr><td><span class="badge badge-red">Rejected</span></td><td>Application declined</td></tr>
+            <tr><td><span class="badge badge-teal">Disbursed</span></td><td>Loan amount credited to borrower</td></tr>
+            <tr><td><span class="badge">Closed</span></td><td>Loan fully repaid and closed</td></tr>
+          </tbody>
+        </table>
+        <h4>Creating a new application</h4>
+        <ol class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Ensure the borrower exists in the Borrowers module</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Click <strong>+ New Application</strong></span></li>
+          <li><span class="step-num">3</span><span class="step-text">Select Borrower, Loan Product, Amount, Tenure, Purpose</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Assign a Loan Officer ID and save</span></li>
+        </ol>
+        <h4>Filtering applications</h4>
+        <p>Use the status dropdown in the toolbar to filter applications by lifecycle stage. Use the search box to find by App ID or borrower name.</p>
+        <div class="info-box">&#8505; App IDs are auto-generated in the format <strong>LN-2025-XXXX</strong>.</div>
+      </div>
+    </div>
+
+    <!-- ── Loan Products ── -->
+    <div class="guide-section" id="sec-products">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-teal">&#128230;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Loan Products</div>
+          <div class="section-desc">Define and manage loan types offered by the bank</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>Loan Products are templates that define the parameters for each type of loan offered: interest rate, maximum amount, tenure, and associated fees.</p>
+        <h4>Default Products (seed data)</h4>
+        <table class="module-table">
+          <thead><tr><th>Product</th><th>Rate</th><th>Max Amount</th><th>Max Tenure</th></tr></thead>
+          <tbody>
+            <tr><td>Personal Loan</td><td>10.5%</td><td>&#8377;20L</td><td>60 months</td></tr>
+            <tr><td>Home Loan</td><td>8.5%</td><td>&#8377;5 Cr</td><td>240 months</td></tr>
+            <tr><td>Auto Loan</td><td>9.25%</td><td>&#8377;40L</td><td>84 months</td></tr>
+            <tr><td>Education Loan</td><td>7.75%</td><td>&#8377;50L</td><td>120 months</td></tr>
+            <tr><td>Business Loan</td><td>12%</td><td>&#8377;1 Cr</td><td>48 months</td></tr>
+          </tbody>
+        </table>
+        <h4>Fields</h4>
+        <ul>
+          <li><strong>Processing Fee</strong> — percentage deducted at disbursement</li>
+          <li><strong>Pre-closure Fee</strong> — penalty for early full repayment</li>
+          <li><strong>Status</strong> — Active / Inactive (inactive products cannot be selected in new applications)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Credit Review ── -->
+    <div class="guide-section" id="sec-credit">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-amber">&#9889;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Credit Review</div>
+          <div class="section-desc">Underwriting assessments and risk evaluation</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>Credit Review (underwriting) validates the borrower's creditworthiness before approval. Each assessment is linked to an application.</p>
+        <h4>Key Metrics</h4>
+        <ul>
+          <li><strong>Credit Score (CIBIL)</strong> — 300–900; &#8805; 700 typically required for approval</li>
+          <li><strong>DTI (Debt-to-Income) Ratio</strong> — monthly obligations &#247; monthly income; &#8804; 40% is healthy</li>
+          <li><strong>Existing Loans</strong> — number of live loans with other lenders</li>
+          <li><strong>Monthly Income vs Obligation</strong> — net income after existing EMIs</li>
+        </ul>
+        <h4>Risk Levels</h4>
+        <ul>
+          <li><span class="badge badge-green">Low</span> — credit score &gt; 750, DTI &lt; 30%</li>
+          <li><span class="badge badge-amber">Medium</span> — credit score 650–750, DTI 30–40%</li>
+          <li><span class="badge badge-red">High</span> — credit score &lt; 650, DTI &gt; 40%</li>
+        </ul>
+        <h4>Decision options</h4>
+        <p><span class="badge badge-amber">Pending</span> | <span class="badge badge-green">Approved</span> | <span class="badge badge-red">Rejected</span></p>
+        <div class="tip-box">&#10003; Always attach a Credit Assessment before advancing an application to the Approved status.</div>
+      </div>
+    </div>
+
+    <!-- ── Documents ── -->
+    <div class="guide-section" id="sec-documents">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-amber">&#128196;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Documents</div>
+          <div class="section-desc">Document checklist and verification tracking</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>Each loan application requires a set of supporting documents. This module tracks collection and verification of each document.</p>
+        <h4>Document Types</h4>
+        <ul>
+          <li>Salary Slip, Bank Statement, IT Return — income verification</li>
+          <li>Property Papers, Auto Invoice, Sale Agreement — asset documents</li>
+          <li>Admission Letter — education loans</li>
+          <li>Address Proof, Photo ID — KYC documents</li>
+        </ul>
+        <h4>Document Statuses</h4>
+        <ul>
+          <li><span class="badge badge-red">Missing</span> — document not yet received</li>
+          <li><span class="badge badge-amber">Received</span> — document received but not yet verified</li>
+          <li><span class="badge badge-green">Verified</span> — document authenticated and accepted</li>
+        </ul>
+        <div class="warn-box">&#9888; Documents tab badge turns red when any documents are still Missing. Applications in Docs Required status should be cleared here first.</div>
+      </div>
+    </div>
+
+    <!-- ── Disbursements ── -->
+    <div class="guide-section" id="sec-disbursements">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-green">&#128184;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Disbursements</div>
+          <div class="section-desc">Record and track loan fund transfers</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>Once an application is approved, the funds must be disbursed to the borrower's bank account. This module records the transfer details.</p>
+        <h4>Fields</h4>
+        <ul>
+          <li><strong>Application</strong> — must be in Approved or Disbursed status</li>
+          <li><strong>Amount &amp; EMI</strong> — disbursed principal and calculated monthly EMI</li>
+          <li><strong>Account No / IFSC</strong> — beneficiary bank details</li>
+          <li><strong>Transfer Mode</strong> — NEFT / RTGS / IMPS / Cheque</li>
+          <li><strong>Reference No</strong> — transaction/UTR reference number</li>
+          <li><strong>Status</strong> — Pending / Disbursed</li>
+        </ul>
+        <div class="tip-box">&#10003; After recording a disbursement, update the application status to <strong>Disbursed</strong> in the Applications module.</div>
+      </div>
+    </div>
+
+    <!-- ── Repayments ── -->
+    <div class="guide-section" id="sec-repayments">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-teal">&#128197;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">EMI Repayments</div>
+          <div class="section-desc">Payment schedule and collections tracking</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>The Repayments module maintains the EMI schedule for each disbursed loan, tracking principal and interest breakdowns per installment.</p>
+        <h4>EMI Schedule Fields</h4>
+        <ul>
+          <li><strong>EMI #</strong> — installment number in the loan schedule</li>
+          <li><strong>EMI Amount</strong> — total payment = principal + interest</li>
+          <li><strong>Principal / Interest</strong> — amortization breakdown</li>
+          <li><strong>Outstanding Balance</strong> — remaining loan balance after this payment</li>
+          <li><strong>Due Date / Paid Date</strong> — schedule vs actual payment date</li>
+        </ul>
+        <h4>Payment Statuses</h4>
+        <ul>
+          <li><span class="badge badge-blue">Upcoming</span> — future EMI not yet due</li>
+          <li><span class="badge badge-amber">Due</span> — EMI due today or soon</li>
+          <li><span class="badge badge-green">Paid</span> — EMI paid on time</li>
+          <li><span class="badge badge-red">Overdue</span> — past due date, not paid</li>
+        </ul>
+        <div class="warn-box">&#9888; Overdue records are counted in the Dashboard KPI and appear in the red sidebar badge count.</div>
+      </div>
+    </div>
+
+    <!-- ── Support ── -->
+    <div class="guide-section" id="sec-support">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-red">&#127915;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Support Tickets</div>
+          <div class="section-desc">Manage borrower queries and escalations</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <p>Borrowers or officers can raise support tickets linked to specific loan applications. Tickets track resolution progress.</p>
+        <h4>Priority Levels</h4>
+        <ul>
+          <li><span class="badge badge-blue">Low</span> — general informational queries</li>
+          <li><span class="badge badge-amber">Medium</span> — moderate impact, standard SLA</li>
+          <li><span class="badge badge-red">High</span> — requires urgent resolution</li>
+          <li><span class="badge" style="background:#fee2e2;color:#7f1d1d">Critical</span> — systemic issue or legal escalation</li>
+        </ul>
+        <h4>Ticket Statuses</h4>
+        <ul>
+          <li><span class="badge badge-red">Open</span> — newly raised, unassigned</li>
+          <li><span class="badge badge-amber">In Progress</span> — being investigated</li>
+          <li><span class="badge badge-green">Resolved</span> — issue closed</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Status Reference ── -->
+    <div class="guide-section" id="statuses">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-slate">&#128308;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Status Reference</div>
+          <div class="section-desc">Quick lookup for all status values across modules</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <h4>Application Lifecycle</h4>
+        <p>Submitted &#8594; Under Review &#8594; Docs Required &#8594; Credit Check &#8594; Approved &#8594; Disbursed &#8594; Closed (or Rejected at any stage)</p>
+        <h4>Borrower</h4>
+        <p>Active | Inactive</p>
+        <h4>Document</h4>
+        <p>Missing | Received | Verified</p>
+        <h4>Disbursement</h4>
+        <p>Pending | Disbursed</p>
+        <h4>Repayment / EMI</h4>
+        <p>Upcoming | Due | Paid | Overdue</p>
+        <h4>Credit Decision</h4>
+        <p>Pending | Approved | Rejected</p>
+        <h4>Support Ticket</h4>
+        <p>Open | In Progress | Resolved</p>
+      </div>
+    </div>
+
+    <!-- ── Test Scenarios ── -->
+    <div class="guide-section" id="scenarios">
+      <button class="section-trigger" onclick="toggleSection(this)">
+        <div class="section-icon icon-indigo">&#128300;</div>
+        <div class="section-title-wrap">
+          <div class="section-title">Test Scenarios</div>
+          <div class="section-desc">End-to-end QA practice flows</div>
+        </div>
+        <span class="section-arrow">&#9660;</span>
+      </button>
+      <div class="section-body">
+        <h4>Scenario 1 – Full loan lifecycle (happy path)</h4>
+        <ol class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Add a new Borrower with credit score 780 and income &#8377;12L</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Create an Application for Personal Loan &#8377;5L, 36 months</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Add all required Documents and mark them Verified</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Create a Credit Assessment with Low risk and Approved decision</span></li>
+          <li><span class="step-num">5</span><span class="step-text">Update Application status to Approved</span></li>
+          <li><span class="step-num">6</span><span class="step-text">Record a Disbursement via NEFT</span></li>
+          <li><span class="step-num">7</span><span class="step-text">Add 3 Repayment records (Paid, Paid, Due)</span></li>
+          <li><span class="step-num">8</span><span class="step-text">Verify Dashboard stats updated correctly</span></li>
+        </ol>
+        <h4>Scenario 2 – Rejection flow</h4>
+        <ol class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Create a borrower with credit score 540</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Create an application for Business Loan &#8377;25L</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Create Credit Assessment: DTI 52%, risk High, decision Rejected</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Update application status to Rejected</span></li>
+          <li><span class="step-num">5</span><span class="step-text">Raise a Support Ticket with priority High and subject "Rejection Dispute"</span></li>
+        </ol>
+        <h4>Scenario 3 – Document bottleneck</h4>
+        <ol class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Set application status to Docs Required</span></li>
+          <li><span class="step-num">2</span><span class="step-text">In Documents, add Salary Slip (Missing), Bank Statement (Missing), PAN Card (Received)</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Observe the red badge on Documents nav item</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Update all documents to Verified, observe badge clears</span></li>
+          <li><span class="step-num">5</span><span class="step-text">Advance application to Under Review</span></li>
+        </ol>
+        <h4>Scenario 4 – Overdue EMI monitoring</h4>
+        <ol class="step-list">
+          <li><span class="step-num">1</span><span class="step-text">Open an existing disbursed application</span></li>
+          <li><span class="step-num">2</span><span class="step-text">Add a Repayment record with status Overdue and a past due date</span></li>
+          <li><span class="step-num">3</span><span class="step-text">Verify the Overdue EMIs KPI on the dashboard increments</span></li>
+          <li><span class="step-num">4</span><span class="step-text">Raise a Critical Support Ticket for the borrower</span></li>
+        </ol>
+        <div class="tip-box">&#10003; Use the search boxes in each tab to filter records and practice search/filter test cases as well.</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function toggleSection(btn) {
+    var section = btn.parentElement;
+    section.classList.toggle('open');
+}
+// Smooth scroll for sidebar anchors
+document.querySelectorAll('.gs-link[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+        e.preventDefault();
+        var target = document.querySelector(this.getAttribute('href'));
+        if (target) { target.scrollIntoView({ behavior:'smooth' }); }
+        document.querySelectorAll('.gs-link').forEach(function(l) { l.classList.remove('active'); });
+        this.classList.add('active');
+        // Open the section if it has a trigger
+        var trigger = target.querySelector('.section-trigger');
+        if (trigger && !target.classList.contains('open')) { trigger.click(); }
+    });
+});
+</script>
+</body>
+</html>

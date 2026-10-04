@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TypeScript for Testers - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .stat-box { display:inline-block; background:#dbeafe; border:2px solid var(--vibe-blue); padding:12px 20px; margin:6px; border-radius:8px; }
+        .stat-number { font-size:1.8em; font-weight:700; color:var(--vibe-orange); display:block; }
+        .stat-label { font-size:0.8em; color:var(--vibe-blue); }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- Slide 1: Title -->
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>TypeScript for Testers</h1>
+    <p class="subtitle">Types · Interfaces · Generics · Enums · Utility Types</p>
+    <p class="tagline">The type safety layer that makes Playwright frameworks maintainable — Session 5</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Type System</span>
+        <span class="badge" style="background:#3178c6;">Interfaces</span>
+        <span class="badge" style="background:var(--vibe-green);">Generics</span>
+    </div>
+</section>
+
+<!-- Slide 2: What is TypeScript -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>What is TypeScript?</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>TypeScript = JavaScript + Types</h3>
+            <ul>
+                <li>Superset of JavaScript — all valid JS is valid TS</li>
+                <li>Adds static type checking at compile time</li>
+                <li>Compiled to plain JavaScript — browsers never see .ts</li>
+                <li>Maintained by Microsoft, first released 2012</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Why Playwright Uses TypeScript</h3>
+            <ul>
+                <li>IDE autocomplete for the entire Playwright API</li>
+                <li>Catch null reference errors before test runs</li>
+                <li>Self-documenting code — types explain intent</li>
+                <li>Refactoring confidence — rename is safe</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">You don't need to master TypeScript before starting. Start with JavaScript habits and add types as you go. TypeScript is additive.</p>
+    </div>
+</section>
+
+<!-- Slide 3: Basic Types -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Basic Types in TypeScript</h2>
+    <div class="code-snippet">// Primitive types
+const name: string = "Admin";
+const age: number = 30;
+const isAdmin: boolean = true;
+const nothing: null = null;
+const unknown: undefined = undefined;
+
+// Arrays
+const tags: string[] = ["smoke", "regression"];
+const counts: number[] = [1, 2, 3];
+const flags: Array&lt;boolean&gt; = [true, false];   // generic syntax
+
+// Tuples — fixed length, fixed types
+const coordinate: [number, number] = [10, 20];
+const userEntry: [string, number] = ["admin", 1];
+
+// Type inference — TypeScript INFERS the type when you assign
+const baseURL = "https://demo.app";   // inferred as string
+const timeout = 30000;                // inferred as number
+// TypeScript tracks these — no need to annotate everything
+
+// any — escapes type checking (avoid when possible)
+let anything: any = "could be anything";
+anything = 42;  // no error
+anything = true;</div>
+    <div class="highlight-box">
+        <p class="compact">TypeScript infers types from assignments. Only annotate when the type isn't obvious or when using function parameters.</p>
+    </div>
+</section>
+
+<!-- Slide 4: Interfaces -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Interfaces — Shape Contracts for Test Data</h2>
+    <div class="code-snippet">// Define the shape of test data
+interface UserCredentials {
+  username: string;
+  password: string;
+  role?: string;          // ? means optional
+  readonly id: number;    // readonly — cannot be changed after creation
+}
+
+// Use the interface
+const adminUser: UserCredentials = {
+  username: "admin",
+  password: "Admin1234!",
+  id: 1
+  // role is optional — OK to omit
+};
+
+// Interfaces for Page Object config
+interface LoginPageConfig {
+  baseURL: string;
+  timeout?: number;
+  retries?: number;
+}
+
+// Extending interfaces
+interface AdminUser extends UserCredentials {
+  permissions: string[];
+  department: string;
+}
+
+const fullAdmin: AdminUser = {
+  username: "admin", password: "Admin1234!", id: 1,
+  permissions: ["read", "write", "delete"],
+  department: "Engineering"
+};</div>
+    <div class="highlight-box">
+        <p class="compact bold">Use interfaces for all test data objects. You'll get autocomplete, typo detection, and self-documenting code instantly.</p>
+    </div>
+</section>
+
+<!-- Slide 5: Type Aliases and Union Types -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Type Aliases &amp; Union Types</h2>
+    <div class="code-snippet">// Type alias — give a name to a type
+type TestStatus = "pass" | "fail" | "skip" | "pending";
+type Browser = "chromium" | "firefox" | "webkit";
+type Timeout = number | null;
+
+// Using union types
+function setStatus(status: TestStatus): void {
+  console.log(`Status: ${status}`);
+}
+setStatus("pass");          // OK
+setStatus("error");         // TypeScript ERROR — not in union
+
+// Type alias vs Interface
+type Point = { x: number; y: number };       // type alias
+interface Point2 { x: number; y: number; }  // interface
+
+// Rule of thumb:
+// Use interface for object shapes (extensible with extends)
+// Use type for unions, primitives, and complex types
+
+// Intersection types — combine multiple types
+type AdminConfig = UserCredentials &amp; LoginPageConfig;
+
+// Literal types — very specific values
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+type StatusCode = 200 | 201 | 400 | 401 | 403 | 404 | 500;</div>
+    <div class="highlight-box">
+        <p class="compact">Union types with string literals are perfect for test statuses, environments, and browser names — no more magic strings!</p>
+    </div>
+</section>
+
+<!-- Slide 6: Enums -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Enums — Named Constants for Tests</h2>
+    <div class="code-snippet">// String enum — most useful in test frameworks
+enum UserRole {
+  Admin = "admin",
+  Manager = "manager",
+  Viewer = "viewer",
+  Guest = "guest"
+}
+
+enum Environment {
+  Development = "http://localhost:3000",
+  Staging = "https://staging.app.com",
+  Production = "https://app.com"
+}
+
+// Usage
+function loginAs(role: UserRole): void {
+  // TypeScript knows role can only be UserRole values
+  console.log(`Logging in as ${role}`);
+}
+
+loginAs(UserRole.Admin);     // Correct
+// loginAs("admin");         // TypeScript ERROR — use the enum
+
+// In playwright.config.ts
+const BASE_URL = Environment[process.env.ENV as keyof typeof Environment]
+  ?? Environment.Development;
+
+// Numeric enum (less common in tests)
+enum Priority { Low = 1, Medium = 2, High = 3, Critical = 4 }</div>
+    <div class="highlight-box">
+        <p class="compact">Enums prevent typos in environment names, user roles, and test categories. Much safer than raw strings.</p>
+    </div>
+</section>
+
+<!-- Slide 7: Functions with Types -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Typed Functions — The Right Pattern</h2>
+    <div class="code-snippet">import { Page } from '@playwright/test';
+
+// Function with typed parameters AND return type
+async function fillLoginForm(
+  page: Page,
+  username: string,
+  password: string
+): Promise&lt;void&gt; {
+  await page.getByLabel('Username').fill(username);
+  await page.getByLabel('Password').fill(password);
+}
+
+// Optional parameters + default values
+async function navigate(
+  page: Page,
+  path: string,
+  options?: { waitUntil?: 'load' | 'networkidle'; timeout?: number }
+): Promise&lt;void&gt; {
+  await page.goto(path, options);
+}
+
+// Function type alias
+type LoginFunction = (page: Page, creds: UserCredentials) =&gt; Promise&lt;boolean&gt;;
+
+// Overloads — same name, different signatures
+function formatInput(value: string): string;
+function formatInput(value: number): string;
+function formatInput(value: string | number): string {
+  return String(value).trim();
+}</div>
+</section>
+
+<!-- Slide 8: Generics -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Generics — Reusable Typed Code</h2>
+    <div class="code-snippet">// Without generics — loses type information
+function getFirst(array: any[]): any {
+  return array[0];
+}
+const first = getFirst(["admin", "viewer"]);  // first is 'any' — lost type!
+
+// With generics — preserves types
+function getFirst&lt;T&gt;(array: T[]): T {
+  return array[0];
+}
+const firstUser = getFirst(["admin", "viewer"]);  // string
+const firstNum = getFirst([1, 2, 3]);             // number
+
+// Generic interfaces
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  status: number;
+  message: string;
+}
+
+interface User { id: number; name: string; }
+
+const response: ApiResponse&lt;User&gt; = {
+  data: { id: 1, name: "Admin" },
+  status: 200,
+  message: "Success"
+};
+response.data.name;  // fully typed — knows it's User!</div>
+    <div class="highlight-box">
+        <p class="compact">Generics are how Playwright types fixtures. <code>test.extend&lt;MyFixtures&gt;()</code> — you pass your fixture shape as a generic type parameter.</p>
+    </div>
+</section>
+
+<!-- Slide 9: Utility Types -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Utility Types — TypeScript's Power Tools</h2>
+    <div class="code-snippet">interface UserCredentials {
+  username: string;
+  password: string;
+  role: string;
+  id: number;
+}
+
+// Partial — makes all properties optional
+type OptionalCredentials = Partial&lt;UserCredentials&gt;;
+// Can now do: { username: "admin" } — no need for all fields
+
+// Required — makes all properties required (reverses Partial)
+type RequiredCreds = Required&lt;OptionalCredentials&gt;;
+
+// Readonly — prevents mutation
+type ImmutableUser = Readonly&lt;UserCredentials&gt;;
+const user: ImmutableUser = { username: "a", password: "b", role: "admin", id: 1 };
+// user.username = "changed";  // TypeScript ERROR
+
+// Pick — extract subset of properties
+type LoginForm = Pick&lt;UserCredentials, 'username' | 'password'&gt;;
+// { username: string; password: string }
+
+// Omit — exclude properties
+type PublicUser = Omit&lt;UserCredentials, 'password'&gt;;
+// { username: string; role: string; id: number }
+
+// Record — dictionary type
+type UserMap = Record&lt;string, UserCredentials&gt;;
+const users: UserMap = { admin: { username: "admin", password: "...", role: "admin", id: 1 } };</div>
+    <div class="highlight-box">
+        <p class="compact bold"><code>Partial</code>, <code>Pick</code>, and <code>Omit</code> are used constantly in Playwright fixture and config types.</p>
+    </div>
+</section>
+
+<!-- Slide 10: tsconfig.json Essentials -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>tsconfig.json for Playwright Projects</h2>
+    <div class="code-snippet">{
+  "compilerOptions": {
+    "target": "ES2022",           // Compile to modern JavaScript
+    "module": "commonjs",         // Node.js module format
+    "lib": ["ES2022", "DOM"],     // Available APIs
+    "strict": true,               // Enable ALL strict checks (IMPORTANT)
+    "esModuleInterop": true,      // Better import compatibility
+    "resolveJsonModule": true,    // Allow importing .json files
+    "outDir": "./dist",           // Compiled output folder
+    "rootDir": "./",              // Source root
+    "baseUrl": ".",               // For path aliases
+    "paths": {
+      "@/pages/*": ["./pages/*"], // Path alias
+      "@/helpers/*": ["./helpers/*"]
+    }
+  },
+  "include": ["**/*.ts"],         // Compile all .ts files
+  "exclude": ["node_modules", "dist"]
+}</div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box">
+            <h3>Key <code>strict</code> Checks Enabled</h3>
+            <ul>
+                <li><code>strictNullChecks</code> — null/undefined must be handled</li>
+                <li><code>noImplicitAny</code> — no accidental <code>any</code> types</li>
+                <li><code>strictFunctionTypes</code> — safe callback types</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Always Enable <code>"strict": true</code></h3>
+            <p class="compact" style="font-size:0.8em;">This single flag enables all strict type checks. Playwright's official examples use strict mode. Start strict — never regret it later.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 11: TypeScript in Page Objects -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>TypeScript in Playwright Page Objects</h2>
+    <div class="code-snippet">import { Page, Locator } from '@playwright/test';
+
+// Define types at the top of the file
+interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+export class LoginPage {
+  // Type the page reference and locators
+  private readonly page: Page;
+  private readonly usernameInput: Locator;
+  private readonly passwordInput: Locator;
+  private readonly loginButton: Locator;
+  private readonly errorMessage: Locator;
+
+  constructor(page: Page) {
+    this.page = page;
+    this.usernameInput = page.getByLabel('Username');
+    this.passwordInput = page.getByLabel('Password');
+    this.loginButton = page.getByRole('button', { name: 'Login' });
+    this.errorMessage = page.getByRole('alert');
+  }
+
+  async login(credentials: LoginCredentials): Promise&lt;void&gt; {
+    await this.usernameInput.fill(credentials.username);
+    await this.passwordInput.fill(credentials.password);
+    await this.loginButton.click();
+  }
+
+  async getErrorText(): Promise&lt;string | null&gt; {
+    return await this.errorMessage.textContent();
+  }
+}</div>
+    <div class="highlight-box">
+        <p class="compact bold">TypeScript + Page Objects: The combination gives you IDE autocomplete on every page method, preventing typos and wrong parameter types.</p>
+    </div>
+</section>
+
+<!-- Slide 12: TypeScript vs JavaScript Decision -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>TypeScript vs JavaScript: When to Use What</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">JavaScript — Use When</h3>
+            <ul>
+                <li class="cross">Quick scripts or one-off utilities</li>
+                <li class="cross">Prototyping without compilation overhead</li>
+                <li class="cross">Team unfamiliar with types at start</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>TypeScript — Use When (Recommended)</h3>
+            <ul>
+                <li>Framework projects with multiple contributors</li>
+                <li>Long-lived test suites that need refactoring</li>
+                <li>Working with Playwright (official TS support)</li>
+                <li>You want IDE-powered autocomplete</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact">Playwright officially recommends TypeScript. All examples in this course are TypeScript. Industry standard in 2026 for SDET roles.</p>
+    </div>
+</section>
+
+<!-- Slide 13: Session Summary -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 5 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>TypeScript Toolkit</h3>
+            <ul>
+                <li>Static types: string, number, boolean, arrays</li>
+                <li>Interface for object shapes + optional properties</li>
+                <li>Union types and enums for constrained values</li>
+                <li>Generics for reusable typed containers</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Applied to Playwright</h3>
+            <ul>
+                <li>Typed page objects with <code>Page</code> and <code>Locator</code></li>
+                <li>Utility types: Partial, Readonly, Pick, Omit</li>
+                <li>tsconfig with <code>"strict": true</code></li>
+                <li>Function signatures with <code>Promise&lt;void&gt;</code> returns</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="text-align:center; background:#eff6ff; border-color:var(--vibe-blue);">
+        <p class="bold text-blue">Next: Session 6 — Node.js Project Setup (npm, tsconfig, project anatomy)</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

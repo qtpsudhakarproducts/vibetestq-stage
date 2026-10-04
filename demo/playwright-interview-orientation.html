@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Interview Orientation - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{--vibe-blue:#1e40af;--dk:#1e3a8a;--vibe-green:#22c55e;--vibe-yellow:#fbbf24;--vibe-orange:#f97316;--bg:#f8fafc;}
+        .reveal{background:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+        .reveal h1,.reveal h2,.reveal h3{text-transform:none;font-weight:700;color:var(--dk);}
+        .reveal h1{font-size:1.55em;margin-bottom:.12em;}
+        .reveal h3{font-size:.9em;color:var(--vibe-green);margin-bottom:.12em;}
+        .reveal p,.reveal li{color:#334155;line-height:1.4;}
+
+        /* Consistent Layouts for Content Slides */
+        .reveal .slides section:not(.title-slide):not(.chapter-slide):not(.quote-slide) {
+            display: flex!important;
+            flex-direction: column!important;
+            justify-content: flex-start!important;
+            align-items: stretch!important;
+            text-align: left!important;
+            height: 100%!important;
+            padding: 40px 50px 20px 50px!important;
+            box-sizing: border-box!important;
+        }
+        .reveal .slides section.title-slide,
+        .reveal .slides section.chapter-slide,
+        .reveal .slides section.quote-slide {
+            display: flex!important;
+            flex-direction: column!important;
+            justify-content: center!important;
+            align-items: center!important;
+            text-align: center!important;
+            height: 100%!important;
+            padding: 30px!important;
+            box-sizing: border-box!important;
+        }
+        .reveal h2 {
+            font-size: 1.22em;
+            margin: 0 0 10px 0!important;
+            color: var(--vibe-blue);
+            text-align: left;
+        }
+        .phase-breadcrumb {
+            font-size: 0.52em;
+            font-weight: 700;
+            color: var(--vibe-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 2px!important;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.85;
+        }
+        .phase-breadcrumb i {
+            font-size: 0.95em;
+            color: var(--vibe-green);
+        }
+        .logo-corner {
+            position: absolute!important;
+            top: -15px!important;
+            right: -25px!important;
+            z-index: 100;
+        }
+        .logo-corner img {
+            width: 120px!important;
+            height: auto;
+        }
+
+        /* Title */
+        .title-slide{background:#fff!important;}
+        .title-slide h1{font-size:1.8em;color:var(--dk);margin:8px 0 6px;}
+        .title-slide .subtitle{font-size:1.05em;color:var(--vibe-orange);margin:6px 0;}
+        .title-slide .tagline{font-size:.85em;color:var(--vibe-blue);margin:5px 0 10px;}
+
+        /* Chapter / Phase dividers */
+        .chapter-slide{background:#1e3a8a!important;}
+        .chapter-slide h1{color:#fff;font-size:2.2em;margin-bottom:10px;}
+        .chapter-slide h2{color:#94a3b8;font-size:1.3em;text-align:center!important;}
+        .chapter-slide i{color:var(--vibe-green);}
+
+        /* Quote slides */
+        .quote-slide{background:linear-gradient(135deg,#1e3a8a 0%,#1e40af 60%,#0f766e 100%)!important;}
+        .reveal .quote-text{font-size:1.5em;color:#ffffff!important;font-style:italic;font-weight:300;line-height:1.5;text-align:center;padding:0 20px;}
+        .reveal .quote-author{font-size:.85em;color:#fbbf24!important;font-weight:600;margin-top:16px;text-align:center;letter-spacing:.05em;}
+        .reveal .quote-icon{color:rgba(255,255,255,.25)!important;font-size:5em;text-align:center;display:block;margin-bottom:12px;}
+
+        /* Stat slides */
+        .stat-hero{text-align:center;padding:20px 0 10px;}
+        .stat-num{font-size:4.5em;font-weight:900;color:var(--vibe-orange);line-height:1;display:block;}
+        .stat-unit{font-size:1.1em;color:var(--vibe-blue);font-weight:600;}
+        .stat-desc{font-size:.85em;color:#64748b;margin-top:6px;}
+
+        /* Content boxes */
+        .cb{background:var(--bg);border-left:4px solid var(--vibe-blue);padding:7px 12px;margin:4px 0;border-radius:6px;transition: transform 0.2s, box-shadow 0.2s;}
+        .cb:hover{transform: translateY(-2px);box-shadow: 0 4px 10px rgba(0,0,0,0.05);}
+        .cb.green{border-left-color:var(--vibe-green);background:#f0fdf4;}
+        .cb.orange{border-left-color:var(--vibe-orange);background:#fff7ed;}
+        .cb.red{border-left-color:#ef4444;background:#fff1f2;}
+        .cb.yellow{border-left-color:var(--vibe-yellow);background:#fefce8;}
+        .cb.purple{border-left-color:#9333ea;background:#faf5ff;}
+
+        /* Highlight / warning / success */
+        .hl{background:#fef3c7;border:2px solid var(--vibe-yellow);padding:6px 10px;margin:4px auto;border-radius:8px;max-width:92%;}
+        .ok{background:#f0fdf4;border-left:4px solid var(--vibe-green);padding:6px 12px;margin:4px 0;border-radius:6px;}
+        .ng{background:#fff1f2;border-left:4px solid #ef4444;padding:6px 12px;margin:4px 0;border-radius:6px;}
+
+        /* Lists */
+        .reveal ul{list-style:none;margin:5px 0;}
+        .reveal ul li{margin:4px 0;padding-left:28px;position:relative;text-align:left;font-size:.79em;line-height:1.35;}
+        .reveal ul li:before{content:"\f058";font-family:"Font Awesome 6 Free";font-weight:900;color:var(--vibe-green);font-size:.9em;position:absolute;left:0;top:1px;}
+        .reveal ul li.x:before{content:"\f057";color:#ef4444;}
+        .reveal ul li.w:before{content:"\f071";color:var(--vibe-yellow);}
+        .reveal ul li.b:before{content:"\f058";color:var(--vibe-blue);}
+
+        /* Typography helpers */
+        .to{color:var(--vibe-orange);}.tg{color:var(--vibe-green);}.tb{color:var(--vibe-blue);}
+        .tp{color:#9333ea;}.tr{color:#ef4444;}.ty{color:var(--vibe-yellow);}
+        .bold{font-weight:700;}
+        .sm{font-size:.78em;line-height:1.3;}.xs{font-size:.72em;line-height:1.25;}
+
+        /* Badges */
+        .badge{display:inline-block;background:var(--vibe-orange);color:#fff;padding:3px 9px;border-radius:16px;font-weight:600;font-size:.72em;margin:2px;}
+        .badge.b{background:var(--vibe-blue);}.badge.g{background:#16a34a;}.badge.p{background:#7c3aed;}.badge.gr{background:#64748b;}.badge.r{background:#dc2626;}
+
+        /* Grids */
+        .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0;}
+        .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:6px 0;}
+        .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0;}
+        .g5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:6px 0;}
+
+        /* Icon boxes */
+        .ib{text-align:center;padding:12px 8px;background:var(--bg);border-radius:10px;transition: transform 0.2s, box-shadow 0.2s;}
+        .ib:hover{transform: translateY(-3px);box-shadow: 0 6px 12px rgba(0,0,0,0.06);}
+        .ib i{font-size:1.7em;margin-bottom:6px;display:block;}
+        .ib h3{font-size:.82em;margin-bottom:4px;}
+        .ib p{font-size:.68em;color:#64748b;line-height:1.3;}
+        .ib.b i{color:var(--vibe-blue);}.ib.g i{color:var(--vibe-green);}
+        .ib.o i{color:var(--vibe-orange);}.ib.p i{color:#9333ea;}.ib.r i{color:#ef4444;}
+
+        /* Visual Checks & Cards (reduces bullet points) */
+        .check-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:10px;margin:8px 0;}
+        .check-card{display:flex;align-items:flex-start;gap:10px;background:var(--bg);padding:10px 12px;border-radius:8px;border-left:4px solid var(--vibe-green);text-align:left;transition:transform 0.2s, box-shadow 0.2s;}
+        .check-card:hover{transform:translateY(-2px);box-shadow:0 4px 8px rgba(0,0,0,0.04);}
+        .check-card.blue{border-left-color:var(--vibe-blue);}
+        .check-card.orange{border-left-color:var(--vibe-orange);}
+        .check-card.purple{border-left-color:#9333ea;}
+        .check-card.red{border-left-color:#ef4444;}
+        .check-card i{font-size:1.25em;margin-top:2px;}
+        .check-card-title{font-weight:700;font-size:0.78em;color:var(--dk);margin:0 0 2px;}
+        .check-card-desc{font-size:0.68em;color:#64748b;line-height:1.3;}
+
+        /* Compact variations for tight layouts */
+        .ib.compact{padding:6px 6px 4px;border-radius:8px;}
+        .ib.compact i{font-size:1.3em;margin-bottom:3px;display:block;}
+        .ib.compact h3{font-size:0.78em;margin-bottom:2px;}
+        .ib.compact p{font-size:0.64em;line-height:1.2;}
+
+        .check-card.compact{padding:6px 10px;gap:8px;}
+        .check-card.compact i{font-size:1.1em;margin-top:1px;}
+        .check-card.compact .check-card-title{font-size:0.75em;}
+        .check-card.compact .check-card-desc{font-size:0.64em;}
+
+
+        /* Big icon hero */
+        .icon-hero{text-align:center;margin:10px 0 6px;}
+        .icon-hero i{font-size:3.2em;margin-bottom:6px;display:block;}
+
+        /* Flow */
+        .flow{background:#f1f5f9;border-radius:8px;padding:10px;margin:6px 0;}
+        .arrow-flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;}
+        .step{background:var(--vibe-blue);color:#fff;padding:5px 10px;border-radius:6px;font-weight:600;font-size:.63em;}
+        .step.g{background:var(--vibe-green);}.step.o{background:var(--vibe-orange);}
+        .step.p{background:#9333ea;}.step.dk{background:#1e3a8a;}.step.gr{background:#16a34a;}
+        .arrow{color:var(--vibe-orange);font-size:1.1em;}
+
+        /* Tables */
+        .tbl{width:100%;border-collapse:collapse;font-size:.68em;margin:6px 0;}
+        .tbl th{background:var(--vibe-blue);color:#fff;padding:5px 8px;text-align:left;font-weight:600;}
+        .tbl td{padding:4px 8px;border-bottom:1px solid #e2e8f0;color:#334155;}
+        .tbl tr:nth-child(even) td{background:var(--bg);}
+        .good{color:#16a34a;font-weight:600;}.bad{color:#dc2626;font-weight:600;}.warn{color:var(--vibe-orange);font-weight:600;}
+
+        /* Role cards & Timelines */
+        .rc{border-radius:8px;padding:7px 10px;margin:3px 0;display:flex;align-items:baseline;gap:8px;transition: transform 0.2s;}
+        .rc:hover{transform: translateX(4px);}
+        .rc.fr{background:#f0fdf4;border-left:4px solid #22c55e;}
+        .rc.en{background:#eff6ff;border-left:4px solid #1e40af;}
+        .rc.sr{background:#fff7ed;border-left:4px solid #f97316;}
+        .rc.ld{background:#faf5ff;border-left:4px solid #9333ea;}
+        .rc.ar{background:#fff1f2;border-left:4px solid #ef4444;}
+        .rl{font-weight:700;font-size:.68em;display:inline-block;padding:1px 7px;border-radius:10px;color:#fff;flex-shrink:0;}
+
+        /* Progression Timeline/Ladder */
+        .ladder{display:flex;flex-direction:column;gap:8px;margin:10px 0;}
+        .ladder-step{display:flex;align-items:center;gap:12px;background:var(--bg);padding:8px 12px;border-radius:8px;border-left:4px solid #cbd5e1;text-align:left;transition: transform 0.2s;}
+        .ladder-step:hover{transform: translateX(5px);box-shadow: 0 4px 8px rgba(0,0,0,0.03);}
+        .ladder-step.active{border-left-color:var(--vibe-orange);background:#fff7ed;}
+        .ladder-num{font-weight:800;font-size:0.9em;color:var(--vibe-orange);width:26px;height:26px;border-radius:50%;background:#ffedd5;display:flex;align-items:center;justify-content:center;}
+        .ladder-content{flex:1;}
+        .ladder-title{font-weight:700;font-size:0.78em;color:var(--dk);}
+        .ladder-desc{font-size:0.66em;color:#64748b;}
+
+        /* Journey steps */
+        .js{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:8px;padding:8px 12px;margin:5px 0;transition: transform 0.2s;}
+        .js:hover{transform: translateY(-1px);box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+        .jn{background:var(--vibe-orange);color:#fff;font-weight:800;font-size:.68em;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;white-space:nowrap;}
+        .jl{font-size:.76em;font-weight:700;color:var(--dk);text-align:left;margin-bottom:2px;}
+        .jt{font-size:.64em;color:#64748b;text-align:left;line-height:1.2;}
+
+        /* Folder Structure */
+        .folder-tree{font-family:'Consolas',monospace;font-size:.58em;background:#0d1117;color:#c9d1d9;padding:12px;border-radius:8px;text-align:left;line-height:1.5;border:1px solid #30363d;}
+        .folder-tree .dir{color:#58a6ff;font-weight:bold;}
+        .folder-tree .file{color:#8b949e;}
+        .folder-tree .comment{color:#8b949e;font-style:italic;}
+
+        /* Code */
+        .code{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px 14px;font-family:'Consolas',monospace;font-size:.57em;margin:6px 0;color:#c9d1d9;text-align:left;white-space:pre;line-height:1.6;}
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- ════════════ TITLE ════════════ -->
+<section class="title-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" style="width: 200px!important;" onerror="this.style.display='none'"></div>
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:520px;width:84%;margin:0 auto 10px;display:block;" onerror="this.style.display='none'">
+    <h1>Playwright Interview Orientation</h1>
+    <p class="subtitle">From Resume to Offer &mdash; Every Role, Every Stage</p>
+    <p class="tagline">By Sudhakar Kakunuri &nbsp;&middot;&nbsp; VibeTestQ</p>
+    <div style="margin-top:12px;">
+        <span class="badge"><i class="fas fa-file-alt"></i> Resume</span>
+        <span class="badge b"><i class="fab fa-github"></i> Portfolio</span>
+        <span class="badge g"><i class="fas fa-theater-masks"></i> Interview</span>
+        <span class="badge p"><i class="fas fa-robot"></i> AI Agents</span>
+        <span class="badge" style="background:#7c3aed;"><i class="fas fa-star"></i> Outstanding</span>
+    </div>
+</section>
+
+<!-- ════════════ JOURNEY OVERVIEW ════════════ -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb" style="color:var(--vibe-blue);"><i class="fa-solid fa-route" style="color:var(--vibe-orange);"></i> The Complete Roadmap</div>
+    <h2>12 Steps. 4 Phases. One Offer.</h2>
+    <div class="flow" style="margin-bottom:8px;">
+        <div class="arrow-flow">
+            <div class="step">Prepare</div><div class="arrow">&rarr;</div>
+            <div class="step g">Apply</div><div class="arrow">&rarr;</div>
+            <div class="step o">Get Screened</div><div class="arrow">&rarr;</div>
+            <div class="step p">Interview</div><div class="arrow">&rarr;</div>
+            <div class="step gr">Get Offer</div>
+        </div>
+    </div>
+    <div class="g2">
+        <div>
+            <div class="js"><div class="jn">1</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-file-invoice tb" style="margin-right:5px;"></i> Resume Prep</div><div class="jt">Customise &middot; JD keyword mirror</div></div></div>
+            <div class="js"><div class="jn">2</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-robot tb" style="margin-right:5px;"></i> AI in Hiring</div><div class="jt">Beat ATS &middot; Avoid live AI traps</div></div></div>
+            <div class="js"><div class="jn">3</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-brands fa-github tb" style="margin-right:5px;"></i> GitHub Portfolio</div><div class="jt">CI passing &middot; Real framework proof</div></div></div>
+            <div class="js"><div class="jn">4</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-sliders-h tb" style="margin-right:5px;"></i> Answer Calibration</div><div class="jt">Calibrate answer depth to mastery levels</div></div></div>
+            <div class="js"><div class="jn">5</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-user-tie tb" style="margin-right:5px;"></i> Introduction Pitch</div><div class="jt">2-min hook &middot; Bridge to role</div></div></div>
+            <div class="js"><div class="jn">6</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-reply tb" style="margin-right:5px;"></i> Answering Strategy</div><div class="jt">3-State model &middot; Show thinking</div></div></div>
+        </div>
+        <div>
+            <div class="js"><div class="jn">7</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-brain tb" style="margin-right:5px;"></i> Playwright Basics</div><div class="jt">Core CDP &middot; Auto-waiting &middot; Locators</div></div></div>
+            <div class="js"><div class="jn">8</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-layer-group tb" style="margin-right:5px;"></i> Advanced Topics</div><div class="jt">BDD &middot; GitHub Actions &middot; Standards</div></div></div>
+            <div class="js"><div class="jn">9</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-microchip tb" style="margin-right:5px;"></i> AI QA Agents</div><div class="jt">Planner &middot; Healer &middot; Generator</div></div></div>
+            <div class="js"><div class="jn">10</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-gauge-high tb" style="margin-right:5px;"></i> Evaluation Rules</div><div class="jt">3 dimensions evaluated by QA</div></div></div>
+            <div class="js"><div class="jn">11</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-award tb" style="margin-right:5px;"></i> Feedback Levels</div><div class="jt">Good vs Outstanding candidate gap</div></div></div>
+            <div class="js"><div class="jn">12</div><div style="display:flex;flex-direction:column;flex:1;"><div class="jl"><i class="fa-solid fa-circle-check tb" style="margin-right:5px;"></i> Post-Interview Loop</div><div class="jt">Diagnostic loops &middot; Iterate to offer</div></div></div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ QUOTE 1 ════════════ -->
+<section class="quote-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <i class="fa-solid fa-quote-left quote-icon"></i>
+    <p class="quote-text">"The interview begins the moment you send your resume. Win that round first."</p>
+    <p class="quote-author">&mdash; Sudhakar Kakunuri, VibeTestQ</p>
+</section>
+
+<!-- ════════════ PHASE 1 DIVIDER ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:30px 0 10px;">
+        <i class="fa-solid fa-circle-crosshairs" style="font-size:3.5em;margin-bottom:14px;display:block;color:var(--vibe-green);"></i>
+        <h1>Phase 1</h1><h2>Before You Apply</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:.88em;">Resume &nbsp;&middot;&nbsp; AI Filtering &nbsp;&middot;&nbsp; GitHub Portfolio</p>
+        <div style="margin-top:16px;">
+            <span style="color:#fbbf24;font-size:1.15em;font-style:italic;font-weight:300;">"Your GitHub portfolio is your silent advocate before you even say a word."</span>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════ CH1: RESUME ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-file-invoice" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 1</h1><h2>Resume Preparation</h2>
+    </div>
+</section>
+
+<!-- Resume: the mistake + rule -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-circle-crosshairs"></i> Phase 1 &middot; Before You Apply</div>
+    <h2>One Resume for All = Zero Calls</h2>
+    <div class="g2" style="margin-top:10px;">
+        <div>
+            <div style="text-align:center;padding:18px;background:#fff1f2;border-radius:12px;border:2px solid #ef4444;box-shadow: 0 4px 6px rgba(239, 68, 68, 0.15);">
+                <i class="fa-solid fa-circle-xmark" style="font-size:3em;color:#ef4444;display:block;margin-bottom:10px;"></i>
+                <p class="bold tr" style="font-size:.9em;">Generic Resume</p>
+                <p class="xs" style="color:#64748b;margin-top:6px;">Same file &middot; 100 companies &middot; 0 callbacks</p>
+            </div>
+        </div>
+        <div>
+            <div style="text-align:center;padding:18px;background:#f0fdf4;border-radius:12px;border:2px solid var(--vibe-green);box-shadow: 0 4px 6px rgba(34, 197, 94, 0.15);">
+                <i class="fa-solid fa-circle-check" style="font-size:3em;color:var(--vibe-green);display:block;margin-bottom:10px;"></i>
+                <p class="bold tg" style="font-size:.9em;">Tailored Resume</p>
+                <p class="xs" style="color:#64748b;margin-top:6px;">New version &middot; every role &middot; JD keywords mirrored</p>
+            </div>
+        </div>
+    </div>
+    <div class="flow" style="margin-top:10px;">
+        <div class="arrow-flow">
+            <div class="step">Read JD</div><div class="arrow">&rarr;</div>
+            <div class="step g">Extract Keywords</div><div class="arrow">&rarr;</div>
+            <div class="step o">Map to Your XP</div><div class="arrow">&rarr;</div>
+            <div class="step p">Rewrite &amp; Submit</div>
+        </div>
+    </div>
+    <div class="g3" style="margin-top:8px;">
+        <div class="ib b"><i class="fa-solid fa-align-left"></i><h3>Summary</h3><p>3 lines, role-specific, JD-mirrored</p></div>
+        <div class="ib g"><i class="fa-solid fa-screwdriver-wrench"></i><h3>Skills</h3><p>Their tools first, in their priority order</p></div>
+        <div class="ib o"><i class="fa-solid fa-chart-line"></i><h3>Metrics</h3><p>"Reduced flaky tests 60%" beats "wrote tests"</p></div>
+    </div>
+
+</section>
+
+<!-- Resume: referrals + research -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-circle-crosshairs"></i> Phase 1 &middot; Before You Apply</div>
+    <h2>Research First. Referral Always.</h2>
+    <div class="g2" style="margin-top:8px;">
+        <div class="cb" style="padding:4px 8px;">
+            <h3 style="margin-bottom:8px;"><i class="fa-solid fa-magnifying-glass to"></i> Research Before Applying</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card blue compact"><i class="fa-solid fa-globe tb"></i><div><div class="check-card-title">Company Info</div><div class="check-card-desc">Domain, product &amp; engineering blogs</div></div></div>
+                <div class="check-card blue compact"><i class="fa-brands fa-linkedin tb"></i><div><div class="check-card-title">LinkedIn Team</div><div class="check-card-desc">Team size, tech stack, hiring patterns</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-comments tb"></i><div><div class="check-card-title">Candidate Reports</div><div class="check-card-desc">Glassdoor logs &amp; past interview reports</div></div></div>
+                <div class="check-card blue compact"><i class="fa-brands fa-github tb"></i><div><div class="check-card-title">Target Repos</div><div class="check-card-desc">Reveals actual stack &amp; versions in use</div></div></div>
+            </div>
+        </div>
+        <div class="cb green" style="padding:4px 8px;">
+            <h3 style="margin-bottom:8px;"><i class="fa-solid fa-handshake tg"></i> The Referral Power Move</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card compact"><i class="fa-solid fa-users tg"></i><div><div class="check-card-title">ATS Bypass</div><div class="check-card-desc">A referral gets your resume seen by humans first</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-chart-line tg"></i><div><div class="check-card-title">Higher Conversion</div><div class="check-card-desc">Referred candidates are 10x more likely to interview</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-network-wired tg"></i><div><div class="check-card-title">LinkedIn Strategy</div><div class="check-card-desc">Leverage 2nd-degree connections in target QA/Eng</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-graduation-cap tg"></i><div><div class="check-card-title">Alumni Networks</div><div class="check-card-desc">Reach out via university networks &amp; Slack groups</div></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="ok" style="margin-top:5px;padding:4px 10px;">
+        <p style="font-size:.76em;text-align:center;line-height:1.3;"><i class="fa-solid fa-circle-exclamation tg"></i>&nbsp;<span class="bold">Every resume bullet is a question waiting to be asked.</span> Answer with a specific example, a metric, and the final business impact.</p>
+    </div>
+
+</section>
+
+<!-- ════════════ CH2: AI IN HIRING ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-robot" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 2</h1><h2>AI in the Hiring Process</h2>
+    </div>
+</section>
+
+<!-- AI: both sides -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-circle-crosshairs"></i> Phase 1 &middot; Before You Apply</div>
+    <h2>Both Sides Are Using AI</h2>
+    <div class="g2" style="margin-top:8px;">
+        <div class="cb orange" style="padding:10px;">
+            <div style="text-align:center;margin-bottom:8px;">
+                <i class="fa-solid fa-building" style="font-size:2em;color:var(--vibe-orange);display:block;margin-bottom:4px;"></i>
+                <p class="bold to sm">How Companies Use AI</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <div class="check-card orange"><i class="fa-solid fa-filter to"></i><div><div class="check-card-title">ATS Keyword Scores</div><div class="check-card-desc">Filters resumes on precise match tags</div></div></div>
+                <div class="check-card orange"><i class="fa-solid fa-triangle-exclamation to"></i><div><div class="check-card-title">Copy Checking</div><div class="check-card-desc">Flags resumes that copy-paste the JD word-for-word</div></div></div>
+                <div class="check-card orange"><i class="fa-solid fa-video to"></i><div><div class="check-card-title">Video Tone Check</div><div class="check-card-desc">Analyzes speaking confidence, speed, &amp; keyword recall</div></div></div>
+            </div>
+        </div>
+        <div class="cb green" style="padding:10px;">
+            <div style="text-align:center;margin-bottom:8px;">
+                <i class="fa-solid fa-user" style="font-size:2em;color:var(--vibe-blue);display:block;margin-bottom:4px;"></i>
+                <p class="bold tb sm">How Candidates Should Use AI</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <div class="check-card"><i class="fa-solid fa-graduation-cap tg"></i><div><div class="check-card-title">Preparation &amp; Learning</div><div class="check-card-desc">Use LLMs to explain concepts and review code</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-times-circle tr"></i><div><div class="check-card-title">Avoid Cheat Assistants</div><div class="check-card-desc">Screen checkers &amp; live answer prompt tools get you caught</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-ban tr"></i><div><div class="check-card-title">Avoid Rote Copying</div><div class="check-card-desc">Writing generic, prompt-generated resumes hurts callbacks</div></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="ng" style="margin-top:10px;">
+        <p style="font-size:.76em;text-align:center;margin-bottom:4px;"><i class="fa-solid fa-eye tr bold"></i>&nbsp;&nbsp;<span class="bold">Interviewers catch live AI cheating instantly via:</span></p>
+        <div style="text-align:center;">
+            <span class="badge r"><i class="fa-solid fa-eye-slash"></i> Close Eyes Test</span>
+            <span class="badge r"><i class="fa-solid fa-rotate"></i> Mirror Tech</span>
+            <span class="badge r"><i class="fa-solid fa-bolt"></i> Speed Rounds</span>
+            <span class="badge r"><i class="fa-solid fa-skull-crossbones"></i> Wrong Term Traps</span>
+            <span class="badge r"><i class="fa-solid fa-arrow-right-long"></i> Deep Follow-ups</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ QUOTE 2 ════════════ -->
+<section class="quote-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <i class="fa-solid fa-quote-left quote-icon"></i>
+    <p class="quote-text">"AI can write your resume. AI cannot do your interview. Know the difference."</p>
+    <p class="quote-author">&mdash; VibeTestQ Interview Series</p>
+</section>
+
+<!-- ════════════ CH3: GITHUB PORTFOLIO ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-brands fa-github" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 3</h1><h2>GitHub Portfolio</h2>
+    </div>
+</section>
+
+<!-- Portfolio: stat + why -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-circle-crosshairs"></i> Phase 1 &middot; Before You Apply</div>
+    <h2>Your Code Before You Speak</h2>
+    <div class="g3" style="margin-top:6px;gap:6px;">
+        <div class="ib g compact">
+            <i class="fa-solid fa-trophy"></i><h3>Top 10%</h3>
+            <p>Most candidates have no GitHub. A working repo puts you there instantly.</p>
+        </div>
+        <div class="ib b compact">
+            <i class="fa-solid fa-certificate"></i><h3>Proof Not Claims</h3>
+            <p>Anyone claims Playwright. A green CI badge proves it is real and current.</p>
+        </div>
+        <div class="ib o compact">
+            <i class="fa-solid fa-anchor"></i><h3>Interview Anchor</h3>
+            <p>Interviewers ask about YOUR code. You know every answer because you wrote it.</p>
+        </div>
+    </div>
+    <div class="g2" style="margin-top:4px;gap:8px;">
+        <div>
+            <p class="bold tb xs" style="text-align:left;margin-bottom:3px;"><i class="fa-solid fa-folder-tree"></i> Non-Negotiable Structure</p>
+            <div class="folder-tree" style="padding:6px;font-size:0.46em;line-height:1.25;">
+                <span class="dir"><i class="fa-solid fa-folder-open"></i> playwright-framework/</span><br>
+                <span class="dir">&nbsp;&nbsp;├── <i class="fa-solid fa-folder"></i> .github/</span><br>
+                <span class="dir">&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <i class="fa-solid fa-folder"></i> workflows/</span> <span class="comment">// CI pipelines</span><br>
+                <span class="dir">&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;├── <i class="fa-solid fa-folder"></i> agents/</span> <span class="comment">// AI agent profiles</span><br>
+                <span class="dir">&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;└── <i class="fa-solid fa-folder"></i> skills/</span> <span class="comment">// SKILL.md rules</span><br>
+                <span class="dir">&nbsp;&nbsp;├── <i class="fa-solid fa-folder"></i> tests/</span> <span class="comment">// UI &amp; API test specs</span><br>
+                <span class="dir">&nbsp;&nbsp;├── <i class="fa-solid fa-folder"></i> pages/</span> <span class="comment">// POM components</span><br>
+                <span class="dir">&nbsp;&nbsp;├── <i class="fa-solid fa-folder"></i> fixtures/</span> <span class="comment">// Custom Page fixtures</span><br>
+                <span class="file">&nbsp;&nbsp;├── <i class="fa-solid fa-file-code"></i> playwright.config.ts</span> <span class="comment">// Runner config</span><br>
+                <span class="file">&nbsp;&nbsp;├── <i class="fa-solid fa-file-code"></i> package.json</span> <span class="comment">// Dependencies</span><br>
+                <span class="file">&nbsp;&nbsp;├── <i class="fa-solid fa-file-code"></i> package-lock.json</span> <span class="comment">// Dependency lock</span><br>
+                <span class="file">&nbsp;&nbsp;├── <i class="fa-solid fa-file-code"></i> tsconfig.json</span> <span class="comment">// TS settings</span><br>
+                <span class="file">&nbsp;&nbsp;└── <i class="fa-solid fa-file-lines"></i> README.md</span> <span class="comment">// Setup instructions</span>
+            </div>
+        </div>
+        <div class="cb green" style="padding:6px 8px;">
+            <p class="bold tg xs" style="margin-bottom:4px;"><i class="fa-solid fa-star"></i> What Makes It Outstanding</p>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card compact"><i class="fa-solid fa-shield-heart tg"></i><div><div class="check-card-title">Green CI Badge</div><div class="check-card-desc">Shows test runs are actively passing on commits</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-circle-nodes tg"></i><div><div class="check-card-title">Hybrid Test Suites</div><div class="check-card-desc">UI + API specs side-by-side in the same project</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-key tg"></i><div><div class="check-card-title">Auth Optimization</div><div class="check-card-desc">Uses storageState to save &amp; inject sessions</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-file-signature tg"></i><div><div class="check-card-title">Governance Info</div><div class="check-card-desc">Includes BDD spec files or a STANDARDS.md</div></div></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ PHASE 2 DIVIDER ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:30px 0 10px;">
+        <i class="fa-solid fa-comments" style="font-size:3.5em;margin-bottom:14px;display:block;color:var(--vibe-green);"></i>
+        <h1>Phase 2</h1><h2>In the Interview</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:.88em;">Calibration &nbsp;&middot;&nbsp; Introduction &nbsp;&middot;&nbsp; Answering &nbsp;&middot;&nbsp; Knowledge</p>
+        <div style="margin-top:16px;">
+            <span style="color:#fbbf24;font-size:1.15em;font-style:italic;font-weight:300;">"You got the call because your resume passed. Now show them why they're right."</span>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════ CH4: ROLE CALIBRATION ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-sliders" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 4</h1><h2>Depth-Based Answer Calibration</h2>
+    </div>
+</section>
+
+<!-- Role map visual -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-comments"></i> Phase 2 &middot; In the Interview</div>
+    <h2>Same Question. Three Expected Depths.</h2>
+    <div class="hl" style="margin-bottom:8px;"><p class="bold tb" style="font-size:.82em;text-align:center;"><i class="fa-solid fa-triangle-exclamation"></i> Answering at the wrong depth &mdash; too shallow or too deep &mdash; is an instant red flag.</p></div>
+    <div class="ladder">
+        <div class="ladder-step"><div class="ladder-num" style="background:#dcfce7;color:#22c55e;">1</div><div class="ladder-content"><span class="badge g">Basic Depth (Ch 7)</span> <span class="ladder-desc">&middot; CLI &amp; codegen &middot; Accessible locators &middot; Page Object Model basics &middot; Git &amp; local reports</span></div></div>
+        <div class="ladder-step"><div class="ladder-num" style="background:#dbeafe;color:#1e40af;">2</div><div class="ladder-content"><span class="badge b">Intermediate Depth (Ch 8)</span> <span class="ladder-desc">&middot; Config &amp; fixtures &middot; Shadow DOM piercing &middot; API specs &middot; Cucumber BDD &middot; Suite tagging</span></div></div>
+        <div class="ladder-step"><div class="ladder-num" style="background:#ffe4e6;color:#ef4444;">3</div><div class="ladder-content"><span class="badge r">Advanced Depth (Ch 9)</span> <span class="ladder-desc">&middot; Playwright MCP &middot; Agent rules (SKILL.md) &middot; CI sharding &middot; Enterprise self-healing &middot; Multi-repo</span></div></div>
+    </div>
+
+</section>
+
+<!-- Calibration example: Page Object Model -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-comments"></i> Phase 2 &middot; In the Interview</div>
+    <h2>"How do you implement Page Object Model?" &mdash; 3 Depths</h2>
+    <div class="ladder">
+        <div class="ladder-step"><div class="ladder-num" style="background:#dcfce7;color:#22c55e;">1</div><div class="ladder-content"><div class="ladder-title">Basic Depth: "Classes with locators &amp; helper methods"</div><div class="ladder-desc">"I create page object classes, defining locator elements as properties and writing basic helper methods to execute actions."</div></div></div>
+        <div class="ladder-step"><div class="ladder-num" style="background:#dbeafe;color:#1e40af;">2</div><div class="ladder-content"><div class="ladder-title">Intermediate Depth: "Inheritance, encapsulation &amp; direct instantiation"</div><div class="ladder-desc">"We implement a BasePage with shared elements, inherit it across pages, encapsulate locators via constructors, and initialize them directly in tests."</div></div></div>
+        <div class="ladder-step"><div class="ladder-num" style="background:#ffe4e6;color:#ef4444;">3</div><div class="ladder-content"><div class="ladder-title">Advanced Depth: "Custom fixtures &amp; zero-instantiation tests"</div><div class="ladder-desc">"Create a custom test fixture extending Playwright's base test to auto-instantiate and inject page objects, completely removing page setup redundancy from spec files."</div></div></div>
+    </div>
+
+</section>
+
+<!-- Calibration cheatsheet -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-comments"></i> Phase 2 &middot; In the Interview</div>
+    <h2>Depth Calibration Cheatsheet</h2>
+    <table class="tbl">
+        <thead><tr><th>Calibration Level</th><th>Must Know</th><th>Expected Depth</th><th>Red Flag</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge g">Basic</span></td><td>Syntax, locators, basic assertions, CLI, Git clone/PR</td><td>Core tool usage &amp; test execution</td><td class="bad"><i class="fa-solid fa-triangle-exclamation"></i> Can't run codegen or write a basic locator</td></tr>
+            <tr><td><span class="badge b">Intermediate</span></td><td>playwright.config.ts, custom fixtures, Cucumber BDD, API specs, suite tagging</td><td>Framework design &amp; config customization</td><td class="bad"><i class="fa-solid fa-triangle-exclamation"></i> Never touched config file or custom fixtures</td></tr>
+            <tr><td><span class="badge r">Advanced</span></td><td>Playwright MCP server, prompt rules (SKILL.md), GHA sharding, self-healing fallbacks, governance</td><td>AI agents infrastructure, CI sharding &amp; enterprise strategy</td><td class="bad"><i class="fa-solid fa-triangle-exclamation"></i> No CI sharding or agent integration strategy</td></tr>
+        </tbody>
+    </table>
+
+</section>
+
+<!-- ════════════ QUOTE 3 ════════════ -->
+<section class="quote-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <i class="fa-solid fa-quote-left quote-icon"></i>
+    <p class="quote-text">"Don't just answer the question. Answer it at the right altitude for your role."</p>
+    <p class="quote-author">&mdash; VibeTestQ Interview Series</p>
+</section>
+
+<!-- ════════════ CH5: TELL ME ABOUT YOURSELF ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-user-tie" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 5</h1><h2>Tell Me About Yourself</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:.88em;">Two minutes that set the direction of the entire interview</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-comments"></i> Phase 2 &middot; In the Interview</div>
+    <h2>The Four-Part Pitch</h2>
+    <div class="flow" style="margin-bottom:10px;">
+        <div class="arrow-flow">
+            <div class="step">Who I Am</div><div class="arrow">&rarr;</div>
+            <div class="step g">Where I Worked</div><div class="arrow">&rarr;</div>
+            <div class="step o">What I Built</div><div class="arrow">&rarr;</div>
+            <div class="step p">Bridge to Their Role</div>
+        </div>
+    </div>
+    <div class="g4" style="margin-top:10px;">
+        <div class="ib b"><i class="fa-solid fa-user"></i><h3>Background</h3><p>Years + companies + Playwright/TS depth</p></div>
+        <div class="ib g"><i class="fa-solid fa-diagram-project"></i><h3>Framework</h3><p>POM, fixtures, CI &mdash; what you built or shaped</p></div>
+        <div class="ib o"><i class="fa-solid fa-robot"></i><h3>Modern Stack</h3><p>GenAI tools used &mdash; Copilot, Claude, Cursor</p></div>
+        <div class="ib p"><i class="fa-solid fa-road-bridge"></i><h3>Bridge</h3><p>"I noticed your JD mentions X &mdash; that matches my Y"</p></div>
+    </div>
+    <div class="ok" style="margin-top:8px;">
+        <p class="sm" style="text-align:center;"><i class="fa-solid fa-lightbulb tg"></i>&nbsp; <span class="bold">The bridge is the differentiator.</span> End your intro by connecting your experience directly to their specific requirement. Shows you researched their role.</p>
+    </div>
+
+</section>
+
+<!-- ════════════ CH6: HOW TO ANSWER ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-circle-info" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 6</h1><h2>How to Answer</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:.88em;">Confidence &nbsp;&middot;&nbsp; Structure &nbsp;&middot;&nbsp; Never silent</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-comments"></i> Phase 2 &middot; In the Interview</div>
+    <h2>The 3-State Answer Model</h2>
+    <div class="g3" style="margin-top:10px;">
+        <div style="text-align:center;padding:16px;background:#f0fdf4;border-radius:12px;border:2px solid var(--vibe-green);box-shadow: 0 4px 6px rgba(34, 197, 94, 0.1);">
+            <i class="fa-solid fa-circle-check" style="font-size:2.8em;color:var(--vibe-green);display:block;margin-bottom:8px;"></i>
+            <p class="bold tg sm">I Know It</p>
+            <p class="xs" style="color:#64748b;margin-top:6px;">Answer instantly. Add a specific project example &mdash; never a generic textbook definition.</p>
+        </div>
+        <div style="text-align:center;padding:16px;background:#fff7ed;border-radius:12px;border:2px solid var(--vibe-orange);box-shadow: 0 4px 6px rgba(249, 115, 22, 0.1);">
+            <i class="fa-solid fa-circle-question" style="font-size:2.8em;color:var(--vibe-orange);display:block;margin-bottom:8px;"></i>
+            <p class="bold to sm">I'm Not Sure</p>
+            <p class="xs" style="color:#64748b;margin-top:6px;">"I've seen this but haven't used it directly &mdash; from what I know, it works by..."</p>
+        </div>
+        <div style="text-align:center;padding:16px;background:#eff6ff;border-radius:12px;border:2px solid var(--vibe-blue);box-shadow: 0 4px 6px rgba(30, 64, 175, 0.1);">
+            <i class="fa-solid fa-brain" style="font-size:2.8em;color:var(--vibe-blue);display:block;margin-bottom:8px;"></i>
+            <p class="bold tb sm">I Don't Know</p>
+            <p class="xs" style="color:#64748b;margin-top:6px;">Reason out loud &mdash; never go silent. Show your logical steps and problem-solving flow.</p>
+        </div>
+    </div>
+    <div class="g2" style="margin-top:10px;">
+        <div class="cb green" style="padding:10px;">
+            <p class="bold tg xs" style="margin-bottom:6px;"><i class="fa-solid fa-circle-check"></i> What to Do</p>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <div class="check-card"><i class="fa-solid fa-circle-check tg"></i><div><div class="check-card-title">Add Project Context</div><div class="check-card-desc">Back up claims with measurable outcomes</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-circle-check tg"></i><div><div class="check-card-title">Use Domain Vocabulary</div><div class="check-card-desc">Mention BrowserContext, trace, fixtures, MCP</div></div></div>
+            </div>
+        </div>
+        <div class="cb red" style="padding:10px;">
+            <p class="bold tr xs" style="margin-bottom:6px;"><i class="fa-solid fa-circle-xmark"></i> What to Avoid</p>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <div class="check-card red"><i class="fa-solid fa-circle-xmark tr"></i><div><div class="check-card-title">Avoid Generic Sites</div><div class="check-card-desc">Don't say "Login to Google" as your example</div></div></div>
+                <div class="check-card red"><i class="fa-solid fa-circle-xmark tr"></i><div><div class="check-card-title">Don't Sit Silent</div><div class="check-card-desc">Explain how you'd debug or research the issue</div></div></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ CH7: BASIC CONCEPTS ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-brain" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 7</h1><h2>Basic Concepts</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:.88em;">Playwright toolchains, locators, and core foundations</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-comments"></i> Phase 2 &middot; In the Interview</div>
+    <h2>Chapter 7 &mdash; Basic Concepts</h2>
+    <div class="g2" style="margin-top:4px;gap:8px;">
+        <div class="cb" style="padding:6px 8px;">
+            <h3 style="margin-bottom:6px;"><i class="fa-solid fa-terminal to"></i> Playwright Tooling &amp; CLI</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card blue compact"><i class="fa-solid fa-code tb"></i><div><div class="check-card-title">Playwright Codegen</div><div class="check-card-desc">Auto-generate test code by recording browser actions.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-play tb"></i><div><div class="check-card-title">Playwright UI Mode</div><div class="check-card-desc">Interactive test runner with time-travel and debugging.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-puzzle-piece tb"></i><div><div class="check-card-title">VS Code Extension</div><div class="check-card-desc">Locator inspection, step debugging, and test execution.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-bolt tb"></i><div><div class="check-card-title">Playwright CLI</div><div class="check-card-desc">Command-line commands to run and trace tests.</div></div></div>
+            </div>
+        </div>
+        <div class="cb green" style="padding:6px 8px;">
+            <h3 style="margin-bottom:6px;"><i class="fa-solid fa-circle-check tg"></i> Locators, POM &amp; Reports</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card compact"><i class="fa-solid fa-crosshairs tg"></i><div><div class="check-card-title">Accessible Locators</div><div class="check-card-desc">getByRole(), getByLabel() accessibility-first priorities.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-sitemap tg"></i><div><div class="check-card-title">Page Object Model (POM)</div><div class="check-card-desc">Decoupling selectors and pages for maintainability.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-file-invoice tg"></i><div><div class="check-card-title">Local HTML Reports</div><div class="check-card-desc">Local HTML report viewer &amp; basic trace zip file analysis.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-code-branch tg"></i><div><div class="check-card-title">Git Basics</div><div class="check-card-desc">clone, branch, commit, push, and PR creation.</div></div></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ CH8: INTERMEDIATE CONCEPTS ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-layer-group" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 8</h1><h2>Intermediate Concepts</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:.88em;">Framework design, configuration, and advanced test patterns</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-comments"></i> Phase 2 &middot; In the Interview</div>
+    <h2>Chapter 8 &mdash; Intermediate Concepts</h2>
+    <div class="g2" style="margin-top:4px;gap:8px;">
+        <div class="cb" style="padding:6px 8px;">
+            <h3 style="margin-bottom:6px;"><i class="fa-solid fa-sliders to"></i> Config, Fixtures &amp; Interactions</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card blue compact"><i class="fa-solid fa-sliders tb"></i><div><div class="check-card-title">playwright.config.ts Settings</div><div class="check-card-desc">timeouts, retries, browsers, and screenshot on-failure setup.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-flask tb"></i><div><div class="check-card-title">Custom Test Fixtures</div><div class="check-card-desc">encapsulating setup/teardown logic &amp; custom browser states.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-circle-nodes tb"></i><div><div class="check-card-title">Shadow DOM Piercing</div><div class="check-card-desc">Direct selectors for shadow-root and custom web components.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-hand-pointer tb"></i><div><div class="check-card-title">Complex Interactions</div><div class="check-card-desc">Hover actions, drag &amp; drop, scrolling, and file upload/download.</div></div></div>
+            </div>
+        </div>
+        <div class="cb green" style="padding:6px 8px;">
+            <h3 style="margin-bottom:6px;"><i class="fa-solid fa-rocket tg"></i> BDD, API &amp; Organization</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card compact"><i class="fa-solid fa-comments tg"></i><div><div class="check-card-title">BDD cucumber Setup</div><div class="check-card-desc">Gherkin spec files mapped to TypeScript step definition files.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-network-wired tg"></i><div><div class="check-card-title">API &amp; Hybrid Testing</div><div class="check-card-desc">APIRequestContext, JSON schema validation, and UI+API flows.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-tags tg"></i><div><div class="check-card-title">Suite Tagging &amp; Annotations</div><div class="check-card-desc">Tagging suites (@smoke), custom annotations, and conditional runs.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-chart-line tg"></i><div><div class="check-card-title">Allure Reports &amp; Git</div><div class="check-card-desc">Customizing Allure reports and managing advanced Git rebase.</div></div></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ QUOTE 5 ════════════ -->
+<section class="quote-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <i class="fa-solid fa-quote-left quote-icon"></i>
+    <p class="quote-text">"An agent without a standards file is a developer without a brain. Give it context. Get production code."</p>
+    <p class="quote-author">&mdash; VibeTestQ Level 9</p>
+</section>
+
+<!-- ════════════ CH9: ADVANCED CONCEPTS ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-robot" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 9</h1><h2>Advanced Concepts</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:.88em;">Agentic automation, custom workflows, and enterprise scale</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-comments"></i> Phase 2 &middot; In the Interview</div>
+    <h2>Chapter 9 &mdash; Advanced Concepts</h2>
+    <div class="g2" style="margin-top:4px;gap:8px;">
+        <div class="cb" style="padding:6px 8px;">
+            <h3 style="margin-bottom:6px;"><i class="fa-solid fa-network-wired to"></i> Agent Infrastructure &amp; AI</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card blue compact"><i class="fa-solid fa-link tb"></i><div><div class="check-card-title">Playwright MCP Server Setup</div><div class="check-card-desc">Exposing browser controls (CDP) to LLMs via Model Context Protocol.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-robot tb"></i><div><div class="check-card-title">Agent Rules &amp; Prompting</div><div class="check-card-desc">Designing instruction profiles (SKILL.md/AGENTS.md) and STANDARDS.md.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-code-pull-request tb"></i><div><div class="check-card-title">GHA Agentic Workflows</div><div class="check-card-desc">Configuring autonomous PR generation pipelines for automated test creation.</div></div></div>
+                <div class="check-card blue compact"><i class="fa-solid fa-brain tb"></i><div><div class="check-card-title">AI Planner &amp; GenAI Agents</div><div class="check-card-desc">Spec-to-code generation, test planning, and LLM telemetry.</div></div></div>
+            </div>
+        </div>
+        <div class="cb green" style="padding:6px 8px;">
+            <h3 style="margin-bottom:6px;"><i class="fa-solid fa-server tg"></i> Scaled QA &amp; Governance</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card compact"><i class="fa-solid fa-boxes-stacked tg"></i><div><div class="check-card-title">Multi-Repo QA Governance</div><div class="check-card-desc">Scaling agent deployments across teams, model cost-caps, and logging.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-wand-magic-sparkles tg"></i><div><div class="check-card-title">Enterprise Self-Healing</div><div class="check-card-desc">Heuristic API fallback routers to resolve broken locators dynamically.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-chart-pie tg"></i><div><div class="check-card-title">Report Portal &amp; Analytics</div><div class="check-card-desc">Centralizing test reporting, dashboard metrics, and AI failure triage.</div></div></div>
+                <div class="check-card compact"><i class="fa-solid fa-network-wired tg"></i><div><div class="check-card-title">Parallel CI &amp; Custom Alerts</div><div class="check-card-desc">GHA worker sharding, Docker suites, and Slack/Teams failure webhooks.</div></div></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ PHASE 3 DIVIDER ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:30px 0 10px;">
+        <i class="fa-solid fa-chart-bar" style="font-size:3.5em;margin-bottom:14px;display:block;color:var(--vibe-green);"></i>
+        <h1>Phase 3</h1><h2>How You Are Evaluated</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:.88em;">3 Dimensions &nbsp;&middot;&nbsp; Questions to Ask &nbsp;&middot;&nbsp; Feedback Levels</p>
+    </div>
+</section>
+
+<!-- ════════════ CH10: EVALUATION ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-microscope" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 10</h1><h2>How Interviewers Evaluate You</h2>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-chart-bar"></i> Phase 3 &middot; How You Are Evaluated</div>
+    <h2>The 3 Evaluation Dimensions</h2>
+    <div class="hl" style="margin-bottom:10px;"><p class="xs bold tb" style="text-align:center;"><i class="fa-solid fa-eye"></i> Every question falls into one of three lenses. Outstanding candidates address all three in every answer.</p></div>
+    <div class="g3" style="margin-top:8px;">
+        <div style="text-align:center;padding:18px;background:#eff6ff;border-radius:12px;border-top:4px solid var(--vibe-blue);box-shadow: 0 4px 6px rgba(30, 64, 175, 0.05);">
+            <i class="fa-solid fa-user-check" style="font-size:2.2em;color:var(--vibe-blue);display:block;margin-bottom:8px;"></i>
+            <p class="bold tb">Dimension 1</p>
+            <p class="bold" style="font-size:.82em;margin:4px 0;">Your Profile</p>
+            <p class="xs" style="color:#64748b;">Every resume bullet verified with specific project details and measurable outcomes.</p>
+        </div>
+        <div style="text-align:center;padding:18px;background:#fff7ed;border-radius:12px;border-top:4px solid var(--vibe-orange);box-shadow: 0 4px 6px rgba(249, 115, 22, 0.05);">
+            <i class="fa-solid fa-building-user" style="font-size:2.2em;color:var(--vibe-orange);display:block;margin-bottom:8px;"></i>
+            <p class="bold to">Dimension 2</p>
+            <p class="bold" style="font-size:.82em;margin:4px 0;">Their Projects</p>
+            <p class="xs" style="color:#64748b;">Can you fit their current project AND be valuable when it ends?</p>
+        </div>
+        <div style="text-align:center;padding:18px;background:#f0fdf4;border-radius:12px;border-top:4px solid var(--vibe-green);box-shadow: 0 4px 6px rgba(34, 197, 94, 0.05);">
+            <i class="fa-solid fa-earth-americas" style="font-size:2.2em;color:var(--vibe-green);display:block;margin-bottom:8px;"></i>
+            <p class="bold tg">Dimension 3</p>
+            <p class="bold" style="font-size:.82em;margin:4px 0;">Industry Trends</p>
+            <p class="xs" style="color:#64748b;">BDD, AI Agents, shift-left, MCP &mdash; are you building long-term value?</p>
+        </div>
+    </div>
+
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-chart-bar"></i> Phase 3 &middot; How You Are Evaluated</div>
+    <h2>Interviewer Mindset &amp; Your Questions</h2>
+    <div class="g2" style="margin-top:8px;">
+        <div class="cb orange" style="padding:10px;">
+            <h3 style="margin-bottom:6px;"><i class="fa-solid fa-brain to"></i> Interviewer Mindset</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card orange"><i class="fa-solid fa-circle-info to"></i><div><div class="check-card-title">Own Knowledge Bias</div><div class="check-card-desc">Most ask from their own experience, not the JD</div></div></div>
+                <div class="check-card orange"><i class="fa-solid fa-check-double to"></i><div><div class="check-card-title">Resume Checking</div><div class="check-card-desc">Smart ones scan resume details closely</div></div></div>
+                <div class="check-card orange"><i class="fa-solid fa-weight-hanging to"></i><div><div class="check-card-title">Stress Testing</div><div class="check-card-desc">Advanced questions test pressure response</div></div></div>
+            </div>
+        </div>
+        <div class="cb green" style="padding:10px;">
+            <h3 style="margin-bottom:6px;"><i class="fa-solid fa-circle-question tg"></i> Questions You Should Ask</h3>
+            <div style="display:flex;flex-direction:column;gap:5px;">
+                <div class="check-card"><i class="fa-solid fa-circle-question tg"></i><div><div class="check-card-title">Toolchain Setup</div><div class="check-card-desc">Ask what framework &amp; runners they use today</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-circle-question tg"></i><div><div class="check-card-title">CI/CD Integration</div><div class="check-card-desc">How test results trigger PR merges</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-circle-question tg"></i><div><div class="check-card-title">90-Day Success</div><div class="check-card-desc">What success looks like in the first quarter</div></div></div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ CH11: FEEDBACK LEVELS ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-star" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 11</h1><h2>The 4 Feedback Levels</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:.88em;">Good &nbsp;&rarr;&nbsp; Very Good &nbsp;&rarr;&nbsp; Excellent &nbsp;&rarr;&nbsp; Outstanding</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-chart-bar"></i> Phase 3 &middot; How You Are Evaluated</div>
+    <h2>What Each Level Requires</h2>
+    <table class="tbl">
+        <thead><tr><th>Feedback</th><th>What You Demonstrated</th><th>Outcome</th></tr></thead>
+        <tbody>
+            <tr><td><span class="badge gr"><i class="fa-solid fa-thumbs-up"></i> Good</span></td><td>Basics correct. Dimension 1 only. No standout moments.</td><td class="warn"><i class="fa-solid fa-circle-question"></i> Maybe &mdash; if no stronger candidate</td></tr>
+            <tr><td><span class="badge b"><i class="fa-solid fa-square-poll-horizontal"></i> Very Good</span></td><td>Solid on their stack (Dim 2). Real examples. Correct mastery depth.</td><td class="warn"><i class="fa-solid fa-circle-question"></i> Likely selected &mdash; strong contender</td></tr>
+            <tr><td><span class="badge g"><i class="fa-solid fa-trophy"></i> Excellent</span></td><td>All 3 dimensions. Industry trends fluent. GitHub portfolio verifies skills.</td><td class="good"><i class="fa-solid fa-circle-check"></i> Selected &mdash; priority candidate</td></tr>
+            <tr><td><span class="badge p"><i class="fa-solid fa-crown"></i> Outstanding</span></td><td>All above + BDD, AI Agents, STANDARDS.md. Strategic questions.</td><td class="good"><i class="fa-solid fa-circle-check"></i> Selected fast &mdash; stronger offer likely</td></tr>
+        </tbody>
+    </table>
+    <div class="ok" style="margin-top:10px;">
+        <p class="sm" style="text-align:center;"><i class="fa-solid fa-star ty"></i>&nbsp; <span class="bold">The Outstanding gap:</span> Outstanding candidates talk about the <em>system</em> &mdash; STANDARDS.md, agent workflows, CI sharding, BDD ownership. Good candidates talk about individual tests. <span class="bold tg">One level of abstraction higher.</span></p>
+    </div>
+
+</section>
+
+<!-- ════════════ QUOTE 6 ════════════ -->
+<section class="quote-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <i class="fa-solid fa-quote-left quote-icon"></i>
+    <p class="quote-text">"It's not how many questions you answered. It's about what level of answers you gave &mdash; and what that tells them about who you are."</p>
+    <p class="quote-author">&mdash; Sudhakar Kakunuri, VibeTestQ</p>
+</section>
+
+<!-- ════════════ PHASE 4 DIVIDER ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:30px 0 10px;">
+        <i class="fa-solid fa-arrows-spin" style="font-size:3.5em;margin-bottom:14px;display:block;color:var(--vibe-green);"></i>
+        <h1>Phase 4</h1><h2>After the Interview</h2>
+        <p style="color:#94a3b8;margin-top:10px;font-size:.88em;">Analyse &nbsp;&middot;&nbsp; Fix &nbsp;&middot;&nbsp; Iterate &nbsp;&middot;&nbsp; Land the Offer</p>
+        <div style="margin-top:16px;">
+            <span style="color:#fbbf24;font-size:1.15em;font-style:italic;font-weight:300;">"Every rejection is a diagnostic report. Analyze, patch, and execute again."</span>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════ CH12: WHAT'S NEXT ════════════ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fa-solid fa-road" style="font-size:4em;margin-bottom:18px;display:block;"></i>
+        <h1>Chapter 12</h1><h2>What's Next</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:.88em;">The improvement loop that gets you the offer</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-arrows-spin"></i> Phase 4 &middot; After the Interview</div>
+    <h2>The Post-Interview Loop</h2>
+    <div class="flow" style="margin-bottom:10px;">
+        <div class="arrow-flow">
+            <div class="step">Record &amp; Recall</div><div class="arrow">&rarr;</div>
+            <div class="step g">Identify Gaps</div><div class="arrow">&rarr;</div>
+            <div class="step o">Fix with Expert</div><div class="arrow">&rarr;</div>
+            <div class="step p">Update Portfolio</div><div class="arrow">&rarr;</div>
+            <div class="step dk">Next Interview</div>
+        </div>
+    </div>
+    <div class="g4" style="margin-top:10px;">
+        <div class="ib b"><i class="fa-solid fa-pen-nib"></i><h3>Write It Down</h3><p>Every question asked &mdash; within one hour, memory fades fast</p></div>
+        <div class="ib o"><i class="fa-solid fa-user-graduate"></i><h3>Expert Review</h3><p>They find wrong answers you thought were correct</p></div>
+        <div class="ib g"><i class="fa-brands fa-github"></i><h3>Fix Portfolio</h3><p>Build what was asked &mdash; BDD repo, agents demo, CI workflow</p></div>
+        <div class="ib p"><i class="fa-solid fa-bullhorn"></i><h3>Practice Aloud</h3><p>Not in your head. Speak it out loud like a real interview</p></div>
+    </div>
+    <div class="ok" style="margin-top:8px;">
+        <p class="sm" style="text-align:center;"><i class="fa-solid fa-trophy tg"></i>&nbsp; Most candidates land their offer within <span class="bold tg">4&ndash;5 focused, deliberate attempts</span>. Not 50 blind applications &mdash; 5 intentional ones.</p>
+    </div>
+
+</section>
+
+<!-- ════════════ SUCCESS FORMULA ════════════ -->
+<section>
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    
+    <div class="phase-breadcrumb"><i class="fa-solid fa-arrows-spin"></i> Phase 4 &middot; After the Interview</div>
+    <h2>The Complete Success Formula</h2>
+    <div class="g2" style="margin-top:8px;">
+        <div class="cb green" style="padding:10px;">
+            <h3 style="margin-bottom:8px;"><i class="fa-solid fa-circle-check tg"></i> Before the Call Checklist</h3>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <div class="check-card"><i class="fa-solid fa-circle-check tg"></i><div><div class="check-card-title">Keyword-Tailored Resume</div><div class="check-card-desc">Matches JD specifications exactly</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-circle-check tg"></i><div><div class="check-card-title">Referrals Secured</div><div class="check-card-desc">Bypass ATS filter queues completely</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-circle-check tg"></i><div><div class="check-card-title">GitHub Portfolio Live</div><div class="check-card-desc">Clean structure, passing CI, BDD files</div></div></div>
+            </div>
+        </div>
+        <div class="cb green" style="padding:10px;">
+            <h3 style="margin-bottom:8px;"><i class="fa-solid fa-circle-check tg"></i> In the Call Checklist</h3>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+                <div class="check-card"><i class="fa-solid fa-circle-check tg"></i><div><div class="check-card-title">Bridged Introduction</div><div class="check-card-desc">Connect pitch directly to target role</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-circle-check tg"></i><div><div class="check-card-title">Calibration Depth</div><div class="check-card-desc">Calibrate answers to Basic, Intermediate, Advanced depths</div></div></div>
+                <div class="check-card"><i class="fa-solid fa-circle-check tg"></i><div><div class="check-card-title">QA Dimension Alignment</div><div class="check-card-desc">Cover profile, project, and trends naturally</div></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="ng" style="margin-top:8px;padding:8px;">
+        <p class="xs" style="text-align:center;margin-bottom:4px;"><span class="bold tr"><i class="fa-solid fa-circle-exclamation tr"></i> Instant rejection triggers:</span></p>
+        <div style="text-align:center;">
+            <span class="badge r"><i class="fa-solid fa-ban"></i> Generic Resume</span>
+            <span class="badge r"><i class="fa-solid fa-ban"></i> No Portfolio</span>
+            <span class="badge r"><i class="fa-solid fa-ban"></i> Unverified Skills</span>
+            <span class="badge r"><i class="fa-solid fa-ban"></i> Silent on unknowns</span>
+            <span class="badge r"><i class="fa-solid fa-ban"></i> Live AI cheating</span>
+            <span class="badge r"><i class="fa-solid fa-ban"></i> Zero questions back</span>
+        </div>
+    </div>
+
+</section>
+
+<!-- ════════════ CLOSING QUOTE ════════════ -->
+<section class="quote-slide">
+    <div class="logo-corner"><img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" onerror="this.style.display='none'"></div>
+    <i class="fa-solid fa-quote-left quote-icon"></i>
+    <p class="quote-text">"The best testers don't just find bugs. They find opportunities &mdash; in code, in systems, and in interviews."</p>
+    <p class="quote-author">&mdash; VibeTestQ</p>
+</section>
+
+<!-- ════════════ CLOSING TITLE ════════════ -->
+<section class="title-slide">
+    <img src="https://indianqaclub.com/assets/iqc-round.png" alt="IQC" style="width:70px;height:auto;margin:0 auto 15px;display:block;">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:500px;width:80%;margin:0 auto 12px;display:block;" onerror="this.style.display='none'">
+    <h1>You've Got This!</h1>
+    <p class="subtitle">Prepare &rarr; Apply &rarr; Interview &rarr; Improve &rarr; Offer</p>
+    <div class="flow" style="max-width:780px;margin:12px auto;">
+        <div class="arrow-flow">
+            <div class="step">Customise Resume</div><div class="arrow">&rarr;</div>
+            <div class="step g">Build Portfolio</div><div class="arrow">&rarr;</div>
+            <div class="step o">Know Your Depth</div><div class="arrow">&rarr;</div>
+            <div class="step p">Master Agents &amp; BDD</div><div class="arrow">&rarr;</div>
+            <div class="step dk">Iterate Fast</div>
+        </div>
+    </div>
+    <div style="margin-top:12px;">
+        <span class="badge"><i class="fa-solid fa-circle-question"></i> Questions?</span>
+        <span class="badge g"><i class="fa-solid fa-masks-theater"></i> Happy Testing!</span>
+        <span class="badge b"><i class="fa-solid fa-robot"></i> AI-Native QA</span>
+    </div>
+    <p class="tagline" style="margin-top:12px;">
+        <i class="fa-solid fa-globe"></i> vibetestq.com &nbsp;|&nbsp;
+        <i class="fa-brands fa-linkedin"></i> QTP Sudhakar
+    </p></section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+(function(){
+    var M=0.04;
+    function sz(){return{w:window.innerWidth,h:window.innerHeight};}
+    function cfg(){var s=sz();return{hash:true,transition:'slide',transitionSpeed:'default',slideNumber:true,controls:true,progress:true,center:false,width:s.w,height:s.h,margin:M,minScale:0.1,maxScale:1.0};}
+    var ok=false;
+    function init(){if(typeof Reveal==='undefined')return false;Reveal.initialize(cfg());ok=true;return true;}
+    var rt=null,dpr=window.devicePixelRatio;
+    function resize(){if(!ok)return;clearTimeout(rt);rt=setTimeout(function(){var s=sz();Reveal.configure({width:s.w,height:s.h});Reveal.layout();},60);}
+    window.addEventListener('resize',resize);
+    setInterval(function(){var d=window.devicePixelRatio;if(d!==dpr){dpr=d;resize();}},250);
+    document.addEventListener('keydown',function(e){
+        if(!ok)return;
+        if((e.ctrlKey||e.metaKey)&&(e.key==='='||e.key==='+')){e.preventDefault();var s=sz();Reveal.configure({width:s.w*.97,height:s.h*.97});Reveal.layout();}
+        if((e.ctrlKey||e.metaKey)&&e.key==='-'){e.preventDefault();var s2=sz();Reveal.configure({width:s2.w*1.03,height:s2.h*1.03});Reveal.layout();}
+    });
+    if(!init()){var n=0,t=setInterval(function(){n++;if(init()){clearInterval(t);}else if(n>=50){clearInterval(t);}},100);}
+})();
+</script>
+</body></html>

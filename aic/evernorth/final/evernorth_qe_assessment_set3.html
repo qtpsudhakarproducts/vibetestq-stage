@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QE Assessment Set 3 - EverNorth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #22c55e;
+            --accent: #f97316;
+            --warning: #fbbf24;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .assessment-title {
+            text-align: right;
+        }
+
+        .assessment-title h1 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .assessment-title p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .question:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .question-number {
+            color: var(--primary);
+            min-width: 25px;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            background-color: #f1f5f9;
+            border-color: var(--primary);
+        }
+
+        .option input {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .option.correct {
+            border-color: var(--secondary);
+            background-color: #ecfdf5;
+        }
+
+        .option.incorrect {
+            border-color: var(--danger);
+            background-color: #fef2f2;
+        }
+
+        .question.unanswered {
+            border: 2px solid var(--danger) !important;
+            background-color: #fef2f2 !important;
+            border-radius: 8px;
+            padding: 15px !important;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .result-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .feedback-text {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .name-input-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .name-input-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .name-input-section input {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 15px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #ef4444;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 1000;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .explanation {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: none;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 4px;
+            border-left: 3px solid var(--primary);
+        }
+
+        @media print {
+
+            .btn,
+            .name-input-section,
+            header,
+            footer {
+                display: none !important;
+            }
+
+            body {
+                background-color: white;
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: none;
+                border: none;
+            }
+
+            .explanation,
+            .result-section {
+                display: block !important;
+            }
+
+            #printed-name {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--primary-dark);
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 10px;
+            }
+        }
+
+        #printed-name {
+            display: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 4px;
+            color: #e11d48;
+            font-family: monospace;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-size: 0.85rem;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+            <div class="assessment-title">
+                <h1>QE Assessment Set 3</h1>
+                <p>JS, TS, Node, Playwright & Cypress Fundamentals</p>
+            </div>
+        </header>
+
+        <div id="result-container" class="card result-section">
+            <div id="printed-name"></div>
+            <h2>Assessment Completed!</h2>
+            <div id="score-display" class="score-display">0 / 0</div>
+            <p id="feedback-text" class="feedback-text"></p>
+            <div class="name-input-section">
+                <label for="student-name">Enter your name for the report:</label>
+                <input type="text" id="student-name" placeholder="Your Full Name"><br>
+                <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print
+                    Result</button>
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <div class="card">
+                <form id="quiz-form"></form>
+            </div>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; color: var(--text-light); font-size: 0.8rem;">
+            &copy; 2026 VibeTestQ. All rights reserved.
+        </footer>
+    </div>
+
+    <script type="text/plain" id="assessment-markdown">
+# Assessment: QE Set 3
+
+**Total Questions:** 30
+**Topics:** JS, TS, Node, Playwright, Cypress, Others
+
+---
+
+## Questions
+
+### Question 1
+What is the default value of an uninitialized variable in JavaScript?
+
+A) null
+B) undefined
+C) 0
+D) empty string
+
+**Answer: B) undefined**
+
+**Explanation: Variables declared but not assigned have the value 'undefined' by default.**
+
+---
+
+### Question 2
+Which keyword is used to declare a constant in JavaScript?
+
+A) var
+B) let
+C) const
+D) final
+
+**Answer: C) const**
+
+**Explanation: 'const' declares constants that cannot be reassigned after initialization.**
+
+---
+
+### Question 3
+What does the '&&' operator represent in JavaScript?
+
+A) Logical OR
+B) Logical AND
+C) Bitwise AND
+D) Assignment
+
+**Answer: B) Logical AND**
+
+**Explanation: The '&&' operator returns true only if both operands are true.**
+
+---
+
+### Question 4
+In TypeScript, which type represents a true or false value?
+
+A) bool
+B) boolean
+C) bit
+D) flag
+
+**Answer: B) boolean**
+
+**Explanation: The 'boolean' type in TypeScript represents true/false values.**
+
+---
+
+### Question 5
+What is the purpose of the 'debugger' statement in JavaScript?
+
+A) To debug syntax errors
+B) To pause code execution for debugging
+C) To log debug messages
+D) To remove bugs automatically
+
+**Answer: B) To pause code execution for debugging**
+
+**Explanation: 'debugger' creates a breakpoint where execution pauses if dev tools are open.**
+
+---
+
+### Question 6
+Which array method removes the first element from an array?
+
+A) shift()
+B) unshift()
+C) pop()
+D) slice()
+
+**Answer: A) shift()**
+
+**Explanation: shift() removes and returns the first element from an array.**
+
+---
+
+### Question 7
+Which command initializes a new Node.js project?
+
+A) npm start
+B) npm init
+C) npm create
+D) npm new
+
+**Answer: B) npm init**
+
+**Explanation: 'npm init' creates a new package.json file for a Node.js project.**
+
+---
+
+### Question 8
+What does the 'typeof' operator return?
+
+A) The value of a variable
+B) The data type of a value
+C) The size of a variable
+D) The scope of a variable
+
+**Answer: B) The data type of a value**
+
+**Explanation: 'typeof' returns a string indicating the type of the operand.**
+
+---
+
+### Question 9
+What is scope in JavaScript?
+
+A) The range of a loop
+B) The accessibility of variables
+C) The size of a function
+D) The type of an object
+
+**Answer: B) The accessibility of variables**
+
+**Explanation: Scope determines where variables can be accessed in code.**
+
+---
+
+### Question 10
+Which Playwright method waits for navigation to complete?
+
+A) page.waitForNavigation()
+B) page.waitForLoad()
+C) page.navigationWait()
+D) page.loadWait()
+
+**Answer: A) page.waitForNavigation()**
+
+**Explanation: waitForNavigation() waits for the page to navigate to a new URL.**
+
+---
+
+### Question 11
+In Playwright, what does page.content() return?
+
+A) Page images
+B) Full HTML content of the page
+C) Page title
+D) Page URL
+
+**Answer: B) Full HTML content of the page**
+
+**Explanation: page.content() returns the complete HTML markup of the page.**
+
+---
+
+### Question 12
+In Playwright, what does page.url() return?
+
+A) Page title
+B) Current page URL
+C) Base URL
+D) Previous URL
+
+**Answer: B) Current page URL**
+
+**Explanation: page.url() returns the URL of the currently loaded page.**
+
+---
+
+### Question 13
+In Playwright, what does page.reload() do?
+
+A) Loads a new page
+B) Reloads the current page
+C) Loads previous page
+D) Loads default page
+
+**Answer: B) Reloads the current page**
+
+**Explanation: page.reload() refreshes the current page, similar to pressing F5.**
+
+---
+
+### Question 14
+In Playwright, what does page.waitForTimeout() do?
+
+A) Waits for page timeout
+B) Waits for specified milliseconds
+C) Waits for element timeout
+D) Sets timeout limit
+
+**Answer: B) Waits for specified milliseconds**
+
+**Explanation: waitForTimeout() pauses execution for the given number of milliseconds.**
+
+---
+
+### Question 15
+In Playwright, what does page.keyboard.press() do?
+
+A) Presses buttons
+B) Simulates keyboard key presses
+C) Creates keyboard shortcuts
+D) Validates key presses
+
+**Answer: B) Simulates keyboard key presses**
+
+**Explanation: page.keyboard.press(key) simulates a single key press on the virtual keyboard.**
+
+---
+
+### Question 16
+In Playwright, what does page.mouse.click() do?
+
+A) Clicks using mouse hardware
+B) Simulates mouse click at specific coordinates
+C) Enables mouse
+D) Tracks mouse movement
+
+**Answer: B) Simulates mouse click at specific coordinates**
+
+**Explanation: page.mouse.click(x, y) simulates a mouse click at the given X and Y coordinates.**
+
+---
+
+### Question 17
+Which command installs Playwright?
+
+A) npm install playwright
+B) install playwright
+C) npm get playwright
+D) playwright install
+
+**Answer: A) npm install playwright**
+
+**Explanation: 'npm install playwright' installs the Playwright library and its dependencies.**
+
+---
+
+### Question 18
+What is the purpose of page objects in test automation?
+
+A) To create pages
+B) To encapsulate page elements and actions
+C) To store objects
+D) To design pages
+
+**Answer: B) To encapsulate page elements and actions**
+
+**Explanation: Page Object Model (POM) improves test maintenance by creating an abstraction of the UI.**
+
+---
+
+### Question 19
+In Cypress, which command clears an input field?
+
+A) cy.clear()
+B) cy.empty()
+C) cy.delete()
+D) cy.remove()
+
+**Answer: A) cy.clear()**
+
+**Explanation: cy.clear() clears the value from input or textarea elements.**
+
+---
+
+### Question 20
+In Cypress, which command is used to click an element?
+
+A) cy.click()
+B) cy.tap()
+C) cy.press()
+D) cy.select()
+
+**Answer: A) cy.click()**
+
+**Explanation: cy.click() performs a click action on the selected element.**
+
+---
+
+### Question 21
+Which Cypress command gets the currently focused element?
+
+A) cy.getFocus()
+B) cy.focused()
+C) cy.active()
+D) cy.current()
+
+**Answer: B) cy.focused()**
+
+**Explanation: cy.focused() yields the element that currently has focus.**
+
+---
+
+### Question 22
+In Cypress, what does 'cy.contains()' do?
+
+A) Checks container elements
+B) Gets an element by its text content
+C) Contains test data
+D) Validates content type
+
+**Answer: B) Gets an element by its text content**
+
+**Explanation: cy.contains() finds elements containing specific text.**
+
+---
+
+### Question 23
+Which Cypress command reloads the current page?
+
+A) cy.refresh()
+B) cy.reload()
+C) cy.restart()
+D) cy.reset()
+
+**Answer: B) cy.reload()**
+
+**Explanation: cy.reload() reloads the current page, optionally skipping cache.**
+
+---
+
+### Question 24
+In Cypress, what does 'cy.url()' return?
+
+A) URL object
+B) Current URL as a string
+C) Base URL only
+D) Previous URL
+
+**Answer: B) Current URL as a string**
+
+**Explanation: cy.url() yields the current browser URL as a string value.**
+
+---
+
+### Question 25
+What does CSS stand for?
+
+A) Computer Style Sheets
+B) Cascading Style Sheets
+C) Creative Style System
+D) Coded Style Syntax
+
+**Answer: B) Cascading Style Sheets**
+
+**Explanation: CSS is used to style and layout web pages.**
+
+---
+
+### Question 26
+Which XPath starts with a double forward slash?
+
+A) Relative XPath
+B) Absolute XPath
+C) Both relative and absolute
+D) Neither
+
+**Answer: A) Relative XPath**
+
+**Explanation: Relative XPath starts with '//' and can start from any node in the document.**
+
+---
+
+### Question 27
+What does API testing verify?
+
+A) User interface
+B) Application programming interface functionality
+C) Database structure
+D) Network speed
+
+**Answer: B) Application programming interface functionality**
+
+**Explanation: API testing validates the functionality, reliability, and security of APIs.**
+
+---
+
+### Question 28
+Which HTTP method is used to delete a resource?
+
+A) REMOVE
+B) DELETE
+3) DROP
+4) ERASE
+
+**Answer: B) DELETE**
+
+**Explanation: The DELETE HTTP method removes a specified resource from the server.**
+
+---
+
+### Question 29
+What is a mobile emulator?
+
+A) A real mobile device
+B) Software that mimics mobile device behavior
+C) A mobile app
+D) A testing tool
+
+**Answer: B) Software that mimics mobile device behavior**
+
+**Explanation: Emulators simulate mobile devices on computers for testing without physical devices.**
+
+---
+
+### Question 30
+What is regression testing?
+
+A) Testing that goes backward
+B) Re-testing to ensure changes haven't broken existing functionality
+C) Testing for regressions in performance
+D) Statistical regression testing
+
+**Answer: B) Re-testing to ensure changes haven't broken existing functionality**
+
+**Explanation: Regression testing ensures that new code changes do not adversely affect existing features.**
+
+---
+    </script>
+
+    <script>
+        (function () {
+            const form = document.getElementById('quiz-form');
+            const titleElement = document.querySelector('.assessment-title h1');
+            const subtitleElement = document.querySelector('.assessment-title p');
+            const resultContainer = document.getElementById('result-container');
+            const scoreDisplay = document.getElementById('score-display');
+            const feedbackText = document.getElementById('feedback-text');
+            const markdownSource = document.getElementById('assessment-markdown').textContent;
+
+            function parseMarkdown(md) {
+                const lines = md.split('\n');
+                let assessment = { questions: [] };
+                let currentQuestion = null;
+
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (trimmed.startsWith('# Assessment:')) {
+                        assessment.title = trimmed.replace('# Assessment:', '').trim();
+                    } else if (trimmed.startsWith('**Topics:**')) {
+                        assessment.topics = trimmed.replace('**Topics:**', '').trim();
+                    } else if (trimmed.startsWith('### Question')) {
+                        if (currentQuestion) assessment.questions.push(currentQuestion);
+                        currentQuestion = { options: [], prompt: '' };
+                    } else if (currentQuestion && (trimmed.startsWith('A)') || trimmed.startsWith('B)') || trimmed.startsWith('C)') || trimmed.startsWith('D)'))) {
+                        currentQuestion.options.push({
+                            letter: trimmed[0],
+                            text: trimmed.substring(2).trim(),
+                            html: trimmed.substring(2).trim()
+                        });
+                    } else if (currentQuestion && trimmed.startsWith('**Answer:')) {
+                        currentQuestion.answer = trimmed.match(/Answer: ([A-D])/)[1];
+                    } else if (currentQuestion && trimmed.startsWith('**Explanation:')) {
+                        currentQuestion.explanationHtml = trimmed.replace('**Explanation:', '').replace('**', '').trim();
+                    } else if (currentQuestion && trimmed !== '' && !trimmed.startsWith('---')) {
+                        currentQuestion.prompt += (currentQuestion.prompt ? '<br>' : '') + trimmed;
+                        currentQuestion.promptHtml = currentQuestion.prompt;
+                    }
+                });
+                if (currentQuestion) assessment.questions.push(currentQuestion);
+                return assessment;
+            }
+
+            function renderAssessment(data) {
+                form.innerHTML = '';
+                data.questions.forEach((q, i) => {
+                    const qDiv = document.createElement('div');
+                    qDiv.className = 'question';
+                    qDiv.dataset.answer = q.answer;
+
+                    const qText = document.createElement('div');
+                    qText.className = 'question-text';
+                    qText.innerHTML = `<span class="question-number">${i + 1}.</span> <span>${q.promptHtml}</span>`;
+                    qDiv.appendChild(qText);
+
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'options';
+                    q.options.forEach(opt => {
+                        const label = document.createElement('label');
+                        label.className = 'option';
+                        label.innerHTML = `<input type="radio" name="q${i + 1}" value="${opt.letter}"> <span>${opt.letter}) ${opt.html}</span>`;
+                        optionsDiv.appendChild(label);
+                    });
+                    qDiv.appendChild(optionsDiv);
+
+                    const exp = document.createElement('p');
+                    exp.className = 'explanation';
+                    exp.innerHTML = q.explanationHtml;
+                    qDiv.appendChild(exp);
+
+                    form.appendChild(qDiv);
+                });
+
+                const submitBtn = document.createElement('div');
+                submitBtn.style.textAlign = 'center';
+                submitBtn.style.marginTop = '30px';
+                submitBtn.innerHTML = `<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;
+                form.appendChild(submitBtn);
+                scoreDisplay.textContent = `0 / ${data.questions.length}`;
+            }
+
+            window.submitQuiz = function () {
+                const questions = document.querySelectorAll('.question');
+                let score = 0;
+                let unAnswered = [];
+
+                questions.forEach((q, i) => {
+                    const selected = q.querySelector('input:checked');
+                    if (!selected) {
+                        unAnswered.push(q);
+                        q.classList.add('unanswered');
+                    } else {
+                        q.classList.remove('unanswered');
+                    }
+                });
+
+                if (unAnswered.length > 0) {
+                    alert("Please answer all questions before submitting.");
+                    unAnswered[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                questions.forEach((q, i) => {
+                    const selected = q.querySelector('input:checked');
+                    const correct = q.dataset.answer;
+                    const exp = q.querySelector('.explanation');
+                    exp.style.display = 'block';
+
+                    const options = q.querySelectorAll('.option');
+                    options.forEach(opt => {
+                        const val = opt.querySelector('input').value;
+                        if (val === correct) opt.classList.add('correct');
+                        if (selected.value === val && val !== correct) opt.classList.add('incorrect');
+                    });
+
+                    if (selected.value === correct) score++;
+                });
+
+                resultContainer.style.display = 'block';
+                scoreDisplay.textContent = `${score} / ${questions.length}`;
+                const pct = (score / questions.length) * 100;
+                feedbackText.textContent = pct >= 80 ? "Excellent work!" : pct >= 60 ? "Good job!" : "Keep practicing!";
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                form.querySelectorAll('input').forEach(i => i.disabled = true);
+                form.querySelector('button').style.display = 'none';
+            };
+
+            window.preparePrint = function () {
+                const name = document.getElementById('student-name').value;
+                document.getElementById('printed-name').innerText = name ? "Student: " + name : "";
+                document.getElementById('printed-name').style.display = 'block';
+                window.print();
+            };
+
+            const data = parseMarkdown(markdownSource);
+            renderAssessment(data);
+        })();
+    </script>
+</body>
+
+</html>

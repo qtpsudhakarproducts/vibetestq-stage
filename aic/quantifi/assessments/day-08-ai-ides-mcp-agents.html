@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: AI IDEs, MCP &amp; Planner Agents - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;border:none;gap:8px;font-size:1rem;transition:all 0.2s;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background:white;padding:0;}.card{box-shadow:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}@media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Assessment</h1><p>Loading topics...</p></div>
+    </header>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: AI IDEs, MCP & Planner Agents
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** GitHub Copilot, Cursor IDE, Effective Prompts, MCP Protocol, Playwright MCP, Planner Agents, Agentic Testing
+
+---
+
+## Questions
+
+### Question 1
+What is the primary role of GitHub Copilot in a QE workflow?
+
+A) Running Playwright tests on CI
+B) Managing browser driver versions
+C) AI-assisted code generation, including test suggestions and completions
+D) Replacing playwright.config.ts configuration
+
+**Answer: C) AI-assisted code generation, including test suggestions and completions**
+
+**Explanation:** GitHub Copilot is an AI pair programmer that suggests code inline as you type. For QE, it helps generate test cases, page objects, and helper functions faster.
+
+---
+
+### Question 2
+Which AI-first IDE is specifically designed with agentic, multi-file editing capabilities?
+
+A) Visual Studio Code
+B) IntelliJ IDEA
+C) Notepad++
+D) Cursor
+
+**Answer: D) Cursor**
+
+**Explanation:** Cursor is built on VS Code but adds native AI agents that can plan across multiple files, apply edits autonomously, and understand the full repository context — making it particularly powerful for generating test suites.
+
+---
+
+### Question 3
+What does the acronym MCP stand for in AI tooling?
+
+A) Multi-Component Processor
+B) Machine Context Pipeline
+C) Model Context Protocol
+D) Modular Copilot Plugin
+
+**Answer: C) Model Context Protocol**
+
+**Explanation:** Model Context Protocol (MCP) is an open standard that defines how AI models (clients) communicate with external tools and data sources (servers) in a structured way.
+
+---
+
+### Question 4
+What is the Playwright MCP server used for?
+
+A) Deploying Playwright tests to cloud providers
+B) Enabling AI assistants to control a live browser for generating accurate locators and tests
+C) Running headless tests without a config file
+D) Managing Playwright version updates automatically
+
+**Answer: B) Enabling AI assistants to control a live browser for generating accurate locators and tests**
+
+**Explanation:** The Playwright MCP server gives AI assistants (like Copilot or Claude) a live browser tool. The AI can navigate pages, inspect elements, and generate grounded, accurate test code.
+
+---
+
+### Question 5
+What is a "planner agent" in the context of AI test automation?
+
+A) A CI/CD scheduler that triggers test runs
+B) A browser extension that records user clicks
+C) An AI agent that breaks a high-level goal into ordered sub-steps before executing
+D) A tool that manages Playwright workers
+
+**Answer: C) An AI agent that breaks a high-level goal into ordered sub-steps before executing**
+
+**Explanation:** Planner agents use chain-of-thought reasoning to decompose a task (e.g., "test the checkout flow") into concrete steps before generating or executing code. This leads to more reliable and contextually correct outputs.
+
+---
+
+### Question 6
+Which prompt is most likely to produce a high-quality AI-generated Playwright test?
+
+A) "Write a test"
+B) "Test login"
+C) "Create Playwright file"
+D) "Write a Playwright test that logs into OrangeHRM with username Admin and password admin123, navigates to PIM, and verifies the employee list page title"
+
+**Answer: D) "Write a Playwright test that logs into OrangeHRM with username Admin and password admin123, navigates to PIM, and verifies the employee list page title"**
+
+**Explanation:** Effective prompts include the application name, specific actions, credentials or data, and the expected outcome. Vague prompts produce generic, unusable code.
+
+---
+
+### Question 7
+What is a "zero-shot" prompt in AI?
+
+A) A prompt that uses zero tokens
+B) A prompt with no instructions at all
+C) A prompt that asks AI to perform a task without providing any examples
+D) A prompt that disables AI reasoning
+
+**Answer: C) A prompt that asks AI to perform a task without providing any examples**
+
+**Explanation:** Zero-shot means the AI must rely purely on its training knowledge. It works for simple tasks but may need refinement for domain-specific or complex test generation.
+
+---
+
+### Question 8
+What is a "few-shot" prompt?
+
+A) A very short prompt
+B) A prompt that limits AI output to 3 sentences
+C) A prompt that includes example input-output pairs to guide the AI's response style
+D) A batch of three separate prompts
+
+**Answer: C) A prompt that includes example input-output pairs to guide the AI's response style**
+
+**Explanation:** Few-shot prompting gives the AI examples of what you expect. For test generation, you might show one hand-crafted test and ask the AI to generate similar tests for other scenarios.
+
+---
+
+### Question 9
+What is "prompt chaining" in AI-assisted test development?
+
+A) Linking multiple CI pipelines
+B) Connecting locators in a chain
+C) Running multiple AI tools simultaneously
+D) Breaking a complex task into a series of linked prompts where each output feeds the next
+
+**Answer: D) Breaking a complex task into a series of linked prompts where each output feeds the next**
+
+**Explanation:** Prompt chaining builds up complexity incrementally. E.g., prompt 1 generates a page object, prompt 2 uses that page object to generate tests, prompt 3 adds error scenarios.
+
+---
+
+### Question 10
+When using GitHub Copilot Chat, what does adding `#file` to a prompt do?
+
+A) Attaches the current terminal output
+B) Searches the internet for the file
+C) Provides a specific file as context to the AI model for more relevant suggestions
+D) Runs linting on the referenced file
+
+**Answer: C) Provides a specific file as context to the AI model for more relevant suggestions**
+
+**Explanation:** `#file:path/to/file.ts` in a Copilot Chat prompt injects that file's content as context, so the AI can generate code that aligns with your existing structure, imports, and naming conventions.
+
+---
+
+### Question 11
+What risk exists when accepting AI-generated test code without reviewing it?
+
+A) The tests will always fail
+B) TypeScript will not compile the code
+C) The AI might generate hallucinated locators, incorrect assertions, or logically flawed test steps
+D) The code will run but generate no output
+
+**Answer: C) The AI might generate hallucinated locators, incorrect assertions, or logically flawed test steps**
+
+**Explanation:** AI models can "hallucinate" — generating plausible-looking but incorrect code. Always verify locators in the application and review test logic before committing AI-generated tests.
+
+---
+
+### Question 12
+What tool can you use to verify that AI-generated locators actually work on the live application?
+
+A) tsconfig.json
+B) npm audit
+C) ESLint
+D) Playwright Inspector or Codegen
+
+**Answer: D) Playwright Inspector or Codegen**
+
+**Explanation:** After AI generates a locator like `getByRole('button', {name:'Submit'})`, use the Playwright Inspector or Codegen on the actual application to confirm the locator matches the intended element.
+
+---
+
+### Question 13
+What does `npx playwright test --ui` do?
+
+A) Runs tests in headless mode
+B) Generates a UI component test
+C) Opens Playwright's interactive test runner UI for watching and debugging tests
+D) Updates Playwright to the UI testing version
+
+**Answer: C) Opens Playwright's interactive test runner UI for watching and debugging tests**
+
+**Explanation:** The `--ui` flag opens a rich graphical interface that shows all test files, lets you filter and run individual tests, watch live execution, and inspect failures step by step.
+
+---
+
+### Question 14
+What principle makes AI prompts for test generation more effective?
+
+A) Keep prompts under 10 words
+B) Use technical jargon to impress the AI
+C) Provide rich, specific context: application name, page, user actions, assertions, test framework
+D) Always ask for the complete test suite in one prompt
+
+**Answer: C) Provide rich, specific context: application name, page, user actions, assertions, test framework**
+
+**Explanation:** AI models produce better output when they have context. Include what app is being tested, what the flow does, what framework to use, and what should be verified.
+
+---
+
+### Question 15
+What is "agentic testing"?
+
+A) Testing AI model performance metrics
+B) Testing agent software only
+C) Using a CI agent to schedule test runs
+D) AI agents that autonomously plan, write, execute, and repair tests with minimal human intervention
+
+**Answer: D) AI agents that autonomously plan, write, execute, and repair tests with minimal human intervention**
+
+**Explanation:** Agentic testing goes beyond code suggestions — the AI acts as an autonomous tester that can navigate the app, notice failures, adjust locators, and iterate on tests without being prompted at every step.
+
+---
+
+### Question 16
+What is the recommended best practice after an AI agent generates a set of page objects?
+
+A) Commit immediately without review
+B) Delete them and write manually
+C) Review the generated code, verify locators against the live app, and refine as needed
+D) Run them once and accept all results
+
+**Answer: C) Review the generated code, verify locators against the live app, and refine as needed**
+
+**Explanation:** Treat AI-generated code as a first draft. Review for correctness, verify selectors in the application, and ensure the logic matches the actual user flow.
+
+---
+
+### Question 17
+When asking AI to extend an existing page object, what context should you provide?
+
+A) Only the URL of the application
+B) The existing page object code, the new elements to cover, and the expected interactions
+C) The entire project's source code
+D) Only the error message from the last test run
+
+**Answer: B) The existing page object code, the new elements to cover, and the expected interactions**
+
+**Explanation:** Providing the existing code lets AI match your naming conventions, inheritance structure, and style. Adding element details and expected interactions ensures the output is immediately usable.
+
+---
+
+### Question 18
+What does Cursor's "Composer" or "Agent" mode do differently from regular code completion?
+
+A) It only completes single lines at a time
+B) It connects to the internet for real-time information
+C) It plans and applies multi-file edits across the entire codebase in a single workflow
+D) It replaces the terminal entirely
+
+**Answer: C) It plans and applies multi-file edits across the entire codebase in a single workflow**
+
+**Explanation:** Cursor's agent mode understands the full codebase context and can modify multiple files in one pass — creating page objects, test files, fixtures, and updating imports all together.
+
+---
+
+### Question 19
+What is the main advantage of using the Playwright MCP server with an AI assistant compared to just typing prompts?
+
+A) It is faster to type prompts
+B) The AI can see the actual rendered DOM, click elements, and generate verified, grounded locators
+C) It removes the need for a test framework
+D) It automatically deploys tests to CI/CD
+
+**Answer: B) The AI can see the actual rendered DOM, click elements, and generate verified, grounded locators**
+
+**Explanation:** Without MCP, the AI relies on guesswork for locators. With the Playwright MCP server, the AI browses the live application and generates locators based on what it actually sees — dramatically improving accuracy.
+
+---
+
+### Question 20
+Which statement best describes the relationship between AI tools and QE professionals?
+
+A) AI will fully replace QE engineers within one year
+B) AI is a powerful assistant that amplifies QE productivity, but human judgment remains essential for review and strategy
+C) AI tools are only useful for manual testers, not automation engineers
+D) AI-generated tests should never be used in production testing
+
+**Answer: B) AI is a powerful assistant that amplifies QE productivity, but human judgment remains essential for review and strategy**
+
+**Explanation:** AI accelerates test creation, locator generation, and code suggestions, but QE professionals provide domain knowledge, critical thinking, test strategy, and quality review that AI cannot replace.
+
+---
+
+</script>
+<script>(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'Perfect Score! AI tooling fully mastered!':pct>=80?'Excellent! Strong AI IDE and MCP knowledge.':pct>=60?'Good job! Review MCP, prompt engineering, and planner agents.':'Keep learning! Re-read Chapter 08 and practice AI-assisted test workflows.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Student: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();</script>
+</body>
+</html>

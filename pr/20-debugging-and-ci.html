@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debugging, Trace Viewer and CI/CD - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Debugging, Trace Viewer &amp; CI/CD</h1>
+    <p class="subtitle">UI Mode · Trace Viewer · GitHub Actions Pipeline</p>
+    <p class="tagline">Debug failures fast and ship to production with confidence — Session 20</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Trace Viewer</span>
+        <span class="badge" style="background:var(--vibe-blue);">UI Mode</span>
+        <span class="badge" style="background:var(--vibe-green);">GitHub Actions</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Debugging Toolkit Overview</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>UI Mode — Best for Dev</h3>
+            <ul>
+                <li>npx playwright test --ui</li>
+                <li>Visual test picker with watch mode</li>
+                <li>Click an element to generate locator</li>
+                <li>Time-travel through each test step</li>
+                <li>Network and console tabs per step</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Debug Mode</h3>
+            <ul>
+                <li>npx playwright test --debug</li>
+                <li>Opens Playwright Inspector</li>
+                <li>page.pause() → pause mid-test</li>
+                <li>Step through actions one by one</li>
+                <li>VS Code Playwright extension</li>
+            </ul>
+        </div>
+    </div>
+    <div class="code-snippet" style="margin-top:4px;">npx playwright test --ui                     # visual runner
+npx playwright test --debug login.spec.ts    # step through
+npx playwright test --headed --slow-mo=500   # slow motion
+npx playwright codegen https://myapp.com     # record actions</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Trace Viewer: Replay Any Test Failure</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Enable in Config</h3>
+            <div class="code-snippet" style="margin-top:4px; font-size:0.6em;">// playwright.config.ts
+use: {
+  trace: 'on-first-retry',
+  // Options:
+  // 'off'           - no traces
+  // 'on'            - always (slow)
+  // 'on-first-retry'- only when retrying
+  // 'retain-on-failure'
+}
+
+// View a trace file
+npx playwright show-trace \\
+  playwright-report/trace.zip</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>What You See</h3>
+            <ul>
+                <li>Timeline of every action taken</li>
+                <li>DOM snapshot before and after each step</li>
+                <li>Source code line that triggered action</li>
+                <li>Network requests with full headers</li>
+                <li>Console logs and errors</li>
+                <li>Screenshots at each step</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Trace Viewer lets you replay exactly what happened in a failing CI test without having to re-run it. It is your most powerful debugging tool.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>GitHub Actions CI Pipeline</h2>
+    <div class="code-snippet">name: Playwright Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          BASE_URL: ${{ secrets.STAGING_URL }}
+          TEST_USER: ${{ secrets.TEST_USER }}
+          TEST_PASS: ${{ secrets.TEST_PASS }}
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Parallel Sharding Across CI Machines</h2>
+    <div class="code-snippet">name: Playwright Sharded Tests
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shardIndex: [1, 2, 3, 4]
+        shardTotal: [4]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - run: npx playwright install --with-deps
+      - run: npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: blob-report-${{ matrix.shardIndex }}
+          path: blob-report/
+
+  merge-reports:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { path: all-blob-reports, pattern: blob-report-* }
+      - run: npx playwright merge-reports ./all-blob-reports --reporter html
+      - uses: actions/upload-artifact@v4
+        with: { name: playwright-report, path: playwright-report/ }</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Common Failure Patterns and Fixes</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Flaky Test Causes</h3>
+            <ul>
+                <li class="cross">Hard-coded waits (waitForTimeout)</li>
+                <li class="cross">Race conditions in animations</li>
+                <li class="cross">Order-dependent test data</li>
+                <li class="cross">Shared state between tests</li>
+                <li class="cross">Network timing assumptions</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Proven Fixes</h3>
+            <ul>
+                <li>Use web-first assertions instead of waits</li>
+                <li>Set retries: 2 in CI config</li>
+                <li>Each test creates its own data via API</li>
+                <li>Use fresh BrowserContext per test</li>
+                <li>waitForResponse() instead of timeouts</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">A flaky test is worse than no test — it erodes trust. Investigate with Trace Viewer, fix root cause, never just add a sleep.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 20 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Debugging Tools</h3>
+            <ul>
+                <li>UI Mode — visual, watch mode, locator explorer</li>
+                <li>Debug mode — step-by-step Inspector</li>
+                <li>Trace Viewer — replay CI failures locally</li>
+                <li>page.pause() — mid-test breakpoint</li>
+                <li>--headed --slow-mo for observation</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>CI/CD Integration</h3>
+            <ul>
+                <li>GitHub Actions — full working pipeline</li>
+                <li>Secrets for BASE_URL and credentials</li>
+                <li>Upload artifacts for report access</li>
+                <li>Sharding across 4 machines = 4x speed</li>
+                <li>merge-reports combines shard results</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 21 — GenAI and Prompt Engineering for QE</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QE Assessment Set 2 - EverNorth</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-dark: #1e3a8a;
+            --secondary: #22c55e;
+            --accent: #f97316;
+            --warning: #fbbf24;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        .assessment-title {
+            text-align: right;
+        }
+
+        .assessment-title h1 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+        }
+
+        .assessment-title p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .question:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .question-number {
+            color: var(--primary);
+            min-width: 25px;
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            background-color: #f1f5f9;
+            border-color: var(--primary);
+        }
+
+        .option input {
+            margin-right: 15px;
+            cursor: pointer;
+        }
+
+        .option.correct {
+            border-color: var(--secondary);
+            background-color: #ecfdf5;
+        }
+
+        .option.incorrect {
+            border-color: var(--danger);
+            background-color: #fef2f2;
+        }
+
+        .question.unanswered {
+            border: 2px solid var(--danger) !important;
+            background-color: #fef2f2 !important;
+            border-radius: 8px;
+            padding: 15px !important;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            gap: 8px;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-success {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .result-section {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .score-display {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .feedback-text {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .name-input-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .name-input-section label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .name-input-section input {
+            padding: 10px 15px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 15px;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #ef4444;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 1000;
+            font-weight: 500;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .explanation {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: none;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 4px;
+            border-left: 3px solid var(--primary);
+        }
+
+        @media print {
+
+            .btn,
+            .name-input-section,
+            header,
+            footer {
+                display: none !important;
+            }
+
+            body {
+                background-color: white;
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: none;
+                border: none;
+            }
+
+            .explanation,
+            .result-section {
+                display: block !important;
+            }
+
+            #printed-name {
+                display: block !important;
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--primary-dark);
+                border-bottom: 1px solid var(--border);
+                padding-bottom: 10px;
+            }
+        }
+
+        #printed-name {
+            display: none;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 2px 4px;
+            border-radius: 4px;
+            color: #e11d48;
+            font-family: monospace;
+        }
+
+        pre {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            font-size: 0.85rem;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+            <div class="assessment-title">
+                <h1>QE Assessment Set 2</h1>
+                <p>Advanced JS, TS, Node, Playwright & Cypress</p>
+            </div>
+        </header>
+
+        <div id="result-container" class="card result-section">
+            <div id="printed-name"></div>
+            <h2>Assessment Completed!</h2>
+            <div id="score-display" class="score-display">0 / 0</div>
+            <p id="feedback-text" class="feedback-text"></p>
+            <div class="name-input-section">
+                <label for="student-name">Enter your name for the report:</label>
+                <input type="text" id="student-name" placeholder="Your Full Name"><br>
+                <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print
+                    Result</button>
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <div class="card">
+                <form id="quiz-form"></form>
+            </div>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; color: var(--text-light); font-size: 0.8rem;">
+            &copy; 2026 VibeTestQ. All rights reserved.
+        </footer>
+    </div>
+
+    <script type="text/plain" id="assessment-markdown">
+# Assessment: QE Set 2
+
+**Total Questions:** 30
+**Topics:** JS, TS, Node, Playwright, Cypress, Others
+
+---
+
+## Questions
+
+### Question 1
+What is the difference between '==' and '===' in JavaScript?
+
+A) No difference
+B) === checks type and value, == only checks value
+C) == is faster than ===
+D) === is deprecated
+
+**Answer: B) === checks type and value, == only checks value**
+
+**Explanation: === performs strict equality checking both type and value, while == does type coercion.**
+
+---
+
+### Question 2
+Which Node.js module is commonly used for file system operations?
+
+A) http
+B) fs
+C) path
+D) url
+
+**Answer: B) fs**
+
+**Explanation: The 'fs' module provides file system operations like reading, writing, and deleting files.**
+
+---
+
+### Question 3
+In TypeScript, what does the 'interface' keyword define?
+
+A) A class implementation
+B) A function signature
+C) A contract for object structure
+D) A variable type
+
+**Answer: C) A contract for object structure**
+
+**Explanation: Interfaces define the shape of objects, specifying required properties and their types.**
+
+---
+
+### Question 4
+What is the purpose of 'await' in async functions?
+
+A) To pause execution until a promise resolves
+B) To create a promise
+C) To handle errors
+D) To define async functions
+
+**Answer: A) To pause execution until a promise resolves**
+
+**Explanation: 'await' pauses async function execution until the promise is fulfilled or rejected.**
+
+---
+
+### Question 5
+What is the purpose of the 'this' keyword in JavaScript?
+
+A) To create variables
+B) To refer to the current object context
+C) To define functions
+D) To import modules
+
+**Answer: B) To refer to the current object context**
+
+**Explanation: 'this' refers to the object that is executing the current function.**
+
+---
+
+### Question 6
+In JavaScript, what does the map() method do?
+
+A) Creates a new object
+B) Transforms each array element and returns a new array
+C) Filters array elements
+D) Sorts an array
+
+**Answer: B) Transforms each array element and returns a new array**
+
+**Explanation: map() applies a function to each element and returns a new array with results.**
+
+---
+
+### Question 7
+What is the purpose of closures in JavaScript?
+
+A) To close browser windows
+B) To access outer function variables from inner functions
+C) To terminate loops
+D) To handle errors
+
+**Answer: B) To access outer function variables from inner functions**
+
+**Explanation: Closures allow inner functions to access variables from outer function scope.**
+
+---
+
+### Question 8
+In JavaScript, what is hoisting?
+
+A) Moving variables to higher scope
+B) Declarations being moved to the top during compilation
+C) Hosting applications on servers
+D) Lifting errors to the surface
+
+**Answer: B) Declarations being moved to the top during compilation**
+
+**Explanation: JavaScript moves variable and function declarations to the top of their scope.**
+
+---
+
+### Question 9
+What is the purpose of arrow functions in JavaScript?
+
+A) To create arrows on screen
+B) Shorter syntax and lexical 'this' binding
+C) To point to variables
+D) To navigate between functions
+
+**Answer: B) Shorter syntax and lexical 'this' binding**
+
+**Explanation: Arrow functions provide concise syntax and don't bind their own 'this'.**
+
+---
+
+### Question 10
+Which Playwright method selects an option from a dropdown?
+
+A) page.select()
+B) page.selectOption()
+C) page.choose()
+D) page.dropdown()
+
+**Answer: B) page.selectOption()**
+
+**Explanation: selectOption() selects one or more options from a select element.**
+
+---
+
+### Question 11
+In Playwright, what does page.locator() return?
+
+A) A string
+B) A Locator object for element interaction
+C) An array of elements
+D) A boolean
+
+**Answer: B) A Locator object for element interaction**
+
+**Explanation: Locators represent a way to find elements and perform actions on them.**
+
+---
+
+### Question 12
+In Playwright, what is a BrowserContext?
+
+A) The browser's history
+B) An isolated browser session with its own cookies and storage
+C) Browser configuration
+D) Browser metadata
+
+**Answer: B) An isolated browser session with its own cookies and storage**
+
+**Explanation: BrowserContext provides isolation similar to incognito mode, with separate cookies and storage.**
+
+---
+
+### Question 13
+Which Playwright method drags an element to another location?
+
+A) page.drag()
+B) page.dragAndDrop()
+C) page.move()
+D) page.transfer()
+
+**Answer: B) page.dragAndDrop()**
+
+**Explanation: dragAndDrop() method drags an element from source to target location.**
+
+---
+
+### Question 14
+Which command runs a specific Playwright test file?
+
+A) playwright run filename
+B) npx playwright test filename
+C) playwright execute filename
+D) npm test filename
+
+**Answer: B) npx playwright test filename**
+
+**Explanation: npx playwright test followed by the filename executes only that specific test file.**
+
+---
+
+### Question 15
+Which Playwright method checks if a checkbox is checked?
+
+A) page.isChecked()
+B) page.checked()
+C) page.getCheckState()
+D) page.verifyChecked()
+
+**Answer: A) page.isChecked()**
+
+**Explanation: isChecked() returns true if the specified checkbox or radio button is checked.**
+
+---
+
+### Question 16
+In Playwright, what does page.waitForLoadState() do?
+
+A) Waits for page to reach a specific load state
+B) Waits for elements to load
+C) Waits for images to load
+D) Waits for network idle
+
+**Answer: A) Waits for page to reach a specific load state**
+
+**Explanation: waitForLoadState() waits for the page to reach a given state (load, domcontentloaded, or networkidle).**
+
+---
+
+### Question 17
+In Playwright, which method navigates to a URL?
+
+A) page.navigate()
+B) page.goto()
+C) page.open()
+D) page.visit()
+
+**Answer: B) page.goto()**
+
+**Explanation: page.goto(url) navigates the page to the specified URL.**
+
+---
+
+### Question 18
+In Playwright, what does page.title() return?
+
+A) The page URL
+B) The page title text
+C) The page content
+D) The page metadata
+
+**Answer: B) The page title text**
+
+**Explanation: page.title() returns the text content of the document title.**
+
+---
+
+### Question 19
+In Cypress, what is the purpose of cy.fixture()?
+
+A) To fix broken tests
+B) To load test data from files
+C) To repair elements
+D) To configure settings
+
+**Answer: B) To load test data from files**
+
+**Explanation: cy.fixture() loads data from fixture files for use in tests.**
+
+---
+
+### Question 20
+Which Cypress command asserts that an element exists?
+
+A) cy.exists()
+B) cy.should('exist')
+C) cy.assertExists()
+D) cy.verify()
+
+**Answer: B) cy.should('exist')**
+
+**Explanation: Cypress uses should() with assertions like 'exist' to verify element presence.**
+
+---
+
+### Question 21
+In Cypress, what does cy.wait() do?
+
+A) Waits for a specified time or alias
+B) Pauses all tests
+C) Waits for user input
+D) Delays browser loading
+
+**Answer: A) Waits for a specified time or alias**
+
+**Explanation: cy.wait() can wait for time in milliseconds or for aliased requests/routes.**
+
+---
+
+### Question 22
+In Cypress, what is the purpose of custom commands?
+
+A) To customize the interface
+B) To create reusable test logic
+C) To command the browser
+D) To customize reports
+
+**Answer: B) To create reusable test logic**
+
+**Explanation: Custom commands encapsulate repetitive test actions for code reusability.**
+
+---
+
+### Question 23
+In Cypress, what does cy.request() do?
+
+A) Requests user input
+B) Makes HTTP requests
+C) Requests page load
+D) Requests permission
+
+**Answer: B) Makes HTTP requests**
+
+**Explanation: cy.request() makes an HTTP request, commonly used for API testing.**
+
+---
+
+### Question 24
+Which Cypress command types text into an input field?
+
+A) cy.input()
+B) cy.type()
+C) cy.write()
+D) cy.enter()
+
+**Answer: B) cy.type()**
+
+**Explanation: cy.type(text) types the specified sequence of keys into a DOM element.**
+
+---
+
+### Question 25
+Which HTTP status code indicates a successful request?
+
+A) 404
+B) 500
+C) 200
+D) 301
+
+**Answer: C) 200**
+
+**Explanation: HTTP 200 OK indicates the request succeeded and the server returned the requested data.**
+
+---
+
+### Question 26
+Which XPath axis selects the parent of the current node?
+
+A) ancestor
+B) parent
+C) preceding
+D) up
+
+**Answer: B) parent**
+
+**Explanation: The parent axis selects the immediate parent node of the current node.**
+
+---
+
+### Question 27
+What does CRUD stand for in database operations?
+
+A) Create, Read, Update, Delete
+B) Copy, Remove, Upload, Download
+C) Connect, Retrieve, Use, Disconnect
+D) Create, Retrieve, Use, Destroy
+
+**Answer: A) Create, Read, Update, Delete**
+
+**Explanation: CRUD represents the four basic database operations for persistent storage.**
+
+---
+
+### Question 28
+Which CSS selector targets all paragraph elements?
+
+A) .p
+B) #p
+C) p
+D) @p
+
+**Answer: C) p**
+
+**Explanation: Element selectors in CSS use the tag name directly without prefixes.**
+
+---
+
+### Question 29
+What is the purpose of desired capabilities in Appium?
+
+A) To wish for better test results
+B) To configure device and app settings for tests
+C) To list desired features
+D) To set user preferences
+
+**Answer: B) To configure device and app settings for tests**
+
+**Explanation: Desired capabilities specify device platform, version, app path, and other test configurations.**
+
+---
+
+### Question 30
+What is continuous integration (CI)?
+
+A) Testing continuously
+B) Automatically building and testing code changes
+C) Integrating new features
+D) Continuous deployment
+
+**Answer: B) Automatically building and testing code changes**
+
+**Explanation: CI is a practice where developers integrate code into a shared repository frequently, followed by automated builds and tests.**
+
+---
+    </script>
+
+    <script>
+        (function () {
+            const form = document.getElementById('quiz-form');
+            const titleElement = document.querySelector('.assessment-title h1');
+            const subtitleElement = document.querySelector('.assessment-title p');
+            const resultContainer = document.getElementById('result-container');
+            const scoreDisplay = document.getElementById('score-display');
+            const feedbackText = document.getElementById('feedback-text');
+            const markdownSource = document.getElementById('assessment-markdown').textContent;
+
+            function parseMarkdown(md) {
+                const lines = md.split('\n');
+                let assessment = { questions: [] };
+                let currentQuestion = null;
+
+                lines.forEach(line => {
+                    const trimmed = line.trim();
+                    if (trimmed.startsWith('# Assessment:')) {
+                        assessment.title = trimmed.replace('# Assessment:', '').trim();
+                    } else if (trimmed.startsWith('**Topics:**')) {
+                        assessment.topics = trimmed.replace('**Topics:**', '').trim();
+                    } else if (trimmed.startsWith('### Question')) {
+                        if (currentQuestion) assessment.questions.push(currentQuestion);
+                        currentQuestion = { options: [], prompt: '' };
+                    } else if (currentQuestion && (trimmed.startsWith('A)') || trimmed.startsWith('B)') || trimmed.startsWith('C)') || trimmed.startsWith('D)'))) {
+                        currentQuestion.options.push({
+                            letter: trimmed[0],
+                            text: trimmed.substring(2).trim(),
+                            html: trimmed.substring(2).trim()
+                        });
+                    } else if (currentQuestion && trimmed.startsWith('**Answer:')) {
+                        currentQuestion.answer = trimmed.match(/Answer: ([A-D])/)[1];
+                    } else if (currentQuestion && trimmed.startsWith('**Explanation:')) {
+                        currentQuestion.explanationHtml = trimmed.replace('**Explanation:', '').replace('**', '').trim();
+                    } else if (currentQuestion && trimmed !== '' && !trimmed.startsWith('---')) {
+                        currentQuestion.prompt += (currentQuestion.prompt ? '<br>' : '') + trimmed;
+                        currentQuestion.promptHtml = currentQuestion.prompt;
+                    }
+                });
+                if (currentQuestion) assessment.questions.push(currentQuestion);
+                return assessment;
+            }
+
+            function renderAssessment(data) {
+                form.innerHTML = '';
+                data.questions.forEach((q, i) => {
+                    const qDiv = document.createElement('div');
+                    qDiv.className = 'question';
+                    qDiv.dataset.answer = q.answer;
+
+                    const qText = document.createElement('div');
+                    qText.className = 'question-text';
+                    qText.innerHTML = `<span class="question-number">${i + 1}.</span> <span>${q.promptHtml}</span>`;
+                    qDiv.appendChild(qText);
+
+                    const optionsDiv = document.createElement('div');
+                    optionsDiv.className = 'options';
+                    q.options.forEach(opt => {
+                        const label = document.createElement('label');
+                        label.className = 'option';
+                        label.innerHTML = `<input type="radio" name="q${i + 1}" value="${opt.letter}"> <span>${opt.letter}) ${opt.html}</span>`;
+                        optionsDiv.appendChild(label);
+                    });
+                    qDiv.appendChild(optionsDiv);
+
+                    const exp = document.createElement('p');
+                    exp.className = 'explanation';
+                    exp.innerHTML = q.explanationHtml;
+                    qDiv.appendChild(exp);
+
+                    form.appendChild(qDiv);
+                });
+
+                const submitBtn = document.createElement('div');
+                submitBtn.style.textAlign = 'center';
+                submitBtn.style.marginTop = '30px';
+                submitBtn.innerHTML = `<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;
+                form.appendChild(submitBtn);
+                scoreDisplay.textContent = `0 / ${data.questions.length}`;
+            }
+
+            window.submitQuiz = function () {
+                const questions = document.querySelectorAll('.question');
+                let score = 0;
+                let unAnswered = [];
+
+                questions.forEach((q, i) => {
+                    const selected = q.querySelector('input:checked');
+                    if (!selected) {
+                        unAnswered.push(q);
+                        q.classList.add('unanswered');
+                    } else {
+                        q.classList.remove('unanswered');
+                    }
+                });
+
+                if (unAnswered.length > 0) {
+                    alert("Please answer all questions before submitting.");
+                    unAnswered[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    return;
+                }
+
+                questions.forEach((q, i) => {
+                    const selected = q.querySelector('input:checked');
+                    const correct = q.dataset.answer;
+                    const exp = q.querySelector('.explanation');
+                    exp.style.display = 'block';
+
+                    const options = q.querySelectorAll('.option');
+                    options.forEach(opt => {
+                        const val = opt.querySelector('input').value;
+                        if (val === correct) opt.classList.add('correct');
+                        if (selected.value === val && val !== correct) opt.classList.add('incorrect');
+                    });
+
+                    if (selected.value === correct) score++;
+                });
+
+                resultContainer.style.display = 'block';
+                scoreDisplay.textContent = `${score} / ${questions.length}`;
+                const pct = (score / questions.length) * 100;
+                feedbackText.textContent = pct >= 80 ? "Excellent work!" : pct >= 60 ? "Good job!" : "Keep practicing!";
+
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                form.querySelectorAll('input').forEach(i => i.disabled = true);
+                form.querySelector('button').style.display = 'none';
+            };
+
+            window.preparePrint = function () {
+                const name = document.getElementById('student-name').value;
+                document.getElementById('printed-name').innerText = name ? "Student: " + name : "";
+                document.getElementById('printed-name').style.display = 'block';
+                window.print();
+            };
+
+            const data = parseMarkdown(markdownSource);
+            renderAssessment(data);
+        })();
+    </script>
+</body>
+
+</html>

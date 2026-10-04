@@ -1,0 +1,53 @@
+{
+  "name": "Flow 07 – Wishlist – Organic Products",
+  "steps": [
+    {
+      "id": "step_1000000006_0",
+      "toolName": "filter_products_by_category",
+      "params": { "category": "greens" },
+      "label": "Filter to Greens & Herbs category"
+    },
+    {
+      "id": "step_1000000006_1",
+      "toolName": "add_to_wishlist",
+      "params": { "itemName": "Spinach" },
+      "label": "Wishlist – Spinach (organic, ₹29/bunch)"
+    },
+    {
+      "id": "step_1000000006_2",
+      "toolName": "add_to_wishlist",
+      "params": { "itemName": "Fenugreek" },
+      "label": "Wishlist – Fenugreek (organic, ₹25/bunch)"
+    },
+    {
+      "id": "step_1000000006_3",
+      "toolName": "filter_products_by_category",
+      "params": { "category": "fruits" },
+      "label": "Switch to Fruits category"
+    },
+    {
+      "id": "step_1000000006_4",
+      "toolName": "add_to_wishlist",
+      "params": { "itemName": "Pomegranate" },
+      "label": "Wishlist – Pomegranate (organic, ₹199/kg)"
+    },
+    {
+      "id": "step_1000000006_5",
+      "toolName": "add_to_wishlist",
+      "params": { "itemName": "Strawberries" },
+      "label": "Wishlist – Strawberries (organic, ₹149/250g)"
+    },
+    {
+      "id": "step_1000000006_6",
+      "toolName": "get_wishlist",
+      "params": {},
+      "label": "View wishlist – confirm all 4 items saved"
+    },
+    {
+      "id": "step_1000000006_7",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "wishlist" },
+      "label": "Navigate to Wishlist tab"
+    }
+  ]
+}

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeTestQ: Complete QE Course Overview - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+
+        .reveal h1 { font-size: 1.8em; margin-bottom: 0.2em; }
+        .reveal h2 { font-size: 1.4em; margin-bottom: 0.3em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 1.1em; color: var(--vibe-green); margin-bottom: 0.2em; }
+
+        .reveal p, .reveal li { color: #334155; line-height: 1.5; }
+
+        .logo-corner { position: absolute; top: 15px; right: 25px; z-index: 100; }
+        .logo-corner img { width: 80px; height: auto; }
+
+        .title-slide { background: #ffffff !important; }
+        .title-slide .company-header { max-width: 800px; margin: 0 auto 15px; }
+        .title-slide h1 { font-size: 2em; color: var(--vibe-dark-blue); margin: 10px 0 8px; }
+        .title-slide .subtitle { font-size: 1.2em; color: var(--vibe-orange); margin: 10px 0; }
+        .title-slide .tagline { font-size: 1em; color: var(--vibe-blue); margin: 8px 0 15px; }
+
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 8px 15px;
+            margin: 5px 0;
+            border-radius: 6px;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border: 2px solid var(--vibe-yellow);
+            padding: 8px 12px;
+            margin: 5px auto;
+            border-radius: 8px;
+            max-width: 90%;
+        }
+
+        .stat-box {
+            display: inline-block;
+            background: #dbeafe;
+            border: 2px solid var(--vibe-blue);
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 8px;
+        }
+
+        .stat-number { font-size: 1.8em; font-weight: 700; color: var(--vibe-orange); display: block; }
+        .stat-label { font-size: 0.8em; color: var(--vibe-blue); }
+
+        .reveal ul { list-style: none; margin: 8px 0; }
+        .reveal ul li {
+            margin: 6px 0;
+            padding-left: 35px;
+            position: relative;
+            text-align: left;
+            font-size: 0.85em;
+        }
+        .reveal ul li:before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--vibe-green);
+            font-size: 1em;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+        .reveal ul li.cross:before { content: "\f057"; color: var(--vibe-orange); }
+
+        .text-blue { color: var(--vibe-blue); }
+        .text-green { color: var(--vibe-green); }
+        .text-orange { color: var(--vibe-orange); }
+        .bold { font-weight: 700; }
+
+        .badge {
+            display: inline-block;
+            background: var(--vibe-orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+            margin: 4px;
+        }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 10px 0; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0; }
+        .reveal .slides section { padding: 10px 30px; }
+        .compact { font-size: 0.85em; }
+
+        .module-card {
+            background: var(--vibe-light-bg);
+            border: 2px solid var(--vibe-blue);
+            border-radius: 8px;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        .module-num {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--vibe-orange);
+        }
+
+        .tool-badge {
+            display: inline-block;
+            background: var(--vibe-dark-blue);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75em;
+            margin: 3px;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>End-to-End QE Mastery</h1>
+                <p class="subtitle">JavaScript · TypeScript · Playwright · GenAI</p>
+                <p class="tagline">Your Complete Career Transformation Program — 22 Sessions</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge">Industry-Driven</span>
+                    <span class="badge" style="background: var(--vibe-blue);">Hands-On</span>
+                    <span class="badge" style="background: var(--vibe-green);">AI-Augmented</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: The Problem We Solve -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The QE Career Gap in 2026</h2>
+                <div class="two-col">
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3 style="color: var(--vibe-orange);">What Companies Need</h3>
+                        <ul>
+                            <li>Playwright + TypeScript automation</li>
+                            <li>CI/CD pipeline ownership</li>
+                            <li>API + UI hybrid testing</li>
+                            <li>AI-augmented testing skills</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3>What This Course Delivers</h3>
+                        <ul>
+                            <li>Real framework from scratch</li>
+                            <li>Every concept with working code</li>
+                            <li>GitHub Actions + reporting</li>
+                            <li>GenAI tools integrated daily</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact bold text-blue">Not theory. Not slides-only. You will build, break, and fix real automation.</p>
+                </div>
+            </section>
+
+            <!-- Slide 3: Who This Is For -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Who This Course Is For</h2>
+                <div class="three-col">
+                    <div class="content-box" style="text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 8px;"><i class="fas fa-seedling text-green"></i></div>
+                        <h3>Career Changers</h3>
+                        <p class="compact" style="font-size: 0.75em;">0–1 year experience. Want to enter QE/SDET with a real portfolio.</p>
+                    </div>
+                    <div class="content-box" style="text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 8px;"><i class="fas fa-user text-blue"></i></div>
+                        <h3>Manual Testers</h3>
+                        <p class="compact" style="font-size: 0.75em;">Already testing manually. Want to add automation and double market value.</p>
+                    </div>
+                    <div class="content-box" style="text-align: center;">
+                        <div style="font-size: 2em; margin-bottom: 8px;"><i class="fas fa-code text-orange"></i></div>
+                        <h3>Junior SDETs</h3>
+                        <p class="compact" style="font-size: 0.75em;">Writing basic tests. Want framework design skills and AI tooling mastery.</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact"><strong>Prerequisite:</strong> Basic computer knowledge + willingness to type code. No prior automation experience required.</p>
+                </div>
+            </section>
+
+            <!-- Slide 4: The Full Learning Path -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The 22-Session Learning Path</h2>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px;">
+                    <div class="module-card">
+                        <div class="module-num">M0</div>
+                        <p class="compact" style="font-size: 0.7em; margin: 4px 0;">Program Overview</p>
+                        <span class="badge" style="font-size: 0.6em; padding: 2px 8px;">Session 1</span>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-num">M1</div>
+                        <p class="compact" style="font-size: 0.7em; margin: 4px 0;">JS + TS Fundamentals</p>
+                        <span class="badge" style="font-size: 0.6em; padding: 2px 8px;">Sessions 2–5</span>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-num">M2</div>
+                        <p class="compact" style="font-size: 0.7em; margin: 4px 0;">Node.js + Git</p>
+                        <span class="badge" style="font-size: 0.6em; padding: 2px 8px;">Sessions 6–7</span>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-num">M3</div>
+                        <p class="compact" style="font-size: 0.7em; margin: 4px 0;">Playwright Core</p>
+                        <span class="badge" style="font-size: 0.6em; padding: 2px 8px;">Sessions 8–11</span>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-num">M4</div>
+                        <p class="compact" style="font-size: 0.7em; margin: 4px 0;">Framework Architecture</p>
+                        <span class="badge" style="font-size: 0.6em; padding: 2px 8px;">Sessions 12–16</span>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-num">M5</div>
+                        <p class="compact" style="font-size: 0.7em; margin: 4px 0;">API + Advanced</p>
+                        <span class="badge" style="font-size: 0.6em; padding: 2px 8px;">Sessions 17–20</span>
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 8px; text-align: center;">
+                    <span class="badge" style="background: var(--vibe-dark-blue);">M6: GenAI &amp; AI Testing — Sessions 21–22</span>
+                </div>
+            </section>
+
+            <!-- Slide 5: Module 1 Detail -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Module 1: JavaScript &amp; TypeScript</h2>
+                <div class="two-col">
+                    <div>
+                        <div class="content-box" style="border-left-color: #f7df1e;">
+                            <h3 style="color: #b8860b;">Session 2 — JS History &amp; Foundations</h3>
+                            <p class="compact" style="font-size: 0.75em;">10-day origin, browser wars, V8, ES6+, async evolution</p>
+                        </div>
+                        <div class="content-box" style="border-left-color: #f7df1e; margin-top: 8px;">
+                            <h3 style="color: #b8860b;">Session 3 — JS for Testers</h3>
+                            <p class="compact" style="font-size: 0.75em;">Variables, functions, arrays, objects, destructuring</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="content-box" style="border-left-color: #f7df1e;">
+                            <h3 style="color: #b8860b;">Session 4 — Async JavaScript</h3>
+                            <p class="compact" style="font-size: 0.75em;">Callbacks → Promises → async/await, event loop</p>
+                        </div>
+                        <div class="content-box" style="border-left-color: #3178c6; margin-top: 8px;">
+                            <h3 style="color: #3178c6;">Session 5 — TypeScript for Testers</h3>
+                            <p class="compact" style="font-size: 0.75em;">Types, interfaces, generics, utility types, enums</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact"><strong>Why start here?</strong> Playwright is TypeScript. If you don't speak the language, you can't debug the framework.</p>
+                </div>
+            </section>
+
+            <!-- Slide 6: Module 2 + 3 Detail -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Modules 2 &amp; 3: Tooling + Playwright Core</h2>
+                <div class="two-col">
+                    <div>
+                        <h3 class="text-blue" style="margin-bottom: 8px;">Module 2 — Node.js &amp; Git</h3>
+                        <div class="content-box">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 6:</strong> Node.js runtime, npm, tsconfig.json, project anatomy</p>
+                        </div>
+                        <div class="content-box" style="margin-top: 5px;">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 7:</strong> Git basics, branching, GitHub, pull requests, Actions intro</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-green" style="margin-bottom: 8px;">Module 3 — Playwright Core</h3>
+                        <div class="content-box">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 8:</strong> Why Playwright? Architecture vs Selenium, BiDi, MCP</p>
+                        </div>
+                        <div class="content-box" style="margin-top: 5px;">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 9:</strong> Setup, Browser → Context → Page, first test</p>
+                        </div>
+                        <div class="content-box" style="margin-top: 5px;">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 10:</strong> Element inspection + Locator masterclass</p>
+                        </div>
+                        <div class="content-box" style="margin-top: 5px;">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 11:</strong> Actions — clicks, forms, keyboard, files</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Module 4 Detail -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Module 4: Framework Architecture</h2>
+                <p class="compact text-blue bold" style="margin-bottom: 8px;">This is where juniors become engineers.</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
+                    <div class="content-box">
+                        <h3>Session 12</h3>
+                        <p class="compact" style="font-size: 0.72em;">Assertions — web-first, expect() full API, soft assertions, auto-retry</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Session 13</h3>
+                        <p class="compact" style="font-size: 0.72em;">Test Organization — describe, hooks, annotations, tags + --grep</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Session 14</h3>
+                        <p class="compact" style="font-size: 0.72em;">Configuration — playwright.config.ts, multi-browser projects, timeouts, sharding</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Session 15</h3>
+                        <p class="compact" style="font-size: 0.72em;">Fixtures — DI system, custom fixtures, global setup, auth state</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Session 16</h3>
+                        <p class="compact" style="font-size: 0.72em;">Page Object Model — class structure, action methods, component objects</p>
+                    </div>
+                    <div class="content-box" style="background: #f0fdf4; border-left-color: var(--vibe-green);">
+                        <p class="compact" style="font-size: 0.65em; color: var(--vibe-green);">By Session 16 you have a complete, enterprise-ready framework.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Module 5 + 6 Detail -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Modules 5 &amp; 6: Advanced + GenAI</h2>
+                <div class="two-col">
+                    <div>
+                        <h3 class="text-blue" style="margin-bottom: 8px;">Module 5 — Data, API &amp; Advanced</h3>
+                        <div class="content-box">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 17:</strong> Parameterization, data-driven, test.for(), CSV/JSON</p>
+                        </div>
+                        <div class="content-box" style="margin-top: 5px;">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 18:</strong> API testing, network mocking, request interception</p>
+                        </div>
+                        <div class="content-box" style="margin-top: 5px;">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 19:</strong> iframes, dialogs, multi-tab, emulation, visual regression</p>
+                        </div>
+                        <div class="content-box" style="margin-top: 5px;">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 20:</strong> Trace Viewer, UI Mode, GitHub Actions CI/CD</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-orange" style="margin-bottom: 8px;">Module 6 — GenAI &amp; AI QE</h3>
+                        <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 21:</strong> LLMs for QE, prompt engineering, GitHub Copilot, test generation, HITL</p>
+                        </div>
+                        <div class="content-box" style="border-left-color: var(--vibe-orange); margin-top: 5px;">
+                            <p class="compact" style="font-size: 0.75em;"><strong>Session 22:</strong> Cursor/MCP, Playwright MCP, AI agents, capstone challenge</p>
+                        </div>
+                        <div class="highlight-box" style="margin-top: 10px;">
+                            <p class="compact" style="font-size: 0.75em;">AI is your multiplier — but only if you understand what it's generating.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: The Tool Stack -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Professional Tool Stack</h2>
+                <div class="two-col">
+                    <div>
+                        <div class="content-box">
+                            <h3>Core Stack</h3>
+                            <p class="compact" style="margin-top: 6px;">
+                                <span class="tool-badge">Node.js 22 LTS</span>
+                                <span class="tool-badge">TypeScript 5</span>
+                                <span class="tool-badge">Playwright 1.52+</span>
+                                <span class="tool-badge">VS Code</span>
+                            </p>
+                        </div>
+                        <div class="content-box" style="margin-top: 8px;">
+                            <h3>Version Control &amp; CI</h3>
+                            <p class="compact" style="margin-top: 6px;">
+                                <span class="tool-badge">Git</span>
+                                <span class="tool-badge">GitHub</span>
+                                <span class="tool-badge">GitHub Actions</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                            <h3>AI Tooling</h3>
+                            <p class="compact" style="margin-top: 6px;">
+                                <span class="tool-badge" style="background: var(--vibe-orange);">GitHub Copilot</span>
+                                <span class="tool-badge" style="background: var(--vibe-orange);">Cursor</span>
+                                <span class="tool-badge" style="background: var(--vibe-orange);">Playwright MCP</span>
+                                <span class="tool-badge" style="background: var(--vibe-orange);">Claude</span>
+                            </p>
+                        </div>
+                        <div class="content-box" style="margin-top: 8px;">
+                            <h3>Testing Practice App</h3>
+                            <p class="compact" style="margin-top: 6px;">
+                                <span class="tool-badge" style="background: var(--vibe-green);">OrangeHRM Demo</span>
+                                <span class="tool-badge" style="background: var(--vibe-green);">SauceDemo</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact">All tools are <strong>free or free-tier</strong>. No paid subscriptions required to complete the course.</p>
+                </div>
+            </section>
+
+            <!-- Slide 10: How Sessions Work -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>How Every Session Works</h2>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px;">
+                    <div class="content-box" style="text-align: center; border-left: none; border-top: 4px solid var(--vibe-blue);">
+                        <div style="font-size: 1.8em; color: var(--vibe-blue);">①</div>
+                        <h3 style="font-size: 0.9em;">Concept</h3>
+                        <p class="compact" style="font-size: 0.7em;">Why it matters. The problem it solves. Real-world context.</p>
+                    </div>
+                    <div class="content-box" style="text-align: center; border-left: none; border-top: 4px solid var(--vibe-green);">
+                        <div style="font-size: 1.8em; color: var(--vibe-green);">②</div>
+                        <h3 style="font-size: 0.9em;">Live Code</h3>
+                        <p class="compact" style="font-size: 0.7em;">Instructor types every line. You follow along in VS Code.</p>
+                    </div>
+                    <div class="content-box" style="text-align: center; border-left: none; border-top: 4px solid var(--vibe-orange);">
+                        <div style="font-size: 1.8em; color: var(--vibe-orange);">③</div>
+                        <h3 style="font-size: 0.9em;">Break It</h3>
+                        <p class="compact" style="font-size: 0.7em;">Intentionally introduce errors. Understand the failure modes.</p>
+                    </div>
+                    <div class="content-box" style="text-align: center; border-left: none; border-top: 4px solid var(--vibe-yellow);">
+                        <div style="font-size: 1.8em; color: #b8860b;">④</div>
+                        <h3 style="font-size: 0.9em;">Assignment</h3>
+                        <p class="compact" style="font-size: 0.7em;">Hands-on exercise to reinforce the session concept independently.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: What You Will Build -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What You Will Build</h2>
+                <div class="content-box">
+                    <h3>A Complete Enterprise-Grade Playwright Framework</h3>
+                    <div class="two-col" style="margin-top: 8px;">
+                        <ul>
+                            <li>TypeScript Playwright project from scratch</li>
+                            <li>Page Object Model with base class</li>
+                            <li>Custom fixtures with DI pattern</li>
+                            <li>Auth state management (login once)</li>
+                            <li>API + UI hybrid tests</li>
+                        </ul>
+                        <ul>
+                            <li>Multi-browser project configuration</li>
+                            <li>Parallel execution with sharding</li>
+                            <li>GitHub Actions CI/CD pipeline</li>
+                            <li>HTML trace reports</li>
+                            <li>AI-assisted test generation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact bold text-blue">This framework goes directly on your GitHub profile as a portfolio project.</p>
+                </div>
+            </section>
+
+            <!-- Slide 12: Skills You Will Gain -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Job-Ready Skills After Completion</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+                    <div class="stat-box">
+                        <span class="stat-number">22</span>
+                        <span class="stat-label">Sessions / Presentations</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Lines of Framework Code</span>
+                    </div>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="content-box">
+                        <h3>Technical Skills</h3>
+                        <ul>
+                            <li>TypeScript + Playwright automation</li>
+                            <li>Framework design (POM + Fixtures)</li>
+                            <li>CI/CD with GitHub Actions</li>
+                            <li>API &amp; network testing</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Modern QE Skills</h3>
+                        <ul>
+                            <li>AI-assisted test generation</li>
+                            <li>Prompt engineering for QE</li>
+                            <li>Trace Viewer debugging</li>
+                            <li>Interview-ready concepts</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13: Pace & Commitment -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Commitment &amp; Pace</h2>
+                <div class="three-col">
+                    <div class="content-box" style="text-align: center;">
+                        <div style="font-size: 2em; color: var(--vibe-blue);"><i class="fas fa-clock"></i></div>
+                        <h3>2–3 hrs</h3>
+                        <p class="compact" style="font-size: 0.75em;">per session (live + practice)</p>
+                    </div>
+                    <div class="content-box" style="text-align: center;">
+                        <div style="font-size: 2em; color: var(--vibe-green);"><i class="fas fa-calendar-week"></i></div>
+                        <h3>2× per week</h3>
+                        <p class="compact" style="font-size: 0.75em;">recommended pace for best retention</p>
+                    </div>
+                    <div class="content-box" style="text-align: center;">
+                        <div style="font-size: 2em; color: var(--vibe-orange);"><i class="fas fa-graduation-cap"></i></div>
+                        <h3>~11 weeks</h3>
+                        <p class="compact" style="font-size: 0.75em;">job-ready framework completed</p>
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>The Rule</h3>
+                    <p class="compact">Miss a concept, revisit the presentation before the next session. Everything is self-contained. Each session builds on the last.</p>
+                </div>
+            </section>
+
+            <!-- Slide 14: Success Mindset -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The VibeTestQ Learning Mindset</h2>
+                <div class="two-col">
+                    <div>
+                        <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                            <h3 style="color: var(--vibe-orange);">What NOT to Do</h3>
+                            <ul>
+                                <li class="cross">Copy-paste code without reading it</li>
+                                <li class="cross">Skip assignments "I'll do it later"</li>
+                                <li class="cross">Ask AI before trying yourself</li>
+                                <li class="cross">Memorise syntax — understand patterns</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="content-box" style="border-left-color: var(--vibe-green);">
+                            <h3>What TO Do</h3>
+                            <ul>
+                                <li>Type every line of code yourself</li>
+                                <li>Break things intentionally</li>
+                                <li>Ask "why" before "how"</li>
+                                <li>Use AI to validate, not generate blindly</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="compact bold">"Struggling with code is not a sign of failure — it is the learning happening."</p>
+                </div>
+            </section>
+
+            <!-- Slide 15: Your Transformation -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Your Transformation</h2>
+                <div class="content-box" style="margin-bottom: 10px;">
+                    <div class="two-col">
+                        <div>
+                            <h3 style="color: var(--vibe-orange);">Before VibeTestQ</h3>
+                            <ul>
+                                <li class="cross">Manual tester or beginner coder</li>
+                                <li class="cross">No automation framework knowledge</li>
+                                <li class="cross">Nervous about SDET interviews</li>
+                                <li class="cross">AI tools feel overwhelming</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>After VibeTestQ</h3>
+                            <ul>
+                                <li>Full TypeScript Playwright framework owner</li>
+                                <li>CI/CD pipeline running on GitHub</li>
+                                <li>Confident answering Junior → Lead questions</li>
+                                <li>AI is your accelerator, not your crutch</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight-box" style="text-align: center; background: #eff6ff; border-color: var(--vibe-blue);">
+                    <p class="bold text-blue" style="font-size: 1.1em;">Session 1 of 22 starts now. Let's build.</p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            if (typeof Reveal !== 'undefined') {
+                Reveal.initialize({
+                    hash: true,
+                    transition: 'slide',
+                    transitionSpeed: 'default',
+                    slideNumber: true,
+                    controls: true,
+                    progress: true,
+                    center: true,
+                    width: 1280,
+                    height: 720,
+                    margin: 0.04
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

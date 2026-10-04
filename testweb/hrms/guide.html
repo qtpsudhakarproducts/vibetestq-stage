@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Testing Guide | Automation Practice</title>
+    <meta name="description" content="Playwright test automation practice guide for HRMS application">
+    <link rel="stylesheet" href="../shared/css/portal.css">
+    <link rel="stylesheet" href="hrms.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .guide-hero {
+            background: linear-gradient(135deg, #1e3a5f, #1e40af, #3b82f6);
+            padding: 3rem 2rem;
+        }
+        .guide-hero h1 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem;
+        }
+        .guide-hero p {
+            color: #bfdbfe;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .guide-content {
+            padding: 2rem;
+            max-width: 960px;
+        }
+        .feature-section {
+            background: white;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .feature-section-header {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+        .feature-section-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+            flex: 1;
+        }
+        .feature-section-header .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .feature-section-body {
+            padding: 1.5rem;
+        }
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .step-list li {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.88rem;
+            color: #475569;
+        }
+        .step-list li:last-child {
+            border-bottom: none;
+        }
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #3b82f6;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .tag-green { background: #d1fae5; color: #065f46; }
+        .tag-blue { background: #dbeafe; color: #1e40af; }
+        .tag-orange { background: #fef3c7; color: #92400e; }
+        .tag-purple { background: #ede9fe; color: #4c1d95; }
+        .scenario-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid #3b82f6;
+        }
+        .scenario-card h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.5rem;
+        }
+        .scenario-card p {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin: 0;
+        }
+        .toc {
+            background: white;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .toc h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.75rem;
+        }
+        .toc-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.35rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .toc-list a {
+            font-size: 0.82rem;
+            color: #3b82f6;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .toc-list a:hover {
+            text-decoration: underline;
+        }
+        .chevron {
+            transition: transform 0.2s;
+        }
+        .collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+        .collapsed .feature-section-body {
+            display: none;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <div style="background:#0f172a;min-height:100vh;">
+        <div class="guide-hero">
+            <div style="max-width:960px;margin:0 auto;">
+                <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+                    <a href="index.html" style="color:#bfdbfe;font-size:0.85rem;text-decoration:none;"><i class="fas fa-arrow-left"></i> Back to App</a>
+                </div>
+                <h1><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>HRMS — Automation Testing Guide</h1>
+                <p>Complete reference for practicing Playwright test automation on the Human Resource Management System.</p>
+                <div style="display:flex;gap:0.75rem;margin-top:1.25rem;flex-wrap:wrap;">
+                    <span class="tag tag-green">Playwright</span>
+                    <span class="tag tag-blue">End-to-End</span>
+                    <span class="tag tag-orange">40+ Scenarios</span>
+                    <span class="tag tag-purple">Enterprise App</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-content" style="margin:0 auto;">
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3><i class="fas fa-list" style="color:#3b82f6;margin-right:0.5rem;"></i>Table of Contents</h3>
+                <ul class="toc-list">
+                    <li><a href="#app-overview"><i class="fas fa-info-circle"></i> App Overview</a></li>
+                    <li><a href="#dashboard"><i class="fas fa-th-large"></i> Dashboard</a></li>
+                    <li><a href="#pim"><i class="fas fa-users"></i> People Management</a></li>
+                    <li><a href="#leave"><i class="fas fa-calendar-alt"></i> Leave Management</a></li>
+                    <li><a href="#time"><i class="fas fa-clock"></i> Time & Attendance</a></li>
+                    <li><a href="#recruit"><i class="fas fa-user-tie"></i> Recruitment</a></li>
+                    <li><a href="#performance"><i class="fas fa-chart-line"></i> Performance</a></li>
+                    <li><a href="#admin"><i class="fas fa-cog"></i> Administration</a></li>
+                    <li><a href="#scenarios"><i class="fas fa-vial"></i> Test Scenarios</a></li>
+                </ul>
+            </div>
+
+            <!-- App Overview -->
+            <div class="feature-section" id="app-overview">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#6366f1;"><i class="fas fa-info-circle"></i></div>
+                    <h3>App Overview & Architecture</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">HRMS is a comprehensive Human Resource Management System with 7 major modules covering the complete employee lifecycle. The app simulates real network behavior with loading states and delays, perfect for practicing automation waits.</p>
+                    <table class="hrms-table" style="font-size:0.85rem;">
+                        <tr>
+                            <th>Module</th>
+                            <th>Navigation</th>
+                            <th>Key Functionality</th>
+                        </tr>
+                        <tr>
+                            <td>Dashboard</td>
+                            <td>Default tab on load</td>
+                            <td>Stats, quick actions, activity feed</td>
+                        </tr>
+                        <tr>
+                            <td>People (PIM)</td>
+                            <td>Sidebar → People</td>
+                            <td>Employee directory, CRUD operations</td>
+                        </tr>
+                        <tr>
+                            <td>Leave Management</td>
+                            <td>Sidebar → Leave</td>
+                            <td>Apply leave, approve/reject workflow</td>
+                        </tr>
+                        <tr>
+                            <td>Time & Attendance</td>
+                            <td>Sidebar → Time</td>
+                            <td>Clock in/out, attendance tracking</td>
+                        </tr>
+                        <tr>
+                            <td>Recruitment</td>
+                            <td>Sidebar → Recruitment</td>
+                            <td>Job postings, candidate pipeline</td>
+                        </tr>
+                        <tr>
+                            <td>Performance</td>
+                            <td>Sidebar → Performance</td>
+                            <td>Goals, OKRs, reviews</td>
+                        </tr>
+                        <tr>
+                            <td>Administration</td>
+                            <td>Sidebar → Administration</td>
+                            <td>Users, audit logs, reports</td>
+                        </tr>
+                    </table>
+                    <div style="margin-top:1rem;background:#fef3c7;border-radius:8px;padding:0.75rem 1rem;font-size:0.82rem;color:#92400e;">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Important for automation:</strong> The app uses simulated delays (800-1200ms). Always wait for elements to be visible and ready before interacting with them.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="feature-section" id="dashboard">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#3b82f6;"><i class="fas fa-th-large"></i></div>
+                    <h3>1. Dashboard</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The dashboard provides an overview of key HR metrics and quick access to common actions.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Observe the stats cards at the top showing Total Employees, On Leave Today, Pending Requests, Open Positions, and Pending Reviews</li>
+                        <li><span class="step-num">2</span>Find the Quick Actions section with buttons for common tasks like Add Employee, Approve Leaves, Post Job, and View Reports</li>
+                        <li><span class="step-num">3</span>Locate the Recent Activity feed showing the latest HR activities with timestamps</li>
+                        <li><span class="step-num">4</span>Click any quick action button to navigate to the respective module and open the relevant form</li>
+                        <li><span class="step-num">5</span>Verify that stats update automatically when data changes in other modules</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- People Management -->
+            <div class="feature-section" id="pim">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#8b5cf6;"><i class="fas fa-users"></i></div>
+                    <h3>2. People Management (PIM)</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The People Information Module manages the employee directory with full CRUD operations.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the People (PIM) link in the sidebar navigation and click to view the employee directory</li>
+                        <li><span class="step-num">2</span>Find the search input field and type to filter employees by name, ID, or email — the table updates in real-time</li>
+                        <li><span class="step-num">3</span>Locate the department filter dropdown and select a department to filter the employee list</li>
+                        <li><span class="step-num">4</span>Find the Add Employee button in the toolbar and click to open the employee form modal</li>
+                        <li><span class="step-num">5</span>In the modal, locate the Personal Information section with fields for First Name, Last Name, Email, Phone, DOB, and Gender</li>
+                        <li><span class="step-num">6</span>Find the Employment Details section with Job Title dropdown, Department dropdown, Join Date, and Status fields</li>
+                        <li><span class="step-num">7</span>Click Save Employee button and wait for the success notification</li>
+                        <li><span class="step-num">8</span>In the employee table, locate the action buttons (View, Edit, Delete) for each row</li>
+                        <li><span class="step-num">9</span>Click the View button to open the employee profile modal with detailed information</li>
+                        <li><span class="step-num">10</span>Click the Edit button to modify employee details in the form modal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Leave Management -->
+            <div class="feature-section" id="leave">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#0ea5e9;"><i class="fas fa-calendar-alt"></i></div>
+                    <h3>3. Leave Management</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Manage leave requests, check balances, and process approvals.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the Leave Management link in the sidebar and click to navigate</li>
+                        <li><span class="step-num">2</span>Observe the leave balance cards at the top showing Annual, Sick, Personal, and Comp-Off balances</li>
+                        <li><span class="step-num">3</span>Find the Apply Leave button and click to open the leave request modal</li>
+                        <li><span class="step-num">4</span>In the modal, locate the Leave Type dropdown and select the type of leave</li>
+                        <li><span class="step-num">5</span>Find the Start Date and End Date pickers and select your leave period</li>
+                        <li><span class="step-num">6</span>Observe that the Number of Days field auto-calculates based on the selected dates</li>
+                        <li><span class="step-num">7</span>Locate the Reason textarea and enter a reason for the leave request</li>
+                        <li><span class="step-num">8</span>Click Submit Request and wait for the success notification</li>
+                        <li><span class="step-num">9</span>In the leave requests table, find requests with Pending status</li>
+                        <li><span class="step-num">10</span>Locate the Approve and Reject buttons for pending requests to process approvals</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Time & Attendance -->
+            <div class="feature-section" id="time">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#14b8a6;"><i class="fas fa-clock"></i></div>
+                    <h3>4. Time & Attendance</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Track work hours with clock in/out functionality and view attendance records.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the Time & Attendance link in the sidebar and click to navigate</li>
+                        <li><span class="step-num">2</span>Observe the clock widget showing the current date, time, and clock status</li>
+                        <li><span class="step-num">3</span>Find the Hours Today display showing accumulated work hours</li>
+                        <li><span class="step-num">4</span>Locate the Clock In button and click to start your work session</li>
+                        <li><span class="step-num">5</span>Observe that the status changes to "Clocked In" with the clock-in time displayed</li>
+                        <li><span class="step-num">6</span>Notice the button changes to Clock Out after clocking in</li>
+                        <li><span class="step-num">7</span>Watch the Hours Today counter update in real-time as time passes</li>
+                        <li><span class="step-num">8</span>Click Clock Out to end your work session</li>
+                        <li><span class="step-num">9</span>View the attendance table below showing today's attendance records</li>
+                        <li><span class="step-num">10</span>Observe the total hours and status for each employee record</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Recruitment -->
+            <div class="feature-section" id="recruit">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#f97316;"><i class="fas fa-user-tie"></i></div>
+                    <h3>5. Recruitment (ATS)</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Manage job postings and track candidates through the hiring pipeline.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the Recruitment link in the sidebar and click to navigate</li>
+                        <li><span class="step-num">2</span>Observe the candidate pipeline at the top showing counts for Applied, Screening, Interview, Offer, and Hired stages</li>
+                        <li><span class="step-num">3</span>Find the Post New Job button and click to open the job posting modal</li>
+                        <li><span class="step-num">4</span>In the modal, fill in the Job Title, Department, Location, Employment Type, Experience, Salary Range, and Description</li>
+                        <li><span class="step-num">5</span>Click Post Job button and wait for the success notification</li>
+                        <li><span class="step-num">6</span>View the job cards in the grid showing title, department, location, type, and applicant count</li>
+                        <li><span class="step-num">7</span>Locate the View button on a job card and click to see candidates for that position</li>
+                        <li><span class="step-num">8</span>In the candidates modal, observe the candidate details including name, experience, skills, and rating</li>
+                        <li><span class="step-num">9</span>Find the stage dropdown for each candidate to move them through the pipeline</li>
+                        <li><span class="step-num">10</span>Change a candidate's stage and observe the pipeline counts update</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Performance -->
+            <div class="feature-section" id="performance">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#ec4899;"><i class="fas fa-chart-line"></i></div>
+                    <h3>6. Performance Management</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Track goals, OKRs, and conduct performance reviews.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the Performance link in the sidebar and click to navigate</li>
+                        <li><span class="step-num">2</span>Find the Add Goal button and click to open the goal creation modal</li>
+                        <li><span class="step-num">3</span>Fill in the Goal Title, Description, Due Date, and Priority fields</li>
+                        <li><span class="step-num">4</span>Click Save Goal and verify the goal appears in the goals list</li>
+                        <li><span class="step-num">5</span>Observe the goal cards showing title, progress bar, due date, and priority badge</li>
+                        <li><span class="step-num">6</span>Notice the progress bar color changes based on completion percentage</li>
+                        <li><span class="step-num">7</span>Scroll down to find the Performance Reviews table</li>
+                        <li><span class="step-num">8</span>Locate a pending review and click the Complete button to open the review modal</li>
+                        <li><span class="step-num">9</span>In the review modal, find the star rating selector and enter Strengths and Areas for Improvement</li>
+                        <li><span class="step-num">10</span>Click Submit Review and verify the review status changes to Completed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Administration -->
+            <div class="feature-section" id="admin">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#6366f1;"><i class="fas fa-cog"></i></div>
+                    <h3>7. Administration</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Manage users, roles, and view audit logs for compliance.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the Administration link in the sidebar and click to navigate</li>
+                        <li><span class="step-num">2</span>Find the User Management table showing username, email, role, status, and last login</li>
+                        <li><span class="step-num">3</span>Observe the role badges indicating HR Manager, Manager, or Employee roles</li>
+                        <li><span class="step-num">4</span>Locate the action buttons (Edit, Reset Password) for each user</li>
+                        <li><span class="step-num">5</span>View the Audit Logs panel on the right showing recent system activities</li>
+                        <li><span class="step-num">6</span>Observe the log entries with timestamp, user, action type, module, and details</li>
+                        <li><span class="step-num">7</span>Note the action badges colored by type: CREATE (green), UPDATE (gray), DELETE (red), APPROVE (blue)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Test Scenarios -->
+            <div class="feature-section" id="scenarios">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#10b981;"><i class="fas fa-vial"></i></div>
+                    <h3>Test Scenarios</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div>
+                            <p style="font-size:0.82rem;font-weight:700;color:#3b82f6;margin:0 0 0.5rem;text-transform:uppercase;">Happy Path</p>
+                            <div class="scenario-card">
+                                <h4>TC-001: Add New Employee</h4>
+                                <p>Navigate to PIM → Click Add Employee → Fill form → Save → Verify in table</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-002: Edit Employee Details</h4>
+                                <p>Find employee in table → Click Edit → Modify fields → Save → Verify changes</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-003: Apply for Leave</h4>
+                                <p>Navigate to Leave → Click Apply → Fill dates and reason → Submit → Verify in table</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-004: Approve Leave Request</h4>
+                                <p>Find pending request → Click Approve → Verify status changes to Approved</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-005: Clock In and Out</h4>
+                                <p>Navigate to Time → Click Clock In → Verify status → Clock Out → Check hours</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-006: Post New Job</h4>
+                                <p>Navigate to Recruitment → Post Job → Fill details → Submit → Verify in grid</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-007: Move Candidate Stage</h4>
+                                <p>View job candidates → Change stage dropdown → Verify pipeline count updates</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-008: Create and Track Goal</h4>
+                                <p>Add goal → Set title and due date → Verify in goals list with progress</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-009: Complete Performance Review</h4>
+                                <p>Find pending review → Click Complete → Enter rating and feedback → Submit</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-010: Search and Filter Employees</h4>
+                                <p>Type in search → Verify table filters → Select department → Verify filter works</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p style="font-size:0.82rem;font-weight:700;color:#ef4444;margin:0 0 0.5rem;text-transform:uppercase;">Negative / Edge Cases</p>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-011: Empty Employee Form</h4>
+                                <p>Click Save without filling required fields → Verify validation error appears</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-012: Invalid Date Range Leave</h4>
+                                <p>Set end date before start date → Verify days show 0 or negative → Cannot submit</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-013: Delete Employee</h4>
+                                <p>Click delete button → Confirm in dialog → Verify employee removed from table</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-014: Reject Leave Request</h4>
+                                <p>Find pending request → Click Reject → Verify status changes to Rejected</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-015: Empty Goal Title</h4>
+                                <p>Try to save goal without title → Verify validation message appears</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-016: Empty Review Feedback</h4>
+                                <p>Try to submit review without strengths → Verify validation prevents submission</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-017: Search No Results</h4>
+                                <p>Search for non-existent employee → Verify empty state message appears</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-018: Quick Actions Navigation</h4>
+                                <p>Click each quick action → Verify correct tab opens with modal/form ready</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-019: Modal Close Behavior</h4>
+                                <p>Open modal → Click X → Verify modal closes → Click outside → Verify closes</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-020: Data Persistence</h4>
+                                <p>Add data → Refresh page → Verify all data persists in localStorage</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;padding:2rem 0;color:#64748b;font-size:0.82rem;">
+                <p>HRMS Portal — Playwright Practice App | <a href="index.html" style="color:#3b82f6;">Open App</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            const section = header.closest('.feature-section');
+            section.classList.toggle('collapsed');
+        }
+    </script>
+</body>
+</html>

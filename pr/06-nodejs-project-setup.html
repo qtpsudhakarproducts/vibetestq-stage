@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js Project Setup - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+        .file-tree { background:#1e1e1e; color:#d4d4d4; font-family:'Consolas',monospace; font-size:0.7em; padding:12px 16px; border-radius:8px; line-height:1.8; }
+        .ft-folder { color:#e2b96a; }
+        .ft-file { color:#9cdcfe; }
+        .ft-note { color:#6a9955; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- Slide 1: Title -->
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Node.js &amp; Project Setup</h1>
+    <p class="subtitle">Runtime · npm · Project Structure · tsconfig · Scripts</p>
+    <p class="tagline">Setting up a professional Playwright project from scratch — Session 6</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Node.js</span>
+        <span class="badge" style="background:var(--vibe-blue);">npm</span>
+        <span class="badge" style="background:var(--vibe-green);">Project Anatomy</span>
+    </div>
+</section>
+
+<!-- Slide 2: What is Node.js -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>What is Node.js?</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Node.js = JS outside the browser</h3>
+            <ul>
+                <li>V8 JavaScript engine + OS APIs wrapped together</li>
+                <li>Lets JavaScript run on servers, scripts, CLI tools</li>
+                <li>Non-blocking I/O — handles files, networks efficiently</li>
+                <li>Built-in modules: <code>fs</code>, <code>path</code>, <code>http</code>, <code>os</code></li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Why Playwright Needs Node.js</h3>
+            <ul>
+                <li>Playwright is a Node.js package</li>
+                <li>Test runner executes in Node.js process</li>
+                <li>Browser launch + control happens via Node.js</li>
+                <li>All npm packages are managed via Node.js</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Node.js is not optional — it's the runtime that runs your Playwright tests. Use <strong>LTS (Long Term Support)</strong> version in projects.</p>
+    </div>
+</section>
+
+<!-- Slide 3: Node.js + npm Commands -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Essential Node.js &amp; npm Commands</h2>
+    <div class="code-snippet"># Check installed versions
+node --version       # v22.x.x (LTS)
+npm --version        # 10.x.x
+
+# Initialize a new project (creates package.json)
+npm init -y
+
+# Install Playwright (and browsers)
+npm init playwright@latest     # Interactive wizard
+# OR manually:
+npm install --save-dev @playwright/test
+npx playwright install         # Download browser binaries
+
+# Install a package
+npm install dotenv                        # production dependency
+npm install --save-dev typescript ts-node # dev dependency
+
+# Run scripts defined in package.json
+npm test                # runs "test" script
+npm run test:headed     # runs custom script
+
+# List installed packages
+npm list --depth=0
+
+# Update packages
+npm update
+npm outdated           # show packages with newer versions</div>
+    <div class="highlight-box">
+        <p class="compact">Always use <code>--save-dev</code> for test tools. They shouldn't be in production dependencies.</p>
+    </div>
+</section>
+
+<!-- Slide 4: package.json Explained -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>package.json — The Project Manifest</h2>
+    <div class="code-snippet">{
+  "name": "my-playwright-framework",
+  "version": "1.0.0",
+  "description": "End-to-end test automation with Playwright",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:debug": "npx playwright test --debug",
+    "test:report": "npx playwright show-report",
+    "test:smoke": "npx playwright test --grep @smoke",
+    "lint": "eslint . --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "typescript": "^5.4.0",
+    "dotenv": "^16.4.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}</div>
+    <div class="highlight-box">
+        <p class="compact bold">The <code>scripts</code> section is your command hub. Define all test run modes here so the team uses consistent commands.</p>
+    </div>
+</section>
+
+<!-- Slide 5: Project Folder Structure -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Professional Playwright Project Structure</h2>
+    <div class="two-col">
+        <div class="file-tree">
+<span class="ft-folder">my-playwright-project/</span>
+├── <span class="ft-folder">tests/</span>             <span class="ft-note">← test files</span>
+│   ├── <span class="ft-folder">auth/</span>
+│   ├── <span class="ft-folder">products/</span>
+│   └── <span class="ft-folder">api/</span>
+├── <span class="ft-folder">pages/</span>             <span class="ft-note">← page objects</span>
+│   ├── <span class="ft-file">LoginPage.ts</span>
+│   └── <span class="ft-file">DashboardPage.ts</span>
+├── <span class="ft-folder">fixtures/</span>          <span class="ft-note">← custom fixtures</span>
+│   └── <span class="ft-file">fixtures.ts</span>
+├── <span class="ft-folder">helpers/</span>           <span class="ft-note">← utilities</span>
+│   └── <span class="ft-file">test-helpers.ts</span>
+├── <span class="ft-folder">test-data/</span>         <span class="ft-note">← test data files</span>
+│   └── <span class="ft-file">users.json</span>
+        </div>
+        <div class="file-tree">
+├── <span class="ft-folder">.github/</span>
+│   └── <span class="ft-folder">workflows/</span>
+│       └── <span class="ft-file">playwright.yml</span>
+├── <span class="ft-file">playwright.config.ts</span>  <span class="ft-note">← main config</span>
+├── <span class="ft-file">tsconfig.json</span>
+├── <span class="ft-file">package.json</span>
+├── <span class="ft-file">.env</span>               <span class="ft-note">← secrets</span>
+├── <span class="ft-file">.env.example</span>       <span class="ft-note">← template</span>
+├── <span class="ft-file">.gitignore</span>
+└── <span class="ft-file">README.md</span>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 6: Environment Variables with dotenv -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Environment Variables — Secrets Management</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>.env file (never commit!)</h3>
+            <div class="code-snippet" style="margin-top:4px;"># .env
+BASE_URL=https://demo.app
+ADMIN_USER=admin
+ADMIN_PASS=Admin1234!
+API_KEY=secret-key-here</div>
+            <div class="code-snippet" style="margin-top:8px;"># .env.example (commit this!)
+BASE_URL=
+ADMIN_USER=
+ADMIN_PASS=
+API_KEY=</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Using in playwright.config.ts</h3>
+            <div class="code-snippet" style="margin-top:4px;">import { defineConfig } from '@playwright/test';
+import dotenv from 'dotenv';
+dotenv.config();
+
+export default defineConfig({
+  use: {
+    baseURL: process.env.BASE_URL
+      || 'http://localhost:3000',
+  },
+});</div>
+            <div class="highlight-box" style="margin-top:6px;">
+                <p class="compact" style="font-size:0.75em;">Add <code>.env</code> to <code>.gitignore</code>. Never hardcode credentials in code.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 7: .gitignore -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Essential .gitignore for Playwright Projects</h2>
+    <div class="code-snippet"># Dependencies
+node_modules/
+
+# Playwright outputs
+test-results/          # screenshots, videos, traces
+playwright-report/     # HTML report
+.playwright/
+
+# TypeScript compiled output
+dist/
+*.js.map
+
+# Environment secrets
+.env
+.env.local
+.env.production
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json   # ok to commit extensions, not settings
+.idea/</div>
+    <div class="highlight-box">
+        <p class="compact bold">The most important: <code>node_modules/</code> and <code>.env</code>. Never commit these. Run <code>npm install</code> to restore node_modules from package.json.</p>
+    </div>
+</section>
+
+<!-- Slide 8: Node.js Modules -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Node.js Built-in Modules Useful for Testing</h2>
+    <div class="code-snippet">import * as path from 'path';
+import * as fs from 'fs';
+
+// path — cross-platform file paths
+const downloadsDir = path.join(__dirname, '..', 'downloads');
+const configPath = path.resolve('./playwright.config.ts');
+path.basename('/tests/login.spec.ts');  // "login.spec.ts"
+path.extname('report.json');            // ".json"
+
+// fs — file system operations
+const data = fs.readFileSync('./test-data/users.json', 'utf-8');
+const users = JSON.parse(data);
+
+// Write test artifacts
+fs.writeFileSync('./output/results.json', JSON.stringify(results, null, 2));
+
+// Check if directory exists
+if (!fs.existsSync('./screenshots')) {
+  fs.mkdirSync('./screenshots', { recursive: true });
+}
+
+// Async file operations (prefer in helpers)
+import { readFile, writeFile } from 'fs/promises';
+const content = await readFile('./data.json', 'utf-8');</div>
+    <div class="highlight-box">
+        <p class="compact">You'll use <code>path.join</code> constantly in fixtures to locate test data files relative to the project root.</p>
+    </div>
+</section>
+
+<!-- Slide 9: Running Your First Playwright Test -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Running Your First Playwright Test</h2>
+    <div class="code-snippet"># 1. Create project and install Playwright
+mkdir my-pw-project &amp;&amp; cd my-pw-project
+npm init playwright@latest
+# Choose: TypeScript, tests/ folder, GitHub Actions: Yes
+
+# 2. Run the generated example tests
+npx playwright test                    # headless, all browsers
+npx playwright test --headed           # watch browser open
+npx playwright test --project=chromium # one browser only
+
+# 3. View the HTML report
+npx playwright show-report
+
+# 4. Run in interactive UI mode
+npx playwright test --ui
+
+# 5. Run a specific file
+npx playwright test tests/example.spec.ts
+
+# 6. Run with tag filter (requires @tag in test names)
+npx playwright test --grep "@smoke"
+
+# 7. Run in debug mode (opens Playwright Inspector)
+npx playwright test --debug</div>
+    <div class="highlight-box">
+        <p class="compact bold"><code>npx playwright test --ui</code> is the best way to develop tests interactively. Use it daily during development.</p>
+    </div>
+</section>
+
+<!-- Slide 10: Summary -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 6 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Node.js Fundamentals</h3>
+            <ul>
+                <li>V8-powered runtime that runs JS outside browser</li>
+                <li>Non-blocking I/O — handles async efficiently</li>
+                <li>npm for package management</li>
+                <li>Built-in: <code>path</code>, <code>fs</code>, <code>process</code></li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Project Setup Mastery</h3>
+            <ul>
+                <li>package.json scripts for all run modes</li>
+                <li>Professional folder structure for Playwright</li>
+                <li>dotenv for secrets — never hardcode credentials</li>
+                <li>.gitignore: node_modules + .env always excluded</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="text-align:center; background:#eff6ff; border-color:var(--vibe-blue);">
+        <p class="bold text-blue">Next: Session 7 — Git &amp; GitHub for Testers (version control, branching, pull requests, GitHub Actions)</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

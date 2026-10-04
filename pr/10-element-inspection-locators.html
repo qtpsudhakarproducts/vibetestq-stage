@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Element Inspection & Playwright Locators - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+        .locator-table { width:100%; border-collapse:collapse; font-size:0.75em; margin-top:8px; }
+        .locator-table th { background:var(--vibe-dark-blue); color:white; padding:6px 10px; text-transform:none; font-weight:600; }
+        .locator-table td { padding:6px 10px; border-bottom:1px solid #e2e8f0; }
+        .locator-table tr:nth-child(even) td { background:#f1f5f9; }
+        .priority { display:inline-block; padding:2px 8px; border-radius:10px; font-size:0.7em; font-weight:700; }
+        .p1 { background:#dcfce7; color:#15803d; }
+        .p2 { background:#dbeafe; color:#1e40af; }
+        .p3 { background:#fef9c3; color:#b45309; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Element Inspection &amp; Playwright Locators</h1>
+    <p class="subtitle">Find Elements the Right Way, Every Time</p>
+    <p class="tagline">Built-in locators, DevTools inspection, and locator best practices — Session 10</p>
+    <div style="margin-top:15px;">
+        <span class="badge">getByRole</span>
+        <span class="badge" style="background:var(--vibe-blue);">getByLabel</span>
+        <span class="badge" style="background:var(--vibe-green);">getByTestId</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Playwright Locator Priority Guide</h2>
+    <table class="locator-table">
+        <tr><th>Locator</th><th>Usage</th><th>Priority</th></tr>
+        <tr><td><code>getByRole()</code></td><td>Button, heading, checkbox, link by ARIA role</td><td><span class="priority p1">Use First</span></td></tr>
+        <tr><td><code>getByLabel()</code></td><td>Form inputs associated with a &lt;label&gt;</td><td><span class="priority p1">Use First</span></td></tr>
+        <tr><td><code>getByPlaceholder()</code></td><td>Input fields with placeholder text</td><td><span class="priority p2">Use Often</span></td></tr>
+        <tr><td><code>getByText()</code></td><td>Any element containing specific text</td><td><span class="priority p2">Use Often</span></td></tr>
+        <tr><td><code>getByAltText()</code></td><td>Images with alt attribute</td><td><span class="priority p2">Use Often</span></td></tr>
+        <tr><td><code>getByTestId()</code></td><td>Elements with data-testid attribute</td><td><span class="priority p1">Best Practice</span></td></tr>
+        <tr><td><code>locator('css')</code></td><td>CSS selector — when above don't apply</td><td><span class="priority p3">Fallback</span></td></tr>
+        <tr><td><code>locator('xpath')</code></td><td>XPath — last resort only</td><td><span class="priority p3">Avoid</span></td></tr>
+    </table>
+    <div class="highlight-box" style="margin-top:8px;">
+        <p class="compact bold">Rule: Prefer locators that reflect user experience (role, label, text) over technical CSS/XPath selectors.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>getByRole — The Most Powerful Locator</h2>
+    <div class="code-snippet">// ARIA roles map to semantic HTML elements
+await page.getByRole('button', { name: 'Submit' }).click();
+await page.getByRole('link', { name: 'Sign In' }).click();
+await page.getByRole('heading', { name: 'Dashboard', level: 2 });
+await page.getByRole('checkbox', { name: 'Remember me' }).check();
+await page.getByRole('textbox', { name: 'Email' }).fill('user@test.com');
+await page.getByRole('combobox', { name: 'Country' }).selectOption('US');
+
+// Common accessible roles:
+// button, link, textbox, checkbox, radio, combobox, listbox
+// heading, img, table, row, cell, dialog, alert, navigation
+// menuitem, tab, tabpanel, progressbar, slider, spinbutton
+
+// exact: false for partial matching
+await page.getByRole('button', { name: 'Log', exact: false }).click();</div>
+    <div class="highlight-box">
+        <p class="compact">If <code>getByRole()</code> doesn't find your element, the first thing to check is: does your HTML have proper ARIA semantics? Fix the app before adding bad locators.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Chaining and Filtering Locators</h2>
+    <div class="code-snippet">// Scope locators to a parent element
+const form = page.getByRole('form', { name: 'Login' });
+await form.getByLabel('Username').fill('admin');
+await form.getByLabel('Password').fill('secret');
+await form.getByRole('button', { name: 'Submit' }).click();
+
+// Filter within a list
+const listItems = page.getByRole('listitem');
+await listItems.filter({ hasText: 'Jane Doe' }).getByRole('button').click();
+
+// nth() — avoid when possible, prefer filter
+const rows = page.getByRole('row');
+await rows.nth(1).getByRole('cell').first().click();
+
+// and() — combine two locators
+const saveBtn = page.getByRole('button').and(page.getByTestId('save'));
+
+// Locator assertions (auto-retry until timeout)
+await expect(page.getByRole('alert')).toBeVisible();
+await expect(page.getByRole('status')).toContainText('Saved');</div>
+    <div class="highlight-box">
+        <p class="compact bold">Chaining locators inside a parent container makes tests more resilient — they only match within that scope.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Inspecting Elements: DevTools + Playwright UI Mode</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Browser DevTools</h3>
+            <ul>
+                <li>F12 → Elements panel</li>
+                <li>Ctrl+Shift+C → click to inspect</li>
+                <li>Right-click element → Copy → XPath/selector</li>
+                <li>Console: <code>$('css')</code> and <code>$x('xpath')</code></li>
+                <li>Accessibility panel → check ARIA roles</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Playwright Codegen</h3>
+            <ul>
+                <li><code>npx playwright codegen &lt;url&gt;</code></li>
+                <li>Click elements — locators auto-generated</li>
+                <li>Shows getByRole/Label/Text preference</li>
+                <li>Generates full test file</li>
+                <li>Use as inspection tool, not final code</li>
+            </ul>
+        </div>
+    </div>
+    <div class="code-snippet" style="margin-top:4px;">// Codegen command
+npx playwright codegen https://demo.playwright.dev/todomvc
+// Opens browser + code window — click to generate locator suggestions</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>data-testid: The Team Approach</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Dev adds to HTML</h3>
+            <div class="code-snippet" style="margin-top:4px;">&lt;button
+  class="btn-primary"
+  data-testid="login-submit-btn"
+&gt;
+  Sign In
+&lt;/button&gt;
+
+&lt;input
+  type="email"
+  data-testid="email-input"
+  placeholder="Enter email"
+/&gt;</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>QE uses in tests</h3>
+            <div class="code-snippet" style="margin-top:4px;">// playwright.config.ts
+use: {
+  testIdAttribute: 'data-testid'
+}
+
+// In test files:
+await page
+  .getByTestId('email-input')
+  .fill('user@test.com');
+
+await page
+  .getByTestId('login-submit-btn')
+  .click();</div>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">QE should request <code>data-testid</code> attributes from developers. It creates a stable test contract that survives CSS/copy refactors.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 10 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Locator Hierarchy</h3>
+            <ul>
+                <li>getByRole — always try first</li>
+                <li>getByLabel — forms and inputs</li>
+                <li>getByTestId — API contract with dev</li>
+                <li>getByText / getByPlaceholder</li>
+                <li>CSS/XPath — fallback only</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Power Techniques</h3>
+            <ul>
+                <li>Chain/scope locators in parent</li>
+                <li>filter({ hasText }) on lists</li>
+                <li>Codegen for inspection (not final code)</li>
+                <li>DevTools Accessibility panel</li>
+                <li>Configure testIdAttribute once in config</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 11 — Playwright Actions and Interactions Masterclass</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

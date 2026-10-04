@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evernorth QE Training Home - VibeTestQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #eff6ff;
+            --secondary: #6366f1;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--border);
+            padding: 1.2rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .logo img {
+            height: 46px;
+        }
+
+        .hero {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem 1.5rem;
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.6rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .hero p {
+            color: var(--text-light);
+            max-width: 700px;
+        }
+
+        .cards {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem 4rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.6rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px rgba(37, 99, 235, 0.15);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .card .icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+        }
+
+        .card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: var(--text-light);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            border-top: 1px solid var(--border);
+            background: #ffffff;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../../assets/Title with logo and box.png" alt="VibeTestQ Logo">
+            <span>Evernorth QE Training</span>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome to Evernorth QE Training</h1>
+        <p>Access core documentation, practice assignments, and assessments from a single hub.</p>
+    </section>
+
+    <section class="cards">
+        <a class="card" href="./docs/index.html">
+            <div class="icon"><i class="fas fa-book-open"></i></div>
+            <h3>Docs</h3>
+            <p>Concept explanations, reference material, and guided learning modules.</p>
+        </a>
+        <a class="card" href="./assignments/index.html">
+            <div class="icon"><i class="fas fa-clipboard-list"></i></div>
+            <h3>Assignments</h3>
+            <p>Hands-on tasks to practice automation concepts and tooling workflows.</p>
+        </a>
+        <a class="card" href="./assessments/index.html">
+            <div class="icon"><i class="fas fa-pen-to-square"></i></div>
+            <h3>Assessments</h3>
+            <p>Checkpoint evaluations to verify readiness and track progress.</p>
+        </a>
+    </section>
+
+    <footer>&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</body>
+
+</html>

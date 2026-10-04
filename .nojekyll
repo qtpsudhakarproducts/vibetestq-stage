@@ -1,0 +1,2 @@
+# This file tells GitHub Pages to serve the site as is, bypassing Jekyll.
+# This prevents build errors related to Jekyll plugins and GitHub API timeouts.

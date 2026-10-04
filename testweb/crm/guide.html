@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Testing Guide | Automation Practice</title>
+    <meta name="description" content="Playwright test automation practice guide for the SalesCRM application — contacts, leads, pipeline, activities, campaigns, support and analytics.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+
+        .guide-hero {
+            background: linear-gradient(135deg, #0c1a2e, #1e3a5f, #1d4ed8);
+            padding: 3rem 2rem;
+        }
+        .guide-hero h1 { color:white; font-size:2rem; font-weight:800; margin:0 0 0.5rem; }
+        .guide-hero p  { color:#bfdbfe; font-size:1rem; margin:0; }
+
+        .guide-content { padding:2rem; max-width:960px; }
+
+        .feature-section {
+            background:white; border-radius:14px;
+            border:1.5px solid #e2e8f0; margin-bottom:1.5rem; overflow:hidden;
+        }
+        .feature-section-header {
+            background:linear-gradient(135deg,#f8fafc,#f1f5f9);
+            padding:1rem 1.5rem; border-bottom:1px solid #e2e8f0;
+            display:flex; align-items:center; gap:0.75rem; cursor:pointer;
+        }
+        .feature-section-header h3 { font-size:1rem; font-weight:700; color:#1e293b; margin:0; flex:1; }
+        .feature-section-header .icon {
+            width:36px; height:36px; border-radius:8px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:1rem; color:white; flex-shrink:0;
+        }
+        .feature-section-body { padding:1.5rem; }
+
+        .step-list { list-style:none; padding:0; margin:0; }
+        .step-list li {
+            display:flex; gap:0.75rem; padding:0.6rem 0;
+            border-bottom:1px solid #f1f5f9; font-size:0.88rem; color:#475569;
+        }
+        .step-list li:last-child { border-bottom:none; }
+        .step-num {
+            width:22px; height:22px; border-radius:50%; background:#1d4ed8;
+            color:white; font-size:0.7rem; font-weight:700;
+            display:flex; align-items:center; justify-content:center;
+            flex-shrink:0; margin-top:1px;
+        }
+
+        .tag { display:inline-block; padding:0.15rem 0.5rem; border-radius:4px; font-size:0.7rem; font-weight:700; text-transform:uppercase; }
+        .tag-green  { background:#d1fae5; color:#065f46; }
+        .tag-blue   { background:#dbeafe; color:#1e40af; }
+        .tag-orange { background:#fef3c7; color:#92400e; }
+        .tag-purple { background:#ede9fe; color:#4c1d95; }
+
+        .scenario-card {
+            background:#f8fafc; border-radius:10px; padding:1rem;
+            margin-bottom:0.75rem; border-left:3px solid #1d4ed8;
+        }
+        .scenario-card h4 { font-size:0.88rem; font-weight:700; color:#1e293b; margin:0 0 0.5rem; }
+        .scenario-card p  { font-size:0.82rem; color:#64748b; margin:0; }
+
+        .toc {
+            background:white; border-radius:14px;
+            border:1.5px solid #e2e8f0; padding:1.25rem 1.5rem; margin-bottom:1.5rem;
+        }
+        .toc h3 { font-size:0.95rem; font-weight:700; color:#1e293b; margin:0 0 0.75rem; }
+        .toc-list { display:grid; grid-template-columns:1fr 1fr; gap:0.35rem; list-style:none; padding:0; margin:0; }
+        .toc-list a { font-size:0.82rem; color:#1d4ed8; text-decoration:none; display:flex; align-items:center; gap:0.35rem; }
+        .toc-list a:hover { text-decoration:underline; }
+
+        .chevron { transition:transform 0.2s; }
+        .collapsed .chevron { transform:rotate(-90deg); }
+        .collapsed .feature-section-body { display:none; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div style="background:#0f172a;min-height:100vh;">
+
+    <!-- Hero -->
+    <div class="guide-hero">
+        <div style="max-width:960px;margin:0 auto;">
+            <div style="margin-bottom:1rem;">
+                <a href="index.html" style="color:#bfdbfe;font-size:0.85rem;text-decoration:none;"><i class="fas fa-arrow-left"></i> Back to App</a>
+            </div>
+            <h1><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>SalesCRM — Automation Testing Guide</h1>
+            <p>Complete reference for practising Playwright test automation on the SalesCRM application — 8 modules, full CRUD, search, filters, modals and SLA tracking.</p>
+            <div style="display:flex;gap:0.75rem;margin-top:1.25rem;flex-wrap:wrap;">
+                <span class="tag tag-blue">Playwright</span>
+                <span class="tag tag-green">End-to-End</span>
+                <span class="tag tag-orange">60+ Scenarios</span>
+                <span class="tag tag-purple">CRM App</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="guide-content" style="margin:0 auto;">
+
+        <!-- Table of Contents -->
+        <div class="toc">
+            <h3><i class="fas fa-list" style="color:#1d4ed8;margin-right:0.5rem;"></i>Table of Contents</h3>
+            <ul class="toc-list">
+                <li><a href="#overview"><i class="fas fa-info-circle"></i> App Overview</a></li>
+                <li><a href="#dashboard"><i class="fas fa-chart-bar"></i> Dashboard & Analytics</a></li>
+                <li><a href="#contacts"><i class="fas fa-address-book"></i> Contacts & Accounts</a></li>
+                <li><a href="#leads"><i class="fas fa-filter"></i> Lead Management</a></li>
+                <li><a href="#pipeline"><i class="fas fa-stream"></i> Sales Pipeline</a></li>
+                <li><a href="#activities"><i class="fas fa-tasks"></i> Activities & Tasks</a></li>
+                <li><a href="#communications"><i class="fas fa-comments"></i> Communications</a></li>
+                <li><a href="#campaigns"><i class="fas fa-bullhorn"></i> Marketing Campaigns</a></li>
+                <li><a href="#support"><i class="fas fa-life-ring"></i> Support & Tickets</a></li>
+                <li><a href="#scenarios"><i class="fas fa-vial"></i> Test Scenarios</a></li>
+            </ul>
+        </div>
+
+        <!-- App Overview -->
+        <div class="feature-section" id="overview">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#1d4ed8;"><i class="fas fa-info-circle"></i></div>
+                <h3>App Overview &amp; Architecture</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">SalesCRM is a single-page CRM practice application with 8 fully functional modules. Navigation is sidebar-based — clicking each nav item switches the visible tab without a page reload. All data is persisted in <strong>localStorage</strong> under the key <code>crm_v2</code>, so state survives refreshes within the same browser.</p>
+                <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+                    <tr style="background:#eff6ff;">
+                        <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #bfdbfe;color:#1e3a8a;">Module</th>
+                        <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #bfdbfe;color:#1e3a8a;">Navigation</th>
+                        <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #bfdbfe;color:#1e3a8a;">Key Functionality</th>
+                    </tr>
+                    <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Dashboard</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Default tab on load</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">KPI stats, pipeline funnel, recent activity, quick actions</td></tr>
+                    <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Contacts &amp; Accounts</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Contacts &amp; Accounts</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Add/edit/delete contacts, view account cards</td></tr>
+                    <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Lead Management</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Lead Management</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Capture leads, score/rate, funnel view, convert to contact</td></tr>
+                    <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sales Pipeline</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Sales Pipeline</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Kanban board, 5 stages, opportunity cards, metrics</td></tr>
+                    <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Activities &amp; Tasks</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Activities &amp; Tasks</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Schedule calls/meetings/emails/tasks, mark complete</td></tr>
+                    <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Communications</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Communications</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Inbound/outbound interaction log, view details</td></tr>
+                    <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Marketing Campaigns</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Marketing Campaigns</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Campaign cards with open/click/conversion metrics</td></tr>
+                    <tr><td style="padding:0.5rem 0.75rem;">Support &amp; Tickets</td><td style="padding:0.5rem 0.75rem;">Sidebar → Support &amp; Tickets</td><td style="padding:0.5rem 0.75rem;">Priority/SLA-tracked support tickets, edit and resolve</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 1. Dashboard -->
+        <div class="feature-section" id="dashboard">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#1d4ed8;"><i class="fas fa-chart-bar"></i></div>
+                <h3>1. Dashboard &amp; Analytics</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Dashboard is the default landing tab. It aggregates KPI metrics across all modules and provides quick access to common actions.</p>
+                <ul class="step-list">
+                    <li><span class="step-num">1</span>Observe the five KPI stat cards: <strong>Total Contacts</strong>, <strong>Accounts</strong>, <strong>Active Pipeline</strong> (dollar value), <strong>Open Tickets</strong>, and <strong>Active Campaigns</strong></li>
+                    <li><span class="step-num">2</span>Verify each stat card shows a number loaded from the seed data, not a dash or zero</li>
+                    <li><span class="step-num">3</span>Locate the <strong>Pipeline Funnel</strong> card on the left showing stage-by-stage opportunity counts</li>
+                    <li><span class="step-num">4</span>On the right, observe the <strong>Recent Activities</strong> panel listing the five most recent scheduled activities with type icon and assigned user</li>
+                    <li><span class="step-num">5</span>Click <strong>View All</strong> in the Recent Activities header and verify the Activities tab becomes active</li>
+                    <li><span class="step-num">6</span>Locate the <strong>Quick Actions</strong> strip at the bottom with six action tiles</li>
+                    <li><span class="step-num">7</span>Click <em>Add Contact</em> — verify the app switches to the Contacts tab and the Add Contact modal opens</li>
+                    <li><span class="step-num">8</span>Click <em>Capture Lead</em> — verify the app switches to Leads tab and the Capture Lead modal opens</li>
+                    <li><span class="step-num">9</span>Click <em>New Opportunity</em> — verify navigation to Pipeline tab and the opportunity modal opens</li>
+                    <li><span class="step-num">10</span>Click <em>Schedule Activity</em>, <em>Open Ticket</em>, and <em>New Campaign</em> and verify each navigates to the correct tab and opens the relevant modal</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 2. Contacts & Accounts -->
+        <div class="feature-section" id="contacts">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#8b5cf6;"><i class="fas fa-address-book"></i></div>
+                <h3>2. Contacts &amp; Accounts</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Contacts tab displays 8 seeded contacts linked to 6 seeded accounts. Both entities support search, full CRUD, and linked data.</p>
+                <ul class="step-list">
+                    <li><span class="step-num">1</span>Click <strong>Contacts &amp; Accounts</strong> in the sidebar — verify the account cards grid loads at the top showing 6 company cards</li>
+                    <li><span class="step-num">2</span>Each account card shows company name, industry, type, and contact count</li>
+                    <li><span class="step-num">3</span>Below the accounts grid, the contacts table lists all 8 contacts with name/title, email, phone, and account name</li>
+                    <li><span class="step-num">4</span>Type a contact name (e.g. "Sarah") in the search box and verify the table filters in real time</li>
+                    <li><span class="step-num">5</span>Click <strong>Add Contact</strong> — verify the Add Contact modal opens with First Name, Last Name, Email, Phone, Job Title, Account dropdown, and Notes fields</li>
+                    <li><span class="step-num">6</span>Fill all required fields and click <strong>Save Contact</strong> — verify the success toast and the new row appears in the table</li>
+                    <li><span class="step-num">7</span>Click the <strong>eye icon</strong> on any contact row to open the View Contact modal showing all saved details</li>
+                    <li><span class="step-num">8</span>Close the view modal, then click the <strong>edit icon</strong> — verify the modal pre-populates all fields with the saved values</li>
+                    <li><span class="step-num">9</span>Change the Phone number and click Save — verify the toast and updated value in the table</li>
+                    <li><span class="step-num">10</span>Click the <strong>trash icon</strong> — confirm the browser dialog — verify the row is removed from the table</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 3. Lead Management -->
+        <div class="feature-section" id="leads">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#f97316;"><i class="fas fa-filter"></i></div>
+                <h3>3. Lead Management</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Lead Management tab shows a conversion funnel and a registry of 6 seeded leads with scoring, rating, and status tracking.</p>
+                <ul class="step-list">
+                    <li><span class="step-num">1</span>Click <strong>Lead Management</strong> in the sidebar — observe the four funnel tiles: New, Contacted, Qualified, Converted showing counts</li>
+                    <li><span class="step-num">2</span>Verify the leads table shows 6 rows with name, company, email, source, score bar, rating badge, and status badge</li>
+                    <li><span class="step-num">3</span>Click <strong>Capture Lead</strong> — verify the lead modal opens with First Name, Last Name, Email, Phone, Company, Job Title, Source, Rating, Score (0–100), and Status fields</li>
+                    <li><span class="step-num">4</span>Enter a score of 150 and click Save — verify the validation toast "Score must be between 0 and 100"</li>
+                    <li><span class="step-num">5</span>Fix the score to 80, complete all required fields, and save — verify the lead appears in the table and the funnel count for its status increments</li>
+                    <li><span class="step-num">6</span>Use the search box to find a lead by company name — verify the table filters correctly</li>
+                    <li><span class="step-num">7</span>Use the status dropdown filter to show only <em>Qualified</em> leads — verify only those rows are visible</li>
+                    <li><span class="step-num">8</span>Click the <strong>edit icon</strong> on a lead — change the status to Contacted and save — verify the funnel tile counts update</li>
+                    <li><span class="step-num">9</span>Click the <strong>convert icon</strong> (user-check) on a lead — confirm the dialog — verify the success toast "Lead converted to contact successfully"</li>
+                    <li><span class="step-num">10</span>Navigate to the Contacts tab and verify the converted lead now appears as a new contact row</li>
+                    <li><span class="step-num">11</span>Return to Leads and verify the converted lead's status badge now shows Converted</li>
+                    <li><span class="step-num">12</span>Delete a lead using the trash icon and verify it is removed from both the table and funnel counts</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 4. Sales Pipeline -->
+        <div class="feature-section" id="pipeline">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#0ea5e9;"><i class="fas fa-stream"></i></div>
+                <h3>4. Sales Pipeline</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Pipeline tab provides a Kanban board with 5 stages and 4 revenue metric cards. Opportunities can be clicked to edit and then re-staged.</p>
+                <ul class="step-list">
+                    <li><span class="step-num">1</span>Click <strong>Sales Pipeline</strong> — verify 4 metric cards show Pipeline Value, Weighted Forecast, Closed Won, and Closed Lost values</li>
+                    <li><span class="step-num">2</span>Identify the 5 kanban columns: Prospect, Qualification, Proposal, Negotiation, and Closed Won — each shows a count badge</li>
+                    <li><span class="step-num">3</span>Verify each opportunity card shows the deal name, amount, account name, probability percentage, and expected close date</li>
+                    <li><span class="step-num">4</span>Click an opportunity card — verify the Edit Opportunity modal opens pre-populated with all fields</li>
+                    <li><span class="step-num">5</span>Change the Stage from Proposal to Negotiation and click Save — verify the card moves to the Negotiation column</li>
+                    <li><span class="step-num">6</span>Click <strong>New Opportunity</strong> — fill in Name, Amount, Stage, Probability, and Close Date — verify it appears in the correct stage column</li>
+                    <li><span class="step-num">7</span>Create an opportunity in Proposal stage and verify the Pipeline Value metric increases accordingly</li>
+                    <li><span class="step-num">8</span>Edit an opportunity and change its stage to Closed Won — verify the Closed Won metric updates</li>
+                    <li><span class="step-num">9</span>Verify the Account and Contact dropdowns in the modal are pre-populated from the seed data</li>
+                    <li><span class="step-num">10</span>Leave the Name field blank and click Save — verify the required-field validation toast</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 5. Activities & Tasks -->
+        <div class="feature-section" id="activities">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#14b8a6;"><i class="fas fa-tasks"></i></div>
+                <h3>5. Activities &amp; Tasks</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Activities tab logs all scheduled and completed tasks — calls, meetings, emails, and generic tasks — with priority and overdue indicators.</p>
+                <ul class="step-list">
+                    <li><span class="step-num">1</span>Click <strong>Activities &amp; Tasks</strong> — verify 5 seeded activities load with type icon, subject, category, contact, due date, priority badge, and status badge</li>
+                    <li><span class="step-num">2</span>Verify any activity with a past due date shows an <em>Overdue</em> status badge in red</li>
+                    <li><span class="step-num">3</span>Use the search box to filter by keyword — then use the Type dropdown (Call / Meeting / Email / Task) to narrow further</li>
+                    <li><span class="step-num">4</span>Use the Status dropdown to show only Overdue activities — verify the correct rows appear</li>
+                    <li><span class="step-num">5</span>Click <strong>Schedule Activity</strong> — verify the modal opens with Type, Priority, Subject, Related Contact, Due Date, Due Time, and Notes</li>
+                    <li><span class="step-num">6</span>Submit with the Subject left blank — verify the validation toast</li>
+                    <li><span class="step-num">7</span>Fill all required fields and save — verify the success toast and new row in the table</li>
+                    <li><span class="step-num">8</span>Click the <strong>check icon</strong> on a Scheduled activity — verify the status changes to Completed</li>
+                    <li><span class="step-num">9</span>Click the <strong>edit icon</strong> on any activity — change the priority and save — verify the badge updates</li>
+                    <li><span class="step-num">10</span>Delete an activity using the trash icon and confirm the dialog — verify the row is removed</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 6. Communications -->
+        <div class="feature-section" id="communications">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#6366f1;"><i class="fas fa-comments"></i></div>
+                <h3>6. Communications</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Communications tab is a read-only interaction log showing all email and call records linked to contacts with direction and status tracking.</p>
+                <ul class="step-list">
+                    <li><span class="step-num">1</span>Click <strong>Communications</strong> — verify 4 seeded records load showing type icon, subject, contact name, direction, status, and timestamp</li>
+                    <li><span class="step-num">2</span>Verify direction badges distinguish <em>Outbound</em> (blue) from <em>Inbound</em> (amber)</li>
+                    <li><span class="step-num">3</span>Use the search box to search by subject keyword — verify matching rows stay visible</li>
+                    <li><span class="step-num">4</span>Use the Direction dropdown to filter to Outbound only — verify only outbound records appear</li>
+                    <li><span class="step-num">5</span>Click the <strong>eye icon</strong> on any row — verify the View Communication modal opens with Type, Subject, Contact, Direction, Status, Date/Time, and optional Template/Notes fields</li>
+                    <li><span class="step-num">6</span>Close the modal using the × button</li>
+                    <li><span class="step-num">7</span>Click outside the modal area (backdrop) to verify it also closes</li>
+                    <li><span class="step-num">8</span>Press the Escape key on the keyboard when a modal is open and verify it closes</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 7. Marketing Campaigns -->
+        <div class="feature-section" id="campaigns">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#ec4899;"><i class="fas fa-bullhorn"></i></div>
+                <h3>7. Marketing Campaigns</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Campaigns tab shows 3 seeded campaign cards with email delivery metrics — sent, delivered, open rate, and click rate — plus full CRUD operations.</p>
+                <ul class="step-list">
+                    <li><span class="step-num">1</span>Click <strong>Marketing Campaigns</strong> — verify 3 campaign cards load in a responsive grid</li>
+                    <li><span class="step-num">2</span>Each card shows the campaign name, type, status badge, 4 metric tiles (Sent, Delivered, Open Rate, Click Rate), date range, and action buttons</li>
+                    <li><span class="step-num">3</span>Verify the <em>Spring Product Launch</em> card shows Active status badge in green</li>
+                    <li><span class="step-num">4</span>Use the search box to search for "Trade Show" — verify only that campaign card is visible</li>
+                    <li><span class="step-num">5</span>Use the Status filter dropdown to show Draft campaigns only — verify the correct cards appear</li>
+                    <li><span class="step-num">6</span>Click <strong>New Campaign</strong> — verify the modal opens with Name, Type, Status, Start Date, End Date, Budget, and Description fields</li>
+                    <li><span class="step-num">7</span>Set End Date before Start Date and save — observe whether validation handles it gracefully</li>
+                    <li><span class="step-num">8</span>Fill all required fields with valid dates and save — verify the new campaign card appears in the grid</li>
+                    <li><span class="step-num">9</span>Click the <strong>edit icon</strong> on an existing campaign — change the status to Active and save — verify the badge updates in the card</li>
+                    <li><span class="step-num">10</span>Verify that editing a campaign preserves its sent/delivered/opened/clicked metrics</li>
+                    <li><span class="step-num">11</span>Delete a campaign and verify it disappears from the grid</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 8. Support & Tickets -->
+        <div class="feature-section" id="support">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#8b5cf6;"><i class="fas fa-life-ring"></i></div>
+                <h3>8. Support &amp; Tickets</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Support tab manages customer support tickets with priority-based SLA deadlines, status tracking, and resolution workflows.</p>
+                <ul class="step-list">
+                    <li><span class="step-num">1</span>Click <strong>Support &amp; Tickets</strong> — verify four KPI stat cards show Open, In Progress, Resolved, and Critical Open counts</li>
+                    <li><span class="step-num">2</span>Verify the tickets table shows 4 seeded rows with ticket ID, subject, contact, account, priority badge, status badge, and SLA indicator</li>
+                    <li><span class="step-num">3</span>Check the SLA column — a past-deadline ticket should show <em>Breached</em> in red; an active one shows <em>On Track</em> in green or <em>At Risk</em> in amber</li>
+                    <li><span class="step-num">4</span>Use the search box to search by subject keyword — verify matching rows appear</li>
+                    <li><span class="step-num">5</span>Use the Priority dropdown to filter by Critical — verify only critical priority tickets are shown</li>
+                    <li><span class="step-num">6</span>Use the Status dropdown to show In Progress tickets — verify correct rows</li>
+                    <li><span class="step-num">7</span>Click <strong>Open Ticket</strong> — verify the modal opens with Subject, Contact, Account, Priority, Category, Status, and Description fields</li>
+                    <li><span class="step-num">8</span>Save a ticket with Priority set to Critical — verify the SLA deadline is automatically set to 4 hours from now</li>
+                    <li><span class="step-num">9</span>Save a ticket with Priority set to High — verify the SLA is set to 8 hours</li>
+                    <li><span class="step-num">10</span>Click the <strong>edit icon</strong> on an Open ticket — change the status to In Progress and save — verify the KPI stat cards update</li>
+                    <li><span class="step-num">11</span>Click the <strong>resolve icon</strong> on an In Progress ticket — confirm the dialog — verify status changes to Resolved and the Resolved counter increments</li>
+                    <li><span class="step-num">12</span>Verify that a Resolved ticket shows SLA status as <em>Met</em></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Test Scenarios -->
+        <div class="feature-section" id="scenarios">
+            <div class="feature-section-header" onclick="toggleSection(this)">
+                <div class="icon" style="background:#10b981;"><i class="fas fa-vial"></i></div>
+                <h3>Test Scenarios</h3>
+                <i class="fas fa-chevron-down chevron"></i>
+            </div>
+            <div class="feature-section-body">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                    <div>
+                        <p style="font-size:0.82rem;font-weight:700;color:#1d4ed8;margin:0 0 0.5rem;text-transform:uppercase;">Happy Path</p>
+
+                        <div class="scenario-card">
+                            <h4>TC-001: Dashboard Stats Load</h4>
+                            <p>Open the app → Verify all 5 KPI stat cards show non-zero values loaded from seed data</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-002: Add a New Contact</h4>
+                            <p>Contacts tab → Add Contact → Fill all fields → Save → Verify new row appears in the table</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-003: Edit a Contact</h4>
+                            <p>Click edit icon on Sarah Johnson → Change phone number → Save → Verify updated value in table</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-004: View Contact Details Modal</h4>
+                            <p>Click eye icon on any contact → Verify all fields shown in modal → Close with × button</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-005: Capture and Score a Lead</h4>
+                            <p>Leads tab → Capture Lead → Fill form with score 85, rating Hot → Save → Verify row and funnel count</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-006: Convert Lead to Contact</h4>
+                            <p>Click convert icon on a Qualified lead → Confirm → Verify success toast → Check Contacts tab for new entry</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-007: Pipeline Kanban View</h4>
+                            <p>Pipeline tab → Verify 5 columns load with appropriate opportunity cards in each</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-008: Move Opportunity Stage</h4>
+                            <p>Click an opportunity card → Change stage from Prospect to Qualification → Save → Verify card moves column</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-009: Create New Opportunity</h4>
+                            <p>Pipeline tab → New Opportunity → Fill all fields → Save → Verify card appears in the chosen stage column</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-010: Schedule a Call Activity</h4>
+                            <p>Activities tab → Schedule Activity → Type: Call → Fill subject, contact, date, time → Save → Verify row</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-011: Mark Activity Complete</h4>
+                            <p>Click the check icon on a Scheduled activity → Verify status badge changes to Completed</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-012: View Communication Details</h4>
+                            <p>Communications tab → Click eye icon on any row → Verify modal shows type, subject, contact, and timestamp</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-013: Create a Campaign</h4>
+                            <p>Campaigns tab → New Campaign → Fill name, type Active, dates, budget → Save → Verify card in grid</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-014: Open and Resolve a Ticket</h4>
+                            <p>Support tab → Open Ticket → Fill subject with High priority → Save → Then resolve it → Verify stat cards update</p>
+                        </div>
+                        <div class="scenario-card">
+                            <h4>TC-015: SLA Auto-Assignment on Ticket</h4>
+                            <p>Create a Critical ticket → Verify the SLA deadline shown is approximately 4 hours from now</p>
+                        </div>
+                    </div>
+                    <div>
+                        <p style="font-size:0.82rem;font-weight:700;color:#ef4444;margin:0 0 0.5rem;text-transform:uppercase;">Negative / Edge Cases</p>
+
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-016: Save Contact with Missing Required Fields</h4>
+                            <p>Add Contact modal → Leave Email blank → Click Save → Verify validation toast without closing modal</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-017: Lead Score Out of Range</h4>
+                            <p>Enter score 150 in Capture Lead → Click Save → Verify toast "Score must be between 0 and 100"</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-018: Save Opportunity Without Name</h4>
+                            <p>New Opportunity modal → Leave Name blank → Save → Verify validation toast and modal stays open</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-019: Save Activity Without Subject</h4>
+                            <p>Schedule Activity → Leave Subject blank → Click Save → Verify required-field toast</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-020: Save Campaign Without Name</h4>
+                            <p>New Campaign → Leave Name empty → Click Save → Verify validation prevents save</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-021: Delete Contact Confirmation Dialog</h4>
+                            <p>Click trash icon on a contact → Dismiss the confirm dialog → Verify contact still exists in table</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-022: Delete Lead Confirmation</h4>
+                            <p>Click trash icon on a lead → Dismiss → Verify lead remains → Confirm → Verify lead removed and funnel updates</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-023: Activity Search No Results</h4>
+                            <p>Activities tab → Search for "xyz999" → Verify all rows hidden (empty table)</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#ef4444;">
+                            <h4>TC-024: Campaign Status Filter</h4>
+                            <p>Campaigns tab → Filter to Draft → Verify only Draft campaigns visible → Switch to All → All reappear</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#f59e0b;">
+                            <h4>TC-025: Modal Keyboard Dismiss</h4>
+                            <p>Open any modal → Press Escape key → Verify modal closes without saving</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#f59e0b;">
+                            <h4>TC-026: Modal Backdrop Dismiss</h4>
+                            <p>Open any modal → Click the dark backdrop outside the modal box → Verify modal closes</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#f59e0b;">
+                            <h4>TC-027: Data Persistence After Refresh</h4>
+                            <p>Add a contact → Refresh the page → Navigate to Contacts → Verify the new contact still exists</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#f59e0b;">
+                            <h4>TC-028: Sidebar Active State</h4>
+                            <p>Click each of the 8 sidebar nav items → Verify the clicked item gets the active highlight and the correct tab renders</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#f59e0b;">
+                            <h4>TC-029: Pipeline Metric Update</h4>
+                            <p>Closed Won metric → Create an opportunity in Closed Won stage → Verify the Closed Won metric on the pipeline tab increases</p>
+                        </div>
+                        <div class="scenario-card" style="border-color:#f59e0b;">
+                            <h4>TC-030: Ticket Priority Filter</h4>
+                            <p>Support tab → Filter by Critical → Verify only Critical tickets shown → Change to All → All tickets return</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align:center;padding:2rem 0;color:#64748b;font-size:0.82rem;">
+            <p>SalesCRM — Playwright Practice App | <a href="index.html" style="color:#1d4ed8;">Open App</a></p>
+        </div>
+
+    </div><!-- /guide-content -->
+</div>
+
+<script>
+    function toggleSection(header) {
+        header.closest('.feature-section').classList.toggle('collapsed');
+    }
+</script>
+
+</body>
+</html>

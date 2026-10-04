@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox Studio | TAMASH Training Portal</title>
+
+    <link rel="stylesheet" href="../shared/css/portal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --sandbox-accent: #10b981;
+        }
+
+        .sandbox-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .element-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .practice-box {
+            padding: 1.25rem;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            background: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        .section-tab {
+            display: none;
+        }
+
+        .section-tab.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .status-pill {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Form Elements Sustainability */
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--sandbox-accent);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Specialized automation elements */
+        #progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background: var(--border);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--sandbox-accent);
+            transition: width 0.1s linear;
+        }
+
+        .drop-zone {
+            height: 120px;
+            border: 2px dashed var(--text-muted);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            margin-top: 10px;
+            transition: all 0.2s;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .drop-zone.dragover {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--sandbox-accent);
+            color: var(--sandbox-accent);
+            transform: scale(1.02);
+        }
+
+        /* IFrame Simulator */
+        .iframe-sim {
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            background: var(--bg-card);
+            color: var(--text-main);
+        }
+
+        /* Mobile Toggle Button */
+        .mobile-toggle {
+            display: none;
+            width: 40px;
+            height: 40px;
+            background: var(--sandbox-accent);
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            color: white;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .mobile-toggle:hover {
+            opacity: 0.9;
+        }
+
+        .sidebar-close {
+            display: none;
+            background: transparent;
+            width: 32px;
+            height: 32px;
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .sidebar-overlay.open {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .sidebar-close {
+                display: flex;
+            }
+
+            .portal-header {
+                padding: 0 1rem;
+            }
+
+            .portal-sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.25s ease;
+            }
+
+            .portal-sidebar.open {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body data-theme="dark">
+    <div class="portal-container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <nav class="portal-sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo-icon" style="background: var(--sandbox-accent);">S</div>
+                <div class="sidebar-logo-text">
+                    <h1 style="font-size: 1.25rem; font-weight: 700; color: white; margin: 0;">SANDBOX</h1>
+                    <span style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Practice Studio</span>
+                </div>
+                <button class="mobile-toggle sidebar-close" style="margin-left: auto; color: white;"
+                    onclick="toggleSidebar()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-label">Navigation</p>
+                    <a href="../" class="nav-link"><i class="fas fa-home"></i> Command Center</a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-label">Lab Modules</p>
+                    <a href="javascript:void(0)" class="nav-link active" data-target="basic-elements"><i
+                            class="fas fa-edit"></i> Inputs & Form Controls</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="windows-tabs"><i
+                            class="fas fa-window-restore"></i> Dialogs & I-Frames</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="async-waits"><i
+                            class="fas fa-hourglass-half"></i> Async & Data Tables</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="advanced-actions"><i
+                            class="fas fa-mouse-pointer"></i> Drag, Drop & Shadow</a>
+                </div>
+            </div>
+        </nav>
+
+        <main class="portal-main">
+            <header class="portal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 id="page-context-title">Practice Laboratory</h2>
+                </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <button class="theme-toggle" onclick="toggleTheme()"
+                        style="background:none; border:none; cursor:pointer; color:inherit; font-size:1.2rem;"
+                        aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <span class="status-pill" style="background: #dcfce7; color: #166534;">QA-CERTIFIED</span>
+                    <span class="status-pill" id="current-time"
+                        style="background: var(--bg-main); color: var(--text-muted); border: 1px solid var(--border);">--:--:--</span>
+                </div>
+            </header>
+
+            <div class="content-scroller" id="main-content">
+                <!-- Module 1: Form Controls -->
+                <section id="basic-elements" class="section-tab active">
+                    <div class="element-grid">
+                        <div class="sandbox-card">
+                            <h3>Standard HTML Forms</h3>
+                            <div class="practice-box">
+                                <div style="margin-bottom:1rem;">
+                                    <label class="form-label" for="user-id">User ID (Unique Prop)</label>
+                                    <input type="text" id="user-id" name="user-id" class="form-input"
+                                        placeholder="e.g. EMP42">
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label class="form-label" for="user-pass">Password (Masked)</label>
+                                    <input type="password" id="user-pass" class="form-input" value="secret123">
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label class="form-label">Multiselect Listbox</label>
+                                    <select id="multi-select" class="form-input" multiple style="height: 80px;">
+                                        <option value="java">Java / Selenium</option>
+                                        <option value="js">JS / Playwright</option>
+                                        <option value="python">Python / PyTest</option>
+                                        <option value="csharp">C# / NUnit</option>
+                                    </select>
+                                </div>
+                                <div
+                                    style="display: flex; gap: 20px; border-top: 1px solid var(--border); padding-top: 10px;">
+                                    <div>
+                                        <p class="form-label">Status (Radio)</p>
+                                        <label><input type="radio" name="status" value="on"> Online</label><br>
+                                        <label><input type="radio" name="status" value="off"> Offline</label>
+                                    </div>
+                                    <div>
+                                        <p class="form-label">Rights (Checkbox)</p>
+                                        <label><input type="checkbox" id="chk-admin"> Admin</label><br>
+                                        <label><input type="checkbox" id="chk-editor" checked> Editor</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="sandbox-card">
+                            <h3>Advanced Input Types</h3>
+                            <div class="practice-box">
+                                <div style="margin-bottom:1rem;">
+                                    <label class="form-label">Upload Profile (File)</label>
+                                    <input type="file" id="file-upload" class="form-input">
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label class="form-label">Skill Rating (Slider)</label>
+                                    <input type="range" id="skill-slider" min="0" max="10" value="7"
+                                        style="width:100%;">
+                                    <div id="range-val" style="text-align: center; font-weight: bold;">Score: 7</div>
+                                </div>
+                                <div style="margin-bottom:1rem;">
+                                    <label class="form-label">Appointment (Date & Time)</label>
+                                    <input type="datetime-local" id="dt-picker" class="form-input">
+                                </div>
+                                <div>
+                                    <label class="form-label">ReadOnly Field</label>
+                                    <input type="text" value="CANNOT CHANGE ME" readonly class="form-input"
+                                        style="background: var(--bg-main); cursor: not-allowed; opacity: 0.7;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Module 2: Dialogs & Frames -->
+                <section id="windows-tabs" class="section-tab">
+                    <div class="element-grid">
+                        <div class="sandbox-card">
+                            <h3>JS Alerts & Child Windows</h3>
+                            <div style="display: grid; gap: 10px;">
+                                <button class="btn-portal" id="btn-alert" data-testid="alert-trigger">Standard
+                                    Alert</button>
+                                <button class="btn-portal" id="btn-confirm"
+                                    style="background:#fffbeb; color:#92400e;">Confirm Dialog</button>
+                                <button class="btn-portal" id="btn-prompt"
+                                    style="background:#f0fdf4; color:#15803d;">Prompt Dialog</button>
+                                <hr style="border: 0; border-top: 1px solid var(--border); margin: 10px 0;">
+                                <button class="btn-portal" id="btn-new-tab" style="background:#3b82f6; color:white;"><i
+                                        class="fas fa-external-link-alt"></i> Open Child Tab</button>
+                            </div>
+                        </div>
+                        <div class="sandbox-card">
+                            <h3>I-Frame Context (Simulation)</h3>
+                            <p style="font-size: 0.8rem; color: #64748b;">Practice switching between page and frame
+                                contexts.</p>
+                            <div class="iframe-sim" id="frame-context">
+                                <h4 style="color:#3b82f6; border-bottom: 2px solid #dbeafe; padding-bottom: 5px;">Frame:
+                                    Content_Area</h4>
+                                <iframe src="timesheet.html" id="frame1" name="iframe-simulation"
+                                    title="Interactive Frame"
+                                    style="width: 100%; height: 220px; border: 1px solid var(--border); border-radius: 4px; background: white;">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Module 3: Async & Data -->
+                <section id="async-waits" class="section-tab">
+                    <div class="element-grid">
+                        <div class="sandbox-card">
+                            <h3>Synchronization (Implicit/Explicit)</h3>
+                            <button class="btn-portal" id="btn-load-async"
+                                style="background:var(--sandbox-accent); color:white;">Generate Delayed Results
+                                (4s)</button>
+                            <div id="async-result-container" class="practice-box"
+                                style="margin-top:15px; min-height:80px; display:flex; align-items:center; justify-content:center;">
+                                <p style="color:#94a3b8; font-style:italic;">Awaiting trigger...</p>
+                            </div>
+                        </div>
+                        <div class="sandbox-card">
+                            <h3>Progress Handling</h3>
+                            <button class="btn-portal" id="btn-progress-run">Mock Data Migration</button>
+                            <div id="progress-bar-container">
+                                <div id="progress-bar"></div>
+                            </div>
+                            <div id="progress-status" style="font-size:0.75rem; text-align:right; font-weight:700;">
+                                CONNECTED</div>
+                        </div>
+
+                        <!-- New Elements: Table & List -->
+                        <div class="sandbox-card" style="grid-column: 1 / -1;">
+                            <h3>Web Data Table</h3>
+                            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 10px;">Practice handling table
+                                rows, cells, and checkboxes.</p>
+                            <div class="practice-box" style="padding: 0; overflow-x: auto;">
+                                <table id="data-table"
+                                    style="width: 100%; border-collapse: collapse; min-width: 500px;">
+                                    <thead style="background: var(--bg-card); border-bottom: 2px solid var(--border);">
+                                        <tr>
+                                            <th style="padding: 12px; text-align: left; font-size: 0.85rem;">ID</th>
+                                            <th style="padding: 12px; text-align: left; font-size: 0.85rem;">Name</th>
+                                            <th style="padding: 12px; text-align: left; font-size: 0.85rem;">Role</th>
+                                            <th style="padding: 12px; text-align: left; font-size: 0.85rem;">Status</th>
+                                            <th style="padding: 12px; text-align: center; font-size: 0.85rem;">Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr style="border-bottom: 1px solid var(--border);">
+                                            <td style="padding: 10px; font-size: 0.9rem;">1050</td>
+                                            <td style="padding: 10px; font-size: 0.9rem;">System Architect</td>
+                                            <td style="padding: 10px; font-size: 0.9rem;">Admin</td>
+                                            <td style="padding: 10px;"><span class="status-pill"
+                                                    style="background: #dbeafe; color: #1e40af;">Active</span></td>
+                                            <td style="padding: 10px; text-align: center;"><input type="checkbox"
+                                                    aria-label="Select Row"></td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid var(--border);">
+                                            <td style="padding: 10px; font-size: 0.9rem;">1051</td>
+                                            <td style="padding: 10px; font-size: 0.9rem;">Visual Designer</td>
+                                            <td style="padding: 10px; font-size: 0.9rem;">Editor</td>
+                                            <td style="padding: 10px;"><span class="status-pill"
+                                                    style="background: #fee2e2; color: #991b1b;">Busy</span></td>
+                                            <td style="padding: 10px; text-align: center;"><input type="checkbox"
+                                                    aria-label="Select Row"></td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid var(--border);">
+                                            <td style="padding: 10px; font-size: 0.9rem;">1052</td>
+                                            <td style="padding: 10px; font-size: 0.9rem;">DevOps Engineer</td>
+                                            <td style="padding: 10px; font-size: 0.9rem;">Guest</td>
+                                            <td style="padding: 10px;"><span class="status-pill"
+                                                    style="background: #dbeafe; color: #1e40af;">Active</span></td>
+                                            <td style="padding: 10px; text-align: center;"><input type="checkbox"
+                                                    aria-label="Select Row"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="sandbox-card" id="list-card">
+                            <h3>Editable Custom List</h3>
+                            <p style="font-size: 0.8rem; color: #64748b; margin-bottom: 10px;">Practice dynamic element
+                                creation and deletion.</p>
+                            <div style="display: flex; gap: 8px; margin-bottom: 15px;">
+                                <input type="text" id="new-item-input" class="form-input" placeholder="Add new task...">
+                                <button id="add-item-btn" class="btn-portal"
+                                    style="background: var(--sandbox-accent); color: white; white-space: nowrap;">Add
+                                    Item</button>
+                            </div>
+                            <ul id="dynamic-list"
+                                style="list-style: none; padding: 0; max-height: 200px; overflow-y: auto;">
+                                <li class="list-item"
+                                    style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 5px;">
+                                    <span>Read Documentation</span>
+                                    <button class="delete-btn"
+                                        style="background: none; border: none; color: #ef4444; cursor: pointer; font-size: 0.9rem;"
+                                        title="Remove Item"><i class="fas fa-trash"></i></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Module 4: Advanced Elements -->
+                <section id="advanced-actions" class="section-tab">
+                    <div class="element-grid">
+                        <div class="sandbox-card">
+                            <h3>Interactions & Drag</h3>
+                            <div style="display: flex; gap: 10px; margin-bottom: 20px; justify-content: center;">
+                                <div id="drag-source-1" draggable="true" class="btn-portal"
+                                    style="background: #3b82f6; color: white; cursor: grab; width: 80px; text-align: center; border: 1px solid #1d4ed8;">
+                                    ITEM A</div>
+                                <div id="drag-source-2" draggable="true" class="btn-portal"
+                                    style="background: #3b82f6; color: white; cursor: grab; width: 80px; text-align: center; border: 1px solid #1d4ed8;">
+                                    ITEM B</div>
+                            </div>
+                            <div id="drop-zone" class="drop-zone">
+                                <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <span>Drag source items here</span>
+                            </div>
+                        </div>
+                        <div class="sandbox-card">
+                            <h3>Shadow DOM & Tooltips</h3>
+                            <div id="shadow-host" style="margin-bottom:1.5rem;"></div>
+                            <div style="background:#fffbeb; padding:10px; border-radius:8px; border:1px solid #fde68a;">
+                                <i class="fas fa-info-circle text-amber-600"></i>
+                                <span title="This is a native browser tooltip for attribute testing">Hover over info
+                                    icon for Tooltip</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="../shared/js/utils.js"></script>
+    <script src="../shared/js/portal.js"></script>
+    <script src="../shared/js/practice.js"></script>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            localStorage.setItem('lab-theme', theme);
+        }
+
+        // Initialize theme
+        (function () {
+            const savedTheme = localStorage.getItem('lab-theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+            const icon = document.querySelector('.theme-toggle i');
+            if (icon) icon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        })();
+
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+
+        // Close sidebar when clicking nav items on mobile
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    toggleSidebar();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
