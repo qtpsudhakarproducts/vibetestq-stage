@@ -10,7 +10,7 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "TAMASH RunSights", "applicationCategory": "DeveloperApplication", "operatingSystem": "Node.js", "url": "https://vibetestq.com/runsights/", "description": "Results for Playwright and Cucumber runs from every machine and pipeline.", "publisher": {"@type": "Organization", "name": "VibeTestQ", "url": "https://vibetestq.com/"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/company.css?v=20261019.12">
+  <link rel="stylesheet" href="../assets/company.css?v=20261019.13">
   <script defer src="../assets/company.js?v=20261005.1"></script>
 <meta name="robots" content="noindex, nofollow"></head><body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -35,7 +35,7 @@
 <section class="hero"><div class="wrap"><div class="hero-grid with-flow"><div class="wide-hero"><a class="platform-logo hero-platform-logo" href="../" aria-label="TAMASH">
       <img class="brand-light" src="../assets/tamash/TamashLogoTitleForLight.png" width="320" height="107" alt="TAMASH — Repo-Native Quality Engineering">
     </a><span class="eyebrow">TAMASH · RunSights</span><h1>Every run.<br><span>One place. What changed.</span></h1>
-      <p class="lead">RunSights collects every Playwright and Cucumber run from every machine and pipeline as it happens, and tells you what changed: newly failed, fixed and flaky tests, failure groups with a likely cause, and the heals Shield made along the way.</p><div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../contact">Book a Demo</a></div>
+      <p class="lead">Every Playwright and Cucumber run, from laptops and CI, as it happens. RunSights shows what newly failed, what got fixed, what is flaky, and the likely cause of each failure.</p><div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../contact">Book a Demo</a></div>
       <p class="subline">Included with Shield and Forge. Also on its own.</p></div>
     <figure class="moment" aria-labelledby="rs-moment-title">
       <figcaption class="moment-chrome"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><strong id="rs-moment-title">RunSights · Test health</strong><span class="moment-tag">main · last 30 days</span></figcaption>
@@ -52,45 +52,40 @@
           <li><span class="test-name">checkout.spec.ts › a coupon code can be applied</span><span class="chip test">Flaky</span><span class="history" role="img" aria-label="last 8 runs: alternating"><i class="p"></i><i class="f"></i><i class="p"></i><i class="p"></i><i class="f"></i><i class="p"></i><i class="p"></i><i class="f"></i></span></li>
         </ul>
       </div>
-      <p class="moment-caption">What changed since the last runs, the way RunSights shows it.</p>
     </figure></div></div></section>
 
-<section class="section tinted"><div class="wrap">
-      <div class="section-head"><span class="eyebrow">What RunSights does</span><h2>See the run. Understand the change.</h2><p>The local report tells one person how one run went. RunSights tells the team what every run means.</p></div>
-      <div class="grid three"><article class="card"><span class="number">01</span><h3>See the run as it happens</h3><p>A run appears under <em>Running now</em> as its first tests finish, from a laptop or a pipeline. Shards of one CI build merge into one run; a re-run stays a separate run.</p></article><article class="card"><span class="number">02</span><h3>Know what changed</h3><p>Newly failed, fixed, still failing and flaky, by branch, environment, cycle and release. Compare any run with the one before it. A test's history shows at a glance.</p></article><article class="card"><span class="number">03</span><h3>Understand why it failed</h3><p>Failures group by their cause with a likely category: the application, the test, or the setup. Each group keeps the error, the failed step's source lines, the console, and the evidence.</p></article></div>
-</div></section>
 
-<section class="section"><div class="wrap">
-      <div class="section-head"><span class="eyebrow">Three views</span><h2>Runs, failures, and the test that keeps changing.</h2></div>
+
+<section class="section tinted"><div class="wrap">
+      <div class="section-head"><span class="eyebrow">Three views</span><h2>See the run.<br>Understand the change.</h2><p>The local report tells one person how one run went. RunSights tells the team what every run means.</p></div>
       <div class="grid three steps">
         <article class="card"><span class="number">Runs</span>
           <div class="moment mini"><ol class="moment-runs" aria-label="Runs"><li><span class="run-id">RUN-1792401101</span><span class="chip ci">CI</span><span class="run-who">GitHub Actions · main</span><span class="run-counts"><b class="good">8</b><b class="bad">0</b><b class="flaky">0</b></span></li><li><span class="run-id">RUN-1792401087</span><span class="chip ci">CI</span><span class="run-who">GitHub Actions · PR 418</span><span class="run-counts"><b class="good">6</b><b class="bad">2</b><b class="flaky">0</b></span></li><li><span class="run-id">RUN-1792401080</span><span class="chip local">Local</span><span class="run-who">dana.whitfield</span><span class="run-counts"><b class="good">7</b><b class="bad">1</b><b class="flaky">1</b></span></li></ol></div>
-          <p>Where it ran, who or what ran it, the branch and the pull request, and the counts. Open a run for every test and attempt.</p></article>
+          <p>Runs appear while they are still going. Shards of one CI build merge into one run. Filter by branch, environment, cycle or release.</p></article>
         <article class="card"><span class="number">Failure groups</span>
           <div class="moment mini"><ul class="failures"><li><span class="chip defect">Likely defect</span><b>3 tests · 4 runs</b><span>Pay now button missing after the coupon step</span></li><li><span class="chip test">Test</span><b>1 test · 2 runs</b><span>Strict mode: two rows match "Order 10342"</span></li><li><span class="chip setup">Setup</span><b>5 tests · 1 run</b><span>Browser could not reach staging</span></li></ul></div>
-          <p>The same failure across tests and runs is one group, with a likely cause and the evidence. Review a group once; the review stays with it.</p></article>
+          <p>The same failure across tests and runs is one group, with a likely cause and the evidence. Review it once.</p></article>
         <article class="card"><span class="number">Compare</span>
           <div class="moment mini"><div class="compare"><span class="compare-title">RUN-1792401101 compared with RUN-1792401087</span><ul><li><span class="chip healed">Fixed</span><span>the payment step opens</span></li><li><span class="chip healed">Fixed</span><span>a coupon code can be applied</span></li><li><span class="chip defect">Newly failed</span><span>none</span></li></ul><span class="compare-note">Same 8 tests · 2 heals by Shield</span></div></div>
-          <p>Any run against the one before it. What a change fixed, what it broke, what healed.</p></article>
+          <p>Any run against the one before it: what a change fixed, broke or healed.</p></article>
       </div>
 </div></section>
 
-<section class="section tinted" id="workflow"><div class="wrap">
+<section class="section" id="workflow"><div class="wrap">
       <div class="section-head"><span class="eyebrow">In your workflow</span><h2>From every machine and pipeline.</h2></div>
-      <div class="grid three"><article class="card"><h3>On a laptop</h3><p>A signed-in machine sends its runs under the person's name, so a developer's run and the nightly run read the same way. An organization can choose to collect CI runs only.</p></article><article class="card"><h3>In CI</h3><p>A service token for the pipeline, the branch and pull request from the CI variables, and the run's evidence uploaded after the run itself: traces, videos, screenshots and the Playwright HTML report, kept for 14 days.</p></article><article class="card"><h3>With Forge</h3><p>A run that executes tests linked to Forge test cases counts toward their cycles. The release picture and the development picture both read from the same runs.</p></article></div>
-      <div class="split" style="margin-top:28px">
-        <article class="card"><h3>Filters that match how teams work</h3><ul><li>A time window; local and CI, or one of them</li><li>Who ran it, the branch, the environment</li><li>The cycle and the release, from the reporter's options or your CI variables</li></ul></article>
+      <div class="grid three"><article class="card"><h3>On a laptop</h3><p>A signed-in machine sends its runs under the person's name. An organization can collect CI runs only.</p></article><article class="card"><h3>In CI</h3><p>A service token for the pipeline. Traces, videos, screenshots and the Playwright HTML report are uploaded with the run and kept for 14 days.</p></article><article class="card"><h3>With Forge</h3><p>Runs of tests linked to Forge test cases count toward their cycles.</p></article></div>
+      <div class="section-gap">
         <article class="card"><h3>What is sent, and what stays</h3><ul><li>Sent: each test's result, duration, retries, the error and the source lines of a failed step, and the console output without colour codes, scanned for secrets.</li><li>Stays on the machine: the code around steps that passed, the values typed into fields, and the bytes of attachments from local runs.</li><li>Nothing in RunSights ever fails a test run. A portal that is slow or down is a line of output.</li></ul></article>
       </div>
 </div></section>
 
-<section class="section"><div class="wrap">
+<section class="section tinted"><div class="wrap">
       <div class="section-head"><span class="eyebrow">Works with</span><h2>Playwright and Cucumber.js, locally and in CI.</h2></div>
       <div class="grid three"><article class="card"><h3>Playwright Test</h3><p>One line in the reporter list of <code>playwright.config.ts</code>. The local dashboard still writes next to your project for the person who ran it.</p></article><article class="card"><h3>Cucumber.js</h3><p>A formatter beside your console formatter. Each scenario is a test, each example row its own test, and the Playwright calls of each step are listed.</p></article><article class="card"><h3>Your CI</h3><p>GitHub Actions, GitLab CI, Azure Pipelines, Jenkins, CircleCI, Buildkite and Bitbucket are recognised from their variables: the run links back to the job that made it.</p></article></div>
 </div></section>
 
 <section class="section" id="evaluate"><div class="wrap">
-      <div class="trial-banner"><div><h2>See your own runs this afternoon.</h2><p>Request a trial, add the reporter to your project, and run your suite. The run is in RunSights before the console prints its last line.</p></div>
+      <div class="trial-banner"><div><h2>See your own runs in one place.</h2><p>One line in your reporter list, and every run reaches the team.</p></div>
       <div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../get-started/">Get started</a><a class="btn secondary" href="../contact?topic=pricing&product=runsights">Talk to us about pricing</a></div></div>
     </div></section>
 </main>

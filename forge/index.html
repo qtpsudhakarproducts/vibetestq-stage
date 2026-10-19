@@ -10,7 +10,7 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "TAMASH Forge", "applicationCategory": "DeveloperApplication", "url": "https://vibetestq.com/forge/", "description": "Test management with the GenEx Agent: test cases, cycles, executions, reports and dashboard, connected to the repository.", "publisher": {"@type": "Organization", "name": "VibeTestQ", "url": "https://vibetestq.com/"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/company.css?v=20261019.12">
+  <link rel="stylesheet" href="../assets/company.css?v=20261019.13">
   <script defer src="../assets/company.js?v=20261005.1"></script>
 <meta name="robots" content="noindex, nofollow"></head><body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -35,7 +35,7 @@
 <section class="hero"><div class="wrap"><div class="hero-grid with-flow"><div class="wide-hero"><a class="platform-logo hero-platform-logo" href="../" aria-label="TAMASH">
       <img class="brand-light" src="../assets/tamash/TamashLogoTitleForLight.png" width="320" height="107" alt="TAMASH — Repo-Native Quality Engineering">
     </a><span class="eyebrow">TAMASH · Forge</span><h1>From a developed feature<br>to <span>a signed-off release.</span></h1>
-      <p class="lead">Forge is test management that lives in the repository: test cases, cycles, executions, reports and a live dashboard. The GenEx Agent explores the application, drafts proposals and generates reusable automation while the team plans and signs off releases. Shield and RunSights are included.</p><div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../contact">Book a Demo</a></div>
+      <p class="lead">Test cases, cycles, executions, reports and a live dashboard, connected to the repository. The GenEx Agent explores the application and drafts tests while the team plans and signs off releases. Shield and RunSights are included.</p><div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../contact">Book a Demo</a></div>
       <p class="subline">For QA teams, developers and the agents that work with them.</p></div>
     <figure class="moment" aria-labelledby="forge-moment-title">
       <figcaption class="moment-chrome"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><strong id="forge-moment-title">Forge · Quality overview</strong><span class="moment-tag">Release stage</span></figcaption>
@@ -48,37 +48,35 @@
         <div class="cycle"><span class="cycle-name">Release health · CY-12 Checkout, October release</span><span class="bar" role="img" aria-label="38 of 44 passed, 2 failed, 1 blocked, 3 not run"><i class="good" style="width:86%"></i><i class="bad" style="width:5%"></i><i class="blocked" style="width:2%"></i></span><span class="cycle-note">38 of 44 passed · 2 failed · 1 blocked · 3 not run · sign-off waiting on 2 fixes</span></div>
         <ul class="failures" aria-label="Needs attention"><li><span class="chip defect">Failed</span><b>TC-164</b><span>Coupon applied twice on a retried payment</span></li><li><span class="chip setup">Blocked</span><b>TC-171</b><span>Staging has no sandbox for the card provider</span></li></ul>
       </div>
-      <p class="moment-caption">Where the release stands and what needs attention, the way the Forge dashboard shows it.</p>
     </figure></div></div></section>
 
 <section class="section tinted" id="stages"><div class="wrap">
-      <div class="section-head"><span class="eyebrow">The idea</span><h2>Two stages of quality.<br>Never mixed.</h2><p>A project keeps two live pictures of quality. What is built while the feature is being made, and what is proven when the release is tested. Forge shows them side by side and lets a person promote from one to the other.</p></div>
+      <div class="section-head"><span class="eyebrow">The idea</span><h2>Two stages of quality.<br>Never mixed.</h2><p>What is built while the feature is made, and what is proven when the release is tested. Forge keeps them apart, and a person promotes from one to the other.</p></div>
       <div class="stages">
         <article class="stage"><span class="eyebrow">Development stage</span><h3>Built while the feature is made</h3><p>Scenarios, automated specs, pages and locators, findings and proposals from the GenEx Agent, developers and QA. Informal, continuous, never counted as release results.</p><ul><li>Explore: what the agent found in the application</li><li>Proposals waiting for a person's decision</li><li>Development quality dashboard</li></ul></article>
         <div class="stage-arrow" aria-hidden="true"><span>promote</span>→</div>
         <article class="stage"><span class="eyebrow">Release stage</span><h3>Proven when the release is tested</h3><p>Cycles run against accepted test versions, with evidence on every attempt and sign-off at the end. The formal record a release is judged on.</p><ul><li>Published test cases, versioned</li><li>Cycles, executions, defects and evidence</li><li>Release health, readiness and sign-off</li></ul></article>
       </div>
-      <p class="note">A development-stage scenario becomes a release test only when someone promotes it: promotion makes a draft test case, which is published under the project's policy.</p>
 </div></section>
 
 <section class="section" id="modules"><div class="wrap">
       <div class="section-head"><span class="eyebrow">Five modules</span><h2>Everything a release needs,<br>in the order a team meets it.</h2></div>
       <div class="grid three">
-        <article class="card"><span class="number">01</span><h3>Test cases</h3><p>A versioned library in folders. Steps tables or Gherkin with examples, custom fields, import and export, and a publication policy: authors publish directly, or another author approves. An accepted version is what cycles run.</p></article>
-        <article class="card"><span class="number">02</span><h3>Test cycles</h3><p>A planned run of chosen tests, in an environment, over a period. Plan, assign, start, pause, amend, complete. Release readiness and sign-off at the end, with the reasons beside every test.</p></article>
-        <article class="card"><span class="number">03</span><h3>Executions</h3><p>The runner walks a person through a test step by step, on a desktop or a phone. Every attempt is kept with its evidence and the defects it linked. Automated results arrive from CI into the same history.</p></article>
-        <article class="card"><span class="number">04</span><h3>Reports</h3><p>Predefined reports that work on day one, a builder for the ones your organization needs, traceability to requirements, exports, and published snapshots that stay as they were.</p></article>
-        <article class="card"><span class="number">05</span><h3>Dashboard</h3><p>Where the project stands and what needs attention, release stage and development stage, arranged by each person for their own work.</p></article>
-        <article class="card product"><span class="number">Included</span><h3>Shield and RunSights</h3><p>Forge includes both. Automated runs heal as they go, every run from every machine lands in RunSights, and the same runs count toward the cases and cycles they are linked to.</p><a class="text-link" href="../shield/">Explore Shield →</a><br><a class="text-link" href="../runsights/">Explore RunSights →</a></article>
+        <article class="card"><span class="number">01</span><h3>Test cases</h3><p>A versioned library in folders: steps tables or Gherkin, custom fields, import and export. Authors publish directly or another author approves.</p></article>
+        <article class="card"><span class="number">02</span><h3>Test cycles</h3><p>Chosen tests in an environment over a period: plan, assign, run, then readiness and sign-off.</p></article>
+        <article class="card"><span class="number">03</span><h3>Executions</h3><p>A step-by-step runner on desktop or phone. Every attempt keeps its evidence and defects, and CI results join the same history.</p></article>
+        <article class="card"><span class="number">04</span><h3>Reports</h3><p>Ready-made reports, a builder, traceability to requirements, exports and fixed snapshots.</p></article>
+        <article class="card"><span class="number">05</span><h3>Dashboard</h3><p>Where the project stands and what needs attention, arranged by each person.</p></article>
+        <article class="card product"><span class="number">Included</span><h3>Shield and RunSights</h3><p>Automated runs heal as they go, land in RunSights, and count toward the cases and cycles they are linked to.</p><a class="text-link" href="../shield/">Explore Shield →</a><br><a class="text-link" href="../runsights/">Explore RunSights →</a></article>
       </div>
 </div></section>
 
 <section class="section tinted" id="agent"><div class="wrap">
-      <div class="section-head"><span class="eyebrow">The GenEx Agent inside Forge</span><h2>It explores, drafts and validates.<br>People decide.</h2><p>The agent works in the application and in the repository, and everything it learns is visible to the whole team in Forge.</p></div>
+      <div class="section-head"><span class="eyebrow">The GenEx Agent inside Forge</span><h2>It explores, drafts and validates.<br>People decide.</h2></div>
       <div class="split">
         <div>
-          <ul class="plain"><li><strong>Explore.</strong> Start an exploration of an application and environment. The agent maps screens, fields, controls and server calls, and reports findings with a severity: broken, should fix, or a note.</li><li><strong>Propose.</strong> From a finding or a scenario the agent drafts a test case with the steps that reproduce it. Drafts wait in Proposals for an author to accept, edit or decline.</li><li><strong>Generate.</strong> Reusable Playwright or Cucumber automation, with pages and locators kept as assets the team can see and rate as stable or fragile.</li><li><strong>Validate.</strong> The agent runs scenarios against the developed feature and reports what it saw. Its runs sit in the development stage until a person promotes them.</li></ul>
-          <p class="note">The agent never presses Save, Delete or Submit, so what sits behind those is not mapped, and the screens it found but did not explore are counted as such. Its limits are stated on the Explore overview.</p>
+          <ul class="plain"><li><strong>Explore.</strong> The agent maps screens, fields, controls and server calls, and reports findings as broken, should fix, or a note.</li><li><strong>Propose.</strong> From a finding or a scenario it drafts a test case. An author accepts, edits or declines it.</li><li><strong>Generate.</strong> Reusable Playwright or Cucumber automation, with pages and locators the team can see.</li><li><strong>Validate.</strong> It runs scenarios against the developed feature. Its runs stay in the development stage until a person promotes them.</li></ul>
+          <p class="note">The agent never presses Save, Delete or Submit.</p>
         </div>
         <figure class="moment" aria-labelledby="explore-moment-title">
           <figcaption class="moment-chrome"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><strong id="explore-moment-title">Explore · Findings</strong><span class="moment-tag">Agent connected</span></figcaption>
@@ -86,33 +84,28 @@
             <div class="moment-tiles"><div class="tile"><span class="tile-label">Screens known</span><strong class="tile-value">31</strong></div><div class="tile"><span class="tile-label">Open findings</span><strong class="tile-value warn">7</strong></div><div class="tile"><span class="tile-label">Proposals to review</span><strong class="tile-value">5</strong></div></div>
             <ul class="failures" aria-label="Findings"><li><span class="chip defect">Broken</span><b>Checkout · Payment</b><span>Pay now returns 500 when the coupon field is empty</span></li><li><span class="chip test">Should fix</span><b>Account · Addresses</b><span>Save keeps focus on the postcode after an error</span></li><li><span class="chip setup">Note</span><b>Orders · History</b><span>Two rows share the label "Order 10342"</span></li></ul>
           </div>
-          <p class="moment-caption">What the agent found, with a test case one click away.</p>
         </figure>
       </div>
 </div></section>
 
 <section class="section" id="ai"><div class="wrap">
-      <div class="section-head"><span class="eyebrow">AI that suggests. People who decide.</span><h2>Less writing. Less planning.<br>The same judgement.</h2><p>Every suggestion is shown as something to accept, edit or decline, and never changes a result on its own.</p></div>
-      <div class="grid three ai">
-        <article class="card"><h3>Generate tests from requirements</h3><p>From selected Jira stories or pasted text, a draft test case per acceptance criterion, each linked to its source.</p></article>
-        <article class="card"><h3>Convert scenarios</h3><p>A pasted scenario, a <code>.feature</code> file or an agent scenario becomes a structured proposal: steps split, expected results added, missing test data flagged.</p></article>
-        <article class="card"><h3>Suggest steps from a title</h3><p>Inside a new test case, the steps filled in for the author to edit.</p></article>
-        <article class="card"><h3>Review and improve</h3><p>Clearer steps, missing expected results and tags for an existing case, shown as a difference to accept in parts.</p></article>
-        <article class="card"><h3>Explain failures</h3><p>A short likely cause for a failed attempt: the application, the test or the environment, with similar failures grouped. Advice, never a changed result.</p></article>
-        <article class="card"><h3>Coverage gaps</h3><p>The Jira stories with no tests, and an offer to generate them.</p></article>
-        <article class="card"><h3>Create a cycle with AI</h3><p>From a release, an environment and the time available, a proposed scope with a reason beside every test and an estimate.</p></article>
-        <article class="card"><h3>Draft report summaries</h3><p>Editable text with the figures cited.</p></article>
-        <article class="card"><h3>Your key or ours</h3><p>An organization can bring its own AI key or use TAMASH's. The rules that keep data safe are the same either way.</p></article>
+      <div class="section-head"><span class="eyebrow">AI that suggests. People who decide.</span><h2>Less writing. Less planning.<br>The same judgement.</h2><p>Every suggestion is something to accept, edit or decline. None changes a result.</p></div>
+      <div class="grid two ai">
+        <article class="card"><h3>Generate tests from requirements</h3><p>From Jira stories or pasted text, a draft test case per acceptance criterion, linked to its source.</p></article>
+        <article class="card"><h3>Explain failures</h3><p>A likely cause for a failed attempt, the application, the test or the environment, with similar failures grouped. Advice only.</p></article>
+        <article class="card"><h3>Find coverage gaps</h3><p>The stories with no tests, and an offer to write them.</p></article>
+        <article class="card"><h3>Create a cycle with AI</h3><p>A proposed scope from the release, the environment and the time you have, with a reason beside every test.</p></article>
       </div>
+      <p class="note">Also: convert scenarios into test cases, suggest steps from a title, improve an existing case, and draft report summaries. Use TAMASH's AI or your organization's own key.</p></div>
 </div></section>
 
 <section class="section tinted" id="connected"><div class="wrap">
       <div class="section-head"><span class="eyebrow">Connected to your tools</span><h2>Quality information stays in one place.</h2></div>
-      <div class="grid three"><article class="card"><h3>Jira</h3><p>Requirements and defects. Generate tests from stories, link a failed attempt to a defect, trace coverage back to the story.</p></article><article class="card"><h3>Repository and CI</h3><p>Automated tests linked to their cases, developer activity, and CI results arriving as executions. Automation insights show how much of the suite is automated and how healthy it is.</p></article><article class="card"><h3>People and roles</h3><p>Project admins manage the project and its people. Authors write, plan, run and review. Executors run and record. Viewers read. Org Admins have every project. Enterprise options cover single sign-on and custom roles.</p></article></div>
+      <div class="grid three"><article class="card"><h3>Jira</h3><p>Requirements and defects: tests from stories, defects from failed attempts, coverage traced back.</p></article><article class="card"><h3>Repository and CI</h3><p>Automated tests linked to their cases, and CI results arriving as executions, with how much of the suite is automated.</p></article><article class="card"><h3>People and roles</h3><p>Project admins, authors, executors and viewers, with Org Admins over every project. Single sign-on and custom roles for enterprises.</p></article></div>
 </div></section>
 
 <section class="section" id="evaluate"><div class="wrap">
-      <div class="trial-banner"><div><h2>Bring a release. Leave with the evidence.</h2><p>Request a trial, create a project, and let the agent explore your application while your team plans the first cycle. Shield and RunSights come with it.</p></div>
+      <div class="trial-banner"><div><h2>Bring a release. Leave with the evidence.</h2><p>Let the agent explore your application while your team plans the first cycle.</p></div>
       <div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../contact">Book a Demo</a><a class="btn secondary" href="../contact?topic=pricing&product=forge">Talk to us about pricing</a></div></div>
     </div></section>
 </main>

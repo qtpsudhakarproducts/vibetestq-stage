@@ -10,7 +10,7 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "TAMASH Shield", "applicationCategory": "DeveloperApplication", "operatingSystem": "Node.js", "url": "https://vibetestq.com/shield/", "description": "Self healing and maintenance for Playwright and Cucumber automation.", "publisher": {"@type": "Organization", "name": "VibeTestQ", "url": "https://vibetestq.com/"}}</script>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/company.css?v=20261019.12">
+  <link rel="stylesheet" href="../assets/company.css?v=20261019.13">
   <script defer src="../assets/company.js?v=20261005.1"></script>
 <meta name="robots" content="noindex, nofollow"></head><body>
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -35,7 +35,7 @@
 <section class="hero"><div class="wrap"><div class="hero-grid with-flow"><div class="wide-hero"><a class="platform-logo hero-platform-logo" href="../" aria-label="TAMASH">
       <img class="brand-light" src="../assets/tamash/TamashLogoTitleForLight.png" width="320" height="107" alt="TAMASH — Repo-Native Quality Engineering">
     </a><span class="eyebrow">TAMASH · Shield</span><h1>Your interface changes.<br><span>Your tests keep running.</span></h1>
-      <p class="lead">Shield recovers supported locator failures while the test runs, shows you what it did, and turns the fixes worth keeping into changes in your code. Every run arrives in RunSights, which is included.</p><div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../contact">Book a Demo</a></div>
+      <p class="lead">Shield heals supported locator failures while the test runs, shows you every heal, and turns the fixes worth keeping into code changes. RunSights is included.</p><div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../contact">Book a Demo</a></div>
       <p class="subline">For Playwright and Cucumber.js teams, locally and in CI.</p></div>
     <figure class="moment" aria-labelledby="shield-moment-title">
       <figcaption class="moment-chrome"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><strong id="shield-moment-title">Shield · Checkout</strong><span class="moment-tag">Last 30 days</span></figcaption>
@@ -51,26 +51,22 @@
           <li><span class="chip test">Needs a look</span><b>1 time</b><span>account: a stale CSS class for Create access token</span></li>
         </ul>
       </div>
-      <p class="moment-caption">Every heal, reviewed in one place, the way Shield shows it in the portal.</p>
     </figure></div></div></section>
 
-<section class="section tinted"><div class="wrap">
-      <div class="section-head"><span class="eyebrow">What Shield does</span><h2>Recover the action.<br>Keep the business check.</h2><p>Healing helps a supported action find the element it meant. Your assertions still decide whether the application is right.</p></div>
-      <div class="grid three"><article class="card"><span class="number">01</span><h3>Recover supported failures</h3><p>A click, a fill, a select or a check whose locator no longer matches is healed while the test runs, from the description of the element and the page as it is now. The test continues; the run is not lost.</p></article><article class="card"><span class="number">02</span><h3>Review what happened</h3><p>Each heal is listed by test with the locator that broke and the one that worked. A heal to an element that may be the wrong one is marked "needs a look" for a person to decide.</p></article><article class="card"><span class="number">03</span><h3>Keep the fixes that last</h3><p>Runtime healing never touches your source. <code>apply-heals</code> rewrites the broken locators to the ones that worked, previews first, and in CI opens a pull request. Nothing commits itself.</p></article></div>
-</div></section>
 
-<section class="section"><div class="wrap">
-      <div class="section-head"><span class="eyebrow">A heal, start to finish</span><h2>Three moments, one afternoon.</h2></div>
+
+<section class="section tinted"><div class="wrap">
+      <div class="section-head"><span class="eyebrow">A heal, start to finish</span><h2>Recover the action.<br>Keep the business check.</h2><p>Healing helps a click, fill, select or check find the element it meant. Your assertions still decide whether the application is right.</p></div>
       <div class="grid three steps">
         <article class="card"><span class="number">01 · During the run</span>
           <figure class="terminal"><figcaption class="terminal-bar"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>npx playwright test</span></figcaption>
 <pre><code><span class="heal">[self-healer] checkout.spec.ts:18 — locator.click "Pay now" -> HEALED [by TAMASH, suggested="getByRole('button', { name: 'Pay now' })"]</span>
   ✓ checkout.spec.ts › the payment step opens
   8 passed (6.2s)</code></pre></figure>
-          <p>The button was renamed in the last deploy. The test's own assertion still checked that the order was placed.</p></article>
+          <p>The button was renamed in the last deploy. The test carried on, and its assertion still checked the order.</p></article>
         <article class="card"><span class="number">02 · In the portal</span>
           <div class="moment mini"><div class="heal"><span class="heal-test">checkout.spec.ts · the payment step opens</span><code class="heal-from">locator('#pay-btn')</code><span class="heal-arrow" aria-hidden="true">→</span><code class="heal-to">getByRole('button', { name: 'Pay now' })</code><span class="chip healed">Healed · 4 runs</span></div></div>
-          <p>Shield remembers a locator that worked for your project. The same break on another machine or in CI gets the same heal, counted once.</p></article>
+          <p>Every heal is listed by test. One that may have found the wrong element is marked for a person to check. The same break elsewhere gets the same heal, counted once.</p></article>
         <article class="card"><span class="number">03 · Made permanent</span>
           <figure class="terminal"><figcaption class="terminal-bar"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>npx tamash-shield apply-heals --dry-run</span></figcaption>
 <pre><code><span class="prompt">$</span> npx tamash-shield apply-heals --dry-run
@@ -78,27 +74,26 @@
   <span class="ok">+</span> getByRole('button', { name: 'Pay now' })
   <span class="bad">-</span> locator('#pay-btn')
   Re-verify: the payment step opens</code></pre></figure>
-          <p>Preview, then write. In CI the same step runs after the test job and opens a pull request with the change and the tests to re-verify.</p></article>
+          <p>Runtime healing never edits your files. <code>apply-heals</code> does, after a preview; in CI it opens a pull request.</p></article>
       </div>
 </div></section>
 
-<section class="section tinted" id="workflow"><div class="wrap">
+<section class="section" id="workflow"><div class="wrap">
       <div class="section-head"><span class="eyebrow">In your workflow</span><h2>Locally and in CI, the same way.</h2></div>
-      <div class="grid three"><article class="card"><h3>On a laptop</h3><p>Sign the machine in once with <code>npx tamash-shield login</code>. Every <code>npx playwright test</code> after that heals as it runs and sends the run to RunSights in your name.</p></article><article class="card"><h3>In CI</h3><p>The same project key as a secret, and a service token for the pipeline. Healing runs the same way; <code>apply-heals</code> after the job opens the pull request. Nothing auto-commits.</p></article><article class="card"><h3>In the portal</h3><p>The Shield page of each project: healed, not healed, needs a look, tests affected, the maintenance that was applied and whether the next run verified it.</p></article></div>
-      <div class="split" style="margin-top:28px">
-        <article class="card"><h3>What Shield never touches</h3><ul><li><code>expect()</code> assertions. A silently "fixed" assertion could hide a real bug.</li><li>Drag and drop, and <code>waitFor</code>. One side of a drag cannot be guessed from the other, and a wait that ran out may be a correct outcome.</li><li>Your source files at runtime. Only <code>apply-heals</code> writes, and only when you ask.</li></ul></article>
-        <article class="card"><h3>What is sent to the service</h3><ul><li>When a locator breaks: the action, the element's description, the error, and the page's accessibility outline with secrets removed.</li><li>Never the values your tests type, never your test data, and nothing of the page is stored.</li><li>An air-gapped key sends nothing and heals nothing; the choice is the organization's.</li></ul></article>
+      <div class="grid two"><article class="card"><h3>On a laptop</h3><p>Sign the machine in once with <code>npx tamash-shield login</code>. From then on every run heals as it goes and reaches RunSights in your name.</p></article><article class="card"><h3>In CI</h3><p>The project key and a service token as secrets. Healing runs the same way, and <code>apply-heals</code> after the job opens the pull request.</p></article></div>
+      <div class="split section-gap">
+        <article class="card"><h3>What Shield never touches</h3><ul><li><code>expect()</code> assertions. A silently "fixed" assertion could hide a real bug.</li><li>Drag and drop, and <code>waitFor</code>. One side of a drag cannot be guessed from the other, and a wait that ran out may be a correct outcome.</li></ul></article>
+        <article class="card"><h3>What is sent to the service</h3><ul><li>When a locator breaks: the action, the element's description, the error, and the page's accessibility outline with secrets removed.</li><li>Never the values your tests type or your test data. Nothing of the page is stored.</li></ul></article>
       </div>
 </div></section>
 
-<section class="section"><div class="wrap">
+<section class="section tinted"><div class="wrap">
       <div class="section-head"><span class="eyebrow">Works with</span><h2>Your runner, your tests, as they are.</h2></div>
       <div class="grid three"><article class="card"><h3>Playwright Test</h3><p>Import <code>test</code> and <code>expect</code> from <code>@vibetestq/tamash-shield</code> instead of <code>@playwright/test</code>; <code>init</code> does it for you. Everything else stays.</p></article><article class="card"><h3>Playwright library and page objects</h3><p>Wrap a page with <code>bindPageActions</code> where you create it. Chain <code>.describe('Pay now button')</code> on plain CSS locators so the healer knows what it is looking for.</p></article><article class="card"><h3>Cucumber.js</h3><p>Steps that drive Playwright heal the same way, and the RunSights formatter records each scenario and the Playwright calls it made.</p></article></div>
-      <p class="note">Shield includes RunSights: trends, newly failed, fixed and flaky tests, failure causes and healing activity for every run, from every machine and pipeline.</p>
 </div></section>
 
 <section class="section" id="evaluate"><div class="wrap">
-      <div class="trial-banner"><div><h2>Try Shield on your own tests.</h2><p>Request a trial, install the packages with the token you receive, and run your existing suite. The first healed run is in RunSights the same afternoon.</p></div>
+      <div class="trial-banner"><div><h2>Try Shield on your own tests.</h2><p>Your existing suite, unchanged, with every heal in the portal.</p></div>
       <div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../get-started/">Get started</a><a class="btn secondary" href="../contact?topic=pricing&product=shield">Talk to us about pricing</a></div></div>
     </div></section>
 </main>
