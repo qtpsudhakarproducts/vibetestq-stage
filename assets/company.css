@@ -110,3 +110,13 @@
 @media(max-width:780px){.reference{display:block;overflow-x:auto}.guide>li{padding:20px}.guide-head{flex-wrap:wrap}}
 .note a,.guide p a,.lead a,.subline a,.card p a{text-decoration:underline;text-underline-offset:2px}
 .table-scroll{max-width:100%}@media(max-width:780px){.table-scroll{overflow-x:auto}.reference{display:table}}
+/* RunSights page (slice 4): test health rows with history dots, the comparison. */
+.moment-tiles.four{grid-template-columns:repeat(4,minmax(0,1fr))}.tile-value.bad{color:#b42318}
+.tests{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.tests li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 12px;font-size:.8rem;border-top:1px solid var(--line)}.tests li:first-child{border-top:0}.tests li:nth-child(odd){background:var(--surface)}
+.test-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.history{display:inline-flex;gap:3px}.history i{width:8px;height:14px;border-radius:2px;background:var(--line);display:block}.history .p{background:#1f7a4d}.history .f{background:#b42318}
+.compare{padding:14px 16px;display:grid;gap:8px}.compare-title{font-weight:650;font-size:.82rem}.compare ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}.compare li{display:flex;align-items:center;gap:8px;font-size:.8rem}.compare-note{font-size:.75rem;color:var(--muted)}
+.card .moment.mini .moment-runs{border:0;border-radius:0}
+@media(max-width:780px){.moment-tiles.four{grid-template-columns:1fr 1fr}.tests li{grid-template-columns:minmax(0,1fr) auto;row-gap:4px}.tests .history{grid-column:1/-1}}
+.card .moment-runs li{grid-template-columns:minmax(0,1fr) auto;row-gap:4px}.card .moment-runs .run-who{grid-column:1/-1}.card .moment-runs .run-counts{justify-self:end}
