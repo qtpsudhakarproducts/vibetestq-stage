@@ -436,8 +436,10 @@
       <img class="brand-light" src="../assets/vq/VQLogoTitleForLight.png" width="156" height="78" alt="VibeTestQ">
     </a>
       <div class="site-links" id="company-navigation">
-        <a href="../tamash-platform/">Platform</a>
-        <a href="../use-cases/">Use Cases</a>
+        <a href="../forge/">Forge</a>
+        <a href="../shield/">Shield</a>
+        <a href="../runsights/">RunSights</a>
+        <a href="../get-started/">Get started</a>
         <a href="../about">Company</a>
         <a href="../blog" aria-current="page">Insights</a>
         <a class="academy-link" href="https://academy.vibetestq.com/" target="_blank" rel="noopener">Academy ↗</a>
@@ -499,7 +501,7 @@
                     <p>Automation was efficient, but fundamentally reactive. Testing remained a verification phase, not a discovery process.</p>
 
                     <div class="diagram-block">
-                        <pre class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
+                        <pre tabindex="0" class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
 flowchart LR
     Human["👤 QA Engineer"] -->|"Writes Test Script"| Script["📝 Test.spec.ts"]
     Script -->|"Executes"| PW["🎭 Playwright"]
@@ -525,7 +527,7 @@ flowchart LR
                     <p><strong>Yet the paradigm remained unchanged:</strong> humans still defined intent; AI merely accelerated execution. Testing was still a separate phase happening after development, not during it.</p>
 
                     <div class="diagram-block">
-                        <pre class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
+                        <pre tabindex="0" class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
 flowchart LR
     Human["👤 QA Engineer"] -->|"Describes Intent"| AI["🤖 AI Assistant"]
     AI -->|"Generates"| Code["📝 Test Code"]
@@ -560,7 +562,7 @@ flowchart LR
                     </ul>
 
                     <div class="diagram-block">
-                        <pre class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280', 'secondaryColor':'#10B981', 'tertiaryColor':'#F59E0B'}}}%%
+                        <pre tabindex="0" class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280', 'secondaryColor':'#10B981', 'tertiaryColor':'#F59E0B'}}}%%
 flowchart LR
     subgraph before["⏮️ Before MCP"]
         direction LR
@@ -600,7 +602,7 @@ flowchart LR
                     </ul>
 
                     <div class="diagram-block">
-                        <pre class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
+                        <pre tabindex="0" class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
 flowchart TD
     App["🌐 Web Application"] -->|"Autonomous Exploration"| Planner["🧠 Planner Agent"]
     Planner -->|"Discovers Workflows"| Plan["📋 Test Plan\n(Markdown)"]
@@ -662,7 +664,7 @@ flowchart TD
                     <p>New loop: Write code → AI runs app → validates behavior → suggests fixes → repeat</p>
 
                     <div class="diagram-block">
-                        <pre class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
+                        <pre tabindex="0" class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
 flowchart TD
     A["💻 Write/Edit Code in VS Code"] -->|"Continuous Trigger"| B["🤖 AI Agent Runs App via Playwright"]
     B --> C["🔍 AI Validates UI Behavior"]
@@ -697,7 +699,7 @@ flowchart TD
                     <p>Playwright 1.59 (April 1, 2026) answers this by introducing trust, visibility, and collaboration.</p>
 
                     <div class="diagram-block">
-                        <pre class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
+                        <pre tabindex="0" class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
 graph TD
     AI["🤖 AI Agent"] -->|"Automates via MCP/CLI"| Browser["🌐 Live Bound Browser"]
     Browser -->|"Screencast & Frames"| Evidence["📹 Visual Evidence / Receipts"]
@@ -721,7 +723,7 @@ graph TD
                     <div class="stack-flow">
                         <p><strong>1. Screencast API with Action Annotations</strong></p>
                         <p>A new high-level API (<code>page.screencast.start()</code>) records videos and streams live frames. AI can produce visual "receipts" of their work:</p>
-                        <pre><code>await page.screencast.start({ path: 'demo.webm', quality: 80 });
+                        <pre tabindex="0"><code>await page.screencast.start({ path: 'demo.webm', quality: 80 });
 // AI runs test actions
 await page.screencast.stop();</code></pre>
                         <p>Imagine a CI bot that records a walkthrough of what it did and why—this is explainable automation.</p>
@@ -735,7 +737,7 @@ await page.screencast.stop();</code></pre>
                     <div class="stack-flow">
                         <p><strong>3. browser.bind() - Shared Sessions</strong></p>
                         <p>Binds a running browser to allow multiple clients to connect:</p>
-                        <pre><code>const endpoint = await browser.bind('mySession');</code></pre>
+                        <pre tabindex="0"><code>const endpoint = await browser.bind('mySession');</code></pre>
                         <p>One agent explores, another debugs, or a human takes over an AI-launched browser. This enables pair testing (human + AI) and collaborative debugging.</p>
                     </div>
 
@@ -759,7 +761,7 @@ await page.screencast.stop();</code></pre>
                     <p>When you connect everything, testing becomes an intelligent system.</p>
 
                     <div class="diagram-block">
-                        <pre class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
+                        <pre tabindex="0" class="mermaid">%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#3B82F6', 'primaryTextColor':'#1F2937', 'primaryBorderColor':'#1E40AF', 'lineColor':'#6B7280'}}}%%
 flowchart TD
     Dev["💻 Developer in VS Code"] <--> Agent["🧠 AI Agent: Planner/Reasoner"]
     Agent --> Interface["🔌 MCP Tool Interface + CLI"]
@@ -875,22 +877,20 @@ flowchart TD
         <div><a class="company-logo" href="../" aria-label="VibeTestQ home">
       <img class="brand-light" src="../assets/vq/VQLogoTitleForLight.png" width="156" height="78" alt="VibeTestQ">
     </a><p>The company behind TAMASH.<br>Quality engineering that lives with your software.</p></div>
-        <div><a class="platform-logo footer-platform-logo" href="../tamash-platform/" aria-label="Explore TAMASH Platform">
+        <div><a class="platform-logo footer-platform-logo" href="../" aria-label="TAMASH">
       <img class="brand-light" src="../assets/tamash/TamashLogoTitleForLight.png" width="320" height="107" alt="TAMASH — Repo-Native Quality Engineering">
     </a><ul>
-          <li><a href="../tamash-platform/">Platform overview</a></li>
-          <li><a href="../tamash-platform/#genex-agent">Forge · GenEx Agent</a></li>
-          <li><a href="../tamash-platform/#repo-native-qe">Forge · Repo Native QE</a></li>
-          <li><a href="../tamash-platform/#self-healing-maintenance">Shield · Self healing and maintenance</a></li>
-          <li><a href="../tamash-platform/#reporting-dashboards">RunSights · Results</a></li>
-          <li><a href="../tamash-selenium/">Selenium workflows</a></li>
+          <li><a href="../forge/">Forge · Test management</a></li>
+          <li><a href="../shield/">Shield · Self healing and maintenance</a></li>
+          <li><a href="../runsights/">RunSights · Results</a></li>
+          <li><a href="../get-started/">Get started</a></li>
           <li><a href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a trial ↗</a></li>
         </ul></div>
         <div><strong>Company</strong><ul>
           <li><a href="../about">About VibeTestQ</a></li>
-          <li><a href="../use-cases/">Use cases</a></li>
           <li><a href="../blog">Engineering insights</a></li>
           <li><a href="../contact">Book a demo</a></li>
+          <li><a href="../contact?topic=pricing">Talk to us about pricing</a></li>
           <li><a href="mailto:services@vibetestq.com">services@vibetestq.com</a></li>
         </ul></div>
         <div><strong>VibeTestQ Academy</strong><ul>
