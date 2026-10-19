@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Get started | TAMASH</title><meta name="description" content="Install Shield and RunSights in a Playwright or Cucumber project, add your project key, sign your machine in, run your tests. Ten minutes from the npm token to the first run in the portal.">
+  <link rel="canonical" href="https://vibetestq.com/get-started/">
+  <meta property="og:type" content="website"><meta property="og:url" content="https://vibetestq.com/get-started/">
+  <meta property="og:title" content="Get started | TAMASH"><meta property="og:description" content="Install Shield and RunSights, add your project key, sign your machine in, run your tests. Ten minutes from the npm token to the first run in the portal.">
+  <meta property="og:image" content="https://vibetestq.com/assets/vq/VQLogoTitleForLight.png">
+  <meta name="twitter:card" content="summary"><meta name="twitter:title" content="Get started | TAMASH">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/company.css?v=20261019.3">
+  <script defer src="../assets/company.js?v=20261005.1"></script>
+<meta name="robots" content="noindex, nofollow"></head><body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header"><nav class="wrap site-nav" aria-label="Main navigation">
+      <a class="company-logo" href="../" aria-label="VibeTestQ home">
+      <img class="brand-light" src="../assets/vq/VQLogoTitleForLight.png" width="156" height="78" alt="VibeTestQ">
+    </a>
+      <div class="site-links" id="company-navigation">
+        <a href="../#forge">Forge</a>
+        <a href="../shield/">Shield</a>
+        <a href="../#runsights">RunSights</a>
+        <a href="./" aria-current="page">Get started</a>
+        <a href="../about">Company</a>
+        <a href="../blog">Insights</a>
+        <a class="academy-link" href="https://academy.vibetestq.com/" target="_blank" rel="noopener">Academy ↗</a>
+        <a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a>
+      </div>
+      <button class="menu-control" type="button" aria-expanded="false" aria-controls="company-navigation">Menu</button>
+    </nav></header>
+<main id="main-content">
+
+<section class="hero compact"><div class="wrap"><div class="wide-hero"><span class="eyebrow">Get started</span><h1>Ten minutes from the token<br>to <span>the first run.</span></h1>
+      <p class="lead">Your trial gives you two things from the TAMASH portal: an npm token to install the packages and a key for your project. Nothing else changes in how you run Playwright or Cucumber.</p>
+      <p class="subline">No trial yet? <a href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request one ↗</a>, or <a href="../contact">book a demo</a>.</p></div></div></section>
+
+<section class="section tinted"><div class="wrap">
+      <ol class="guide">
+        <li id="install"><div class="guide-head"><span class="flow-step">01</span><h2>Install</h2></div>
+          <p>The packages are restricted. Put the token you received in <code>NPM_TOKEN</code> and let npm read it from an <code>.npmrc</code> in the project root, which is safe to commit because it holds the variable's name, not its value.</p>
+          <figure class="terminal"><figcaption class="terminal-bar"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>.npmrc, then install</span></figcaption>
+<pre><code>//registry.npmjs.org/:_authToken=${NPM_TOKEN}
+
+<span class="prompt">$</span> export NPM_TOKEN=&lt;the token from your trial&gt;
+<span class="prompt">$</span> npm install --save-dev @vibetestq/tamash-shield @vibetestq/tamash-runsights</code></pre></figure></li>
+
+        <li id="set-up"><div class="guide-head"><span class="flow-step">02</span><h2>Set the project up</h2></div>
+          <p>One command adds the RunSights reporter to your Playwright config, sets an <code>actionTimeout</code> when there is none, switches your test files to import from Shield, and leaves a place for the key in <code>.env</code>. It shows every change and asks before writing; <code>--dry-run</code> only shows.</p>
+          <figure class="terminal"><figcaption class="terminal-bar"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>npx tamash-shield init</span></figcaption>
+<pre><code><span class="prompt">$</span> npx tamash-shield init
+  <span class="ok">[changed]</span> package.json: installed @vibetestq/tamash-runsights
+  <span class="ok">[changed]</span> playwright.config.ts: added the reporter
+  <span class="ok">[changed]</span> playwright.config.ts: set actionTimeout
+  <span class="ok">[changed]</span> tests/checkout.spec.ts: imports test and expect from @vibetestq/tamash-shield
+  <span class="ok">[changed]</span> .env: TAMASH_LICENSE_KEY, paste your project key</code></pre></figure>
+          <p>Then copy the project key from <strong>Projects</strong> in the portal into <code>.env</code>. The key says which project; it is not a secret in the sense of a password, but keep it out of public repositories.</p></li>
+
+        <li id="sign-in"><div class="guide-head"><span class="flow-step">03</span><h2>Sign your machine in</h2></div>
+          <p>The key says which project, a token says who. On a laptop, sign in once from the browser; the machine gets its own token in your name, and a run from it shows under your name in RunSights.</p>
+          <figure class="terminal"><figcaption class="terminal-bar"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>npx tamash-shield login</span></figcaption>
+<pre><code><span class="prompt">$</span> npx tamash-shield login
+Signing in dana-macbook. Open this address and approve the machine when the code reads 7KQ2-M9FD:
+  https://tamash.vibetestq.com/connect?code=7KQ2-M9FD
+<span class="ok">Signed in as dana@example.com: dana-macbook now has its own access token.</span></code></pre></figure>
+          <p><strong>In CI</strong>, there is nobody to approve a machine, so an Org Admin or a project admin makes a <strong>service token</strong> for the project in the portal and the pipeline carries it as a secret named <code>TAMASH_ACCESS_TOKEN</code>, next to <code>TAMASH_LICENSE_KEY</code>. A service token works only in a pipeline; a personal token works only on a person's machine.</p></li>
+
+        <li id="run"><div class="guide-head"><span class="flow-step">04</span><h2>Run as usual</h2></div>
+          <p>Nothing in your command line changes.</p>
+          <figure class="terminal"><figcaption class="terminal-bar"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>npx playwright test</span></figcaption>
+<pre><code><span class="prompt">$</span> npx playwright test
+  ✓ checkout.spec.ts › the cart lists the items
+<span class="heal">[self-healer] checkout.spec.ts:18 — locator.click "Pay now" -> HEALED [by TAMASH, suggested="getByRole('button', { name: 'Pay now' })"]</span>
+  ✓ checkout.spec.ts › the payment step opens
+
+  8 passed (6.2s)
+<span class="ok">TAMASH RunSights: run sent (8 tests)</span></code></pre></figure>
+          <p><strong>Cucumber.js</strong> (v8 and later) uses the same packages through a formatter. Add it beside your console formatter in <code>cucumber.js</code>; the options go under <code>formatOptions.tamashDashboard</code>.</p>
+          <figure class="terminal"><figcaption class="terminal-bar"><span class="moment-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>cucumber.js</span></figcaption>
+<pre><code>module.exports = {
+  default: {
+    format: ['progress', '@vibetestq/tamash-runsights/cucumber:playwright-dashboard/cucumber-formatter.txt'],
+    formatOptions: { tamashDashboard: { outputDir: 'playwright-dashboard' } },
+  },
+};</code></pre></figure></li>
+
+        <li id="check"><div class="guide-head"><span class="flow-step">05</span><h2>Check the setup and look at the result</h2></div>
+          <p><code>npx tamash-shield doctor</code> confirms the service accepts your key and answers within your <code>actionTimeout</code>, and points out locators that would heal better with a <code>.describe()</code> label. Then open the portal:</p>
+          <div class="grid three"><article class="card"><h3>RunSights</h3><p>The run you just sent, with every test and attempt, where it ran and who ran it. Trends build from the second run.</p></article><article class="card"><h3>Shield</h3><p>The heals of the run, by test, with the locator that broke and the one that worked, and anything that needs a look.</p></article><article class="card"><h3>Forge</h3><p>With Forge, the same runs also count toward the test cases and cycles they are linked to.</p></article></div></li>
+      </ol>
+</div></section>
+
+<section class="section"><div class="wrap">
+      <div class="section-head"><span class="eyebrow">Reference</span><h2>The variables, in one place.</h2></div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="The variables"><table class="reference"><thead><tr><th scope="col">Variable</th><th scope="col">What it is</th><th scope="col">Where</th></tr></thead><tbody>
+        <tr><td><code>NPM_TOKEN</code></td><td>Read access to the packages, from your trial or license.</td><td>Your shell and CI, read by <code>.npmrc</code></td></tr>
+        <tr><td><code>TAMASH_LICENSE_KEY</code></td><td>The project key from Projects in the portal. Says which project.</td><td><code>.env</code> locally, a secret in CI</td></tr>
+        <tr><td><code>TAMASH_ACCESS_TOKEN</code></td><td>A service token for a pipeline. On a laptop, <code>login</code> saves a personal token instead.</td><td>A secret in CI only</td></tr>
+        <tr><td><code>TAMASH_PORTAL_URL</code></td><td>Only when your organization runs its own portal. Otherwise unset.</td><td>Optional</td></tr>
+      </tbody></table></div>
+      <p class="note">Questions on the way in: <a href="mailto:support@vibetestq.com">support@vibetestq.com</a>, or <a href="../contact">book a demo</a> and bring your repository.</p>
+</div></section>
+
+<section class="section" id="evaluate"><div class="wrap">
+      <div class="trial-banner"><div><h2>Start with your own tests.</h2><p>Request a trial, install the packages with the token you receive, and run your existing suite. The first healed run is in RunSights the same afternoon.</p></div>
+      <div class="actions"><a class="btn" href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a Trial <span aria-hidden="true">↗</span></a><a class="btn secondary" href="../contact">Book a Demo</a></div></div>
+    </div></section>
+</main>
+<footer class="site-footer"><div class="wrap">
+      <div class="footer-grid">
+        <div><a class="company-logo" href="../" aria-label="VibeTestQ home">
+      <img class="brand-light" src="../assets/vq/VQLogoTitleForLight.png" width="156" height="78" alt="VibeTestQ">
+    </a><p>The company behind TAMASH.<br>Quality engineering that lives with your software.</p></div>
+        <div><a class="platform-logo footer-platform-logo" href="../" aria-label="TAMASH">
+      <img class="brand-light" src="../assets/tamash/TamashLogoTitleForLight.png" width="320" height="107" alt="TAMASH — Repo-Native Quality Engineering">
+    </a><ul>
+          <li><a href="../#forge">Forge · Test management</a></li>
+          <li><a href="../shield/">Shield · Self healing and maintenance</a></li>
+          <li><a href="../#runsights">RunSights · Results</a></li>
+          <li><a href="./">Get started</a></li>
+          <li><a href="https://tamash.vibetestq.com/trial" target="_blank" rel="noopener">Request a trial ↗</a></li>
+        </ul></div>
+        <div><strong>Company</strong><ul>
+          <li><a href="../about">About VibeTestQ</a></li>
+          <li><a href="../blog">Engineering insights</a></li>
+          <li><a href="../contact">Book a demo</a></li>
+          <li><a href="../contact?topic=pricing">Talk to us about pricing</a></li>
+          <li><a href="mailto:services@vibetestq.com">services@vibetestq.com</a></li>
+        </ul></div>
+        <div><strong>VibeTestQ Academy</strong><ul>
+          <li><a href="https://academy.vibetestq.com/" target="_blank" rel="noopener">Training programs ↗</a></li>
+          <li><a href="https://academy.vibetestq.com/learn/" target="_blank" rel="noopener">Learning library ↗</a></li>
+          <li><a href="https://academy.vibetestq.com/practicehub/" target="_blank" rel="noopener">Hands-on practice ↗</a></li>
+          <li><a href="https://academy.vibetestq.com/career-preparation/" target="_blank" rel="noopener">Career Preparation ↗</a></li>
+          <li><a href="mailto:trainings@vibetestq.com">Training inquiries</a></li>
+        </ul></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 VibeTestQ. All rights reserved.</span><span>Developers · QA teams · AI coding agents</span></div>
+    </div></footer>
+</body></html>
