@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM System | Practice App</title>
+    <meta name="description" content="Full-featured CRM practice application — contacts, leads, pipeline, activities, campaigns, support &amp; analytics.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="crm.css">
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+
+<div class="crm-container">
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- ============================= SIDEBAR ============================= -->
+    <aside class="crm-sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"><i class="fas fa-handshake"></i></div>
+            <div class="sidebar-brand">
+                <h1>SalesCRM</h1>
+                <span>Practice App</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <p class="nav-section-title">Overview</p>
+                <a class="nav-item active" data-tab="dashboard" href="javascript:void(0)">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Dashboard &amp; Analytics</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <p class="nav-section-title">CRM Modules</p>
+                <a class="nav-item" data-tab="contacts" href="javascript:void(0)">
+                    <i class="fas fa-address-book"></i>
+                    <span>Contacts &amp; Accounts</span>
+                </a>
+                <a class="nav-item" data-tab="leads" href="javascript:void(0)">
+                    <i class="fas fa-filter"></i>
+                    <span>Lead Management</span>
+                    <span class="nav-badge" id="badge-leads">6</span>
+                </a>
+                <a class="nav-item" data-tab="pipeline" href="javascript:void(0)">
+                    <i class="fas fa-stream"></i>
+                    <span>Sales Pipeline</span>
+                </a>
+                <a class="nav-item" data-tab="activities" href="javascript:void(0)">
+                    <i class="fas fa-tasks"></i>
+                    <span>Activities &amp; Tasks</span>
+                </a>
+                <a class="nav-item" data-tab="communications" href="javascript:void(0)">
+                    <i class="fas fa-comments"></i>
+                    <span>Communications</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <p class="nav-section-title">Growth</p>
+                <a class="nav-item" data-tab="campaigns" href="javascript:void(0)">
+                    <i class="fas fa-bullhorn"></i>
+                    <span>Marketing Campaigns</span>
+                </a>
+                <a class="nav-item" data-tab="support" href="javascript:void(0)">
+                    <i class="fas fa-life-ring"></i>
+                    <span>Support &amp; Tickets</span>
+                    <span class="nav-badge" id="badge-tickets" style="background:#ef4444;">3</span>
+                </a>
+            </div>
+
+            <div class="nav-section">
+                <p class="nav-section-title">Help</p>
+                <a class="nav-item" href="guide.html">
+                    <i class="fas fa-book-open"></i>
+                    <span>Testing Guide</span>
+                </a>
+                <a class="nav-item" href="../">
+                    <i class="fas fa-home"></i>
+                    <span>Command Center</span>
+                </a>
+            </div>
+        </nav>
+    </aside>
+    <!-- /SIDEBAR -->
+
+    <!-- ============================== MAIN ============================== -->
+    <main class="crm-main">
+
+        <header class="crm-header">
+            <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="header-title">
+                <h2 id="page-title">Dashboard</h2>
+                <span id="page-subtitle" style="font-size:0.8rem;color:var(--crm-text-muted);margin-left:0.5rem;">Overview &amp; Analytics</span>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" class="form-input" placeholder="Type to search…" id="global-search" style="min-width:220px;">
+                </div>
+                <span style="font-size:0.75rem;color:#10b981;font-weight:600;"><i class="fas fa-circle"></i> Mock Session</span>
+            </div>
+        </header>
+
+        <div class="crm-content">
+
+            <!-- ============================================================
+                 TAB 1 — DASHBOARD & ANALYTICS
+                 ============================================================ -->
+            <section id="tab-dashboard" class="tab-content active">
+                <div style="position:relative;">
+                    <div class="loader-overlay" id="dashboard-loader"><div class="spinner"></div></div>
+
+                    <!-- KPI Stats Row -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                            <div class="stat-info">
+                                <h3>Total Contacts</h3>
+                                <div class="stat-value" id="stat-contacts">—</div>
+                                <div class="stat-change positive"><i class="fas fa-arrow-up"></i> Active records</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon purple"><i class="fas fa-building"></i></div>
+                            <div class="stat-info">
+                                <h3>Accounts</h3>
+                                <div class="stat-value" id="stat-accounts">—</div>
+                                <div class="stat-change positive"><i class="fas fa-arrow-up"></i> Companies tracked</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green"><i class="fas fa-dollar-sign"></i></div>
+                            <div class="stat-info">
+                                <h3>Active Pipeline</h3>
+                                <div class="stat-value" id="stat-pipeline">—</div>
+                                <div class="stat-change positive"><i class="fas fa-arrow-up"></i> Open opportunities</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange"><i class="fas fa-ticket-alt"></i></div>
+                            <div class="stat-info">
+                                <h3>Open Tickets</h3>
+                                <div class="stat-value" id="stat-tickets">—</div>
+                                <div class="stat-change negative"><i class="fas fa-arrow-up"></i> Need attention</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon pink"><i class="fas fa-bullhorn"></i></div>
+                            <div class="stat-info">
+                                <h3>Active Campaigns</h3>
+                                <div class="stat-value" id="stat-campaigns">—</div>
+                                <div class="stat-change positive"><i class="fas fa-arrow-up"></i> Running now</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Two-column lower section -->
+                    <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:1.5rem;margin-bottom:1.5rem;">
+
+                        <div class="crm-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-stream" style="color:var(--crm-primary);margin-right:0.5rem;"></i>Pipeline Funnel</h3>
+                            </div>
+                            <div class="card-body">
+                                <div id="pipeline-summary" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+                            </div>
+                        </div>
+
+                        <div class="crm-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-clock" style="color:var(--accent-activities);margin-right:0.5rem;"></i>Recent Activities</h3>
+                                <button class="btn btn-outline btn-sm" onclick="app.switchTab('activities')">View All</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-list" id="recent-activity-list">
+                                    <div class="empty-state"><i class="fas fa-clock"></i><p>Loading…</p></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="crm-card">
+                        <div class="card-header"><h3><i class="fas fa-bolt" style="color:var(--crm-warning);margin-right:0.5rem;"></i>Quick Actions</h3></div>
+                        <div class="card-body">
+                            <div class="quick-actions">
+                                <div class="quick-action" onclick="app.switchTab('contacts');setTimeout(()=>app.openAddContact(),100)">
+                                    <i class="fas fa-user-plus" style="color:var(--accent-contacts);"></i> Add Contact
+                                </div>
+                                <div class="quick-action" onclick="app.switchTab('leads');setTimeout(()=>app.openAddLead(),100)">
+                                    <i class="fas fa-filter" style="color:var(--accent-leads);"></i> Capture Lead
+                                </div>
+                                <div class="quick-action" onclick="app.switchTab('pipeline');setTimeout(()=>app.openAddOpportunity(),100)">
+                                    <i class="fas fa-plus-circle" style="color:var(--accent-pipeline);"></i> New Opportunity
+                                </div>
+                                <div class="quick-action" onclick="app.switchTab('activities');setTimeout(()=>app.openAddActivity(),100)">
+                                    <i class="fas fa-calendar-plus" style="color:var(--accent-activities);"></i> Schedule Activity
+                                </div>
+                                <div class="quick-action" onclick="app.switchTab('support');setTimeout(()=>app.openAddTicket(),100)">
+                                    <i class="fas fa-headset" style="color:var(--accent-support);"></i> Open Ticket
+                                </div>
+                                <div class="quick-action" onclick="app.switchTab('campaigns');setTimeout(()=>app.openAddCampaign(),100)">
+                                    <i class="fas fa-paper-plane" style="color:var(--accent-marketing);"></i> New Campaign
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ============================================================
+                 TAB 2 — CONTACTS & ACCOUNTS
+                 ============================================================ -->
+            <section id="tab-contacts" class="tab-content">
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-input" id="contacts-search" placeholder="Search contacts…" oninput="app.searchContacts(this.value)">
+                        </div>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="app.openAddContact()">
+                            <i class="fas fa-user-plus"></i> Add Contact
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Accounts Grid -->
+                <div style="margin-bottom:1.5rem;">
+                    <h3 style="font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:var(--crm-text-muted);margin-bottom:0.75rem;">
+                        <i class="fas fa-building" style="margin-right:0.4rem;"></i>Accounts
+                    </h3>
+                    <div class="stats-grid" id="accounts-grid"></div>
+                </div>
+
+                <!-- Contacts Table -->
+                <div class="crm-card" style="position:relative;">
+                    <div class="loader-overlay" id="contacts-loader"><div class="spinner"></div></div>
+                    <div class="card-header">
+                        <h3><i class="fas fa-address-book" style="color:var(--accent-contacts);margin-right:0.5rem;"></i>Contacts</h3>
+                        <button class="btn btn-primary btn-sm" onclick="app.openAddContact()"><i class="fas fa-plus"></i> Add</button>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="crm-table">
+                            <thead>
+                                <tr>
+                                    <th>Name / Title</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Account</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="contacts-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ============================================================
+                 TAB 3 — LEAD MANAGEMENT
+                 ============================================================ -->
+            <section id="tab-leads" class="tab-content">
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-input" id="leads-search" placeholder="Search leads…" oninput="app.searchLeads(this.value)">
+                        </div>
+                        <select class="form-input" style="min-width:140px;" onchange="
+                            const v=this.value;
+                            document.querySelectorAll('#leads-table-body tr').forEach(r=>{
+                                r.style.display=(!v||r.textContent.includes(v))?'':'none';
+                            })">
+                            <option value="">All Statuses</option>
+                            <option>New</option>
+                            <option>Contacted</option>
+                            <option>Qualified</option>
+                            <option>Converted</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="app.openAddLead()">
+                            <i class="fas fa-plus"></i> Capture Lead
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lead Funnel -->
+                <div class="funnel-stats">
+                    <div class="funnel-item new">
+                        <div class="funnel-count" id="funnel-new">0</div>
+                        <div class="funnel-label">New</div>
+                    </div>
+                    <div class="funnel-item contacted">
+                        <div class="funnel-count" id="funnel-contacted">0</div>
+                        <div class="funnel-label">Contacted</div>
+                    </div>
+                    <div class="funnel-item qualified">
+                        <div class="funnel-count" id="funnel-qualified">0</div>
+                        <div class="funnel-label">Qualified</div>
+                    </div>
+                    <div class="funnel-item converted">
+                        <div class="funnel-count" id="funnel-converted">0</div>
+                        <div class="funnel-label">Converted</div>
+                    </div>
+                </div>
+
+                <!-- Leads Table -->
+                <div class="crm-card" style="position:relative;">
+                    <div class="loader-overlay" id="leads-loader"><div class="spinner"></div></div>
+                    <div class="card-header">
+                        <h3><i class="fas fa-filter" style="color:var(--accent-leads);margin-right:0.5rem;"></i>Lead Registry</h3>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="crm-table">
+                            <thead>
+                                <tr>
+                                    <th>Lead</th>
+                                    <th>Email</th>
+                                    <th>Source</th>
+                                    <th>Score</th>
+                                    <th>Rating</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="leads-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ============================================================
+                 TAB 4 — SALES PIPELINE
+                 ============================================================ -->
+            <section id="tab-pipeline" class="tab-content">
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <h3 style="font-size:1rem;font-weight:600;">Kanban Board</h3>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="app.openAddOpportunity()">
+                            <i class="fas fa-plus"></i> New Opportunity
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pipeline Metrics -->
+                <div class="stats-grid" style="margin-bottom:1.5rem;">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="stat-info">
+                            <h3>Pipeline Value</h3>
+                            <div class="stat-value" id="metric-total-value">—</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fas fa-balance-scale"></i></div>
+                        <div class="stat-info">
+                            <h3>Weighted Forecast</h3>
+                            <div class="stat-value" id="metric-weighted-value">—</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-trophy"></i></div>
+                        <div class="stat-info">
+                            <h3>Closed Won</h3>
+                            <div class="stat-value" id="metric-won-value">—</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fee2e2;color:#dc2626;"><i class="fas fa-times-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>Closed Lost</h3>
+                            <div class="stat-value" id="metric-lost-value">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kanban Board -->
+                <div class="crm-card" style="position:relative;padding:1.5rem;overflow-x:auto;">
+                    <div class="loader-overlay" id="pipeline-loader"><div class="spinner"></div></div>
+                    <div class="pipeline-container">
+                        <div class="pipeline-column">
+                            <div class="pipeline-header prospect">
+                                <h4>Prospect</h4>
+                                <span class="pipeline-count" id="count-prospect">0</span>
+                            </div>
+                            <div class="pipeline-body" id="stage-prospect"></div>
+                        </div>
+                        <div class="pipeline-column">
+                            <div class="pipeline-header qualification">
+                                <h4>Qualification</h4>
+                                <span class="pipeline-count" id="count-qualification">0</span>
+                            </div>
+                            <div class="pipeline-body" id="stage-qualification"></div>
+                        </div>
+                        <div class="pipeline-column">
+                            <div class="pipeline-header proposal">
+                                <h4>Proposal</h4>
+                                <span class="pipeline-count" id="count-proposal">0</span>
+                            </div>
+                            <div class="pipeline-body" id="stage-proposal"></div>
+                        </div>
+                        <div class="pipeline-column">
+                            <div class="pipeline-header negotiation">
+                                <h4>Negotiation</h4>
+                                <span class="pipeline-count" id="count-negotiation">0</span>
+                            </div>
+                            <div class="pipeline-body" id="stage-negotiation"></div>
+                        </div>
+                        <div class="pipeline-column">
+                            <div class="pipeline-header closed">
+                                <h4>Closed Won</h4>
+                                <span class="pipeline-count" id="count-closed-won">0</span>
+                            </div>
+                            <div class="pipeline-body" id="stage-closed-won"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ============================================================
+                 TAB 5 — ACTIVITIES & TASKS
+                 ============================================================ -->
+            <section id="tab-activities" class="tab-content">
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-input" placeholder="Search activities…" oninput="
+                                const q=this.value.toLowerCase();
+                                document.querySelectorAll('#activities-table-body tr').forEach(r=>{
+                                    r.style.display=r.textContent.toLowerCase().includes(q)?'':'none';
+                                })">
+                        </div>
+                        <select class="form-input" style="min-width:130px;" onchange="
+                            const v=this.value;
+                            document.querySelectorAll('#activities-table-body tr').forEach(r=>{
+                                r.style.display=(!v||r.textContent.includes(v))?'':'none';
+                            })">
+                            <option value="">All Types</option>
+                            <option>Call</option>
+                            <option>Meeting</option>
+                            <option>Email</option>
+                            <option>Task</option>
+                        </select>
+                        <select class="form-input" style="min-width:130px;" onchange="
+                            const v=this.value;
+                            document.querySelectorAll('#activities-table-body tr').forEach(r=>{
+                                r.style.display=(!v||r.textContent.includes(v))?'':'none';
+                            })">
+                            <option value="">All Statuses</option>
+                            <option>Scheduled</option>
+                            <option>Completed</option>
+                            <option>Overdue</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="app.openAddActivity()">
+                            <i class="fas fa-plus"></i> Schedule Activity
+                        </button>
+                    </div>
+                </div>
+
+                <div class="crm-card" style="position:relative;">
+                    <div class="loader-overlay" id="activities-loader"><div class="spinner"></div></div>
+                    <div class="card-header">
+                        <h3><i class="fas fa-tasks" style="color:var(--accent-activities);margin-right:0.5rem;"></i>Activity Log</h3>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="crm-table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Subject</th>
+                                    <th>Category</th>
+                                    <th>Contact</th>
+                                    <th>Due Date</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activities-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ============================================================
+                 TAB 6 — COMMUNICATIONS
+                 ============================================================ -->
+            <section id="tab-communications" class="tab-content">
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-input" placeholder="Search communications…" oninput="
+                                const q=this.value.toLowerCase();
+                                document.querySelectorAll('#communications-table-body tr').forEach(r=>{
+                                    r.style.display=r.textContent.toLowerCase().includes(q)?'':'none';
+                                })">
+                        </div>
+                        <select class="form-input" style="min-width:140px;" onchange="
+                            const v=this.value;
+                            document.querySelectorAll('#communications-table-body tr').forEach(r=>{
+                                r.style.display=(!v||r.textContent.includes(v))?'':'none';
+                            })">
+                            <option value="">All Directions</option>
+                            <option>Outbound</option>
+                            <option>Inbound</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="crm-card" style="position:relative;">
+                    <div class="loader-overlay" id="communications-loader"><div class="spinner"></div></div>
+                    <div class="card-header">
+                        <h3><i class="fas fa-comments" style="color:var(--accent-communications);margin-right:0.5rem;"></i>Communication History</h3>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="crm-table">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Subject</th>
+                                    <th>Contact</th>
+                                    <th>Direction</th>
+                                    <th>Status</th>
+                                    <th>Date / Time</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="communications-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- ============================================================
+                 TAB 7 — MARKETING CAMPAIGNS
+                 ============================================================ -->
+            <section id="tab-campaigns" class="tab-content">
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-input" placeholder="Search campaigns…" oninput="
+                                const q=this.value.toLowerCase();
+                                document.querySelectorAll('#campaigns-grid .campaign-card').forEach(c=>{
+                                    c.style.display=c.textContent.toLowerCase().includes(q)?'':'none';
+                                })">
+                        </div>
+                        <select class="form-input" style="min-width:140px;" onchange="
+                            const v=this.value;
+                            document.querySelectorAll('#campaigns-grid .campaign-card').forEach(c=>{
+                                c.style.display=(!v||c.textContent.includes(v))?'':'none';
+                            })">
+                            <option value="">All Statuses</option>
+                            <option>Active</option>
+                            <option>Draft</option>
+                            <option>Completed</option>
+                            <option>Paused</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="app.openAddCampaign()">
+                            <i class="fas fa-plus"></i> New Campaign
+                        </button>
+                    </div>
+                </div>
+
+                <div style="position:relative;min-height:120px;">
+                    <div class="loader-overlay" id="campaigns-loader"><div class="spinner"></div></div>
+                    <div class="campaign-grid" id="campaigns-grid"></div>
+                </div>
+
+            </section>
+
+            <!-- ============================================================
+                 TAB 8 — SUPPORT & TICKETS
+                 ============================================================ -->
+            <section id="tab-support" class="tab-content">
+
+                <div class="toolbar">
+                    <div class="toolbar-left">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-input" id="tickets-search" placeholder="Search tickets…" oninput="app.searchTickets(this.value)">
+                        </div>
+                        <select class="form-input" style="min-width:130px;" onchange="
+                            const v=this.value;
+                            document.querySelectorAll('#tickets-table-body tr').forEach(r=>{
+                                r.style.display=(!v||r.textContent.includes(v))?'':'none';
+                            })">
+                            <option value="">All Priorities</option>
+                            <option>Critical</option>
+                            <option>High</option>
+                            <option>Medium</option>
+                            <option>Low</option>
+                        </select>
+                        <select class="form-input" style="min-width:130px;" onchange="
+                            const v=this.value;
+                            document.querySelectorAll('#tickets-table-body tr').forEach(r=>{
+                                r.style.display=(!v||r.textContent.includes(v))?'':'none';
+                            })">
+                            <option value="">All Statuses</option>
+                            <option>Open</option>
+                            <option>In Progress</option>
+                            <option>Resolved</option>
+                            <option>Closed</option>
+                        </select>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="btn btn-primary" onclick="app.openAddTicket()">
+                            <i class="fas fa-plus"></i> Open Ticket
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Ticket KPIs -->
+                <div class="stats-grid" style="margin-bottom:1.5rem;">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fas fa-envelope-open-text"></i></div>
+                        <div class="stat-info">
+                            <h3>Open</h3>
+                            <div class="stat-value" id="tickets-open">—</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fas fa-spinner"></i></div>
+                        <div class="stat-info">
+                            <h3>In Progress</h3>
+                            <div class="stat-value" id="tickets-progress">—</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-info">
+                            <h3>Resolved</h3>
+                            <div class="stat-value" id="tickets-resolved">—</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background:#fee2e2;color:#dc2626;"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="stat-info">
+                            <h3>Critical Open</h3>
+                            <div class="stat-value" id="tickets-critical">—</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tickets Table -->
+                <div class="crm-card" style="position:relative;">
+                    <div class="loader-overlay" id="support-loader"><div class="spinner"></div></div>
+                    <div class="card-header">
+                        <h3><i class="fas fa-life-ring" style="color:var(--accent-support);margin-right:0.5rem;"></i>Support Tickets</h3>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="crm-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Subject</th>
+                                    <th>Contact</th>
+                                    <th>Account</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>SLA</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tickets-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </section>
+
+        </div><!-- /crm-content -->
+    </main>
+    <!-- /MAIN -->
+
+</div><!-- /crm-container -->
+
+<!-- ================================================================
+     MODAL: Contact — Add / Edit
+     ================================================================ -->
+<div class="modal-overlay" id="contact-modal">
+    <div class="modal">
+        <div class="loader-overlay" id="contact-modal-loader"><div class="spinner"></div></div>
+        <div class="modal-header">
+            <h3 id="contact-modal-title">Add Contact</h3>
+            <button class="modal-close" onclick="app.closeModal('contact-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="contact-form" onsubmit="return false;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">First Name</label>
+                        <input type="text" class="form-input" id="contact-firstName" placeholder="First name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">Last Name</label>
+                        <input type="text" class="form-input" id="contact-lastName" placeholder="Last name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">Email</label>
+                        <input type="email" class="form-input" id="contact-email" placeholder="email@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-input" id="contact-phone" placeholder="+1-555-0100">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Job Title</label>
+                        <input type="text" class="form-input" id="contact-position" placeholder="VP of Engineering">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account</label>
+                        <select class="form-input" id="contact-account">
+                            <option value="">Select Account</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-input form-textarea" id="contact-notes" placeholder="Notes about this contact…"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="app.closeModal('contact-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="app.saveContact()"><i class="fas fa-save"></i> Save Contact</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================
+     MODAL: Contact — View Details
+     ================================================================ -->
+<div class="modal-overlay" id="view-contact-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3 id="view-contact-name">Contact Details</h3>
+            <button class="modal-close" onclick="app.closeModal('view-contact-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="view-contact-details" style="line-height:2;"></div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="app.closeModal('view-contact-modal')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================
+     MODAL: Lead — Add / Edit
+     ================================================================ -->
+<div class="modal-overlay" id="lead-modal">
+    <div class="modal modal-lg">
+        <div class="loader-overlay" id="lead-modal-loader"><div class="spinner"></div></div>
+        <div class="modal-header">
+            <h3 id="lead-modal-title">Capture Lead</h3>
+            <button class="modal-close" onclick="app.closeModal('lead-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="lead-form" onsubmit="return false;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">First Name</label>
+                        <input type="text" class="form-input" id="lead-firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">Last Name</label>
+                        <input type="text" class="form-input" id="lead-lastName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">Email</label>
+                        <input type="email" class="form-input" id="lead-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone</label>
+                        <input type="text" class="form-input" id="lead-phone">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">Company</label>
+                        <input type="text" class="form-input" id="lead-company" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Job Title</label>
+                        <input type="text" class="form-input" id="lead-position">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Lead Source</label>
+                        <select class="form-input" id="lead-source">
+                            <option>Website</option>
+                            <option>Referral</option>
+                            <option>Trade Show</option>
+                            <option>LinkedIn</option>
+                            <option>Conference</option>
+                            <option>Cold Outreach</option>
+                            <option>Email Campaign</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rating</label>
+                        <select class="form-input" id="lead-rating">
+                            <option>Hot</option>
+                            <option>Warm</option>
+                            <option>Cold</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Score (0–100)</label>
+                        <input type="number" class="form-input" id="lead-score" min="0" max="100" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-input" id="lead-status">
+                            <option>New</option>
+                            <option>Contacted</option>
+                            <option>Qualified</option>
+                            <option>Converted</option>
+                            <option>Disqualified</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="app.closeModal('lead-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="app.saveLead()"><i class="fas fa-save"></i> Save Lead</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================
+     MODAL: Opportunity — Add / Edit
+     ================================================================ -->
+<div class="modal-overlay" id="opp-modal">
+    <div class="modal modal-lg">
+        <div class="loader-overlay" id="opp-modal-loader"><div class="spinner"></div></div>
+        <div class="modal-header">
+            <h3 id="opp-modal-title">Create Opportunity</h3>
+            <button class="modal-close" onclick="app.closeModal('opp-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="opp-form" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="form-label required">Opportunity Name</label>
+                    <input type="text" class="form-input" id="opp-name" placeholder="e.g. TechCorp Enterprise License" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Account</label>
+                        <select class="form-input" id="opp-account">
+                            <option value="">Select Account</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contact</label>
+                        <select class="form-input" id="opp-contact">
+                            <option value="">Select Contact</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">Amount ($)</label>
+                        <input type="number" class="form-input" id="opp-amount" min="0" placeholder="50000" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stage</label>
+                        <select class="form-input" id="opp-stage">
+                            <option>Prospect</option>
+                            <option>Qualification</option>
+                            <option>Proposal</option>
+                            <option>Negotiation</option>
+                            <option>Closed Won</option>
+                            <option>Closed Lost</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Win Probability (%)</label>
+                        <input type="number" class="form-input" id="opp-probability" min="0" max="100" value="50">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">Expected Close Date</label>
+                        <input type="date" class="form-input" id="opp-closeDate" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Opportunity Type</label>
+                        <select class="form-input" id="opp-type">
+                            <option>New Business</option>
+                            <option>Renewal</option>
+                            <option>Expansion</option>
+                            <option>Cross-sell</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-input form-textarea" id="opp-notes" placeholder="Deal notes…"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="app.closeModal('opp-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="app.saveOpportunity()"><i class="fas fa-save"></i> Save Opportunity</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================
+     MODAL: Activity — Schedule / Edit
+     ================================================================ -->
+<div class="modal-overlay" id="activity-modal">
+    <div class="modal">
+        <div class="loader-overlay" id="activity-modal-loader"><div class="spinner"></div></div>
+        <div class="modal-header">
+            <h3 id="activity-modal-title">Schedule Activity</h3>
+            <button class="modal-close" onclick="app.closeModal('activity-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="activity-form" onsubmit="return false;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Activity Type</label>
+                        <select class="form-input" id="activity-type">
+                            <option>Call</option>
+                            <option>Meeting</option>
+                            <option>Email</option>
+                            <option>Task</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <select class="form-input" id="activity-priority">
+                            <option>High</option>
+                            <option>Medium</option>
+                            <option>Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label required">Subject</label>
+                    <input type="text" class="form-input" id="activity-subject" placeholder="e.g. Follow-up call with Sarah" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Related Contact</label>
+                    <select class="form-input" id="activity-contact">
+                        <option value="">Select Contact</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">Due Date</label>
+                        <input type="date" class="form-input" id="activity-dueDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">Due Time</label>
+                        <input type="time" class="form-input" id="activity-dueTime" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes</label>
+                    <textarea class="form-input form-textarea" id="activity-notes" placeholder="Activity notes or agenda…"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="app.closeModal('activity-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="app.saveActivity()"><i class="fas fa-save"></i> Save Activity</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================
+     MODAL: Communication — View Details
+     ================================================================ -->
+<div class="modal-overlay" id="view-comm-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3>Communication Details</h3>
+            <button class="modal-close" onclick="app.closeModal('view-comm-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body" id="view-comm-details" style="line-height:2;"></div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="app.closeModal('view-comm-modal')">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================
+     MODAL: Campaign — Add / Edit
+     ================================================================ -->
+<div class="modal-overlay" id="campaign-modal">
+    <div class="modal">
+        <div class="loader-overlay" id="campaign-modal-loader"><div class="spinner"></div></div>
+        <div class="modal-header">
+            <h3 id="campaign-modal-title">Create Campaign</h3>
+            <button class="modal-close" onclick="app.closeModal('campaign-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="campaign-form" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="form-label required">Campaign Name</label>
+                    <input type="text" class="form-input" id="campaign-name" placeholder="e.g. Q2 Product Launch" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Type</label>
+                        <select class="form-input" id="campaign-type">
+                            <option>Email</option>
+                            <option>Social Media</option>
+                            <option>Content</option>
+                            <option>Paid Ads</option>
+                            <option>Webinar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select class="form-input" id="campaign-status">
+                            <option>Draft</option>
+                            <option>Active</option>
+                            <option>Paused</option>
+                            <option>Completed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label required">Start Date</label>
+                        <input type="date" class="form-input" id="campaign-startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label required">End Date</label>
+                        <input type="date" class="form-input" id="campaign-endDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Budget ($)</label>
+                    <input type="number" class="form-input" id="campaign-budget" min="0" placeholder="10000">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input form-textarea" id="campaign-description" placeholder="Campaign objective and audience…"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="app.closeModal('campaign-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="app.saveCampaign()"><i class="fas fa-save"></i> Save Campaign</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================
+     MODAL: Support Ticket — Add / Edit
+     ================================================================ -->
+<div class="modal-overlay" id="ticket-modal">
+    <div class="modal">
+        <div class="loader-overlay" id="ticket-modal-loader"><div class="spinner"></div></div>
+        <div class="modal-header">
+            <h3 id="ticket-modal-title">Create Ticket</h3>
+            <button class="modal-close" onclick="app.closeModal('ticket-modal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <form id="ticket-form" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="form-label required">Subject</label>
+                    <input type="text" class="form-input" id="ticket-subject" placeholder="Brief description of the issue" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Contact</label>
+                        <select class="form-input" id="ticket-contact">
+                            <option value="">Select Contact</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account</label>
+                        <select class="form-input" id="ticket-account">
+                            <option value="">Select Account</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <select class="form-input" id="ticket-priority">
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                            <option>Critical</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-input" id="ticket-category">
+                            <option>Technical</option>
+                            <option>Billing</option>
+                            <option>Feature Request</option>
+                            <option>General Inquiry</option>
+                            <option>Bug Report</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status</label>
+                    <select class="form-input" id="ticket-status">
+                        <option>Open</option>
+                        <option>In Progress</option>
+                        <option>Resolved</option>
+                        <option>Closed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea class="form-input form-textarea" id="ticket-description" placeholder="Detailed issue description…"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="app.closeModal('ticket-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="app.saveTicket()"><i class="fas fa-save"></i> Save Ticket</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Notifications -->
+<div id="toast-container" class="toast-container"></div>
+
+<!-- Scripts -->
+<script src="../shared/js/utils.js"></script>
+<script src="../shared/js/mock-api.js"></script>
+<script src="crm.js"></script>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+    }
+    // Close sidebar when clicking a nav link on mobile
+    document.querySelectorAll('.nav-item').forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                toggleSidebar();
+            }
+        });
+    });
+</script>
+
+<script>
+// ── Page header title update on tab switch ──────────────────────────
+(function patchTabTitles() {
+    const TITLES = {
+        dashboard:       { title: 'Dashboard',             sub: 'Overview & Analytics' },
+        contacts:        { title: 'Contacts & Accounts',   sub: 'Manage customers and companies' },
+        leads:           { title: 'Lead Management',       sub: 'Capture and qualify leads' },
+        pipeline:        { title: 'Sales Pipeline',        sub: 'Track opportunities through stages' },
+        activities:      { title: 'Activities & Tasks',    sub: 'Schedule calls, meetings and follow-ups' },
+        communications:  { title: 'Communications',        sub: 'Email and call interaction history' },
+        campaigns:       { title: 'Marketing Campaigns',   sub: 'Email campaigns and performance' },
+        support:         { title: 'Support & Tickets',     sub: 'Customer service and SLA tracking' }
+    };
+    const orig = CRMApp.prototype.switchTab;
+    CRMApp.prototype.switchTab = function(tab) {
+        orig.call(this, tab);
+        const t = TITLES[tab];
+        if (t) {
+            const el = document.getElementById('page-title');
+            const sub = document.getElementById('page-subtitle');
+            if (el) el.textContent = t.title;
+            if (sub) sub.textContent = t.sub;
+        }
+    };
+})();
+</script>
+
+</body>
+</html>

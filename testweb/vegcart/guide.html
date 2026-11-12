@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VegCart Testing Guide | Automation Practice</title>
+    <meta name="description" content="Playwright test automation practice guide for VegCart fresh produce e-commerce application">
+    <link rel="stylesheet" href="../shared/css/portal.css">
+    <link rel="stylesheet" href="vegcart.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .guide-hero {
+            background: linear-gradient(135deg, #052e16, #14532d, #16a34a);
+            padding: 3rem 2rem;
+        }
+        .guide-hero h1 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem;
+        }
+        .guide-hero p {
+            color: #bbf7d0;
+            font-size: 1rem;
+            margin: 0;
+        }
+        .guide-content {
+            padding: 2rem;
+            max-width: 960px;
+        }
+        .feature-section {
+            background: white;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+        .feature-section-header {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+        .feature-section-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+            flex: 1;
+        }
+        .feature-section-header .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        .feature-section-body {
+            padding: 1.5rem;
+        }
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .step-list li {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.88rem;
+            color: #475569;
+        }
+        .step-list li:last-child {
+            border-bottom: none;
+        }
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #16a34a;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .tag-green  { background: #d1fae5; color: #065f46; }
+        .tag-blue   { background: #dbeafe; color: #1e40af; }
+        .tag-orange { background: #fef3c7; color: #92400e; }
+        .tag-purple { background: #ede9fe; color: #4c1d95; }
+        .scenario-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid #16a34a;
+        }
+        .scenario-card h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.5rem;
+        }
+        .scenario-card p {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin: 0;
+        }
+        .toc {
+            background: white;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .toc h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.75rem;
+        }
+        .toc-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.35rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .toc-list a {
+            font-size: 0.82rem;
+            color: #16a34a;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .toc-list a:hover {
+            text-decoration: underline;
+        }
+        .chevron {
+            transition: transform 0.2s;
+        }
+        .collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+        .collapsed .feature-section-body {
+            display: none;
+        }
+        .step-num-ai {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #7c3aed;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .step-list li strong,
+        .step-list li em,
+        .step-list li code,
+        .step-list li a {
+            display: inline;
+        }
+        .step-list li em {
+            font-style: italic;
+        }
+        /* Prevent bare text nodes / inline tags from becoming separate flex items */
+        .step-list li > *:not(.step-num):not(.step-num-ai) {
+            display: inline;
+        }
+        .step-list li {
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <div style="background:#0f172a;min-height:100vh;">
+        <div class="guide-hero">
+            <div style="max-width:960px;margin:0 auto;">
+                <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+                    <a href="index.html" style="color:#bbf7d0;font-size:0.85rem;text-decoration:none;"><i class="fas fa-arrow-left"></i> Back to App</a>
+                </div>
+                <h1><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>VegCart — Automation Testing Guide</h1>
+                <p>Complete reference for practising Playwright test automation on the VegCart Fresh Fruits &amp; Vegetables e-commerce app.</p>
+                <div style="display:flex;gap:0.75rem;margin-top:1.25rem;flex-wrap:wrap;">
+                    <span class="tag tag-green">Playwright</span>
+                    <span class="tag tag-blue">End-to-End</span>
+                    <span class="tag tag-orange">50+ Scenarios</span>
+                    <span class="tag tag-purple">E-Commerce SPA</span>
+                    <span class="tag tag-purple">WebMCP / AI Agents</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-content" style="margin:0 auto;">
+
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3><i class="fas fa-list" style="color:#16a34a;margin-right:0.5rem;"></i>Table of Contents</h3>
+                <ul class="toc-list">
+                    <li><a href="#overview"><i class="fas fa-info-circle"></i> App Overview</a></li>
+                    <li><a href="#home"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#products"><i class="fas fa-store"></i> Product Browsing</a></li>
+                    <li><a href="#cart"><i class="fas fa-shopping-cart"></i> Cart Management</a></li>
+                    <li><a href="#checkout"><i class="fas fa-credit-card"></i> Checkout Flow</a></li>
+                    <li><a href="#orders"><i class="fas fa-box"></i> Order Tracking</a></li>
+                    <li><a href="#profile"><i class="fas fa-user-circle"></i> User Profile &amp; Auth</a></li>
+                    <li><a href="#wishlist"><i class="fas fa-heart"></i> Wishlist</a></li>
+                    <li><a href="#support"><i class="fas fa-headset"></i> Support &amp; FAQ</a></li>
+                    <li><a href="#webmcp"><i class="fas fa-robot"></i> AI Agent Tools (WebMCP)</a></li>                    <li><a href="#conversation"><i class="fas fa-comments"></i> Conversational Interface</a></li>                    <li><a href="#scenarios"><i class="fas fa-vial"></i> Test Scenarios</a></li>
+                </ul>
+            </div>
+
+            <!-- App Overview -->
+            <div class="feature-section" id="overview">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#16a34a;"><i class="fas fa-info-circle"></i></div>
+                    <h3>App Overview &amp; Architecture</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">VegCart is a single-page e-commerce application for fresh fruits and vegetables. Navigation is entirely tab-based — clicking sidebar buttons swaps visible panels without any page reload. All data is stored in the browser's <strong>localStorage</strong>, making it ideal for practising automation without a backend.</p>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+                        <tr style="background:#f0fdf4;">
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #d1fae5;color:#14532d;">Module</th>
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #d1fae5;color:#14532d;">Navigation</th>
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #d1fae5;color:#14532d;">Key Functionality</th>
+                        </tr>
+                        <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Home</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Default tab on load</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Hero banner, categories, featured deals, USPs</td></tr>
+                        <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Products</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Browse Products</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Search, filter, sort, quick view, add to cart</td></tr>
+                        <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Cart</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → My Cart</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">View items, update quantities, remove, see totals</td></tr>
+                        <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Checkout</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Checkout</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Delivery address, payment method, place order</td></tr>
+                        <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Orders</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → My Orders</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Order history, search, filter, details, reorder, cancel</td></tr>
+                        <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Profile</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → My Profile</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Login, signup, logout, edit profile details</td></tr>
+                        <tr><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Wishlist</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Sidebar → Wishlist</td><td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Save products, add wishlisted item to cart</td></tr>
+                        <tr><td style="padding:0.5rem 0.75rem;">Support</td><td style="padding:0.5rem 0.75rem;">Sidebar → Support</td><td style="padding:0.5rem 0.75rem;">FAQ accordion, contact form, support channels</td></tr>
+                    </table>
+                    <div style="margin-top:1rem;background:#fef3c7;border-radius:8px;padding:0.75rem 1rem;font-size:0.82rem;color:#92400e;">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Demo credentials:</strong> Email — <code>priya@example.com</code> &nbsp;|&nbsp; Password — <code>test123</code>. A second user is <code>ravi@example.com</code> / <code>demo123</code>.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Home -->
+            <div class="feature-section" id="home">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#16a34a;"><i class="fas fa-home"></i></div>
+                    <h3>1. Home</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The home tab is the landing page of the app. It provides an overview of the store, category shortcuts, and a selection of featured products.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span><span>Observe the hero banner with a headline, description, and two action buttons — <strong>Shop Now</strong> and <strong>Track Order</strong></span></li>
+                        <li><span class="step-num">2</span><span>Find the four stats cards showing Fresh Products, Happy Customers, Orders Delivered, and Customer Rating</span></li>
+                        <li><span class="step-num">3</span><span>Locate the <strong>Shop by Category</strong> section with four cards: Fruits, Vegetables, Greens &amp; Herbs, and Exotic Produce</span></li>
+                        <li><span class="step-num">4</span><span>Click any category card to jump directly to the Products tab with that category pre-filtered</span></li>
+                        <li><span class="step-num">5</span><span>Observe the <strong>Today's Deals</strong> section showing a grid of featured products with high ratings</span></li>
+                        <li><span class="step-num">6</span><span>Click <strong>View All</strong> next to Today's Deals to navigate to the full products list</span></li>
+                        <li><span class="step-num">7</span><span>Add any featured product to cart directly from the home tab by clicking its Add button</span></li>
+                        <li><span class="step-num">8</span><span>Observe the USP strip at the bottom showing Express Delivery, 100% Organic, Quality Guarantee, and 24/7 Support cards</span></li>
+                        <li><span class="step-num">9</span><span>Use the global header search bar to type a product name and verify the app navigates to Products with results filtered</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Products -->
+            <div class="feature-section" id="products">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#f97316;"><i class="fas fa-store"></i></div>
+                    <h3>2. Product Browsing</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Products tab is the main catalogue page with 24 items across four categories. It supports full search, sort, and filter capabilities.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span><span>Click <strong>Browse Products</strong> in the sidebar to navigate to the products catalogue</span></li>
+                        <li><span class="step-num">2</span><span>Observe the product count badge in the card header showing the number of products currently visible</span></li>
+                        <li><span class="step-num">3</span><span>Locate the search box in the toolbar and type a product name such as "mango" — observe the grid filters in real time</span></li>
+                        <li><span class="step-num">4</span><span>Clear the search to restore all products, then type a name that doesn't exist and verify the empty state message appears</span></li>
+                        <li><span class="step-num">5</span><span>Locate the <strong>Category</strong> dropdown in the toolbar and change it to Vegetables — verify only vegetable products are shown</span></li>
+                        <li><span class="step-num">6</span><span>Try each category option (Fruits, Greens &amp; Herbs, Exotic Produce) and verify the grid updates each time</span></li>
+                        <li><span class="step-num">7</span><span>Open the <strong>Sort</strong> dropdown and select Price: Low to High — verify the cheapest item appears first in the grid</span></li>
+                        <li><span class="step-num">8</span><span>Select Price: High to Low and verify the most expensive item is first</span></li>
+                        <li><span class="step-num">9</span><span>On any product card, click the heart icon to add it to the wishlist — observe the toast notification</span></li>
+                        <li><span class="step-num">10</span><span>Click the eye icon on a product card to open the <strong>Quick View</strong> modal with full product details</span></li>
+                        <li><span class="step-num">11</span><span>Inside the Quick View modal, verify the product emoji, name, price, unit, rating, stock status, and category are displayed</span></li>
+                        <li><span class="step-num">12</span><span>Click <strong>Add to Cart</strong> inside the Quick View modal — verify the modal closes and the cart badge increments</span></li>
+                        <li><span class="step-num">13</span><span>Click the <strong>Add</strong> button directly on a product card and verify the toast notification appears</span></li>
+                        <li><span class="step-num">14</span><span>For products where you have already added to cart, notice the button reads <em>Add More</em></span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Cart -->
+            <div class="feature-section" id="cart">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#3b82f6;"><i class="fas fa-shopping-cart"></i></div>
+                    <h3>3. Cart Management</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Cart tab displays all items added to the session cart. Changes to quantities update the order summary instantly.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span><span>Click <strong>My Cart</strong> in the sidebar; if no items have been added, the empty state illustration and a <em>Start Shopping</em> button appear</span></li>
+                        <li><span class="step-num">2</span><span>Add one or more products from the Products tab, then return to the Cart tab to see the item rows</span></li>
+                        <li><span class="step-num">3</span><span>Each cart row shows the product emoji, name, category, unit price, a quantity stepper, line subtotal, and a remove button</span></li>
+                        <li><span class="step-num">4</span><span>Click the <strong>+</strong> button on the quantity stepper to increase an item's quantity by one and verify the subtotal updates</span></li>
+                        <li><span class="step-num">5</span><span>Click the <strong>−</strong> button and verify the quantity cannot go below 1</span></li>
+                        <li><span class="step-num">6</span><span>Type a number directly into the quantity input field and verify the subtotal recalculates</span></li>
+                        <li><span class="step-num">7</span><span>Observe the Order Summary panel on the right showing Subtotal, Delivery fee, and Total</span></li>
+                        <li><span class="step-num">8</span><span>Add items until the subtotal reaches ₹500 or more — verify the delivery fee changes to <strong>FREE</strong></span></li>
+                        <li><span class="step-num">9</span><span>Click the trash icon on an item row to remove it — verify the row disappears and the summary recalculates</span></li>
+                        <li><span class="step-num">10</span><span>Click <strong>Clear Cart</strong> in the card header and confirm the dialog — verify all items are removed and the empty state reappears</span></li>
+                        <li><span class="step-num">11</span><span>Click <strong>Proceed to Checkout</strong> to navigate to the Checkout tab</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Checkout -->
+            <div class="feature-section" id="checkout">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#8b5cf6;"><i class="fas fa-credit-card"></i></div>
+                    <h3>4. Checkout Flow</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Checkout tab collects a delivery address and payment method before placing an order. The right panel shows a live order summary matching the cart.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span><span>Click <strong>Checkout</strong> in the sidebar or the <em>Proceed to Checkout</em> button from the Cart tab</span></li>
+                        <li><span class="step-num">2</span><span>Observe the Delivery Address form with fields: Full Name, Phone, Address Line, City, State, PIN Code, and Delivery Slot</span></li>
+                        <li><span class="step-num">3</span><span>If a user is logged in, notice the form fields are pre-populated with the saved address</span></li>
+                        <li><span class="step-num">4</span><span>Fill in all required fields — Full Name, Phone, Address Line, City, and PIN Code are mandatory</span></li>
+                        <li><span class="step-num">5</span><span>Select a preferred <strong>Delivery Slot</strong> from the dropdown (Express, Morning, Afternoon, Evening)</span></li>
+                        <li><span class="step-num">6</span><span>Observe the four <strong>Payment Method</strong> options: Cash on Delivery, UPI, Credit/Debit Card, and VegCart Wallet</span></li>
+                        <li><span class="step-num">7</span><span>Select a payment method and verify the radio option highlights the selected card</span></li>
+                        <li><span class="step-num">8</span><span>Verify the Order Summary panel shows the correct subtotal, delivery fee, and grand total</span></li>
+                        <li><span class="step-num">9</span><span>Click <strong>Place Order</strong> with a form field left empty — verify the validation toast appears and the order is not placed</span></li>
+                        <li><span class="step-num">10</span><span>Fill the form completely and click <strong>Place Order</strong> — verify the success modal appears with a confirmation message</span></li>
+                        <li><span class="step-num">11</span><span>Verify the cart badge in the sidebar resets to 0 after the order is placed</span></li>
+                        <li><span class="step-num">12</span><span>Observe the app automatically navigates to the Orders tab after a short delay</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Orders -->
+            <div class="feature-section" id="orders">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#0ea5e9;"><i class="fas fa-box"></i></div>
+                    <h3>5. Order Tracking</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Orders tab shows the complete order history for the logged-in user. Pre-seeded orders are available immediately without needing to place a new order first.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span><span>Click <strong>My Orders</strong> in the sidebar to navigate to the order history page</span></li>
+                        <li><span class="step-num">2</span><span>Observe the order cards; each shows the order ID, date, product chips, total amount, and a colour-coded status badge</span></li>
+                        <li><span class="step-num">3</span><span>Verify the status badge colours: Processing (yellow), Confirmed (blue), Out for Delivery (light blue), Delivered (green), Cancelled (red)</span></li>
+                        <li><span class="step-num">4</span><span>Locate the search box in the toolbar, type an order ID such as <em>ORD-10021</em>, and verify only matching orders appear</span></li>
+                        <li><span class="step-num">5</span><span>Clear the search, then use the status filter dropdown to show only <em>Delivered</em> orders</span></li>
+                        <li><span class="step-num">6</span><span>Try each filter option and verify the list updates; select <em>All Orders</em> to restore the full list</span></li>
+                        <li><span class="step-num">7</span><span>Click the <strong>Details</strong> button on an order card to open the Order Detail modal</span></li>
+                        <li><span class="step-num">8</span><span>In the Details modal, observe the order tracker steps showing the order's progress through the pipeline</span></li>
+                        <li><span class="step-num">9</span><span>Verify the item table in the modal lists every product, its quantity, price, and row total</span></li>
+                        <li><span class="step-num">10</span><span>Close the modal using the × button or by clicking outside it</span></li>
+                        <li><span class="step-num">11</span><span>Click the <strong>Reorder</strong> button on a delivered order to add all its items back to the cart</span></li>
+                        <li><span class="step-num">12</span><span>Find a <em>Processing</em> order and click the <strong>Cancel</strong> button; confirm the dialog and verify the status changes to Cancelled</span></li>
+                        <li><span class="step-num">13</span><span>Verify that a Delivered or Cancelled order does not show the Cancel button</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Profile & Auth -->
+            <div class="feature-section" id="profile">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#ec4899;"><i class="fas fa-user-circle"></i></div>
+                    <h3>6. User Profile &amp; Authentication</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Profile tab handles sign-in, new account creation, and logged-in user profile management.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span><span>Click <strong>My Profile</strong> in the sidebar; when not signed in, the authentication panel appears with two tabs: <em>Sign In</em> and <em>Create Account</em></span></li>
+                        <li><span class="step-num">2</span><span>On the Sign In tab, enter a valid email and password, then click <strong>Sign In</strong> — verify the success toast and the profile panel renders</span></li>
+                        <li><span class="step-num">3</span><span>Enter incorrect credentials and verify the error toast "Invalid email or password" appears without logging in</span></li>
+                        <li><span class="step-num">4</span><span>Submit the Sign In form with an empty email field and observe native browser validation</span></li>
+                        <li><span class="step-num">5</span><span>Switch to the <strong>Create Account</strong> tab, fill in Full Name, Phone, Email, and Password, then submit</span></li>
+                        <li><span class="step-num">6</span><span>Verify the success toast "Account created!" appears and the user is automatically signed in</span></li>
+                        <li><span class="step-num">7</span><span>Attempt to sign up with an email address that already exists — verify the warning toast "Email already registered"</span></li>
+                        <li><span class="step-num">8</span><span>When logged in, observe the profile card on the left showing the avatar initials, name, email, order count, and wishlist count</span></li>
+                        <li><span class="step-num">9</span><span>Locate the edit profile form on the right and change the Full Name or Phone number</span></li>
+                        <li><span class="step-num">10</span><span>Click <strong>Save Changes</strong> and verify the success toast and the updated name reflected in the profile card and sidebar</span></li>
+                        <li><span class="step-num">11</span><span>Click the <strong>Logout</strong> button in the profile card and verify the auth panel reappears and the sidebar shows "Guest"</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Wishlist -->
+            <div class="feature-section" id="wishlist">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#f43f5e;"><i class="fas fa-heart"></i></div>
+                    <h3>7. Wishlist</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Wishlist lets users save products for later. Items persist in localStorage across page refreshes.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span><span>Navigate to the Products tab and click the heart icon on any product card — observe the success toast “Added to wishlist”</span></li>
+                        <li><span class="step-num">2</span><span>Verify the heart icon on the card turns pink/filled to indicate the item is wishlisted</span></li>
+                        <li><span class="step-num">3</span><span>Observe the Wishlist badge count in the sidebar increment each time a new item is wishlisted</span></li>
+                        <li><span class="step-num">4</span><span>Click <strong>Wishlist</strong> in the sidebar to navigate to the wishlist page</span></li>
+                        <li><span class="step-num">5</span><span>Verify that all wishlisted product cards are displayed in the grid</span></li>
+                        <li><span class="step-num">6</span><span>Click the <strong>Add</strong> button on a wishlist card to add it to the cart and verify the cart badge increments</span></li>
+                        <li><span class="step-num">7</span><span>Verify that adding a wishlisted product to the cart does not remove it from the wishlist automatically</span></li>
+                        <li><span class="step-num">8</span><span>Click the heart icon again on a wishlisted product (either in the Products tab or Wishlist tab) to remove it</span></li>
+                        <li><span class="step-num">9</span><span>Verify the toast “Removed from wishlist” appears and the item disappears from the Wishlist grid</span></li>
+                        <li><span class="step-num">10</span><span>Remove all wishlisted items and verify the empty state with a <em>Browse Products</em> button appears</span></li>
+                        <li><span class="step-num">11</span><span>Refresh the page and verify that previously wishlisted items are still present (localStorage persistence)</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Support -->
+            <div class="feature-section" id="support">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#14b8a6;"><i class="fas fa-headset"></i></div>
+                    <h3>8. Support &amp; FAQ</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The Support tab includes contact channel cards, an accordion FAQ, and a contact form.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span><span>Click <strong>Support</strong> in the sidebar to navigate to the support page</span></li>
+                        <li><span class="step-num">2</span><span>Observe the four support channel cards at the top: Call Us, Email Support, WhatsApp, and Live Chat</span></li>
+                        <li><span class="step-num">3</span><span>Verify each support card shows an icon, title, contact details, and availability hours</span></li>
+                        <li><span class="step-num">4</span><span>Locate the <strong>Frequently Asked Questions</strong> card containing six collapsible FAQ items</span></li>
+                        <li><span class="step-num">5</span><span>Click any FAQ question row to expand it — verify the answer panel becomes visible and the chevron icon rotates</span></li>
+                        <li><span class="step-num">6</span><span>Click a second FAQ question and verify it opens while the first one automatically closes (accordion behaviour)</span></li>
+                        <li><span class="step-num">7</span><span>Click the currently open FAQ again and verify it collapses</span></li>
+                        <li><span class="step-num">8</span><span>Locate the <strong>Send Us a Message</strong> contact form on the right side</span></li>
+                        <li><span class="step-num">9</span><span>Fill in the Name, Email, Subject dropdown, and Message fields, then click <strong>Send Message</strong></span></li>
+                        <li><span class="step-num">10</span><span>Verify the success toast “Your message has been sent!” appears and all form fields are cleared</span></li>
+                        <li><span class="step-num">11</span><span>Attempt to submit the contact form without filling required fields and observe native browser validation</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- WebMCP AI Agent Tools -->
+            <div class="feature-section" id="webmcp">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#7c3aed;"><i class="fas fa-robot"></i></div>
+                    <h3>9. AI Agent Tools — WebMCP</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">VegCart exposes <strong>18 tools</strong> via the <strong>WebMCP</strong> browser-native standard, allowing AI agents to interact with the app programmatically — searching for products, managing the cart, placing orders, user authentication, and more — without clicking the UI manually.</p>
+
+                    <div style="background:#f5f3ff;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.25rem;border-left:4px solid #7c3aed;">
+                        <p style="font-size:0.85rem;font-weight:700;color:#4c1d95;margin:0 0 0.5rem;"><i class="fas fa-exclamation-triangle"></i> Requirements</p>
+                        <ul style="font-size:0.83rem;color:#5b21b6;margin:0;padding-left:1.25rem;">
+                            <li>Chrome 146+ with <code>chrome://flags/#enable-webmcp-testing</code> flag enabled, <strong>OR</strong></li>
+                            <li><a href="https://chromewebstore.google.com" style="color:#7c3aed">Model Context Tool Inspector</a> Chrome extension (recommended — works immediately, no flag needed)</li>
+                        </ul>
+                    </div>
+
+                    <p style="font-size:0.85rem;font-weight:700;color:#1e293b;margin:0 0 0.75rem;"><i class="fas fa-tools" style="color:#7c3aed;margin-right:0.4rem;"></i>Registered Tools</p>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.83rem;margin-bottom:1.25rem;">
+                        <tr style="background:#f5f3ff;">
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #ddd6fe;color:#4c1d95;">Tool Name</th>
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #ddd6fe;color:#4c1d95;">Category</th>
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #ddd6fe;color:#4c1d95;">Parameters</th>
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #ddd6fe;color:#4c1d95;">What It Does</th>
+                        </tr>
+                        <!-- Product Search & Catalog -->
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>get_product_list</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#fef3c7;color:#92400e;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Products</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">None</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Returns all 24 products with name, price, stock, category, emoji</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>searchProducts</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#fef3c7;color:#92400e;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Products</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>query</code> (string)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Fills header search box, navigates to Products tab with filtered results</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>search_products</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#fef3c7;color:#92400e;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Products</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>query</code> (string)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Live search filtering with DOM events and custom event dispatch</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>filter_products_by_category</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#fef3c7;color:#92400e;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Products</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>category</code> (fruits/vegetables/greens/exotic/all)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Filters products by category and shows Products tab</td>
+                        </tr>
+                        <!-- Cart Management -->
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>get_cart_contents</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#dbeafe;color:#1e40af;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Cart</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">None</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Returns cart items, quantities, subtotal, delivery, discount, total</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>add_item_to_cart</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#dbeafe;color:#1e40af;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Cart</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>itemName</code> (required)<br><code>quantity</code> (default 1)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Adds product by name match, navigates to Cart tab</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>remove_from_cart</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#dbeafe;color:#1e40af;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Cart</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>itemName</code> (required)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Removes item completely from cart by product name</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>update_cart_quantity</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#dbeafe;color:#1e40af;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Cart</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>itemName</code>, <code>quantity</code> (both required)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Updates item quantity (0 to remove item)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>clear_cart</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#dbeafe;color:#1e40af;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Cart</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">None</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Removes all items from cart</td>
+                        </tr>
+                        <!-- Orders -->
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>get_order_history</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#d1fae5;color:#065f46;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Orders</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>status</code> (optional)<br><code>limit</code> (default 10)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Returns order history filtered by status for current user</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>place_order</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#d1fae5;color:#065f46;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Orders</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>name</code>, <code>phone</code>, <code>address</code>, <code>city</code>, <code>pincode</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Places order with current cart and delivery details</td>
+                        </tr>
+                        <!-- User Authentication -->
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>user_register</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#e0e7ff;color:#3730a3;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">User</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>name</code>, <code>email</code>, <code>phone</code> (all required)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Registers new user account with provided details</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>user_login</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#e0e7ff;color:#3730a3;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">User</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>email</code>, <code>password</code> (both required)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Logs in existing user with email and password</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>get_user_info</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#e0e7ff;color:#3730a3;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">User</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">None</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Returns current user info if logged in</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>user_logout</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#e0e7ff;color:#3730a3;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">User</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">None</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Logs out current user and navigates to home</td>
+                        </tr>
+                        <!-- Wishlist -->
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>get_wishlist</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#fce7f3;color:#be185d;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Wishlist</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">None</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Returns current user's wishlist items with details</td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>add_to_wishlist</code></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><span style="background:#fce7f3;color:#be185d;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Wishlist</span></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>itemName</code> (required)</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">Toggles product in wishlist by name (add/remove)</td>
+                        </tr>
+                        <!-- Navigation -->
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;"><code>navigate_to_tab</code></td>
+                            <td style="padding:0.5rem 0.75rem;"><span style="background:#f3e8ff;color:#6b21a8;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;font-weight:700;">Navigation</span></td>
+                            <td style="padding:0.5rem 0.75rem;"><code>tab</code> (home/products/cart/checkout/orders/profile/wishlist/support)</td>
+                            <td style="padding:0.5rem 0.75rem;">Navigates to specified tab/section of the application</td>
+                        </tr>
+                    </table>
+
+                    <p style="font-size:0.85rem;font-weight:700;color:#1e293b;margin:0 0 0.75rem;"><i class="fas fa-play-circle" style="color:#7c3aed;margin-right:0.4rem;"></i>How to Use — Model Context Tool Inspector</p>
+                    <ul class="step-list">
+                        <li><span class="step-num-ai">1</span><span>Install the <strong>Model Context Tool Inspector</strong> extension from the Chrome Web Store</span></li>
+                        <li><span class="step-num-ai">2</span><span>Open VegCart at <code>http://localhost:4040/testweb/vegcart/</code> in Chrome</span></li>
+                        <li><span class="step-num-ai">3</span><span>Click the Model Context Tool Inspector extension icon — it should list all 18 tools registered by VegCart</span></li>
+                        <li><span class="step-num-ai">4</span><span>Select <code>get_product_list</code> and click <strong>Execute</strong> — verify a JSON response with 24 products is returned</span></li>
+                        <li><span class="step-num-ai">5</span><span>Select <code>search_products</code>, set <code>query</code> to <em>carrot</em>, and execute — verify the VegCart UI navigates to Products and shows only matching items</span></li>
+                        <li><span class="step-num-ai">6</span><span>Select <code>add_item_to_cart</code>, set <code>itemName</code> to <em>Spinach</em> and <code>quantity</code> to <em>2</em>, and execute — verify the Cart tab opens and Spinach × 2 appears</span></li>
+                        <li><span class="step-num-ai">7</span><span>Select <code>get_cart_contents</code> and execute — verify it returns cart details including subtotal, delivery, and total amounts</span></li>
+                        <li><span class="step-num-ai">8</span><span>Select <code>place_order</code> with delivery details and execute — verify order is placed and order ID is returned</span></li>
+                        <li><span class="step-num-ai">9</span><span>Try <code>add_item_to_cart</code> with a product name that does not exist — verify the tool returns <code>success: false</code> and the cart does not change</span></li>
+                    </ul>
+
+                    <div style="background:#fef3c7;border-radius:8px;padding:0.75rem 1rem;margin-top:1rem;font-size:0.82rem;color:#92400e;">
+                        <i class="fas fa-info-circle"></i> <strong>Execution Context:</strong> The <code>execute()</code> function runs using the arrow-function closure, so <code>this</code> refers directly to the <code>VegCartApp</code> instance. If Chrome runs it in a sandboxed isolate, the code automatically falls back to writing to <code>localStorage</code> and using a <code>BroadcastChannel</code> to signal the live page to refresh its UI.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversational Interface -->
+            <div class="feature-section" id="conversation">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#3b82f6;"><i class="fas fa-comments"></i></div>
+                    <h3>10. Conversational Shopping Interface</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">VegCart features a built-in conversational interface that allows users to perform all shopping activities through natural language chat. The AI assistant interprets user messages and automatically executes appropriate WebMCP tools to fulfill requests.</p>
+
+                    <div style="background:#eff6ff;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.25rem;border-left:4px solid #3b82f6;">
+                        <p style="font-size:0.85rem;font-weight:700;color:#1e40af;margin:0 0 0.5rem;"><i class="fas fa-robot"></i> What You Can Do</p>
+                        <ul style="font-size:0.83rem;color:#1e40af;margin:0;padding-left:1.25rem;">
+                            <li>Ask questions: "What products do you have?"</li>
+                            <li>Add to cart: "Add 2 tomatoes to my cart"</li>
+                            <li>Search products: "Show me all fruits"</li>
+                            <li>Check cart: "What's in my cart?"</li>
+                            <li>Place orders: "Place an order to 123 Main St"</li>
+                            <li>View orders: "Show my recent orders"</li>
+                            <li>Navigate: "Go to the products page"</li>
+                        </ul>
+                    </div>
+
+                    <p style="font-size:0.85rem;font-weight:700;color:#1e293b;margin:0 0 0.75rem;"><i class="fas fa-brain" style="color:#3b82f6;margin-right:0.4rem;"></i>Intent Recognition Patterns</p>
+                    <table style="width:100%;border-collapse:collapse;font-size:0.83rem;margin-bottom:1.25rem;">
+                        <tr style="background:#f0f9ff;">
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #bae6fd;color:#1e40af;">Intent Category</th>
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #bae6fd;color:#1e40af;">Example Phrases</th>
+                            <th style="padding:0.5rem 0.75rem;text-align:left;border-bottom:2px solid #bae6fd;color:#1e40af;">WebMCP Tool Used</th>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><strong>Product Search</strong></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">"Search for carrots"<br>"Find all fruits"<br>"Show vegetables"</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>search_products</code><br><code>get_product_list</code><br><code>filter_products_by_category</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><strong>Cart Management</strong></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">"Add 3 tomatoes to cart"<br>"What's in my cart?"<br>"Remove spinach"<br>"Clear my cart"</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>add_item_to_cart</code><br><code>get_cart_contents</code><br><code>remove_from_cart</code><br><code>clear_cart</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><strong>Order Management</strong></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">"Show my orders"<br>"Place an order"<br>"Order history"</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>get_order_history</code><br><code>place_order</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><strong>User Account</strong></td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;">"Who am I?"<br>"My profile"<br>"Log me out"</td>
+                            <td style="padding:0.5rem 0.75rem;border-bottom:1px solid #f3f4f6;"><code>get_user_info</code><br><code>user_logout</code></td>
+                        </tr>
+                        <tr>
+                            <td style="padding:0.5rem 0.75rem;"><strong>Navigation</strong></td>
+                            <td style="padding:0.5rem 0.75rem;">"Go to products"<br>"Show me the cart"<br>"Navigate to orders"</td>
+                            <td style="padding:0.5rem 0.75rem;"><code>navigate_to_tab</code></td>
+                        </tr>
+                    </table>
+
+                    <p style="font-size:0.85rem;font-weight:700;color:#1e293b;margin:0 0 0.75rem;"><i class="fas fa-play-circle" style="color:#3b82f6;margin-right:0.4rem;"></i>How to Use — Chat Assistant</p>
+                    <ul class="step-list">
+                        <li><span class="step-num-ai">1</span><span>Click <strong>Chat Assistant</strong> in the sidebar to open the conversational interface</span></li>
+                        <li><span class="step-num-ai">2</span><span>Type natural language requests like "Add 2 apples to my cart" or "Register me as John with email john@test.com"</span></li>
+                        <li><span class="step-num-ai">3</span><span>Watch as the AI assistant interprets your request and executes the appropriate actions</span></li>
+                        <li><span class="step-num-ai">4</span><span>Try complex requests like "Show me all vegetables under ₹50" or "Login with my email and place an order"</span></li>
+                        <li><span class="step-num-ai">5</span><span>Use suggestion buttons for quick common actions</span></li>
+                        <li><span class="step-num-ai">6</span><span>Check the tool execution results displayed in the chat for debugging</span></li>
+                    </ul>
+
+                    <div style="background:#f0fdf4;border-radius:8px;padding:0.75rem 1rem;margin-top:1rem;font-size:0.82rem;color:#14532d;">
+                        <i class="fas fa-magic"></i> <strong>Smart Features:</strong> The chat assistant automatically saves conversation history, provides typing indicators, and falls back to manual tool execution if WebMCP tools are unavailable. Perfect for testing conversational commerce implementations!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Scenarios -->
+            <div class="feature-section" id="scenarios">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#10b981;"><i class="fas fa-vial"></i></div>
+                    <h3>Test Scenarios</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div>
+                            <p style="font-size:0.82rem;font-weight:700;color:#16a34a;margin:0 0 0.5rem;text-transform:uppercase;">Happy Path</p>
+                            <div class="scenario-card">
+                                <h4>TC-001: Browse Products by Category</h4>
+                                <p>Go to Products → Select Vegetables from the category filter → Verify only vegetable items appear in the grid</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-002: Search and Add to Cart</h4>
+                                <p>Search for "spinach" → Locate the result → Click Add → Navigate to Cart → Verify item appears with correct price</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-003: Quick View a Product</h4>
+                                <p>Click the eye icon on a product card → Verify the Quick View modal opens with all product details → Close the modal</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-004: Update Cart Quantity</h4>
+                                <p>Add an item to cart → Go to Cart → Increase quantity to 3 using the + button → Verify subtotal = price × 3</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-005: Free Delivery Threshold</h4>
+                                <p>Add items until cart subtotal exceeds ₹500 → Verify delivery fee shows FREE in the order summary</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-006: Complete Checkout</h4>
+                                <p>Add items → Checkout → Fill delivery form → Select COD → Place Order → Verify success modal and cart resets to 0</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-007: User Login</h4>
+                                <p>Go to Profile → Enter priya@example.com / test123 → Click Sign In → Verify profile panel shows with correct name</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-008: Create New Account</h4>
+                                <p>Go to Profile → Switch to Create Account tab → Fill all fields → Submit → Verify auto sign-in and profile panel</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-009: Wishlist Add and View</h4>
+                                <p>Heart a product on the Products tab → Go to Wishlist tab → Verify the product card appears in the wishlist grid</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-010: Reorder a Past Order</h4>
+                                <p>Go to Orders → Find a delivered order → Click Reorder → Verify toast and all items appear in the Cart tab</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-011: View Order Details</h4>
+                                <p>Go to Orders → Click Details on any order → Verify tracker steps, item table, delivery address, and order date in the modal</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-012: FAQ Accordion</h4>
+                                <p>Go to Support → Click a FAQ question → Verify answer expands → Click a second question → Verify first closes automatically</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-013: Contact Form Submission</h4>
+                                <p>Fill the contact form → Submit → Verify success toast and form fields are cleared</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-014: Sort Products by Price</h4>
+                                <p>Go to Products → Select Price: Low to High from the sort dropdown → Verify the first card has the lowest price</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-015: Category Card Navigation from Home</h4>
+                                <p>On Home tab → Click the Fruits category card → Verify Products tab opens with Fruits already selected in the filter</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p style="font-size:0.82rem;font-weight:700;color:#ef4444;margin:0 0 0.5rem;text-transform:uppercase;">Negative / Edge Cases</p>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-016: Invalid Login Credentials</h4>
+                                <p>Enter correct email but wrong password → Click Sign In → Verify error toast "Invalid email or password"</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-017: Duplicate Email Signup</h4>
+                                <p>Attempt to sign up with priya@example.com → Verify warning toast "Email already registered"</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-018: Checkout with Empty Cart</h4>
+                                <p>Navigate to Checkout with nothing in cart → Click Place Order → Verify toast "Your cart is empty!"</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-019: Checkout Missing Required Field</h4>
+                                <p>Fill checkout form but leave PIN Code blank → Click Place Order → Verify validation toast prevents submission</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-020: Product Search No Results</h4>
+                                <p>Search for "xyz999" in the Products tab → Verify the empty state "No products found" message appears</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-021: Cancel an Order</h4>
+                                <p>Find a Processing order → Click Cancel → Confirm the dialog → Verify status badge changes to Cancelled</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-022: Cancel Button on Delivered Order</h4>
+                                <p>Locate a Delivered order → Verify the Cancel button is absent for that card</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-023: Remove Item from Cart</h4>
+                                <p>Add an item → Go to Cart → Click the trash icon → Verify item removed and summary recalculates</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-024: Clear Cart Confirmation</h4>
+                                <p>Add multiple items → Click Clear Cart → Dismiss the confirm dialog → Verify items remain → Confirm → Verify empty state</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-025: Wishlist Remove and Empty State</h4>
+                                <p>Wishlist one item → Go to Wishlist tab → Remove it → Verify the empty state with Browse Products button appears</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-026: Cart Badge Count Accuracy</h4>
+                                <p>Add 3 different products → Verify sidebar badge = 3 → Increase one quantity by 2 → Verify badge = 5</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-027: Modal Close Behaviour</h4>
+                                <p>Open Quick View modal → Click the × button → Verify closes → Open again → Click the overlay backdrop → Verify closes</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-028: Data Persistence on Refresh</h4>
+                                <p>Add items to cart and wishlist → Refresh the page → Verify cart and wishlist data are restored from localStorage</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-029: Sidebar Active State</h4>
+                                <p>Click each sidebar nav button → Verify the clicked item gets the active highlight and the correct tab becomes visible</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-030: Profile Update Reflects in Sidebar</h4>
+                                <p>Login → Change name in profile form → Save → Verify the updated name appears in the sidebar user panel</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:1rem;">
+                        <p style="font-size:0.82rem;font-weight:700;color:#7c3aed;margin:0 0 0.5rem;text-transform:uppercase;"><i class="fas fa-robot"></i> AI Agent (WebMCP)</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                            <div class="scenario-card" style="border-color:#7c3aed;">
+                                <h4>TC-031: Get Product List via AI</h4>
+                                <p>Open Model Context Tool Inspector → Execute <code>get_product_list</code> → Verify JSON response contains 24 products with name, price, and category fields</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#7c3aed;">
+                                <h4>TC-032: AI Search Updates Product Grid</h4>
+                                <p>Execute <code>search_products</code> with query &quot;mango&quot; → Verify VegCart navigates to Products tab and grid shows only mango results</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#7c3aed;">
+                                <h4>TC-033: AI Add Item to Cart</h4>
+                                <p>Execute <code>add_item_to_cart</code> with itemName &quot;Carrots&quot; and quantity 3 → Verify Cart tab opens automatically and shows Carrots × 3 with correct subtotal</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#7c3aed;">
+                                <h4>TC-034: AI Add Non-Existent Product</h4>
+                                <p>Execute <code>add_item_to_cart</code> with itemName &quot;PineAppleXYZ&quot; → Verify tool returns <code>success: false</code> and cart remains unchanged</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#7c3aed;">
+                                <h4>TC-035: Cart Badge Updates After AI Add</h4>
+                                <p>Execute <code>add_item_to_cart</code> with itemName &quot;Tomatoes&quot; and quantity 2 → Verify sidebar cart badge increments by 2 without any manual UI interaction</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conversational Interface Tests -->
+                    <div style="margin-top:1rem;">
+                        <p style="font-size:0.82rem;font-weight:700;color:#3b82f6;margin:0 0 0.5rem;text-transform:uppercase;"><i class="fas fa-comments"></i> Conversational Interface</p>
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-036: Natural Language Product Search</h4>
+                                <p>Go to Chat Assistant → Type "Show me all fruits" → Verify AI responds and navigates to Products with fruit filter applied</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-037: Conversational Cart Management</h4>
+                                <p>Chat: "Add 2 tomatoes to my cart" → Verify success message and cart update → Chat: "What's in my cart?" → Verify cart contents displayed</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-038: Multi-step Shopping Conversation</h4>
+                                <p>Chat: "Find vegetables" → "Add 3 carrots" → "Remove spinach" → "What's my total?" → Verify each step executes correctly with tool results</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-039: Voice-like Navigation Commands</h4>
+                                <p>Chat: "Go to my orders" → Verify navigation → Chat: "Show me the home page" → Verify navigation → Chat: "Take me to products"</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-040: Unrecognized Intent Handling</h4>
+                                <p>Chat: "Book a table for 2" → Verify AI provides helpful fallback message with suggestions for valid actions</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-041: Chat History Persistence</h4>
+                                <p>Send several messages → Refresh the page → Return to Chat tab → Verify conversation history is retained</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-042: Typing Indicators</h4>
+                                <p>Send a message and observe typing indicator appears → Wait for response → Verify typing indicator disappears when response arrives</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-043: Suggestion Button Usage</h4>
+                                <p>Click a suggestion button like "What products do you have?" → Verify text fills input → Send message → Verify appropriate response</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#3b82f6;">
+                                <h4>TC-044: Conversational User Registration & Login</h4>
+                                <p>Chat: "Register me as John Doe with email john@test.com and phone 1234567890" → Verify success → Chat: "Login with john@test.com password test123" → Verify login success</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;padding:2rem 0;color:#64748b;font-size:0.82rem;">
+                <p>VegCart — Playwright Practice App | <a href="index.html" style="color:#16a34a;">Open App</a></p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            const section = header.closest('.feature-section');
+            section.classList.toggle('collapsed');
+        }
+    </script>
+</body>
+</html>

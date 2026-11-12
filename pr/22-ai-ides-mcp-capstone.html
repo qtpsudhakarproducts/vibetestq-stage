@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI IDEs, MCP and Capstone - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+        .stat-box { display:inline-block; background:#dbeafe; border:2px solid var(--vibe-blue); padding:12px 20px; margin:6px; border-radius:8px; }
+        .stat-number { font-size:1.8em; font-weight:700; color:var(--vibe-orange); display:block; }
+        .stat-label { font-size:0.8em; color:var(--vibe-blue); }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>AI IDEs, MCP &amp; Capstone Project</h1>
+    <p class="subtitle">Cursor · Playwright MCP · AI-Native QE · Course Wrap-Up</p>
+    <p class="tagline">The frontier of AI-augmented testing — and your path forward — Session 22</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Cursor AI</span>
+        <span class="badge" style="background:var(--vibe-blue);">Playwright MCP</span>
+        <span class="badge" style="background:var(--vibe-green);">Capstone</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Cursor: The AI-Native IDE</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>What Makes Cursor Different</h3>
+            <ul>
+                <li>Full codebase context — not just open file</li>
+                <li>Composer: multi-file edit from one prompt</li>
+                <li>Agent mode: autonomously browses code</li>
+                <li>Ask about any file: "explain LoginPage.ts"</li>
+                <li>Ctrl+K inline edit anywhere in code</li>
+                <li>Tab-complete with multi-line awareness</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>QE Workflow with Cursor</h3>
+            <ul>
+                <li>Composer: "Create POM for /checkout page"</li>
+                <li>Agent reads your app HTML structure</li>
+                <li>Generates full page objects + tests</li>
+                <li>Ask: "What tests are missing for CartPage?"</li>
+                <li>Refactor entire test file in one command</li>
+                <li>Generate test data JSON from schema</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Cursor shifts you from "writing tests" to "reviewing and directing AI-generated tests." Your expertise becomes the quality filter.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Model Context Protocol (MCP)</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>What is MCP?</h3>
+            <ul>
+                <li>Open standard by Anthropic (Nov 2024)</li>
+                <li>Connects AI agents to tools and data sources</li>
+                <li>Like a plugin system for LLMs</li>
+                <li>AI can call external APIs, read files, run commands</li>
+                <li>Playwright MCP gives AI browser control</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Playwright MCP Server</h3>
+            <ul>
+                <li>Claude/Cursor connects to your browser</li>
+                <li>Navigate, click, fill forms autonomously</li>
+                <li>Inspect elements and generate locators</li>
+                <li>Record user flows into test scripts</li>
+                <li>Run tests and report results in chat</li>
+            </ul>
+        </div>
+    </div>
+    <div class="code-snippet" style="margin-top:6px; font-size:0.6em;">// Install Playwright MCP server
+npm install -g @playwright/mcp
+
+// Add to Claude Desktop or Cursor mcp.json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp", "--browser", "chromium"]
+    }
+  }
+}
+// Now AI can: "Go to login page, inspect the form, write a LoginPage POM"</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The AI-Native QE vs Traditional QE</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Traditional QE (2020)</h3>
+            <ul>
+                <li class="cross">Manually writes every locator</li>
+                <li class="cross">Copy-paste test patterns</li>
+                <li class="cross">Manually creates test data</li>
+                <li class="cross">Writes documentation by hand</li>
+                <li class="cross">Single framework expertise</li>
+                <li class="cross">Hours per page object</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>AI-Native QE (2025+)</h3>
+            <ul>
+                <li>Directs AI to generate page objects</li>
+                <li>Prompts for full test suites</li>
+                <li>AI generates edge case data sets</li>
+                <li>AI writes Jira tickets and test reports</li>
+                <li>Adapts across any framework via AI</li>
+                <li>Minutes per feature — reviewing AI output</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">The skill has shifted from "typing code" to "knowing what good looks like" and directing AI with precision. Deep testing knowledge matters MORE, not less.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Capstone Project: Build a Complete Test Suite</h2>
+    <div class="content-box" style="margin-bottom:8px;">
+        <h3>Project Deliverables</h3>
+        <div class="two-col">
+            <ul>
+                <li>playwright.config.ts with 3 projects</li>
+                <li>auth.setup.ts for session persistence</li>
+                <li>5+ Page Object classes with BasePage</li>
+                <li>Custom fixtures injecting page objects</li>
+            </ul>
+            <ul>
+                <li>20+ tests tagged @smoke and @regression</li>
+                <li>API tests with route.fulfill() mocking</li>
+                <li>Data-driven tests using test.for()</li>
+                <li>GitHub Actions CI pipeline</li>
+            </ul>
+        </div>
+    </div>
+    <div style="text-align:center; margin-top:8px;">
+        <div class="stat-box"><span class="stat-number">22</span><span class="stat-label">Sessions Completed</span></div>
+        <div class="stat-box"><span class="stat-number">500+</span><span class="stat-label">Concepts Covered</span></div>
+        <div class="stat-box"><span class="stat-number">1</span><span class="stat-label">Portfolio Project</span></div>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Your VibeTestQ Journey: What You've Built</h2>
+    <div class="three-col" style="margin-bottom:8px;">
+        <div class="content-box" style="border-left:none; border-top:4px solid var(--vibe-dark-blue); text-align:center;">
+            <h3>Foundation</h3>
+            <p style="font-size:0.75em;">JavaScript, TypeScript, Node.js, Git, async/await — the engineering fundamentals that make automation reliable</p>
+        </div>
+        <div class="content-box" style="border-left:none; border-top:4px solid var(--vibe-blue); text-align:center;">
+            <h3>Playwright Expertise</h3>
+            <p style="font-size:0.75em;">Locators, actions, assertions, POM, fixtures, API testing, visual regression, CI/CD — production-grade automation skills</p>
+        </div>
+        <div class="content-box" style="border-left:none; border-top:4px solid var(--vibe-green); text-align:center;">
+            <h3>AI Amplification</h3>
+            <p style="font-size:0.75em;">Prompt engineering, Copilot, Cursor, MCP agents — tools that multiply your output and keep you at the cutting edge</p>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#fef9c3; text-align:center;">
+        <p class="bold" style="font-size:1em; color:var(--vibe-dark-blue);">"You are not just a tester. You are a quality engineer who ships reliability."</p>
+        <p class="compact text-blue" style="margin-top:4px;">VibeTestQ — Transforming QE careers through deep technical excellence</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Next Steps and Career Paths</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Immediate Actions</h3>
+            <ul>
+                <li>Complete capstone project on GitHub</li>
+                <li>Add VibeTestQ certification to LinkedIn</li>
+                <li>Apply to SDET / QE Engineer roles</li>
+                <li>Contribute to open source test projects</li>
+                <li>Join VibeTestQ community on Discord</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Specialization Paths</h3>
+            <ul>
+                <li>Performance testing: k6, Artillery</li>
+                <li>Mobile: Appium + Playwright mobile</li>
+                <li>Security: OWASP ZAP integration</li>
+                <li>AI Quality: LLM testing frameworks</li>
+                <li>Test Architecture: enterprise test platforms</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center; margin-top:10px;">
+        <p class="bold text-blue" style="font-size:1.1em;">Congratulations — You have completed the VibeTestQ QE Mastery Program!</p>
+        <p class="compact text-blue">22 Sessions · Complete JS/TS/Playwright Stack · AI-Augmented QE</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

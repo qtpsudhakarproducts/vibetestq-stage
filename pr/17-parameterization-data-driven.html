@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parameterization & Data-Driven Testing - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Parameterization &amp; Data-Driven Testing</h1>
+    <p class="subtitle">test.for() · JSON/CSV Test Data · Typed Test Factories</p>
+    <p class="tagline">One test. Many scenarios. Zero duplication — Session 17</p>
+    <div style="margin-top:15px;">
+        <span class="badge">test.for()</span>
+        <span class="badge" style="background:var(--vibe-blue);">JSON Data</span>
+        <span class="badge" style="background:var(--vibe-green);">Test Factory</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>test.for() — Data-Driven Tests</h2>
+    <div class="code-snippet">import { test, expect } from '@playwright/test';
+
+// test.for() creates one test per data row
+const loginScenarios = [
+  { email: 'admin@test.com',  password: 'Admin123!', expectedURL: '/dashboard', role: 'admin' },
+  { email: 'user@test.com',   password: 'User1234!', expectedURL: '/home',      role: 'user' },
+  { email: 'qa@test.com',     password: 'QA!1234',   expectedURL: '/reports',   role: 'qa' },
+];
+
+test.for(loginScenarios)(
+  'login as $role navigates to correct page',
+  async ({ page }, { email, password, expectedURL }) => {
+    await page.goto('/login');
+    await page.getByLabel('Email').fill(email);
+    await page.getByLabel('Password').fill(password);
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page).toHaveURL(expectedURL);
+  }
+);
+
+// Generates 3 separate tests in the HTML report:
+// ✓ login as admin navigates to correct page
+// ✓ login as user navigates to correct page
+// ✓ login as qa navigates to correct page</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Boundary Value and Validation Testing</h2>
+    <div class="code-snippet">// Validation error scenarios
+const invalidLogins = [
+  { email: '',              password: 'Valid1!',  error: 'Email is required' },
+  { email: 'notanemail',   password: 'Valid1!',  error: 'Invalid email format' },
+  { email: 'a@b.com',      password: '',          error: 'Password is required' },
+  { email: 'a@b.com',      password: '123',       error: 'Password too short' },
+  { email: 'wrong@b.com',  password: 'Valid1!',   error: 'Invalid credentials' },
+];
+
+test.for(invalidLogins)(
+  'login shows "$error" for invalid input',
+  async ({ page }, testData) => {
+    await page.goto('/login');
+    await page.getByLabel('Email').fill(testData.email);
+    await page.getByLabel('Password').fill(testData.password);
+    await page.getByRole('button', { name: 'Sign in' }).click();
+    await expect(page.getByRole('alert')).toContainText(testData.error);
+  }
+);</div>
+    <div class="highlight-box">
+        <p class="compact bold">Data-driven validation testing is ideal for form testing — cover all edge cases without duplicating test logic.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>External Test Data Files</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>JSON Test Data</h3>
+            <div class="code-snippet" style="margin-top:4px; font-size:0.58em;">// tests/fixtures/users.json
+{
+  "admin": {
+    "email": "admin@test.com",
+    "password": "Admin123!",
+    "role": "Administrator"
+  },
+  "standardUser": {
+    "email": "user@test.com",
+    "password": "User1234!",
+    "role": "User"
+  }
+}
+
+// In test file:
+import users from '../fixtures/users.json';
+
+test('admin can see reports', async ({ page }) => {
+  await loginPage.login(
+    users.admin.email,
+    users.admin.password
+  );
+});</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Test Data Factory</h3>
+            <div class="code-snippet" style="margin-top:4px; font-size:0.58em;">// utils/dataFactory.ts
+export function generateUser(overrides = {}) {
+  const id = Date.now();
+  return {
+    firstName: `Test`,
+    lastName: `User${id}`,
+    email: `test${id}@qa.com`,
+    password: 'TestPass1!',
+    ...overrides
+  };
+}
+
+// In test:
+const user = generateUser({
+  firstName: 'Jane',
+  role: 'admin'
+});
+await registerPage.registerUser(user);</div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Parameterized Fixtures</h2>
+    <div class="code-snippet">// fixtures/auth.fixtures.ts
+type AuthFixtures = {
+  authenticatedPage: Page;
+  adminPage: Page;
+};
+
+export const test = base.extend&lt;AuthFixtures&gt;({
+  // Provide a page already logged in as standard user
+  authenticatedPage: async ({ browser }, use) => {
+    const context = await browser.newContext({
+      storageState: '.auth/user.json',
+    });
+    const page = await context.newPage();
+    await use(page);
+    await context.close();
+  },
+
+  // Provide a page logged in as admin
+  adminPage: async ({ browser }, use) => {
+    const context = await browser.newContext({
+      storageState: '.auth/admin.json',
+    });
+    const page = await context.newPage();
+    await use(page);
+    await context.close();
+  },
+});
+
+// In test:
+test('admin can delete users', async ({ adminPage }) => {
+  await adminPage.goto('/admin/users');
+  // already logged in as admin!
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 17 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Parameterization Tools</h3>
+            <ul>
+                <li>test.for(array) — one test per data row</li>
+                <li>Dynamic test names with $variable syntax</li>
+                <li>Inline data arrays in spec files</li>
+                <li>External JSON for shared test data</li>
+                <li>Factory functions for generated data</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Best Practices</h3>
+            <ul>
+                <li>Keep test data in fixtures/ folder</li>
+                <li>Never hardcode credentials — use JSON/env</li>
+                <li>Factory functions add timestamp for uniqueness</li>
+                <li>Use TypeScript interfaces for test data types</li>
+                <li>Parameterize fixtures for multi-role testing</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 18 — API Testing and Network Interception</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

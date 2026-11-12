@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Workflows for the AI SDLC — Conference Session by qtpsudhakar</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{--vibe-blue:#1e40af;--vibe-dark-blue:#1e3a8a;--vibe-green:#22c55e;--vibe-yellow:#fbbf24;--vibe-orange:#f97316;--vibe-light-bg:#f8fafc}
+.reveal{background:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+.reveal h1,.reveal h2,.reveal h3{text-transform:none;font-weight:700;color:var(--vibe-dark-blue)}
+.reveal h1{font-size:1.6em;margin-bottom:.15em}
+.reveal h2{font-size:1.25em;margin-bottom:.2em;color:var(--vibe-blue)}
+.reveal h3{font-size:.95em;color:var(--vibe-green);margin-bottom:.15em}
+.reveal p,.reveal li{color:#334155;line-height:1.4}
+.reveal .slides section{padding:6px 28px;box-sizing:border-box;overflow:hidden}
+.logo-corner{position:absolute;top:10px;right:20px;z-index:100}
+.logo-corner img{width:70px;height:auto}
+.title-slide{background:#fff !important}
+.title-slide h1{font-size:1.7em;color:var(--vibe-dark-blue);margin:8px 0 6px}
+.title-slide .subtitle{font-size:1.05em;color:var(--vibe-orange);margin:6px 0}
+.title-slide .tagline{font-size:.9em;color:var(--vibe-blue);margin:5px 0 10px}
+.chapter-slide{background:#1e3a8a !important}
+.chapter-slide h1{color:#fff;font-size:2.2em;margin-bottom:10px}
+.chapter-slide h2{color:#94a3b8;font-size:1.3em}
+.chapter-slide i{color:var(--vibe-green)}
+.chapter-slide p{color:#cbd5e1}
+.content-box{background:var(--vibe-light-bg);border-left:4px solid var(--vibe-blue);padding:5px 10px;margin:3px 0;border-radius:6px}
+.highlight-box{background:#fef3c7;border:2px solid var(--vibe-yellow);padding:5px 10px;margin:3px auto;border-radius:8px;max-width:92%}
+.success-box{background:#f0fdf4;border-left:4px solid var(--vibe-green);padding:5px 10px;margin:3px 0;border-radius:6px}
+.warning-box{background:#fff1f2;border-left:4px solid #ef4444;padding:5px 10px;margin:3px 0;border-radius:6px}
+.interaction-box{background:#fdf4ff;border:2px solid #9333ea;border-radius:8px;padding:6px 12px;margin:4px 0}
+.reveal ul{list-style:none;margin:5px 0}
+.reveal ul li{margin:4px 0;padding-left:30px;position:relative;text-align:left;font-size:.8em;line-height:1.35}
+.reveal ul li:before{content:"\f058";font-family:"Font Awesome 6 Free";font-weight:900;color:var(--vibe-green);font-size:.95em;position:absolute;left:0;top:1px}
+.reveal ul li.cross:before{content:"\f057";color:var(--vibe-orange)}
+.reveal ul li.red:before{content:"\f057";color:#ef4444}
+.reveal ul li.blue:before{content:"\f058";color:var(--vibe-blue)}
+.reveal ul li.warn:before{content:"\f071";color:var(--vibe-yellow)}
+.reveal ul li.purple:before{content:"\f058";color:#9333ea}
+.text-blue{color:var(--vibe-blue)}.text-green{color:var(--vibe-green)}.text-orange{color:var(--vibe-orange)}.text-red{color:#ef4444}.text-purple{color:#9333ea}.bold{font-weight:700}
+.badge{display:inline-block;background:var(--vibe-orange);color:#fff;padding:4px 10px;border-radius:20px;font-weight:600;font-size:.75em;margin:3px}
+.badge.blue{background:var(--vibe-blue)}.badge.green{background:#16a34a}.badge.purple{background:#7c3aed}.badge.red{background:#dc2626}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:6px 0}
+.four-col{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0}
+.compact{font-size:.8em;line-height:1.35}.compact2{font-size:.74em;line-height:1.3}
+.icon-box{text-align:center;padding:10px 8px;background:var(--vibe-light-bg);border-radius:8px}
+.icon-box i{font-size:1.5em;margin-bottom:5px;display:block}
+.icon-box.blue i{color:var(--vibe-blue)}.icon-box.green i{color:var(--vibe-green)}.icon-box.orange i{color:var(--vibe-orange)}.icon-box.purple i{color:#9333ea}.icon-box.red i{color:#ef4444}
+.flow-container{background:#f1f5f9;border-radius:8px;padding:7px;margin:4px 0}
+.arrow-flow{display:flex;align-items:center;justify-content:center;gap:6px;margin:6px 0;flex-wrap:wrap}
+.arrow-flow .step{background:var(--vibe-blue);color:#fff;padding:5px 10px;border-radius:6px;font-weight:600;font-size:.65em}
+.arrow-flow .step.green{background:var(--vibe-green)}.arrow-flow .step.orange{background:var(--vibe-orange)}.arrow-flow .step.purple{background:#9333ea}.arrow-flow .step.red{background:#ef4444}
+.arrow-flow .arrow{color:var(--vibe-orange);font-size:1.1em}
+.timeline{display:flex;justify-content:space-between;align-items:flex-start;position:relative;margin:12px 0 6px}
+.timeline::before{content:'';position:absolute;top:16px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--vibe-orange),var(--vibe-blue),var(--vibe-green))}
+.tl-node{text-align:center;flex:1;position:relative}
+.tl-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-size:.85em;position:relative;z-index:1}
+.tl-dot.orange{background:#ffedd5;border:3px solid var(--vibe-orange)}.tl-dot.blue{background:#dbeafe;border:3px solid var(--vibe-blue)}.tl-dot.green{background:#dcfce7;border:3px solid var(--vibe-green)}.tl-dot.red{background:#fee2e2;border:3px solid #ef4444}.tl-dot.purple{background:#ede9fe;border:3px solid #7c3aed}
+.tl-label{font-size:.72em;font-weight:700;color:var(--vibe-dark-blue);margin-bottom:2px}
+.tl-sub{font-size:.62em;color:#64748b;line-height:1.3}
+.cmp-table{width:100%;border-collapse:collapse;font-size:.68em;margin:6px 0}
+.cmp-table th{background:var(--vibe-blue);color:#fff;padding:5px 8px;text-align:left;font-weight:600}
+.cmp-table td{padding:4px 8px;border-bottom:1px solid #e2e8f0;color:#334155;text-align:center}
+.cmp-table td:first-child{text-align:left}
+.cmp-table tr:nth-child(even) td{background:var(--vibe-light-bg)}
+.cmp-table .good{color:#16a34a;font-weight:700}.cmp-table .bad{color:#dc2626;font-weight:600}.cmp-table .warn{color:var(--vibe-orange);font-weight:600}
+.flow-box{background:#dbeafe;border:2px solid var(--vibe-blue);border-radius:8px;padding:6px 10px;text-align:center;font-size:.7em;font-weight:600;color:var(--vibe-dark-blue)}
+.flow-box.green{background:#dcfce7;border-color:var(--vibe-green)}.flow-box.orange{background:#ffedd5;border-color:var(--vibe-orange)}.flow-box.red{background:#fee2e2;border-color:#ef4444}.flow-box.purple{background:#ede9fe;border-color:#9333ea}
+.flow-arrow{text-align:center;color:var(--vibe-orange);font-size:1.2em;margin:2px 0}
+.island{background:#fff;border:3px solid #ef4444;border-radius:12px;padding:8px 10px;text-align:center;font-size:.68em;font-weight:700;color:#dc2626}
+.island i{display:block;font-size:1.4em;margin-bottom:4px;color:#ef4444}
+.chain-node{padding:5px 14px;border-radius:6px;font-size:.68em;font-weight:700;text-align:center;min-width:120px}
+.chain-node.blue{background:#dbeafe;color:var(--vibe-dark-blue);border:2px solid var(--vibe-blue)}
+.chain-node.green{background:#dcfce7;color:#15803d;border:2px solid var(--vibe-green)}
+.chain-node.orange{background:#ffedd5;color:#9a3412;border:2px solid var(--vibe-orange)}
+.chain-node.red{background:#fee2e2;color:#dc2626;border:2px dashed #ef4444}
+.chain-node.purple{background:#ede9fe;color:#6d28d9;border:2px solid #9333ea}
+.chain-arrow{text-align:center;color:var(--vibe-orange);font-size:.85em;line-height:1.2;margin:1px 0}
+.link-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:.68em;font-weight:700;margin:2px}
+.link-badge.ok{background:#dcfce7;color:#16a34a;border:1px solid #16a34a}
+.link-badge.missing{background:#fee2e2;color:#dc2626;border:1px solid #dc2626}
+.step-row{display:flex;align-items:flex-start;gap:8px;background:var(--vibe-light-bg);border-radius:6px;padding:5px 10px;margin:3px 0;font-size:.75em}
+.step-num{border-radius:50%;width:22px;height:22px;min-width:22px;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:.75em;margin-top:1px}
+.wf-badge{display:inline-block;background:var(--vibe-dark-blue);color:#fff;padding:2px 8px;border-radius:10px;font-size:.6em;font-weight:700;margin-right:4px}
+.mode-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.58em;font-weight:700;margin-right:4px}
+.mode-badge.assisted{background:#dbeafe;color:var(--vibe-blue)}.mode-badge.exploration{background:#dcfce7;color:#15803d}.mode-badge.agentic{background:#ede9fe;color:#6d28d9}.mode-badge.autonomous{background:#ffedd5;color:#9a3412}
+.critical-rule{background:#fff1f2;border:2px solid #ef4444;border-radius:8px;padding:6px 10px;margin:4px 0}
+.critical-rule p{color:#dc2626;font-weight:700;font-size:.78em;margin:0}
+.os-layer{border-radius:10px;padding:7px 12px;margin:3px 0;text-align:center}
+.os-layer.l1{background:#dbeafe;border:2px solid var(--vibe-blue)}
+.os-layer.l2{background:#dcfce7;border:2px solid var(--vibe-green)}
+.os-layer.l3{background:#ede9fe;border:2px solid #9333ea}
+.os-layer.l4{background:#ffedd5;border:2px solid var(--vibe-orange)}
+.os-layer-title{font-size:.74em;font-weight:800;color:var(--vibe-dark-blue)}
+.os-layer-sub{font-size:.57em;color:#64748b;margin-top:1px}
+
+/* ══ CSS TRANSITION FRAGMENTS ══ */
+.reveal .fragment{
+  opacity:0;
+  transition:opacity 0.45s ease, transform 0.45s ease;
+}
+.reveal .fragment.visible{opacity:1;transform:none !important}
+
+/* Directional variants */
+.reveal .fragment.slide-up   {transform:translateY(32px)}
+.reveal .fragment.slide-left {transform:translateX(-32px)}
+.reveal .fragment.slide-right{transform:translateX(32px)}
+.reveal .fragment.slide-down {transform:translateY(-24px)}
+.reveal .fragment.scale-in   {transform:scale(0.82)}
+.reveal .fragment.scale-up   {transform:scale(0.5)}
+.reveal .fragment.scale-big  {transform:scale(0.6)}
+
+/* Moment slide styles — white background versions */
+.moment-q{font-size:1.5em;font-weight:900;color:var(--vibe-dark-blue);text-align:center;line-height:1.4;margin:0 0 10px}
+.moment-sub{font-size:.85em;color:#64748b;text-align:center;margin-top:8px}
+.moment-item{display:inline-block;background:var(--vibe-dark-blue);color:#fff;padding:8px 20px;border-radius:30px;font-size:.88em;font-weight:700;margin:5px;text-align:center}
+.moment-item.orange{background:var(--vibe-orange)}
+.moment-item.green{background:#16a34a}
+
+/* Atlassian number styles */
+.atl-from{font-size:2.4em;font-weight:900;color:#94a3b8;text-align:center;margin:4px 0}
+.atl-arr{font-size:2em;color:var(--vibe-orange);text-align:center;margin:4px 0}
+.atl-to{font-size:4em;font-weight:900;color:#dc2626;text-align:center;margin:4px 0}
+.atl-pct{font-size:1.1em;font-weight:700;color:#dc2626;text-align:center;margin-top:4px}
+.atl-msg{font-size:.82em;color:#64748b;text-align:center;margin-top:10px;font-style:italic}
+
+/* Closing answer rows */
+.closing-row{display:flex;align-items:center;gap:10px;padding:7px 12px;border-radius:7px;font-size:.8em;margin:4px 0}
+.closing-row.no-row{background:#fee2e2;color:#dc2626}
+.closing-row.key-row{background:#fef3c7;color:var(--vibe-dark-blue);font-weight:700}
+.closing-row.yes-row{background:#dcfce7;color:#15803d;font-weight:700}
+.closing-row.final-row{background:var(--vibe-dark-blue);color:#fff;font-weight:700}
+.closing-icon{font-size:1.1em;flex-shrink:0}
+
+/* Final quote */
+.final-quote{font-size:1.6em;font-weight:900;color:var(--vibe-dark-blue);text-align:center;line-height:1.4;padding:20px;border:3px solid var(--vibe-blue);border-radius:12px;background:var(--vibe-light-bg)}
+
+/* Parallel stream */
+.ps-node{padding:6px 10px;border-radius:8px;font-size:.65em;font-weight:600;text-align:center}
+.ps-node.dev{background:#ffedd5;color:#9a3412;border:2px solid var(--vibe-orange)}
+.ps-node.qa{background:#dcfce7;color:#15803d;border:2px solid var(--vibe-green)}
+.ps-node.merge{background:#ede9fe;color:#6d28d9;border:2px solid #9333ea}
+</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- TITLE -->
+<section class="title-slide">
+<img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ" style="max-width:520px;width:82%;margin:0 auto 8px;display:block;" onerror="this.style.display='none'">
+<h1>QA Workflows for the AI SDLC</h1>
+<p class="subtitle">Why the most important QA skill in the AI era is not a tool &mdash; it is a workflow</p>
+<p class="tagline">Two-Hour Conference Session &middot; by qtpsudhakar &middot; vibetestq.com</p>
+<div style="margin-top:10px;">
+<span class="badge"><i class="fas fa-robot"></i> AI SDLC</span>
+<span class="badge blue"><i class="fas fa-cogs"></i> 13 Workflows</span>
+<span class="badge green"><i class="fas fa-users"></i> Interactive</span>
+</div>
+</section>
+
+<!-- AGENDA -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-map" style="color:var(--vibe-orange)"></i> Two Hours. One Complete Framework.</h2>
+<div class="highlight-box"><p class="bold text-blue">Not theory. Not demos. Workflows you can use Monday morning.</p></div>
+<div class="two-col" style="margin-top:8px;">
+<div>
+<div class="content-box" style="border-left-color:var(--vibe-orange);"><p class="bold"><i class="fas fa-fire text-orange"></i> Opening &mdash; The Praise &amp; Provocation</p><p class="compact">Why AI is incredible. And why you are still here.</p></div>
+<div class="content-box" style="border-left-color:#ef4444;margin-top:4px;"><p class="bold"><i class="fas fa-question-circle text-red"></i> Act 1 &mdash; The Question</p><p class="compact">What AI cannot answer on your project.</p></div>
+<div class="content-box" style="border-left-color:var(--vibe-yellow);margin-top:4px;"><p class="bold"><i class="fas fa-unlink" style="color:var(--vibe-yellow)"></i> Act 2 &mdash; The Missing Piece</p><p class="compact">The one link nobody connected. 30 years.</p></div>
+<div class="content-box" style="border-left-color:var(--vibe-blue);margin-top:4px;"><p class="bold"><i class="fas fa-arrow-right text-blue"></i> Act 3 &mdash; Where We Are Going</p><p class="compact">Project repositories. The Atlassian signal.</p></div>
+</div>
+<div>
+<div class="content-box" style="border-left-color:#9333ea;"><p class="bold"><i class="fas fa-sitemap text-purple"></i> Act 4 &mdash; Five SDLC Types</p><p class="compact">Which type is your team?</p></div>
+<div class="content-box" style="border-left-color:var(--vibe-green);margin-top:4px;"><p class="bold"><i class="fas fa-cogs text-green"></i> Act 5 &mdash; 13 QA Workflows</p><p class="compact">Design &middot; Execution &middot; Intelligence.</p></div>
+<div class="content-box" style="border-left-color:#ef4444;margin-top:4px;"><p class="bold"><i class="fas fa-exclamation-triangle text-red"></i> Act 6 &mdash; Real Failures</p><p class="compact">6 patterns. Know them before they hit.</p></div>
+<div class="content-box" style="border-left-color:var(--vibe-blue);margin-top:4px;"><p class="bold"><i class="fas fa-filter text-blue"></i> Act 7 &mdash; Workflows Per Type</p><p class="compact">Match workflows to your team.</p></div>
+</div>
+</div>
+</section>
+
+<!-- OPENING CHAPTER -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-fire" style="font-size:4em;margin-bottom:16px;display:block;color:var(--vibe-yellow)"></i>
+<h1>Opening</h1><h2>The Praise &amp; The Provocation</h2>
+<p>Celebrate AI &middot; Then ask the uncomfortable question</p>
+</div>
+</section>
+
+<!-- AI is incredible -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-rocket" style="color:var(--vibe-orange)"></i> AI Is Genuinely Incredible</h2>
+<div class="highlight-box"><p class="bold text-blue">This is real. This is happening now. Every SDLC role touched simultaneously &mdash; for the first time in history.</p></div>
+<div class="three-col" style="margin-top:8px;">
+<div class="icon-box green fragment slide-up"><i class="fas fa-code"></i><h3>Code Generation</h3><p class="compact2">Functions, refactoring, errors in seconds</p></div>
+<div class="icon-box green fragment slide-up" data-fragment-index="1"><i class="fas fa-file-alt"></i><h3>Test Writing</h3><p class="compact2">Complete scenarios from plain English</p></div>
+<div class="icon-box green fragment slide-up" data-fragment-index="2"><i class="fas fa-bug"></i><h3>Bug Analysis</h3><p class="compact2">Root cause, patterns, hypotheses</p></div>
+</div>
+<div class="three-col" style="margin-top:6px;">
+<div class="icon-box green fragment slide-up" data-fragment-index="3"><i class="fas fa-list-alt"></i><h3>Requirements</h3><p class="compact2">Generated from conversations</p></div>
+<div class="icon-box green fragment slide-up" data-fragment-index="4"><i class="fas fa-drafting-compass"></i><h3>Architecture</h3><p class="compact2">Design reviewed in seconds</p></div>
+<div class="icon-box green fragment slide-up" data-fragment-index="5"><i class="fas fa-chart-line"></i><h3>30-40% Productivity</h3><p class="compact2">Industry-wide. Measured. Real.</p></div>
+</div>
+</section>
+
+<!-- MOMENT: WHY ARE YOU STILL HERE — white version -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<div style="text-align:center;padding:16px 0 10px;">
+<p class="moment-q fragment slide-up">With all of this capability&hellip;<br>why are you still here?</p>
+</div>
+<div style="text-align:center;margin-top:10px;">
+<span class="moment-item fragment slide-left" data-fragment-index="1"><i class="fas fa-code"></i> &nbsp;AI can write code</span>
+<span class="moment-item orange fragment slide-left" data-fragment-index="2"><i class="fas fa-vial"></i> &nbsp;AI can write tests</span>
+<span class="moment-item green fragment slide-left" data-fragment-index="3"><i class="fas fa-bug"></i> &nbsp;AI can find bugs</span>
+</div>
+<div class="interaction-box fragment slide-up" data-fragment-index="4" style="margin-top:16px;">
+<p class="compact"><i class="fas fa-users" style="color:#9333ea"></i> <strong style="color:#9333ea;">Turn to the person next to you &mdash; 30 seconds &mdash;</strong> what is the one thing AI still cannot do on your project?</p>
+</div>
+</section>
+
+<!-- Real answer: context -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-lightbulb" style="color:var(--vibe-orange)"></i> The Real Answer &mdash; Context</h2>
+<div class="highlight-box"><p class="bold text-blue">It is not capability. It is not trust. It is context. AI is only as intelligent as the context it has access to.</p></div>
+<div class="two-col" style="margin-top:10px;">
+<div class="content-box fragment slide-left" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+<h3><i class="fas fa-check-circle"></i> New Project</h3>
+<p class="compact">Clean codebase. Fresh requirements. No history. AI has full context. <strong style="color:#16a34a;">AI feels brilliant. &#x2705;</strong></p>
+</div>
+<div class="content-box fragment slide-right" style="background:#fff1f2;border-left-color:#ef4444;">
+<h3 style="color:#dc2626;"><i class="fas fa-times-circle"></i> Your Existing Project</h3>
+<p class="compact">3 years of decisions. Architecture choices. Domain knowledge. All scattered. <strong style="color:#dc2626;">AI feels shallow. &#x274C;</strong></p>
+</div>
+</div>
+<div class="flow-container fragment slide-up" style="margin-top:8px;">
+<div class="arrow-flow">
+<div class="step orange">AI needs context</div><div class="arrow">&rarr;</div>
+<div class="step red">Context scattered</div><div class="arrow">&rarr;</div>
+<div class="step red">Partial view</div><div class="arrow">&rarr;</div>
+<div class="step red">Generic answers</div><div class="arrow">&rarr;</div>
+<div class="step orange">Team frustrated</div>
+</div>
+</div>
+</section>
+
+<!-- ACT 1 CHAPTER -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-search" style="font-size:4em;margin-bottom:16px;display:block;"></i>
+<h1>Act 1</h1><h2>The Question</h2>
+<p>Where your project context lives &middot; What AI cannot answer</p>
+</div>
+</section>
+
+<!-- Where context lives -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-map-marker-alt" style="color:var(--vibe-orange)"></i> Where Your Project Context Actually Lives</h2>
+<div class="three-col" style="margin-top:8px;">
+<div class="island fragment scale-in"><i class="fab fa-confluence"></i>Requirements<br><span style="font-weight:400;color:#64748b;">Confluence pages<br>nobody updates</span></div>
+<div class="island fragment scale-in"><i class="fab fa-github"></i>Code<br><span style="font-weight:400;color:#64748b;">GitHub &mdash; code only<br>no context</span></div>
+<div class="island fragment scale-in"><i class="fas fa-tasks"></i>Test Cases<br><span style="font-weight:400;color:#64748b;">Zephyr / TestRail<br>separate system</span></div>
+</div>
+<div class="three-col" style="margin-top:6px;">
+<div class="island fragment scale-in"><i class="fas fa-bug"></i>Defects<br><span style="font-weight:400;color:#64748b;">Jira &mdash; no code link</span></div>
+<div class="island fragment scale-in"><i class="fab fa-slack"></i>Decisions<br><span style="font-weight:400;color:#64748b;">Slack threads from<br>18 months ago</span></div>
+<div class="island fragment scale-in"><i class="fas fa-user-tie"></i>Domain Knowledge<br><span style="font-weight:400;color:#64748b;">In 2 developers&rsquo;<br>heads only</span></div>
+</div>
+<div class="warning-box fragment slide-up" style="margin-top:8px;"><p class="compact"><i class="fas fa-robot"></i> <strong>No AI agent can see all of this simultaneously.</strong> Each tool gives a different, incomplete fragment.</p></div>
+</section>
+
+<!-- What AI cannot answer -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-times-circle" style="color:#ef4444"></i> What AI Cannot Answer on Your Project</h2>
+<div class="two-col">
+<div class="success-box">
+<h3><i class="fas fa-check"></i> AI Can Do</h3>
+<ul>
+<li class="blue fragment slide-left">Read your Jira requirements</li>
+<li class="blue fragment slide-left">Read your Zephyr test cases</li>
+<li class="blue fragment slide-left">Read your GitHub code</li>
+<li class="blue fragment slide-left">Generate new code and tests</li>
+</ul>
+</div>
+<div class="warning-box">
+<h3 style="color:#dc2626;"><i class="fas fa-times"></i> AI Cannot Reliably Answer</h3>
+<ul>
+<li class="red fragment slide-right">Which code implements REQ-001?</li>
+<li class="red fragment slide-right">Which tests exercise this function?</li>
+<li class="red fragment slide-right">Is this requirement fully implemented?</li>
+<li class="red fragment slide-right">What breaks if authenticateUser() changes?</li>
+</ul>
+</div>
+</div>
+<div class="interaction-box fragment slide-up" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-users" style="color:#9333ea"></i> <strong style="color:#9333ea;">Raise your hand</strong> if your requirements, code, and tests are all connected in one traceable system right now.</p>
+</div>
+</section>
+
+<!-- ACT 2 CHAPTER -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-unlink" style="font-size:4em;margin-bottom:16px;display:block;color:var(--vibe-yellow)"></i>
+<h1>Act 2</h1><h2>The Missing Piece</h2>
+<p>30 years of the same gap &middot; The sharpest insight in this session</p>
+</div>
+</section>
+
+<!-- MOMENT: DOC VS CODE — white version -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-exchange-alt" style="color:var(--vibe-orange)"></i> Documentation Change vs Code Change</h2>
+<div class="two-col" style="margin-top:10px;">
+<div class="fragment slide-left" style="background:#f0fdf4;border:3px solid var(--vibe-green);border-radius:12px;padding:10px 12px;">
+<div style="font-size:.82em;font-weight:800;color:#15803d;margin-bottom:6px;"><i class="fas fa-file-alt"></i> REQUIREMENT CHANGES</div>
+<p class="compact2">Which tests cover REQ-001?</p>
+<p class="compact2">Which test cases need updating?</p>
+<div style="background:#dcfce7;border-radius:6px;padding:4px 8px;margin-top:6px;font-size:.62em;font-weight:700;color:#15803d;">We could do this &mdash; imperfectly &mdash; for 30 years &#x2705;</div>
+</div>
+<div class="fragment slide-right" style="background:#fff1f2;border:3px solid #ef4444;border-radius:12px;padding:10px 12px;">
+<div style="font-size:.82em;font-weight:800;color:#dc2626;margin-bottom:6px;"><i class="fas fa-code"></i> CODE CHANGES</div>
+<p class="compact2">Which requirements does authenticateUser() implement?</p>
+<p class="compact2">What breaks downstream if this function changes?</p>
+<div style="background:#fee2e2;border-radius:6px;padding:4px 8px;margin-top:6px;font-size:.62em;font-weight:700;color:#dc2626;">We could NEVER do this automatically &#x274C;</div>
+</div>
+</div>
+<div class="fragment slide-up" style="text-align:center;margin-top:6px;padding:6px 12px;background:#fef3c7;border:2px solid var(--vibe-yellow);border-radius:8px;">
+<p style="font-size:.8em;font-weight:700;color:var(--vibe-dark-blue);margin:0;">These are completely different questions &mdash; the first had tools for 30 years &mdash; the second never did</p>
+</div>
+<div class="interaction-box fragment slide-up" style="margin-top:6px;">
+<p class="compact"><i class="fas fa-users" style="color:#9333ea"></i> <strong style="color:#9333ea;">Has anyone</strong> been surprised by a production bug that traced back to something nobody realised had changed downstream?</p>
+</div>
+</section>
+
+<!-- What we already have -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-check-circle" style="color:var(--vibe-blue)"></i> What We Already Have &mdash; Jira + Zephyr</h2>
+<div class="highlight-box"><p class="bold text-blue">This chain works. Teams rely on it daily. Not broken &mdash; incomplete. One link missing.</p></div>
+<div class="flow-container" style="margin-top:10px;">
+<div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+<div class="chain-node blue fragment slide-down" style="min-width:200px;"><i class="fas fa-list-alt"></i> &nbsp;Requirement &nbsp;(Jira)</div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node green fragment slide-down" style="min-width:200px;"><i class="fas fa-vial"></i> &nbsp;Test Case &nbsp;(Zephyr)</div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node green fragment slide-down" style="min-width:200px;"><i class="fas fa-play-circle"></i> &nbsp;Test Result</div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node orange fragment slide-down" style="min-width:200px;"><i class="fas fa-bug"></i> &nbsp;Defect &nbsp;(Jira)</div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node blue fragment slide-down" style="min-width:200px;"><i class="fas fa-undo"></i> &nbsp;Back to Requirement</div>
+</div>
+</div>
+<div style="text-align:center;margin-top:8px;" class="fragment slide-up">
+<span class="link-badge ok">Req &rarr; Test &#x2705;</span>
+<span class="link-badge ok">Test &rarr; Defect &#x2705;</span>
+<span class="link-badge ok">Defect &rarr; Req &#x2705;</span>
+<span class="link-badge missing">Code is missing &#x274C;</span>
+</div>
+</section>
+
+<!-- Three Universes -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-globe" style="color:var(--vibe-orange)"></i> Three Universes &mdash; No Reliable Connection</h2>
+<div style="display:flex;justify-content:center;align-items:center;gap:16px;margin-top:20px;">
+<div class="fragment scale-in" style="text-align:center;background:#dbeafe;border:4px solid var(--vibe-blue);border-radius:50%;width:130px;height:130px;min-width:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+<i class="fas fa-file-alt" style="color:var(--vibe-blue);font-size:1.4em;"></i>
+<div style="font-size:.72em;font-weight:700;color:var(--vibe-dark-blue);margin-top:4px;">Requirements</div>
+<div style="font-size:.58em;color:#64748b;text-align:center;line-height:1.3;">Natural language<br>Jira</div>
+</div>
+<div class="fragment slide-up" style="display:flex;align-items:center;flex-shrink:0;">
+<div style="width:40px;height:3px;border-top:3px dashed #ef4444;"></div>
+<span style="color:#ef4444;font-size:.75em;font-weight:700;padding:0 4px;">&#x2715;</span>
+<div style="width:40px;height:3px;border-top:3px dashed #ef4444;"></div>
+</div>
+<div class="fragment scale-in" style="text-align:center;background:#dcfce7;border:4px solid var(--vibe-green);border-radius:50%;width:130px;height:130px;min-width:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+<i class="fas fa-code" style="color:var(--vibe-green);font-size:1.4em;"></i>
+<div style="font-size:.72em;font-weight:700;color:#15803d;margin-top:4px;">Code</div>
+<div style="font-size:.58em;color:#64748b;text-align:center;line-height:1.3;">Programming<br>GitHub</div>
+</div>
+<div class="fragment slide-up" style="display:flex;align-items:center;flex-shrink:0;">
+<div style="width:40px;height:3px;border-top:3px dashed #ef4444;"></div>
+<span style="color:#ef4444;font-size:.75em;font-weight:700;padding:0 4px;">&#x2715;</span>
+<div style="width:40px;height:3px;border-top:3px dashed #ef4444;"></div>
+</div>
+<div class="fragment scale-in" style="text-align:center;background:#ffedd5;border:4px solid var(--vibe-orange);border-radius:50%;width:130px;height:130px;min-width:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+<i class="fas fa-vial" style="color:var(--vibe-orange);font-size:1.4em;"></i>
+<div style="font-size:.72em;font-weight:700;color:#9a3412;margin-top:4px;">Tests</div>
+<div style="font-size:.58em;color:#64748b;text-align:center;line-height:1.3;">Test language<br>Zephyr</div>
+</div>
+</div>
+<div class="highlight-box fragment slide-up" style="margin-top:8px;"><p class="compact bold text-blue"><i class="fas fa-quote-left"></i> You can have 100% code coverage and completely wrong behavior. High coverage. Wrong behavior. Ships.</p></div>
+</section>
+
+<!-- Missing link -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-unlink" style="color:#ef4444"></i> The One Missing Link &mdash; Code</h2>
+<div style="display:flex;flex-direction:column;align-items:center;gap:3px;margin-top:8px;">
+<div class="chain-node blue fragment slide-down" style="min-width:200px;"><i class="fas fa-list-alt"></i> &nbsp;Requirement &nbsp;(Jira)</div>
+<div class="chain-arrow fragment">&#x2193; linked &#x2705;</div>
+<div class="chain-node green fragment slide-down" style="min-width:200px;"><i class="fas fa-vial"></i> &nbsp;Test Case &nbsp;(Zephyr)</div>
+<div class="chain-arrow fragment">&#x2193; linked &#x2705;</div>
+<div class="chain-node orange fragment slide-down" style="min-width:200px;"><i class="fas fa-bug"></i> &nbsp;Defect &nbsp;(Jira)</div>
+<div style="height:8px;"></div>
+<div class="fragment slide-up" style="color:#ef4444;font-size:.8em;font-weight:700;text-align:center;">&#x2715; &nbsp;CODE &nbsp;&#x2715; &nbsp; this node has no links</div>
+<div class="chain-node red fragment scale-in" style="min-width:200px;background:#fee2e2;border:2px dashed #ef4444;color:#dc2626;"><i class="fas fa-code"></i> &nbsp;Code &nbsp;(GitHub) &nbsp;&mdash; isolated</div>
+</div>
+<div class="warning-box fragment slide-up" style="margin-top:12px;"><p class="compact"><strong>Jira lives outside the repository.</strong> It has no awareness of what is inside the code. Structural problem &mdash; not a Jira problem.</p></div>
+</section>
+
+<!-- ACT 3 CHAPTER -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-arrow-circle-right" style="font-size:4em;margin-bottom:16px;display:block;"></i>
+<h1>Act 3</h1><h2>Where We Are Going</h2>
+<p>Project repositories &middot; The Atlassian signal &middot; The complete chain</p>
+</div>
+</section>
+
+<!-- MOMENT: ATLASSIAN — white version -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-chart-line" style="color:var(--vibe-orange)"></i> The Atlassian Signal</h2>
+<div style="text-align:center;padding:10px 0;">
+<p class="atl-from fragment scale-big">$486</p>
+<p class="atl-arr fragment slide-up">&#x2193;</p>
+<p class="atl-to fragment scale-up">$68</p>
+<p class="atl-pct fragment slide-up">~86% drop from 2021 peak</p>
+<p class="atl-msg fragment slide-up">The market is telling us something.</p>
+</div>
+</section>
+
+<!-- Atlassian explanation -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-chart-line" style="color:var(--vibe-orange)"></i> What the Market Is Saying</h2>
+<div class="two-col">
+<div class="content-box fragment slide-left" style="background:#fff1f2;border-left-color:#ef4444;">
+<h3 style="color:#dc2626;"><i class="fas fa-times"></i> The Atlassian Model</h3>
+<p class="compact">Built for <strong>human handoffs</strong> between roles. Each handoff justified a separate paid tool. AI eliminates most handoffs. The tools become friction.</p>
+</div>
+<div class="content-box fragment slide-right" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+<h3><i class="fas fa-check"></i> The Project Repository Model</h3>
+<p class="compact">Built for <strong>AI context</strong>. Everything in one place. Every AI agent has full project context at all times. No handoffs. No fragmentation.</p>
+</div>
+</div>
+</section>
+
+<!-- Code repo to Project repo -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-folder-open" style="color:var(--vibe-orange)"></i> Code Repository &rarr; Project Repository</h2>
+<div class="two-col">
+<div class="content-box fragment slide-left" style="background:#fff1f2;border-left-color:#ef4444;">
+<h3 style="color:#dc2626;"><i class="fas fa-times"></i> Code Repository</h3>
+<div style="font-size:.67em;color:#334155;line-height:1.9;font-family:monospace;margin-top:4px;">
+&#128193; /src &nbsp;(code only)<br>
+&#128193; /tests &nbsp;(automation only)<br>
+<span style="color:#ef4444;">&#10006; requirements &rarr; Confluence</span><br>
+<span style="color:#ef4444;">&#10006; test cases &rarr; Zephyr</span><br>
+<span style="color:#ef4444;">&#10006; traceability &rarr; nowhere</span>
+</div>
+</div>
+<div class="content-box fragment slide-right" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+<h3><i class="fas fa-check"></i> Project Repository</h3>
+<div style="font-size:.67em;color:#334155;line-height:1.9;font-family:monospace;margin-top:4px;">
+<span style="color:#16a34a;">&#128193; /requirements &nbsp;(specs)</span><br>
+<span style="color:var(--vibe-blue);">&#128193; /src &nbsp;(code + provenance)</span><br>
+<span style="color:var(--vibe-orange);">&#128193; /quality &nbsp;(scenarios+logs)</span><br>
+<span style="color:#9333ea;">&#128193; /traceability &nbsp;(graph.json)</span><br>
+<span style="color:#64748b;">&#128193; /ai-toolkit &nbsp;(agents+skills)</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Honest answer about Jira -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-question-circle" style="color:var(--vibe-orange)"></i> You May Be Wondering Something</h2>
+<div class="highlight-box"><p class="bold text-blue">I showed a Project Repository replacing Jira, Zephyr and Confluence. But earlier I mentioned them in workflows. Which is it?</p></div>
+<div class="two-col" style="margin-top:8px;">
+<div class="content-box fragment slide-left" style="background:#fff7ed;border-left-color:var(--vibe-orange);">
+<h3><i class="fas fa-map-marker-alt"></i> Where Teams Are Today</h3>
+<ul>
+<li class="blue">Requirements &mdash; Confluence or Jira</li>
+<li class="blue">Test cases &mdash; Zephyr or TestRail</li>
+<li class="cross">Jira and Zephyr are system of record</li>
+</ul>
+<p class="compact2" style="color:var(--vibe-orange);font-weight:700;margin-top:4px;">This is where I met you in the workflow slides.</p>
+</div>
+<div class="content-box fragment slide-right" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+<h3><i class="fas fa-arrow-right"></i> The Destination</h3>
+<ul>
+<li class="blue">Requirements &mdash; /requirements markdown</li>
+<li class="blue">Test cases &mdash; Gherkin feature files</li>
+<li class="blue">Repository is the system of record</li>
+</ul>
+<p class="compact2" style="color:#16a34a;font-weight:700;margin-top:4px;">This is where we are going.</p>
+</div>
+</div>
+<div class="fragment slide-up" style="text-align:center;margin-top:8px;padding:8px 14px;background:var(--vibe-dark-blue);border-radius:8px;">
+<p style="color:#fff;font-size:.8em;font-weight:700;margin:0;"><i class="fas fa-quote-left" style="color:var(--vibe-yellow)"></i> &nbsp;The destination has no Jira. No Zephyr. No Confluence. One repository. Complete traceability.</p>
+</div>
+</section>
+
+<!-- Transition path -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-route" style="color:var(--vibe-orange)"></i> You Do Not Have to Migrate Everything Tomorrow</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+<div class="step-row fragment slide-up" style="background:#dcfce7;border-left:4px solid var(--vibe-green);border-radius:8px;">
+<div class="step-num" style="background:var(--vibe-green);min-width:22px;">1</div>
+<div><strong style="color:#15803d;"><i class="fas fa-seedling"></i> Starting Fresh Today</strong><p class="compact2" style="margin-top:3px;">Do not set up Jira and Zephyr. Start with Project Repository from Day 1. No migration needed.</p></div>
+</div>
+<div class="step-row fragment slide-up" style="background:#fff7ed;border-left:4px solid var(--vibe-orange);border-radius:8px;">
+<div class="step-num" style="background:var(--vibe-orange);min-width:22px;">2</div>
+<div><strong style="color:#9a3412;"><i class="fas fa-exchange-alt"></i> Currently Using Jira and Zephyr</strong><p class="compact2" style="margin-top:3px;">Run both in parallel. As dashboards mature, you will naturally stop going to those tools. Organic migration. No forced cutover.</p></div>
+</div>
+<div class="step-row fragment slide-up" style="background:#fff1f2;border-left:4px solid #ef4444;border-radius:8px;">
+<div class="step-num" style="background:#ef4444;min-width:22px;">3</div>
+<div><strong style="color:#dc2626;"><i class="fas fa-balance-scale"></i> Regulated Industry</strong><p class="compact2" style="margin-top:3px;">Project OS generates the compliance evidence. Jira becomes a thin compliance wrapper &mdash; not the system of record.</p></div>
+</div>
+</div>
+</section>
+
+<!-- Project OS layers -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-server" style="color:var(--vibe-orange)"></i> The Project Repository Becomes the Project OS</h2>
+<div class="highlight-box"><p class="bold text-blue">Not a better repository. The operating system of software delivery.</p></div>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">
+<div class="os-layer l4 fragment slide-up"><div class="os-layer-title"><i class="fas fa-chart-bar"></i> &nbsp;DASHBOARD LAYER &mdash; GitHub Pages</div><div class="os-layer-sub">Live stakeholder visibility &middot; Always current &middot; Requirements &middot; Coverage &middot; Defects &middot; Release Readiness</div></div>
+<div class="os-layer l3 fragment slide-up"><div class="os-layer-title"><i class="fas fa-robot"></i> &nbsp;INTELLIGENCE LAYER &mdash; AI Agents</div><div class="os-layer-sub">Traceability graph &middot; Coverage analysis &middot; Gap detection &middot; Release readiness &middot; Production signals</div></div>
+<div class="os-layer l2 fragment slide-up"><div class="os-layer-title"><i class="fas fa-cogs"></i> &nbsp;WORKFLOW LAYER &mdash; GitHub Actions</div><div class="os-layer-sub">Event triggers &middot; Agent orchestration &middot; CI/CD &middot; PR hooks &middot; Automated maintenance</div></div>
+<div class="os-layer l1 fragment slide-up"><div class="os-layer-title"><i class="fas fa-database"></i> &nbsp;REPOSITORY LAYER &mdash; The Foundation</div><div class="os-layer-sub">Requirements &middot; Code + provenance &middot; Tests &middot; Decisions &middot; Traceability graph &middot; Coverage data</div></div>
+</div>
+</section>
+
+<!-- Complete traceability chain -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-link" style="color:var(--vibe-green)"></i> The Complete Traceability Chain</h2>
+<div class="highlight-box"><p class="bold text-blue">Every node in the repository. Every link automatic. Release decisions from evidence &mdash; not opinion.</p></div>
+<div class="flow-container" style="margin-top:6px;">
+<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+<div class="chain-node blue fragment slide-down" style="min-width:180px;font-size:.62em;"><i class="fas fa-bullseye"></i> &nbsp;Business Goal &nbsp;<span style="background:#dcfce7;padding:1px 5px;border-radius:8px;font-size:.85em;color:#15803d;">/requirements/goals.md</span></div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node blue fragment slide-down" style="min-width:180px;font-size:.62em;"><i class="fas fa-file-alt"></i> &nbsp;Requirement &nbsp;<span style="background:#dcfce7;padding:1px 5px;border-radius:8px;font-size:.85em;color:#15803d;">/requirements/REQ-001.md</span></div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node green fragment slide-down" style="min-width:180px;font-size:.62em;"><i class="fas fa-code"></i> &nbsp;Code &nbsp;<span style="background:#dcfce7;padding:1px 5px;border-radius:8px;font-size:.85em;color:#15803d;">/src + provenance metadata</span></div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node orange fragment slide-down" style="min-width:180px;font-size:.62em;"><i class="fas fa-vial"></i> &nbsp;Test &nbsp;<span style="background:#dcfce7;padding:1px 5px;border-radius:8px;font-size:.85em;color:#15803d;">/quality/login.feature</span></div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node green fragment slide-down" style="min-width:180px;font-size:.62em;"><i class="fas fa-play-circle"></i> &nbsp;Result &nbsp;<span style="background:#dcfce7;padding:1px 5px;border-radius:8px;font-size:.85em;color:#15803d;">/traceability/coverage.json</span></div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="chain-node purple fragment slide-down" style="min-width:180px;font-size:.62em;"><i class="fas fa-bug"></i> &nbsp;Defect &rarr; Code &nbsp;<span style="background:#dcfce7;padding:1px 5px;border-radius:8px;font-size:.85em;color:#15803d;">GitHub Issue + code link</span></div>
+<div class="chain-arrow fragment" style="color:var(--vibe-green);">&#x21BA; Production signals &rarr; next sprint</div>
+</div>
+</div>
+</section>
+
+<!-- ACT 4 CHAPTER -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-sitemap" style="font-size:4em;margin-bottom:16px;display:block;"></i>
+<h1>Act 4</h1><h2>The Five AI SDLC Types</h2>
+<p>Where is your team? &middot; Scenario challenges &middot; Why type matters</p>
+</div>
+</section>
+
+<!-- Maturity model -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-layer-group" style="color:var(--vibe-orange)"></i> The AI SDLC Maturity Model</h2>
+<div class="timeline" style="margin-top:20px;">
+<div class="tl-node fragment slide-up"><div class="tl-dot orange"><i class="fas fa-wrench" style="font-size:.7em;"></i></div><div class="tl-label">Type 1</div><div class="tl-sub">AI-Assisted<br>Tools added<br>SDLC unchanged</div></div>
+<div class="tl-node fragment slide-up"><div class="tl-dot blue"><i class="fas fa-file-alt" style="font-size:.7em;"></i></div><div class="tl-label">Type 2</div><div class="tl-sub">Spec-Driven<br>Requirements<br>gate everything</div></div>
+<div class="tl-node fragment slide-up"><div class="tl-dot green"><i class="fas fa-stream" style="font-size:.7em;"></i></div><div class="tl-label">Type 3</div><div class="tl-sub">Parallel Stream<br>Dev + QA run<br>simultaneously</div></div>
+<div class="tl-node fragment slide-up"><div class="tl-dot purple"><i class="fas fa-robot" style="font-size:.7em;"></i></div><div class="tl-label">Type 4</div><div class="tl-sub">Agentic<br>Agents handle<br>entire phases</div></div>
+<div class="tl-node fragment slide-up"><div class="tl-dot red"><i class="fas fa-balance-scale" style="font-size:.7em;"></i></div><div class="tl-label">Type 5</div><div class="tl-sub">Regulated<br>AI + mandatory<br>human sign-off</div></div>
+</div>
+<div class="two-col" style="margin-top:12px;">
+<div class="content-box fragment slide-left"><p class="compact"><span style="background:#ffedd5;padding:2px 6px;border-radius:4px;font-weight:700;color:var(--vibe-orange);">Most teams today</span> &mdash; Type 1. All structural gaps still exist.</p></div>
+<div class="content-box fragment slide-right"><p class="compact"><span style="background:#dcfce7;padding:2px 6px;border-radius:4px;font-weight:700;color:#16a34a;">Target model</span> &mdash; Type 3. Same-sprint delivery.</p></div>
+</div>
+<div class="interaction-box fragment slide-up" style="margin-top:6px;"><p class="compact"><i class="fas fa-users" style="color:#9333ea"></i> <strong style="color:#9333ea;">Raise your hand</strong> when I describe your team. Keep it up.</p></div>
+</section>
+
+<!-- Types 1 and 2 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-wrench" style="color:var(--vibe-orange)"></i> Type 1 &amp; Type 2</h2>
+<div class="two-col">
+<div>
+<div class="content-box fragment slide-left" style="border-left-color:var(--vibe-orange);">
+<h3><i class="fas fa-wrench"></i> Type 1 &mdash; AI-Assisted</h3>
+<ul><li class="blue">Traditional SDLC + AI tools at individual stages</li><li class="blue">Dev uses Copilot &middot; QA uses Claude</li><li class="cross">All structural gaps still exist</li><li class="cross">QA still enters after dev completes</li></ul>
+</div>
+<div class="highlight-box fragment slide-up" style="margin-top:6px;">
+<p class="compact"><i class="fas fa-theater-masks"></i> <strong>Scenario:</strong> Team uses Copilot and Claude. Velocity up 35%. Bug rate unchanged. Type?</p>
+<p class="compact2" style="color:var(--vibe-orange);font-weight:700;">Type 1. Faster execution of the same broken structure.</p>
+</div>
+</div>
+<div>
+<div class="content-box fragment slide-right" style="border-left-color:var(--vibe-blue);">
+<h3><i class="fas fa-file-alt"></i> Type 2 &mdash; Spec-Driven</h3>
+<ul><li class="blue">Requirements become machine-readable specs</li><li class="blue">Nothing starts without approved, testable spec</li><li class="blue">QA owns the requirements gate</li><li class="blue">AI validates specs before dev starts</li></ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- MOMENT: Parallel Stream — white version -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-stream" style="color:var(--vibe-green)"></i> Type 3 &mdash; The Parallel Stream Model</h2>
+<div class="highlight-box"><p class="bold text-blue">Dev and QA start at the same moment. Neither waits. Both intersect at defined synchronisation points.</p></div>
+<div style="display:flex;gap:16px;margin-top:8px;">
+<div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+<div class="ps-node dev fragment slide-left"><i class="fas fa-code"></i> &nbsp;DEV STREAM &mdash; Sprint Day 1</div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="ps-node dev fragment slide-left">Build feature</div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="ps-node dev fragment slide-left">Dev MCP Exploration &rarr; dev-log.json</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px;">
+<div class="ps-node qa fragment slide-right"><i class="fas fa-shield-alt"></i> &nbsp;QA STREAM &mdash; Sprint Day 1</div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="ps-node qa fragment slide-right">Write feature files</div>
+<div class="chain-arrow fragment">&#x2193;</div>
+<div class="ps-node qa fragment slide-right">QA Independent Exploration &rarr; qa-log.json</div>
+</div>
+</div>
+<div class="ps-node merge fragment scale-in" style="margin-top:8px;text-align:center;">&darr; Both logs merged &rarr; Automation generated &rarr; Sprint End: Built &#x2705; Tested &#x2705; Automated &#x2705;</div>
+<div class="critical-rule fragment slide-up" style="margin-top:6px;">
+<p><i class="fas fa-eye-slash"></i> &nbsp;Dev explores what they built. QA explores blind to dev. QA finds what dev could not see. Never skip independent QA exploration.</p>
+</div>
+</section>
+
+<!-- Types 4 and 5 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-robot" style="color:#9333ea"></i> Type 4 &amp; Type 5</h2>
+<div class="two-col">
+<div>
+<div class="content-box fragment slide-left" style="border-left-color:#9333ea;">
+<h3 style="color:#9333ea;"><i class="fas fa-robot"></i> Type 4 &mdash; Agentic</h3>
+<ul><li class="purple">Specialised agents handle entire phases</li><li class="purple">Planner &rarr; Generator &rarr; Execution &rarr; Healer &rarr; Observability</li><li class="purple">QA governs the quality system</li></ul>
+</div>
+<div class="highlight-box fragment slide-up" style="margin-top:6px;">
+<p class="compact"><i class="fas fa-theater-masks"></i> <strong>Scenario:</strong> Healthcare. AI generates tests. Every result signed off before release. Type 4 or 5? Risk?</p>
+<p class="compact2" style="color:var(--vibe-orange);font-weight:700;">Type 5. Legal liability without human sign-off.</p>
+</div>
+</div>
+<div>
+<div class="content-box fragment slide-right" style="border-left-color:#ef4444;">
+<h3 style="color:#dc2626;"><i class="fas fa-balance-scale"></i> Type 5 &mdash; Regulated</h3>
+<ul><li class="red">AI accelerates everything</li><li class="red">Every artifact requires human sign-off</li><li class="red">Audit trail mandatory</li><li class="red">Banking, healthcare, fintech, pharma</li></ul>
+</div>
+<div class="content-box fragment slide-right" style="margin-top:6px;">
+<h3><i class="fas fa-exclamation-circle"></i> Why Type Matters</h3>
+<p class="compact2">The workflow must match the SDLC type. Mismatch = failure. Right workflow for the right type.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ACT 5 CHAPTER -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:30px 0;">
+<i class="fas fa-cogs" style="font-size:4em;margin-bottom:16px;display:block;"></i>
+<h1>Act 5</h1><h2>QA Workflows in the AI Era</h2>
+<p>40 minutes &middot; 13 workflows &middot; Design &middot; Execution &middot; Intelligence</p>
+</div>
+</section>
+
+<!-- Framework -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-th" style="color:var(--vibe-orange)"></i> The Framework &mdash; Two Dimensions</h2>
+<div class="two-col" style="margin-top:8px;">
+<div class="content-box fragment slide-left">
+<h3><i class="fas fa-question-circle"></i> What QA Is Doing</h3>
+<div class="three-col" style="gap:6px;margin-top:6px;">
+<div style="text-align:center;background:#dbeafe;border-radius:8px;padding:8px 4px;"><i class="fas fa-pencil-alt" style="color:var(--vibe-blue);display:block;font-size:1.2em;margin-bottom:4px;"></i><p style="font-size:.65em;font-weight:700;color:var(--vibe-dark-blue);margin:0;">DESIGN</p><p style="font-size:.58em;color:#64748b;">Before testing</p></div>
+<div style="text-align:center;background:#dcfce7;border-radius:8px;padding:8px 4px;"><i class="fas fa-play-circle" style="color:var(--vibe-green);display:block;font-size:1.2em;margin-bottom:4px;"></i><p style="font-size:.65em;font-weight:700;color:#15803d;margin:0;">EXECUTION</p><p style="font-size:.58em;color:#64748b;">While testing</p></div>
+<div style="text-align:center;background:#ede9fe;border-radius:8px;padding:8px 4px;"><i class="fas fa-brain" style="color:#9333ea;display:block;font-size:1.2em;margin-bottom:4px;"></i><p style="font-size:.65em;font-weight:700;color:#6d28d9;margin:0;">INTELLIGENCE</p><p style="font-size:.58em;color:#64748b;">What it learns</p></div>
+</div>
+</div>
+<div class="content-box fragment slide-right">
+<h3><i class="fas fa-sliders-h"></i> How AI Is Involved</h3>
+<div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+<div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#dbeafe;border-radius:6px;"><span class="mode-badge assisted">AI-Assisted</span><span style="font-size:.68em;">Human drives &middot; AI accelerates</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#dcfce7;border-radius:6px;"><span class="mode-badge exploration">Exploration</span><span style="font-size:.68em;">Human + AI explore via MCP</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#ede9fe;border-radius:6px;"><span class="mode-badge agentic">Agentic</span><span style="font-size:.68em;">AI agents execute &middot; human governs</span></div>
+<div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#ffedd5;border-radius:6px;"><span class="mode-badge autonomous">Autonomous</span><span style="font-size:.68em;">System monitors without trigger</span></div>
+</div>
+</div>
+</div>
+<div class="interaction-box fragment slide-up" style="margin-top:6px;"><p class="compact"><i class="fas fa-users" style="color:#9333ea"></i> <strong style="color:#9333ea;">Which category</strong> is your team weakest in? Design, Execution, or Intelligence? Hands for each.</p></div>
+</section>
+
+<!-- DESIGN chapter -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-pencil-alt" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+<h1 style="font-size:1.8em;">DESIGN Workflows</h1><h2>WF1 &middot; WF2 &middot; WF3</h2>
+<p>Before testing starts</p>
+</div>
+</section>
+
+<!-- WF1 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><span class="wf-badge">WF1</span> Requirements &rarr; Test Scenarios <span class="mode-badge assisted">AI-Assisted</span></h2>
+<div class="two-col">
+<div class="flow-container">
+<div class="flow-box orange fragment slide-down">User Story / Requirement</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box fragment slide-down">AI extracts conditions &amp; clarifying questions</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-down">QA reviews: gaps? ambiguous?</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in">Gherkin .feature file &#x2705;</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box blue fragment slide-down">Saved to /quality &rarr; automation input</div>
+</div>
+<div>
+<div class="success-box fragment slide-right"><h3><i class="fas fa-bolt"></i> Time Saved</h3><p class="compact">2&ndash;3 hours &rarr; <strong>15 minutes</strong> per feature</p></div>
+<div class="content-box fragment slide-right" style="margin-top:6px;"><h3><i class="fas fa-link"></i> The Connection</h3><p class="compact2">Feature files from manual testing become the exact input for automation. Same work. Better format.</p></div>
+<div class="highlight-box fragment slide-up" style="margin-top:6px;"><p class="compact bold text-blue">WF2: Test Data &mdash; valid, invalid, edge case sets as JSON/CSV/SQL<br><br>WF3: Test Strategy &mdash; what to automate, explore, or skip. QA decides.</p></div>
+</div>
+</div>
+</section>
+
+<!-- EXECUTION chapter -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-play-circle" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+<h1 style="font-size:1.8em;">EXECUTION Workflows</h1><h2>WF4&ndash;WF6 Manual &nbsp;&nbsp; WF7&ndash;WF10 Automation</h2>
+</div>
+</section>
+
+<!-- WF4 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><span class="wf-badge">WF4</span> Exploratory Testing <span class="mode-badge exploration">Exploration-Based</span></h2>
+<div class="two-col">
+<div class="flow-container">
+<div class="flow-box orange fragment slide-down">Feature in test environment</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box fragment slide-down">AI generates charter (goal + scope + risk)</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in">MCP agent browses live application</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box fragment slide-down">AI suggests next test paths</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-down">QA decides which paths to pursue</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in">exploration-log.json saved</div>
+</div>
+<div>
+<div class="critical-rule fragment slide-right"><p><i class="fas fa-exclamation-triangle"></i> &nbsp;AI suggests. QA decides. Always.<br><br>MCP gives AI eyes on your running application. QA gives the session judgment and direction.</p></div>
+</div>
+</div>
+</section>
+
+<!-- WF5 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><span class="wf-badge">WF5</span> Feature Readiness <span class="mode-badge exploration">Exploration-Based</span></h2>
+<div class="highlight-box"><p class="bold text-blue">The centrepiece of Type 3. Same sprint: built &#x2705; tested &#x2705; automated &#x2705;</p></div>
+<div class="flow-container" style="margin-top:8px;">
+<div class="two-col" style="gap:16px;">
+<div style="text-align:center;" class="fragment slide-left"><div class="flow-box orange" style="font-size:.65em;"><i class="fas fa-code"></i> Dev builds &rarr; explores what they built &rarr; dev-log.json</div></div>
+<div style="text-align:center;" class="fragment slide-right"><div class="flow-box green" style="font-size:.65em;"><i class="fas fa-shield-alt"></i> QA explores independently &mdash; blind to dev &rarr; qa-log.json</div></div>
+</div>
+<div class="flow-arrow fragment">&#x2193; Both merged</div>
+<div class="flow-box blue fragment scale-in" style="font-size:.7em;">WF7: Automation from combined evidence</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in" style="font-size:.7em;">Built &#x2705; &nbsp;Tested &#x2705; &nbsp;Automated &#x2705; &nbsp;Same Sprint</div>
+</div>
+<div class="critical-rule fragment slide-up" style="margin-top:6px;"><p><i class="fas fa-eye-slash"></i> &nbsp;Dev blind spots match their implementation. Like proofreading your own writing. QA finds what dev could not see.</p></div>
+</section>
+
+<!-- WF6 Bug + WF7 Automation -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><span class="wf-badge">WF6</span> Bug Reporting &amp; <span class="wf-badge">WF7</span> Automation Generation</h2>
+<div class="two-col">
+<div>
+<h3><i class="fas fa-bug"></i> WF6 &mdash; Bug Reporting <span class="mode-badge assisted" style="font-size:.65em;">AI-Assisted</span></h3>
+<div class="flow-container">
+<div class="flow-box orange fragment slide-left" style="font-size:.65em;">Rough notes (2&ndash;3 bullets)</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment slide-left" style="font-size:.65em;">AI: complete report (title, steps, severity, env)</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box blue fragment slide-left" style="font-size:.65em;">Filed &rarr; AI analyses patterns across backlog</div>
+</div>
+</div>
+<div>
+<h3><i class="fas fa-magic"></i> WF7 &mdash; Automation Generation <span class="mode-badge agentic" style="font-size:.65em;">Agentic</span></h3>
+<div class="flow-container">
+<div class="flow-box orange fragment slide-right" style="font-size:.65em;">Exploration logs + Feature files</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box purple fragment slide-right" style="font-size:.65em;">PLANNER AGENT: strategy + risk</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box blue fragment slide-right" style="font-size:.65em;">GENERATOR AGENT: POM + specs + steps</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-right" style="font-size:.65em;">QA reviews: locators? assertions? coverage?</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in" style="font-size:.65em;">Committed &rarr; CI runs &#x2705;</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- MOMENT: SELF-HEALING RULE — white version -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><span class="wf-badge">WF8</span> Maintenance &amp; <span class="wf-badge">WF9</span> Self-Healing <span class="mode-badge agentic">Agentic</span></h2>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+<div class="fragment slide-left" style="display:flex;align-items:center;gap:16px;padding:14px 16px;border-radius:10px;background:#f0fdf4;border:2px solid var(--vibe-green);">
+<div style="font-size:1.8em;flex-shrink:0;">&#x2705;</div>
+<div style="font-size:.82em;"><strong style="display:block;color:#15803d;font-size:1.05em;margin-bottom:4px;">Actions &mdash; CAN be self-healed</strong>Locator fails at runtime &rarr; Healer agent finds alternative &rarr; action completes &rarr; healing logged for QA review</div>
+</div>
+<div class="fragment slide-right" style="display:flex;align-items:center;gap:16px;padding:14px 16px;border-radius:10px;background:#fff1f2;border:2px solid #ef4444;">
+<div style="font-size:1.8em;flex-shrink:0;">&#x274C;</div>
+<div style="font-size:.82em;"><strong style="display:block;color:#dc2626;font-size:1.05em;margin-bottom:4px;">Verifications &mdash; NEVER self-heal</strong>A failing assertion = a quality signal. If you heal it, you silence the warning. You create the illusion of quality while defects accumulate.</div>
+</div>
+<div class="fragment scale-in" style="text-align:center;font-size:.9em;font-weight:800;color:var(--vibe-dark-blue);padding:10px;background:#fef3c7;border:2px solid var(--vibe-yellow);border-radius:8px;">A failing assertion is the system telling you something is wrong.<br>Never hide it. Never heal it. Always report it.</div>
+</div>
+</section>
+
+<!-- WF10 CI Gate -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><span class="wf-badge">WF10</span> CI Quality Gate <span class="mode-badge agentic">Agentic</span></h2>
+<div class="two-col">
+<div class="flow-container">
+<div class="flow-box orange fragment slide-down">Developer pushes code</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box purple fragment slide-down">AI: what changed? Targeted regression only</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box fragment slide-down">Self-healing handles locator changes</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in">Quality digest generated</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-down">QA reviews digest &mdash; not raw logs</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-down">QA decides: fix before merge / proceed</div>
+</div>
+<div>
+<div class="content-box fragment slide-right"><h3><i class="fas fa-clipboard-list"></i> Quality Digest</h3>
+<div style="background:#0d1117;border-radius:6px;padding:8px 10px;font-family:monospace;font-size:.62em;color:#c9d1d9;text-align:left;line-height:1.6;">
+<span style="color:#86efac;">&#x2705; 47 tests passed</span><br>
+<span style="color:#ef4444;">&#x274C; 2 failed: API contract</span><br>
+<span style="color:#fbbf24;">&#x26A0;&#xFE0F; 3 healed: checkout button</span><br>
+<span style="color:#60a5fa;">&#x1F4CA; Gap: new payment method</span>
+</div></div>
+<div class="highlight-box fragment slide-up" style="margin-top:6px;"><p class="compact bold text-blue">AI does the triage. QA does the decision. This is the governance model.</p></div>
+<div class="warning-box fragment slide-up" style="margin-top:6px;"><p class="compact2"><strong>Reflection:</strong> Which of the 7 execution workflows would make the biggest difference next sprint? Write it down.</p></div>
+</div>
+</div>
+</section>
+
+<!-- INTELLIGENCE chapter -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-brain" style="font-size:3.5em;margin-bottom:16px;display:block;"></i>
+<h1 style="font-size:1.8em;">INTELLIGENCE Workflows</h1><h2>WF11 &middot; WF12 &middot; WF13</h2>
+<p>What the system learns &middot; Where quality compounds</p>
+</div>
+</section>
+
+<!-- WF11 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><span class="wf-badge">WF11</span> Coverage Audit <span class="mode-badge agentic">Agentic</span></h2>
+<div class="two-col">
+<div class="flow-container">
+<div class="flow-box orange fragment slide-down">End of every sprint</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box purple fragment slide-down">AI: application changes vs existing coverage</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box red fragment scale-in">Coverage gap report generated</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-down">QA prioritises gaps for next sprint</div>
+</div>
+<div>
+<div class="content-box fragment slide-right"><h3><i class="fas fa-file-alt"></i> Sample Gap Report</h3>
+<div style="background:#0d1117;border-radius:6px;padding:8px;font-family:monospace;font-size:.6em;color:#c9d1d9;text-align:left;line-height:1.6;">
+<span style="color:#ef4444;">&#x274C;</span> Payment retry: not tested<br>
+<span style="color:#ef4444;">&#x274C;</span> Admin export: no automation<br>
+<span style="color:#fbbf24;">&#x26A0;&#xFE0F;</span> Mobile: desktop only<br>
+<span style="color:#86efac;">&#x2705;</span> Login: 95% covered
+</div></div>
+<div class="critical-rule fragment slide-up" style="margin-top:6px;"><p><i class="fas fa-exclamation-triangle"></i> &nbsp;Green results are not evidence of good coverage. The test that does not exist cannot fail. It can only leave a gap.</p></div>
+<div class="interaction-box fragment slide-up" style="margin-top:6px;"><p class="compact"><i class="fas fa-users" style="color:#9333ea"></i> <strong style="color:#9333ea;">How many</strong> run a deliberate coverage audit every sprint separate from pass/fail?</p></div>
+</div>
+</div>
+</section>
+
+<!-- WF12 + WF13 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><span class="wf-badge">WF12</span> Production Signals &amp; <span class="wf-badge">WF13</span> Traceability <span class="mode-badge autonomous">Autonomous</span></h2>
+<div class="two-col">
+<div>
+<h3><i class="fas fa-satellite-dish"></i> WF12 &mdash; Production Signal Capture</h3>
+<div class="flow-container">
+<div class="flow-box green fragment slide-left" style="font-size:.65em;">Production monitoring</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box purple fragment slide-left" style="font-size:.65em;">Observability agent: anomalies &middot; errors &middot; failures</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box blue fragment slide-left" style="font-size:.65em;">/quality/production-signals/ stored</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in" style="font-size:.65em;">Next sprint: new scenarios from gaps</div>
+</div>
+<div class="highlight-box fragment slide-up" style="margin-top:4px;"><p class="compact2 bold text-blue">Production is the beginning of the next sprint&rsquo;s quality intelligence.</p></div>
+</div>
+<div>
+<h3><i class="fas fa-project-diagram"></i> WF13 &mdash; Traceability Maintenance</h3>
+<div class="flow-container">
+<div class="flow-box orange fragment slide-right" style="font-size:.65em;">Every code generation</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment slide-right" style="font-size:.65em;">Provenance metadata written automatically</div>
+<div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box blue fragment slide-right" style="font-size:.65em;">graph.json updated &mdash; always current</div>
+</div>
+<div class="success-box fragment slide-up" style="margin-top:4px;"><p class="compact bold"><i class="fas fa-star" style="color:var(--vibe-yellow)"></i> This is what makes AI intelligent on your specific project. The foundation of everything.</p></div>
+</div>
+</div>
+</section>
+
+<!-- ACT 6 CHAPTER -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-exclamation-triangle" style="font-size:4em;margin-bottom:16px;display:block;color:var(--vibe-yellow);"></i>
+<h1>Act 6</h1><h2>Real Failure Examples</h2>
+<p>6 failure patterns &middot; Know them before they happen</p>
+</div>
+</section>
+
+<!-- Failures 1-3 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-times-circle" style="color:#ef4444"></i> Failures 1, 2, 3</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+<div class="warning-box fragment slide-up"><p class="compact"><strong><i class="fas fa-robot"></i> Failure 1 &mdash; AI Without Understanding</strong> &mdash; 200 tests pass &#x2705;. International checkout fails in production. Tests never covered non-ASCII. <span style="color:var(--vibe-orange);font-weight:700;">Trap: Test count &ne; Coverage.</span> <span style="color:#16a34a;font-weight:700;">Fix: WF11 every sprint.</span></p></div>
+<div class="warning-box fragment slide-up"><p class="compact"><strong><i class="fas fa-blind"></i> Failure 2 &mdash; Developer Blind Spots</strong> &mdash; Dev explores their feature. QA skips independent exploration. Coupon + subscription = broken in production. <span style="color:var(--vibe-orange);font-weight:700;">Trap: Dev blind spots match their implementation.</span> <span style="color:#16a34a;font-weight:700;">Fix: WF5 non-negotiable.</span></p></div>
+<div class="warning-box fragment slide-up"><p class="compact"><strong><i class="fas fa-clock"></i> Failure 3 &mdash; Sprint Pressure Corrupts</strong> &mdash; Friday deadline. Dev: &ldquo;tested happy path.&rdquo; QA: 3 generic test cases. All green &#x2705;. 6 production bugs. <span style="color:var(--vibe-orange);font-weight:700;">Trap: Process appears followed. Quality not delivered.</span> <span style="color:#16a34a;font-weight:700;">Fix: Feature done = exploration thorough.</span></p></div>
+</div>
+</section>
+
+<!-- Failures 4-6 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-times-circle" style="color:#ef4444"></i> Failures 4, 5, 6</h2>
+<div style="display:flex;flex-direction:column;gap:6px;margin-top:8px;">
+<div class="warning-box fragment slide-up"><p class="compact"><strong><i class="fas fa-database"></i> Failure 4 &mdash; Unstructured Capture</strong> &mdash; Sprint 1: great JSON &#x2705; &middot; Sprint 5: free text &#x26A0;&#xFE0F; &middot; Sprint 8: nothing &#x274C;. 50 files of noise. No compound intelligence. <span style="color:var(--vibe-orange);font-weight:700;">Trap: Volume grows. Signal degrades.</span> <span style="color:#16a34a;font-weight:700;">Fix: Define JSON structure before Sprint 1.</span></p></div>
+<div class="warning-box fragment slide-up"><p class="compact"><strong><i class="fas fa-check-circle"></i> Failure 5 &mdash; False Green Confidence</strong> &mdash; 12 new features. Self-healing keeps 200 tests green &#x2705;. New features: zero coverage. Production regression. <span style="color:var(--vibe-orange);font-weight:700;">Trap: Green feels like good coverage.</span> <span style="color:#16a34a;font-weight:700;">Fix: WF11 mandatory every sprint.</span></p></div>
+<div class="warning-box fragment slide-up"><p class="compact"><strong><i class="fas fa-user-slash"></i> Failure 6 &mdash; QA Skills Atrophy</strong> &mdash; Full automation 6 months. QA only reviews dashboards. Complex race condition. Agents cannot diagnose. QA skills rusty. 3-day incident. <span style="color:var(--vibe-orange);font-weight:700;">Trap: Oversight feels productive. Skills erode silently.</span> <span style="color:#16a34a;font-weight:700;">Fix: Manual exploration every sprint.</span></p></div>
+</div>
+<div class="highlight-box fragment slide-up" style="margin-top:6px;"><p class="compact bold text-blue">Implement 13 workflows and ignore these 6 &mdash; you will hit at least three in your first six sprints.</p></div>
+</section>
+
+<!-- ACT 7 CHAPTER -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:40px 0;">
+<i class="fas fa-filter" style="font-size:4em;margin-bottom:16px;display:block;"></i>
+<h1>Act 7</h1><h2>Workflows Per SDLC Type</h2>
+<p>Match workflows to your team &middot; Right workflow for the right type</p>
+</div>
+</section>
+
+<!-- Selection matrix -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-table" style="color:var(--vibe-orange)"></i> Workflow Selection Matrix</h2>
+<table class="cmp-table">
+<thead><tr><th>Workflow</th><th>T1</th><th>T2</th><th>T3</th><th>T4</th><th>T5</th></tr></thead>
+<tbody>
+<tr><td>WF1 Req&rarr;Scenarios &middot; WF2 Data &middot; WF3 Strategy</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td></tr>
+<tr><td>WF4 Exploratory &middot; WF6 Bug Reporting</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td></tr>
+<tr><td>WF5 Feature Readiness</td><td class="bad">&mdash;</td><td class="bad">&mdash;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="warn">&#x26A0;&#xFE0F;</td></tr>
+<tr><td>WF7 Automation Generation</td><td class="bad">&mdash;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td></tr>
+<tr><td>WF8 Maintenance &middot; WF9 Self-Healing</td><td class="bad">&mdash;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="warn">&#x26A0;&#xFE0F;</td></tr>
+<tr><td>WF10 CI Quality Gate</td><td class="bad">&mdash;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td></tr>
+<tr><td>WF11 Coverage Audit</td><td class="bad">&mdash;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td></tr>
+<tr><td>WF12 Production Signals</td><td class="bad">&mdash;</td><td class="bad">&mdash;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td></tr>
+<tr><td>WF13 Traceability Maintenance</td><td class="warn">&#x26A0;&#xFE0F;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td><td class="good">&#x2705;</td></tr>
+</tbody>
+</table>
+</section>
+
+<!-- T1+T2 chains -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-route" style="color:var(--vibe-orange)"></i> Type 1 &amp; Type 2 &mdash; Workflow Chains</h2>
+<div class="two-col">
+<div>
+<h3><i class="fas fa-wrench"></i> Type 1 &mdash; Start Here</h3>
+<div class="flow-container">
+<div class="flow-box orange fragment slide-down" style="font-size:.65em;">WF1 Requirements &rarr; Test Scenarios</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box fragment slide-down" style="font-size:.65em;">WF2 Test Data &middot; WF3 Strategy</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box fragment slide-down" style="font-size:.65em;">WF4 Exploratory Testing</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in" style="font-size:.65em;">WF6 Bug Reports</div>
+</div>
+<div class="success-box fragment slide-up" style="margin-top:4px;"><p class="compact2">Zero SDLC change. 40&ndash;50% time reduction. Start here.</p></div>
+</div>
+<div>
+<h3><i class="fas fa-file-contract"></i> Type 2 &mdash; Add Spec Gate</h3>
+<div class="flow-container">
+<div class="flow-box red fragment slide-down" style="font-size:.65em;">WF3+WF1 as mandatory gate<br><span style="font-weight:400;">Nothing starts until QA approves</span></div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box fragment slide-down" style="font-size:.65em;">WF2 &middot; WF4 &middot; WF6</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box purple fragment slide-down" style="font-size:.65em;">WF7 Automation Generation</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in" style="font-size:.65em;">WF8 &middot; WF10 &middot; WF11 &middot; WF13</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- T3 chain -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-stream" style="color:var(--vibe-green)"></i> Type 3 &mdash; The Full Parallel Chain</h2>
+<div class="flow-container" style="margin-top:6px;">
+<p style="text-align:center;font-size:.7em;font-weight:700;color:var(--vibe-dark-blue);margin:0 0 6px;">Sprint Day 1: Requirements Approved</p>
+<div class="arrow-flow fragment slide-up" style="gap:4px;">
+<div class="step orange" style="font-size:.6em;">WF3</div><div class="arrow">&rarr;</div>
+<div class="step orange" style="font-size:.6em;">WF1</div><div class="arrow">&rarr;</div>
+<div class="step orange" style="font-size:.6em;">WF2</div>
+</div>
+<div style="text-align:center;color:var(--vibe-orange);margin:4px 0;" class="fragment">&#x2193;</div>
+<div class="two-col fragment slide-up" style="gap:12px;">
+<div style="text-align:center;"><div class="flow-box orange" style="font-size:.62em;">Dev builds &rarr; WF4 exploration</div></div>
+<div style="text-align:center;"><div class="flow-box green" style="font-size:.62em;">QA writes &rarr; WF5 independent</div></div>
+</div>
+<div style="text-align:center;color:var(--vibe-orange);margin:4px 0;" class="fragment">&#x2193; merge</div>
+<div class="arrow-flow fragment slide-up" style="gap:4px;">
+<div class="step purple" style="font-size:.6em;">WF7</div><div class="arrow">&rarr;</div>
+<div class="step" style="font-size:.6em;">WF9</div><div class="arrow">&rarr;</div>
+<div class="step green" style="font-size:.6em;">WF10</div><div class="arrow">&rarr;</div>
+<div class="step" style="font-size:.6em;">WF11</div><div class="arrow">&rarr;</div>
+<div class="step green" style="font-size:.6em;">WF12</div><div class="arrow">&rarr;</div>
+<div class="step blue" style="font-size:.6em;">WF13</div>
+</div>
+<div class="flow-box green fragment scale-in" style="font-size:.7em;max-width:60%;margin:6px auto 0;">Built &#x2705; &nbsp;Tested &#x2705; &nbsp;Automated &#x2705;</div>
+</div>
+<div class="interaction-box fragment slide-up" style="margin-top:6px;"><p class="compact"><i class="fas fa-users" style="color:#9333ea"></i> <strong style="color:#9333ea;">Look at your type.</strong> Which workflows are you doing? Which are missing? 60 seconds.</p></div>
+</section>
+
+<!-- T4+T5 -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-robot" style="color:#9333ea"></i> Type 4 &amp; Type 5</h2>
+<div class="two-col">
+<div>
+<h3><i class="fas fa-robot"></i> Type 4 &mdash; Agents Execute</h3>
+<div class="flow-container">
+<div class="flow-box purple fragment slide-left" style="font-size:.63em;">Planner agent: WF7 strategy (QA reviews)</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box blue fragment slide-left" style="font-size:.63em;">Generator: all test artifacts</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box fragment slide-left" style="font-size:.63em;">Execution: WF10 CI</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment slide-left" style="font-size:.63em;">Healer: WF9 (QA reviews log)</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-left" style="font-size:.63em;">QA governs: WF11 + WF13</div>
+</div>
+</div>
+<div>
+<h3><i class="fas fa-balance-scale"></i> Type 5 &mdash; Regulated</h3>
+<div class="flow-container">
+<div class="flow-box fragment slide-right" style="font-size:.63em;">All Type 3 workflows</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-right" style="font-size:.63em;">WF7 &rarr; QA reviews &rarr; signs &#x270D;&#xFE0F;</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box orange fragment slide-right" style="font-size:.63em;">WF13 &rarr; compliance matrix</div><div class="flow-arrow fragment">&#x2193;</div>
+<div class="flow-box green fragment scale-in" style="font-size:.63em;">Release: complete audit trail &#x2705;</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- MOMENT: CLOSING ANSWER — white version -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-question-circle" style="color:var(--vibe-orange)"></i> Why Are You Still Here?</h2>
+<div style="display:flex;flex-direction:column;gap:5px;margin-top:10px;">
+<div class="closing-row no-row fragment slide-left"><div class="closing-icon">&#x274C;</div><div>Not because AI cannot write code. It can write code.</div></div>
+<div class="closing-row no-row fragment slide-left"><div class="closing-icon">&#x274C;</div><div>Not because AI cannot write tests. It can write tests.</div></div>
+<div class="closing-row no-row fragment slide-left"><div class="closing-icon">&#x274C;</div><div>Not because AI cannot find bugs. It can find bugs.</div></div>
+<div class="closing-row key-row fragment scale-in"><div class="closing-icon">&#x26A0;&#xFE0F;</div><div>Because AI does not yet have the complete, connected, traceable context of your project.</div></div>
+<div class="closing-row yes-row fragment slide-right"><div class="closing-icon">&#x2192;</div><div>When that context exists &mdash; AI does not replace QA. <strong>AI amplifies QA.</strong></div></div>
+<div class="closing-row yes-row fragment slide-right"><div class="closing-icon">&#x2192;</div><div>QA becomes the most important role in the system. <strong>Not the executor. The governor.</strong></div></div>
+<div class="closing-row final-row fragment scale-in"><div class="closing-icon">&#x2605;</div><div>The person who governs the intelligence. Judgment. Accountability. Domain knowledge. <strong>Those things are yours. They always will be.</strong></div></div>
+</div>
+</section>
+
+<!-- The one thing -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-rocket" style="color:var(--vibe-orange)"></i> The One Thing to Do Monday Morning</h2>
+<div class="highlight-box"><p class="bold text-blue">You heard 13 workflows. You cannot implement 13 next sprint. You wrote down the one that matters most.</p></div>
+<div class="flow-container fragment slide-up" style="max-width:680px;margin:10px auto;">
+<div class="arrow-flow">
+<div class="step orange">Pick 1 workflow</div><div class="arrow">&rarr;</div>
+<div class="step">1 full sprint</div><div class="arrow">&rarr;</div>
+<div class="step green">Measure</div><div class="arrow">&rarr;</div>
+<div class="step purple">Add the next</div>
+</div>
+</div>
+<div class="two-col fragment slide-up" style="margin-top:8px;">
+<div class="content-box"><p class="compact"><span style="background:#ffedd5;padding:2px 6px;border-radius:4px;font-weight:700;color:var(--vibe-orange);">Starting fresh?</span> &mdash; Project Repository from Day 1. No Jira. No Zephyr.</p></div>
+<div class="content-box"><p class="compact"><span style="background:#dbeafe;padding:2px 6px;border-radius:4px;font-weight:700;color:var(--vibe-blue);">Using Jira today?</span> &mdash; Run in parallel. Let the repository mature organically.</p></div>
+</div>
+</section>
+
+<!-- MOMENT: FINAL LINE — white version -->
+<section class="title-slide">
+<img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ" style="max-width:460px;width:76%;margin:0 auto 12px;display:block;" onerror="this.style.display='none'">
+<div style="margin-top:8px;">
+<p class="fragment slide-up" style="font-size:1.3em;font-weight:700;color:#94a3b8;margin:4px 0;">The automation runs.</p>
+<p class="fragment slide-up" style="font-size:1.3em;font-weight:700;color:var(--vibe-dark-blue);margin:4px 0;">The QA professional thinks.</p>
+</div>
+<div class="final-quote fragment scale-in" style="max-width:640px;margin:12px auto;">
+&ldquo; The automation runs. The QA professional thinks. &rdquo;
+</div>
+<div style="margin-top:12px;" class="fragment slide-up">
+<span class="badge"><i class="fas fa-question-circle"></i> Questions?</span>
+<span class="badge green"><i class="fas fa-cogs"></i> 13 Workflows</span>
+<span class="badge blue"><i class="fas fa-link"></i> Connect Everything</span>
+</div>
+<p class="tagline fragment slide-up" style="margin-top:10px;">
+<i class="fas fa-globe"></i> vibetestq.com &nbsp;|&nbsp;
+<i class="fab fa-linkedin"></i> qtpsudhakar &nbsp;|&nbsp;
+<i class="fas fa-envelope"></i> sudhakar@qtpsudhakar.com
+</p>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+(function(){
+var MARGIN=0.04;
+function getSize(){return{w:window.innerWidth,h:window.innerHeight}}
+function buildConfig(){var s=getSize();return{hash:true,transition:'slide',transitionSpeed:'default',slideNumber:true,controls:true,progress:true,center:true,width:s.w,height:s.h,margin:MARGIN,minScale:0.1,maxScale:1.0}}
+var initialized=false;
+function init(){if(typeof Reveal==='undefined')return false;Reveal.initialize(buildConfig());initialized=true;return true}
+var resizeTimer=null,lastDPR=window.devicePixelRatio;
+function onViewportChange(){if(!initialized)return;clearTimeout(resizeTimer);resizeTimer=setTimeout(function(){var s=getSize();Reveal.configure({width:s.w,height:s.h});Reveal.layout()},60)}
+window.addEventListener('resize',onViewportChange);
+setInterval(function(){var dpr=window.devicePixelRatio;if(dpr!==lastDPR){lastDPR=dpr;onViewportChange()}},250);
+document.addEventListener('keydown',function(e){if(!initialized)return;if((e.ctrlKey||e.metaKey)&&(e.key==='='||e.key==='+')){e.preventDefault();var s=getSize();Reveal.configure({width:s.w*0.97,height:s.h*0.97});Reveal.layout()}if((e.ctrlKey||e.metaKey)&&e.key==='-'){e.preventDefault();var s2=getSize();Reveal.configure({width:s2.w*1.03,height:s2.h*1.03});Reveal.layout()}});
+if(!init()){var attempts=0,pollTimer=setInterval(function(){attempts++;if(init()){clearInterval(pollTimer)}else if(attempts>=50){clearInterval(pollTimer)}},100)}
+})();
+</script>
+</body></html>

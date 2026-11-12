@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presenter Notes</title>
+<style>
+:root { --ink: #1e293b; --muted: #64748b; --line: #e2e8f0; --blue: #1e40af; --dk: #1e3a8a; --orange: #f97316; --green: #16a34a; --red: #dc2626; --violet: #7c3aed; --bg: #ffffff; --soft: #f8fafc; --yel: #fef3c7; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Trebuchet MS', 'Segoe UI', Tahoma, sans-serif; font-size: 17px; line-height: 1.5; }
+.wrap { max-width: 920px; margin: 0 auto; padding: 28px 16px 60px; }
+h1 { color: var(--dk); font-size: 30px; line-height: 1.2; margin: 0 0 4px; }
+.sub { color: var(--muted); margin: 0 0 18px; }
+.box { background: var(--soft); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; margin: 0 0 18px; }
+.box h2 { font-size: 18px; margin: 0 0 6px; color: var(--dk); }
+.box ul { margin: 0; padding-left: 20px; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
+.toc a { text-decoration: none; font-size: 14px; font-weight: 700; color: var(--blue); border: 1px solid #bfdbfe; background: #eff6ff; border-radius: 999px; padding: 4px 12px; }
+.sec { margin: 34px 0 10px; padding: 8px 14px; border-radius: 10px; background: var(--dk); color: #fff; font-size: 19px; font-weight: 700; }
+.sl { border: 1px solid var(--line); border-left: 6px solid var(--blue); border-radius: 12px; padding: 12px 16px 10px; margin: 0 0 12px; page-break-inside: avoid; break-inside: avoid; }
+.sl.q { border-left-color: var(--violet); background: #faf5ff; }
+.sl.ch { border-left-color: var(--dk); background: #eef2ff; }
+.sl.demo { border-left-color: var(--orange); background: #fff7ed; }
+.hd { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.n { font-weight: 700; color: #fff; background: var(--blue); border-radius: 8px; padding: 0 9px; font-size: 15px; }
+.sl.q .n { background: var(--violet); } .sl.ch .n { background: var(--dk); } .sl.demo .n { background: var(--orange); }
+.t { font-weight: 700; font-size: 19px; color: var(--dk); }
+.c { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 1px 10px; white-space: nowrap; }
+.sl ul { margin: 6px 0 4px; padding-left: 20px; }
+.sl li { margin: 2px 0; }
+.ask { margin: 6px 0 2px; padding: 6px 12px; border-radius: 8px; background: var(--yel); border-left: 4px solid #fbbf24; }
+.ask b, .clk b, .br b { color: var(--dk); }
+.clk { margin: 6px 0 2px; font-size: 15px; color: #334155; }
+.clk ol { margin: 2px 0; padding-left: 22px; }
+.br { margin: 6px 0 0; font-size: 15px; color: var(--muted); font-style: italic; }
+code { font-family: Consolas, 'DejaVu Sans Mono', monospace; font-size: 14px; background: #f1f5f9; padding: 1px 5px; border-radius: 5px; }
+@media (max-width: 600px) { .c { margin-left: 0; } body { font-size: 16px; } }
+@media print { .toc { display: none; } .wrap { padding: 0; } .sec { -webkit-print-color-adjust: exact; print-color-adjust: exact; } body { font-size: 13px; } }
+</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="wrap">
+<h1>Presenter Notes</h1>
+<p class="sub">Self-Healing Test Automation: Runtime Recovery Without False Confidence · ConfQ 2026 · 39 slides · about 90 clicks</p>
+
+<div class="box">
+<h2>Before you start</h2>
+<ul>
+<li>Open the offline deck in an up-to-date Chrome or Edge, full screen (F11). It needs no internet.</li>
+<li>Arrow keys or the clicker step through the clicks. Ctrl + and Ctrl − fine-tune the size if the projector crops.</li>
+<li>One story runs through the whole talk: <b>Login is renamed Sign In and <code>#lgnbtn</code> breaks</b>. Keep coming back to it.</li>
+<li>The main question is on slide 3. Repeat it at the Risks chapter (28) and answer it on slide 31.</li>
+<li>Have the demo ready in another window before slide 35. If the demo fails, slides 24 to 27 show the same flow.</li>
+</ul>
+</div>
+
+<div class="toc">
+<a href="#s1">Opening 1 to 4</a><a href="#s5">History 5 to 11</a><a href="#s12">What healing is 12 to 21</a><a href="#s22">Verified healing 22 to 27</a><a href="#s28">Risks and the answer 28 to 32</a><a href="#s33">TAMASH and demo 33 to 37</a><a href="#s38">Close 38 to 39</a>
+</div>
+
+<div class="sec" id="s1">Opening</div>
+
+<div class="sl"><div class="hd"><span class="n">1</span><span class="t">Title</span><span class="c">no clicks</span></div>
+<ul><li>Welcome the room. Say the title once: self-healing, and runtime recovery without false confidence.</li>
+<li>"Today is not about a tool. It is about how we get there, and how we stay honest while we do it."</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">2</span><span class="t">Your speaker</span><span class="c">8 clicks</span></div>
+<ul><li>Keep it short: 21+ years in QA, 10,000+ trained, the QTP book.</li></ul>
+<div class="ask"><b>Ask:</b> "Hands up if you have used…" and say each tool as it appears.</div>
+<div class="clk"><b>Clicks:</b> WinRunner, QTP, Selenium, Protractor, Cypress, Puppeteer, Playwright (2020, the L&amp;T training), TAMASH.</div>
+<p class="br"><b>Bridge:</b> "Every one of these tools broke when the application changed. So today's question is…"</p></div>
+
+<div class="sl"><div class="hd"><span class="n">3</span><span class="t">Today's question</span><span class="c">1 click</span></div>
+<ul><li>Read the question slowly. This is the whole talk.</li>
+<li>Click: the path. Where healing came from, what it is and is not, verified healing, risks and limits, the answer.</li></ul></div>
+
+<div class="sl q"><div class="hd"><span class="n">4</span><span class="t">Quote</span><span class="c">no clicks</span></div>
+<ul><li>"A test suite is only as strong as its next release. Every release is a test of your tests." Pause, then move on.</li></ul></div>
+
+<div class="sec" id="s5">Where healing came from</div>
+
+<div class="sl"><div class="hd"><span class="n">5</span><span class="t">Let's go back 20 years</span><span class="c">no clicks</span></div>
+<div class="ask"><b>Ask:</b> "QTP. What do you remember about it?" Take two or three answers.</div></div>
+
+<div class="sl"><div class="hd"><span class="n">6</span><span class="t">QTP: everything in one tool</span><span class="c">3 clicks</span></div>
+<ul><li>Recorder, object repository, checkpoints, data driven, batch: one suite.</li></ul>
+<div class="clk"><b>Clicks:</b><ol><li>The second row: identification, recovery, maintenance mode, update run, reporting.</li><li>The orange note: these kept runs going, but they were fallback, recovery and maintenance. Not healing.</li><li>"All in one suite. End to end."</li></ol></div></div>
+
+<div class="sl"><div class="hd"><span class="n">7</span><span class="t">Identification was a fallback ladder</span><span class="c">1 click</span></div>
+<ul><li>Walk down the steps: normal, Smart Identification, index, image, then a person.</li>
+<li>Image based (Insight) was used when you recorded the object as an image; it is not an automatic next step.</li></ul>
+<div class="clk"><b>Click:</b> "Every automatic step was configured in advance. None of them knew the intent: click Login. Only the person at the end did."</div></div>
+
+<div class="sl"><div class="hd"><span class="n">8</span><span class="t">Then we went backwards</span><span class="c">no clicks</span></div>
+<ul><li>QTP had it integrated. The Selenium era made everyone build their own waits, retries, try/catch and reports. Playwright brought many back.</li></ul>
+<div class="ask"><b>Ask:</b> "Why did we accept losing all of it?" Let it hang. The next slide answers it.</div></div>
+
+<div class="sl"><div class="hd"><span class="n">9</span><span class="t">How nature favored Selenium (2005 to 2015)</span><span class="c">5 clicks</span></div>
+<ul><li>Natural selection: the environment changed, and the tool that fitted it survived.</li></ul>
+<div class="clk"><b>Clicks:</b><ol><li>People went online: 2G to 4G, browser wars, smartphones (one web app reached desktop and mobile).</li><li>Business followed: desktop to web, Web 2.0, startups needing automation they could afford.</li><li>QTP, alone. Your personal moment: IE first, Windows only, VBScript only, costly licences.</li><li>2008 recession (a free tool beat a costly licence) and WebDriver in Selenium 2 (real browser, any language).</li><li>"Selenium gave us browser automation for free. We lost the suite and landed in DIY."</li></ol></div></div>
+
+<div class="sl"><div class="hd"><span class="n">10</span><span class="t">What came back, what's still missing</span><span class="c">9 clicks</span></div>
+<div class="ask"><b>Ask:</b> before each row, "Did Selenium have it? Does Playwright?"</div>
+<div class="clk"><b>Clicks:</b> one row at a time. The last row, "Healing, during the run", is no for all three. Then: "None of them heals. They retry, recover, or wait for a person."</div></div>
+
+<div class="sl q"><div class="hd"><span class="n">11</span><span class="t">Quote</span><span class="c">no clicks</span></div>
+<ul><li>"We had answers twenty years ago. We just did not carry them forward."</li></ul></div>
+
+<div class="sec" id="s12">What healing is, and is not</div>
+
+<div class="sl ch"><div class="hd"><span class="n">12</span><span class="t">Chapter: what healing is, and is not</span><span class="c">no clicks</span></div>
+<ul><li>"A test breaks. What should happen next?" Point at the agenda strip: we are at step 2.</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">13</span><span class="t">Release 1.0 to 2.0</span><span class="c">3 clicks</span></div>
+<ul><li>Release 1.0: the test clicks <code>#lgnbtn</code>, Login, and passes.</li></ul>
+<div class="clk"><b>Clicks:</b><ol><li>Release 2.0: the button becomes Sign In, the id changes, the test times out.</li><li>"The app wasn't broken."</li><li>"The test was still looking for a button that is no longer there."</li></ol></div>
+<p class="br"><b>Bridge:</b> "We have all fixed this by hand. So what should a test do?"</p></div>
+
+<div class="sl"><div class="hd"><span class="n">14</span><span class="t">What should a test do when it breaks?</span><span class="c">no clicks</span></div>
+<div class="ask"><b>Ask:</b> "What does your framework do today: stop, guess or reason?"</div></div>
+
+<div class="sl"><div class="hd"><span class="n">15</span><span class="t">Locator is not intent</span><span class="c">1 click</span></div>
+<ul><li>Intent says what (click Login). The locator says how (<code>#lgnbtn</code>). The application can change; the intent may not.</li></ul>
+<div class="clk"><b>Click:</b> "A test that knows its intent can find its way."</div></div>
+
+<div class="sl"><div class="hd"><span class="n">16</span><span class="t">What context does the test have?</span><span class="c">no clicks</span></div>
+<ul><li>Name a few: the step, the accessibility tree, the DOM, the screenshot, the error, the previous run.</li>
+<li>"If the test has all this, why can't it reason about its own failure?"</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">17</span><span class="t">Healing or not? You decide</span><span class="c">11 clicks</span></div>
+<div class="ask"><b>Ask:</b> for each row, "Is it healing?" Let the room answer before you reveal the label.</div>
+<div class="clk"><b>Clicks:</b> row, then its label, five times: retry, recovery, fallback, maintenance, healing. Then the line "Retry repeats. Recovery detours. Healing understands."</div>
+<ul><li>Retry runs the whole test again. Maintenance changes code after the run. Only the last one fixes the step during the run.</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">18</span><span class="t">Today's automation</span><span class="c">no clicks</span></div>
+<ul><li>Left: a person writes, investigates and fixes. Right: Playwright's Planner, Generator and Healer agents.</li>
+<li>The Healer agent works after the run fails. That is AI-assisted maintenance, not healing.</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">19</span><span class="t">What a broken locator hides</span><span class="c">3 clicks</span></div>
+<ul><li>Twelve steps; step 3 breaks; steps 4 to 12 never run.</li></ul>
+<div class="clk"><b>Clicks:</b><ol><li>"What did this run tell you about step 9?" Pause.</li><li>With runtime healing: step 3 heals, 4 to 8 pass, step 9 fails. A real defect.</li><li>"Runtime healing doesn't hide defects. It uncovers the ones a broken locator was hiding."</li></ol></div></div>
+
+<div class="sl"><div class="hd"><span class="n">20</span><span class="t">Why do we need runtime healing?</span><span class="c">6 clicks</span></div>
+<div class="clk"><b>Clicks:</b> four rows (the rest of the test, three breaks, where the decision is made, the pipeline), then "A post-run healer fixes the test. Runtime healing saves the run.", then "You need both."</div></div>
+
+<div class="sl q"><div class="hd"><span class="n">21</span><span class="t">Quote</span><span class="c">no clicks</span></div>
+<ul><li>"Fixing a test after the run is maintenance. Saving the step during the run is healing."</li></ul></div>
+
+<div class="sec" id="s22">Verified healing</div>
+
+<div class="sl ch"><div class="hd"><span class="n">22</span><span class="t">Chapter: from questions to answers</span><span class="c">no clicks</span></div>
+<ul><li>"Runtime recovery, then a permanent change, verified and reviewable." We are at step 3.</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">23</span><span class="t">The verified healing lifecycle</span><span class="c">7 clicks</span></div>
+<div class="clk"><b>Clicks:</b> during the run, detect, heal, report. After the run, apply, verify without healing, evidence, pull request.</div>
+<p class="br"><b>Bridge:</b> "Let's walk through these steps with our login test." The next slides carry the step numbers.</p></div>
+
+<div class="sl"><div class="hd"><span class="n">24</span><span class="t">② Find the intent, not the string</span><span class="c">3 clicks</span></div>
+<ul><li>Start: the locator finds 0 elements, but the intent is known: click Login.</li></ul>
+<div class="clk"><b>Clicks:</b><ol><li>The page splits into three layers: accessibility tree first, DOM second, image third.</li><li>The accessibility tree: Sign In is the same action; Login with SSO is only the same word. That is the trap.</li><li>Back on the live page: Sign In, the same element. The run continues and the heal is reported.</li></ol></div></div>
+
+<div class="sl"><div class="hd"><span class="n">25</span><span class="t">③ Then explain it</span><span class="c">1 click</span></div>
+<ul><li>The heal report: original, failure, intent, proposed locator, how it was found, where, needs review.</li></ul>
+<div class="clk"><b>Click:</b> "Don't hide the healing. Make it explainable."</div></div>
+
+<div class="sl"><div class="hd"><span class="n">26</span><span class="t">④⑤ Apply the heal, then prove it</span><span class="c">7 clicks</span></div>
+<div class="clk"><b>Clicks:</b><ol><li>Line 8 becomes a diff. Preview first, never auto-commit.</li><li>The fix is applied and healing goes OFF.</li><li>The terminal runs.</li></ol></div>
+<div class="ask"><b>Ask:</b> before click 4, "Will it pass?"</div>
+<div class="clk"><ol start="4"><li>VERIFIED: the test itself was repaired.</li><li>If it fails: NOT VERIFIED, the PR is labelled, CI fails, a person decides.</li><li>"The test passes because the test code was fixed, not because healing intervened."</li><li>"Trust the heal only after the test passes without it."</li></ol></div></div>
+
+<div class="sl"><div class="hd"><span class="n">27</span><span class="t">⑥⑦ Evidence, then a pull request</span><span class="c">1 click</span></div>
+<ul><li>What failed, what AI identified, what changed and where, verification passed, needs review.</li><li>"Every heal needs a witness."</li></ul>
+<div class="clk"><b>Click:</b> "AI proposes the fix. Automation proves it. A person decides."</div></div>
+
+<div class="sec" id="s28">Risks and the answer</div>
+
+<div class="sl ch"><div class="hd"><span class="n">28</span><span class="t">Chapter: recover without hiding defects</span><span class="c">no clicks</span></div>
+<ul><li>Read the main question again. "Now the risks, and then the answer."</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">29</span><span class="t">Healing alone vs verified healing</span><span class="c">no clicks</span></div>
+<ul><li>Healing alone: "I found a way to continue." Verified: "I changed the test and proved it works without healing."</li>
+<li>Pick one risk and make it concrete: the wrong element, like Login with SSO from slide 24.</li>
+<li>"Self healing without verification creates false confidence." That is the title of this talk.</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">30</span><span class="t">What healing must never touch</span><span class="c">4 clicks</span></div>
+<div class="clk"><b>Clicks:</b><ol><li>The heal sweeps down: click, fill, read values, popups. All can heal.</li><li>It stops at <code>expect</code> and the wait. Blocked.</li><li>Assertions: "fixing" one hides a real bug. Waits: a timeout can be the right answer.</li><li>"Heal the path to the check. Never touch the check."</li></ol></div></div>
+
+<div class="sl"><div class="hd"><span class="n">31</span><span class="t">The answer</span><span class="c">7 clicks</span></div>
+<ul><li>Say "Here is the answer to our question" and reveal the six principles one by one.</li></ul>
+<div class="clk"><b>Clicks:</b> heal actions only; heal by intent; change how, never what; show every heal; verify with healing off; don't force a heal. Then "Recover the step. Never hide the defect."</div></div>
+
+<div class="sl q"><div class="hd"><span class="n">32</span><span class="t">Quote</span><span class="c">no clicks</span></div>
+<ul><li>"Green is not the goal. Reliability is."</li></ul></div>
+
+<div class="sec" id="s33">TAMASH and the demo</div>
+
+<div class="sl ch"><div class="hd"><span class="n">33</span><span class="t">From the model to a product</span><span class="c">no clicks</span></div>
+<ul><li>"Everything so far is tool neutral. Here is how we built it at VibeTestQ."</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">34</span><span class="t">TAMASH in the QA workflow</span><span class="c">6 clicks</span></div>
+<ul><li>TAMASH: Test Automation Monitoring And Self-Healing.</li></ul>
+<div class="clk"><b>Clicks:</b> TAMASH Forge (plan and design, the GenEx Agent), TAMASH Forge (sign-off), TAMASH Shield (heals during the run), TAMASH Shield (fix, verify, PR), TAMASH RunSights (results and causes), then the line on what includes what.</div></div>
+
+<div class="sl demo"><div class="hd"><span class="n">35</span><span class="t">Live demo: TAMASH Shield</span><span class="c">switch to the demo</span></div>
+<ul><li>Break a test: rename or change a locator the test depends on.</li>
+<li>Run it with TAMASH Shield: the step heals during the run and the run continues.</li>
+<li>Show the heal report: what broke, what changed, how it was found.</li>
+<li>Apply the heal: <code>npx tamash-shield apply-heals --dry-run</code>, then without <code>--dry-run</code>.</li>
+<li>Verify with healing off: <code>node .tamash/selfheal/verify-heals.cjs</code>.</li>
+<li>Show the pull request.</li>
+<li>If anything fails live, return to slides 24 to 27; they show the same flow.</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">36</span><span class="t">Intelligent testing: the advantages</span><span class="c">no clicks</span></div>
+<ul><li>Pick three to say aloud: keep automation running, reduce test maintenance, find problems faster.</li></ul></div>
+
+<div class="sl q"><div class="hd"><span class="n">37</span><span class="t">Quote</span><span class="c">no clicks</span></div>
+<ul><li>"Build automation that knows what to do when the application changes, and tells you what it did."</li></ul></div>
+
+<div class="sec" id="s38">Close</div>
+
+<div class="sl"><div class="hd"><span class="n">38</span><span class="t">Key takeaways</span><span class="c">5 clicks</span></div>
+<div class="clk"><b>Clicks:</b><ol><li>Heal during the run, maintain after it.</li><li>Recover the step, never hide the defect.</li><li>Show every heal. Let a person decide.</li><li>"The future of test automation isn't automation that never fails. It's automation that knows what to do when it does."</li><li>Scan the QR to connect on LinkedIn; book a TAMASH demo at tamash.vibetestq.com/demo.</li></ol></div>
+<ul><li>Leave this slide up while people scan the QR code.</li></ul></div>
+
+<div class="sl"><div class="hd"><span class="n">39</span><span class="t">Questions?</span><span class="c">no clicks</span></div>
+<ul><li>Thank the room and ConfQ. Take questions.</li>
+<li>If a question is about evolving tests or exploration, answer briefly and point to TAMASH Forge and the GenEx Agent.</li></ul></div>
+
+</div>
+</body>
+</html>

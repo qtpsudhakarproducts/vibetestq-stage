@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript for Testers - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .stat-box { display:inline-block; background:#dbeafe; border:2px solid var(--vibe-blue); padding:12px 20px; margin:6px; border-radius:8px; }
+        .stat-number { font-size:1.8em; font-weight:700; color:var(--vibe-orange); display:block; }
+        .stat-label { font-size:0.8em; color:var(--vibe-blue); }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- Slide 1: Title -->
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>JavaScript for Testers</h1>
+    <p class="subtitle">Variables, Functions, Objects, Arrays &amp; Patterns</p>
+    <p class="tagline">The practical JS toolkit every automation engineer needs — Session 3</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Variables</span>
+        <span class="badge" style="background:var(--vibe-blue);">Functions</span>
+        <span class="badge" style="background:var(--vibe-green);">Objects &amp; Arrays</span>
+    </div>
+</section>
+
+<!-- Slide 2: What We Cover -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>What You'll Master Today</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Core Constructs</h3>
+            <ul>
+                <li>Variables: <code>const</code>, <code>let</code> in practice</li>
+                <li>Data types and type coercion traps</li>
+                <li>Functions: declaration vs expression vs arrow</li>
+                <li>Conditional logic and loops</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Tester Patterns</h3>
+            <ul>
+                <li>Objects and arrays for test data</li>
+                <li>Destructuring in test fixtures</li>
+                <li>Error handling with try/catch</li>
+                <li>Writing reusable helper functions</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Every pattern here appears directly in Playwright test files. Context first, syntax second.</p>
+    </div>
+</section>
+
+<!-- Slide 3: Data Types -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>JavaScript Data Types</h2>
+    <div class="code-snippet">// Primitives — stored by value
+const name = "VibeTestQ";          // string
+const count = 42;                   // number
+const price = 19.99;               // number (no separate float type)
+const isLoggedIn = true;           // boolean
+const nothing = null;              // null — intentional absence
+const notAssigned = undefined;     // undefined — not yet assigned
+
+// Reference types — stored by reference
+const user = { name: "Admin", role: "admin" };   // object
+const tags = ["smoke", "regression", "login"];   // array
+const greet = (name) =&gt; `Hello ${name}`;         // function
+
+// Type checking
+typeof "hello"     // "string"
+typeof 42          // "number"
+typeof true        // "boolean"
+typeof null        // "object" -- famous JS bug, exists for legacy reasons
+typeof undefined   // "undefined"
+typeof {}          // "object"
+typeof []          // "object" -- use Array.isArray() instead
+Array.isArray([])  // true</div>
+</section>
+
+<!-- Slide 4: Type Coercion Traps -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Type Coercion — The JS Traps</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">Loose Equality <code>==</code> (Dangerous)</h3>
+            <div class="code-snippet" style="margin-top:4px;">// JS tries to convert types first
+0 == false    // true!
+"" == false   // true!
+null == undefined  // true!
+"5" == 5      // true!
+
+// This breaks assertions
+expect(count == "5")  // might pass unexpectedly</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Strict Equality <code>===</code> (Safe)</h3>
+            <div class="code-snippet" style="margin-top:4px;">// No type conversion
+0 === false   // false ✓
+"" === false  // false ✓
+null === undefined  // false ✓
+"5" === 5     // false ✓
+
+// Playwright's expect() uses strict equality
+expect(count).toBe(5);      // passes only for number 5
+expect(name).toBe("Admin"); // exact string match</div>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Rule: Always use <code>===</code> for comparisons. Never <code>==</code>. Playwright's <code>toBe()</code> already does this for you.</p>
+    </div>
+</section>
+
+<!-- Slide 5: Functions Deep Dive -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Three Ways to Write Functions</h2>
+    <div class="code-snippet">// 1. Function Declaration — hoisted, available before it's defined
+function login(user, pass) {
+  return `Logging in ${user}`;
+}
+
+// 2. Function Expression — not hoisted, assigned to variable
+const logout = function() {
+  return "Logged out";
+};
+
+// 3. Arrow Function — concise, lexical this (MOST USED in Playwright)
+const navigate = async (page, url) =&gt; {
+  await page.goto(url);
+};
+
+// Immediately Invoked Function Expression (IIFE)
+// Used in Playwright's browser.evaluate()
+const pageTitle = await page.evaluate(() =&gt; document.title);
+
+// Function with default parameters + rest params
+const buildUrl = (base, path = "/", ...params) =&gt; {
+  const query = params.join("&amp;");
+  return `${base}${path}?${query}`;
+};</div>
+    <div class="highlight-box">
+        <p class="compact">In Playwright tests, you will see <strong>arrow functions</strong> everywhere. Declarations are used in page object methods.</p>
+    </div>
+</section>
+
+<!-- Slide 6: Objects in Practice -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Working with Objects</h2>
+    <div class="code-snippet">// Creating test data as objects
+const testUser = {
+  username: "admin",
+  password: "Admin1234!",
+  role: "admin",
+  fullName: "Admin User"
+};
+
+// Accessing properties
+console.log(testUser.username);       // dot notation
+console.log(testUser["password"]);    // bracket notation (dynamic keys)
+
+// Destructuring — clean way to extract multiple properties
+const { username, password, role } = testUser;
+
+// Adding / modifying properties
+testUser.email = "admin@test.com";
+testUser.role = "superadmin";
+
+// Object methods — Object.keys(), Object.values(), Object.entries()
+Object.keys(testUser);    // ["username", "password", "role", "fullName", "email"]
+Object.values(testUser);  // ["admin", "Admin1234!", ...]
+Object.entries(testUser); // [["username","admin"], ["password","Admin1234!"], ...]
+
+// Spread to clone / merge
+const updatedUser = { ...testUser, role: "viewer" };  // non-mutating update</div>
+</section>
+
+<!-- Slide 7: Arrays in Practice -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Arrays — Test Data Collections</h2>
+    <div class="code-snippet">// Test data arrays
+const credentials = [
+  { user: "admin",  pass: "Admin123" },
+  { user: "viewer", pass: "View123"  }
+];
+
+// Access by index (0-based)
+credentials[0].user;   // "admin"
+
+// Iterate with forEach
+credentials.forEach(cred =&gt; {
+  console.log(`Testing login for ${cred.user}`);
+});
+
+// Transform with map
+const usernames = credentials.map(c =&gt; c.user);
+// ["admin", "viewer"]
+
+// Filter
+const admins = credentials.filter(c =&gt; c.user === "admin");
+
+// Find single item
+const adminCred = credentials.find(c =&gt; c.user === "admin");
+
+// Check membership
+const hasAdmin = credentials.some(c =&gt; c.user === "admin");  // true
+const allHavePass = credentials.every(c =&gt; c.pass.length &gt; 5); // true
+
+// Spread — add without mutating
+const moreCreds = [...credentials, { user: "manager", pass: "Mgr123" }];</div>
+</section>
+
+<!-- Slide 8: Conditional Logic -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Conditional Logic in Test Code</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>if / else / else if</h3>
+            <div class="code-snippet" style="margin-top:4px;">const role = "admin";
+
+if (role === "admin") {
+  await page.goto("/admin");
+} else if (role === "manager") {
+  await page.goto("/manager");
+} else {
+  await page.goto("/dashboard");
+}
+
+// Ternary — one-liner conditionals
+const url = role === "admin"
+  ? "/admin-panel"
+  : "/user-dashboard";</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>switch / Logical Operators</h3>
+            <div class="code-snippet" style="margin-top:4px;">switch (environment) {
+  case "prod":
+    baseURL = "https://app.com"; break;
+  case "staging":
+    baseURL = "https://staging.app.com"; break;
+  default:
+    baseURL = "http://localhost:3000";
+}
+
+// Logical AND — short-circuit
+isLoggedIn &amp;&amp; await page.click('#logout');
+
+// Nullish coalescing
+const retries = opts?.retries ?? 2;</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 9: Loops -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Loops — Iterating Test Data</h2>
+    <div class="code-snippet">const testScenarios = ["login", "search", "checkout", "logout"];
+
+// for...of — iterating arrays (PREFERRED in tests)
+for (const scenario of testScenarios) {
+  console.log(`Running: ${scenario}`);
+}
+
+// for...in — iterating object keys
+const config = { browser: "chromium", headless: true };
+for (const key in config) {
+  console.log(`${key}: ${config[key]}`);
+}
+
+// Classic for loop — when you need the index
+for (let i = 0; i &lt; testScenarios.length; i++) {
+  console.log(`Test ${i + 1}: ${testScenarios[i]}`);
+}
+
+// while — condition-based loops
+let attempts = 0;
+while (attempts &lt; 3) {
+  const result = await tryLogin(page);
+  if (result.success) break;
+  attempts++;
+}
+
+// Playwright: test.for() replaces manual loops for data-driven tests
+// (covered in Session 17)</div>
+    <div class="highlight-box">
+        <p class="compact">In modern Playwright, <code>for...of</code> is used inside helper methods. Tests use <code>test.for()</code> for data-driven scenarios.</p>
+    </div>
+</section>
+
+<!-- Slide 10: Error Handling -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Error Handling: try / catch / finally</h2>
+    <div class="code-snippet">// Basic try/catch
+async function loginSafely(page, user, pass) {
+  try {
+    await page.fill('#username', user);
+    await page.fill('#password', pass);
+    await page.click('#login');
+    return { success: true };
+  } catch (error) {
+    console.error(`Login failed: ${error.message}`);
+    return { success: false, error: error.message };
+  } finally {
+    // Always runs — use for cleanup
+    console.log('Login attempt complete');
+  }
+}
+
+// Custom Error classes
+class TestSetupError extends Error {
+  constructor(message, context) {
+    super(message);
+    this.name = 'TestSetupError';
+    this.context = context;
+  }
+}
+
+// Throwing errors
+function validateConfig(config) {
+  if (!config.baseURL) {
+    throw new TestSetupError('baseURL is required', config);
+  }
+}</div>
+    <div class="highlight-box">
+        <p class="compact">Playwright catches errors automatically and shows them in traces. Use <code>try/catch</code> in helpers for graceful fallbacks.</p>
+    </div>
+</section>
+
+<!-- Slide 11: Helper Functions Pattern -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Writing Reusable Test Helpers</h2>
+    <div class="code-snippet">// helpers/url.ts
+export const buildUrl = (base: string, path: string): string =&gt; {
+  return `${base.replace(/\/$/, '')}${path}`;
+};
+
+// helpers/date.ts
+export const formatDate = (date: Date): string =&gt; {
+  return date.toISOString().split('T')[0];  // YYYY-MM-DD
+};
+
+export const addDays = (date: Date, days: number): Date =&gt; {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+};
+
+// helpers/random.ts
+export const randomEmail = (): string =&gt; {
+  const id = Date.now();
+  return `test.${id}@vibetestq.com`;
+};
+
+export const randomString = (length = 8): string =&gt; {
+  return Math.random().toString(36).substring(2, 2 + length);
+};
+
+// Usage in tests
+const email = randomEmail();   // "test.1718400000000@vibetestq.com"
+const today = formatDate(new Date());  // "2025-07-01"</div>
+</section>
+
+<!-- Slide 12: JSON & Test Data Files -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>JSON — Test Data Management</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Reading JSON Data</h3>
+            <div class="code-snippet" style="margin-top:4px;">// test-data/users.json
+{
+  "admin": {
+    "username": "admin",
+    "password": "Admin1234!",
+    "role": "admin"
+  },
+  "viewer": {
+    "username": "viewer",
+    "password": "View1234!",
+    "role": "viewer"
+  }
+}
+
+// Reading in TypeScript
+import users from '../test-data/users.json';
+const { username, password } = users.admin;</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>JSON.parse / stringify</h3>
+            <div class="code-snippet" style="margin-top:4px;">// Stringify — JS object to string
+const obj = { user: "admin", ts: Date.now() };
+const str = JSON.stringify(obj);
+// '{"user":"admin","ts":1718400000}'
+
+// Pretty print for logging
+const pretty = JSON.stringify(obj, null, 2);
+
+// Parse — string back to object
+const parsed = JSON.parse(str);
+parsed.user;  // "admin"
+
+// Common error — invalid JSON
+try {
+  JSON.parse("{invalid}");
+} catch (e) {
+  console.error("Invalid JSON:", e.message);
+}</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: Closures and Scope -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Scope &amp; Closures (Brief Overview)</h2>
+    <div class="content-box">
+        <h3>Block Scope with const/let</h3>
+        <div class="code-snippet" style="margin-top:4px;">// Each block creates a new scope
+test.describe('Login Suite', () =&gt; {
+  const SUITE_CONFIG = { timeout: 30000 };  // Scoped to this describe block
+
+  test.beforeEach(async ({ page }) =&gt; {
+    const loginUrl = '/login';  // Scoped to beforeEach
+    await page.goto(loginUrl);
+  });
+
+  test('admin login', async ({ page }) =&gt; {
+    const username = 'admin';  // Scoped to this test only
+    // SUITE_CONFIG is accessible here (closure)
+    console.log(SUITE_CONFIG.timeout);  // 30000
+  });
+});</div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact">Closures are why Playwright fixtures work — the fixture function "closes over" the page context and makes it available inside the test callback.</p>
+    </div>
+</section>
+
+<!-- Slide 14: Putting It Together -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Putting It All Together — A Real Helper</h2>
+    <div class="code-snippet">// utils/test-helpers.ts
+
+import { Page } from '@playwright/test';
+
+export interface LoginCredentials {
+  username: string;
+  password: string;
+}
+
+export async function performLogin(
+  page: Page,
+  credentials: LoginCredentials
+): Promise&lt;boolean&gt; {
+  try {
+    await page.getByLabel('Username').fill(credentials.username);
+    await page.getByLabel('Password').fill(credentials.password);
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    // Wait for dashboard to confirm successful login
+    await page.waitForURL('**/dashboard**', { timeout: 10000 });
+    return true;
+  } catch (error) {
+    console.error(`Login failed for ${credentials.username}: ${error.message}`);
+    return false;
+  }
+}</div>
+    <div class="highlight-box">
+        <p class="compact">Notice: <code>interface</code>, <code>async/await</code>, arrow within, try/catch, <code>return</code> type — all the patterns from this session, combined.</p>
+    </div>
+</section>
+
+<!-- Slide 15: Summary -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 3 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Core Mastered</h3>
+            <ul>
+                <li>Type system + coercion traps (<code>===</code> always)</li>
+                <li>Functions: declaration, expression, arrow</li>
+                <li>Objects: create, access, destructure, spread</li>
+                <li>Arrays: map, filter, find, forEach, every, some</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Applied Patterns</h3>
+            <ul>
+                <li>Conditional logic for environment-aware tests</li>
+                <li>Loops for iterating test data</li>
+                <li>try/catch for graceful error handling</li>
+                <li>Helper function design pattern</li>
+                <li>JSON test data files</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="text-align:center; background:#eff6ff; border-color:var(--vibe-blue);">
+        <p class="bold text-blue">Next: Session 4 — Async JavaScript (Promises → async/await → the event loop)</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

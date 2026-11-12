@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Speaker Notes — AI-Native QA Demo Session</title>
+<style>
+  :root {
+    --blue: #1e40af;
+    --dark-blue: #1e3a8a;
+    --green: #15803d;
+    --orange: #ea580c;
+    --yellow: #b45309;
+    --red: #dc2626;
+    --purple: #7c3aed;
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --surface2: #e2e8f0;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #cbd5e1;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--dark-blue);
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--orange);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+  }
+  .top-bar h1 { font-size: 1.05em; color: #fff; font-weight: 600; }
+  .top-bar .meta { color: #cbd5e1; font-size: 0.88em; }
+  .slide-count { color: #fbbf24; font-weight: 700; font-size: 0.95em; }
+
+  /* ── LAYOUT ── */
+  .wrapper {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: calc(100vh - 54px);
+  }
+
+  /* ── SIDEBAR TOC ── */
+  .toc {
+    background: #ffffff;
+    border-right: 1px solid var(--border);
+    padding: 16px 0;
+    position: sticky;
+    top: 54px;
+    height: calc(100vh - 54px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .toc h2 { font-size: 0.72em; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding: 0 16px 10px; }
+  .toc a {
+    display: block;
+    padding: 6px 16px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 0.85em;
+    line-height: 1.35;
+    border-left: 3px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc a:hover { color: var(--blue); background: #eff6ff; border-left-color: var(--orange); }
+  .toc a.chapter-link { color: var(--dark-blue); font-weight: 700; font-size: 0.83em; margin-top: 6px; border-left-color: var(--blue); background: #eff6ff; }
+  .toc a.chapter-link:hover { background: #dbeafe; }
+  .toc .num { display: inline-block; min-width: 28px; color: var(--orange); font-weight: 700; font-size: 0.88em; }
+
+  /* ── MAIN CONTENT ── */
+  .main { padding: 32px 44px 80px; max-width: 940px; }
+
+  /* ── SLIDE CARD ── */
+  .slide-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 28px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 20px;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .slide-num {
+    background: var(--orange);
+    color: white;
+    font-weight: 800;
+    font-size: 0.9em;
+    min-width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  .slide-num.chapter-num { background: var(--blue); }
+  .slide-title-text { font-size: 1.05em; font-weight: 700; color: var(--dark-blue); }
+  .slide-type { font-size: 0.75em; color: var(--muted); font-weight: 400; margin-top: 2px; }
+
+  .slide-body { padding: 18px 20px; }
+
+  /* ── KEY MESSAGE ── */
+  .key-message {
+    background: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+    font-size: 0.95em;
+    color: #1e293b;
+  }
+  .key-message strong { color: #92400e; display: block; font-size: 0.78em; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+
+  /* ── CLICK BLOCK ── */
+  .click-block {
+    border-left: 3px solid #3b82f6;
+    padding: 8px 14px;
+    margin: 10px 0;
+    background: #eff6ff;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.95em;
+    color: #1e293b;
+  }
+  .click-label {
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #1d4ed8;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .click-label .click-icon { margin-right: 4px; }
+
+  /* ── SAY BLOCK ── */
+  .say-block {
+    background: #f0fdf4;
+    border-left: 3px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    padding: 10px 16px;
+    font-size: 0.95em;
+    margin: 10px 0;
+    color: #14532d;
+    font-style: italic;
+  }
+
+  /* ── PAUSE BLOCK ── */
+  .pause-block {
+    background: #fff1f2;
+    border: 1px solid #fca5a5;
+    border-radius: 6px;
+    padding: 9px 16px;
+    font-size: 0.9em;
+    margin: 12px 0;
+    color: #991b1b;
+  }
+  .pause-block strong { color: #b91c1c; }
+
+  /* ── CHAPTER CARD ── */
+  .chapter-card {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-left: 4px solid var(--blue);
+    border-radius: 10px;
+    margin-bottom: 28px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .chapter-header {
+    background: var(--dark-blue);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .chapter-header .slide-num { background: #3b82f6; }
+  .chapter-header .slide-title-text { font-size: 1.08em; color: #fff; }
+  .chapter-body { padding: 14px 20px; font-size: 0.95em; color: #1e3a8a; }
+
+  /* ── PRESENTER REMINDERS ── */
+  .reminders-card {
+    background: #faf5ff;
+    border: 1px solid #e9d5ff;
+    border-top: 3px solid var(--purple);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-top: 32px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .reminders-card h2 { color: var(--purple); font-size: 1em; margin-bottom: 14px; }
+  .reminders-card ul { padding-left: 0; list-style: none; }
+  .reminders-card li { padding: 7px 0 7px 22px; font-size: 0.95em; position: relative; border-bottom: 1px solid #e9d5ff; color: #1e293b; }
+  .reminders-card li:last-child { border-bottom: none; }
+  .reminders-card li::before { content: "→"; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
+
+  /* ── QA GUIDANCE ── */
+  .qa-card {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-top: 3px solid var(--green);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-top: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .qa-card h2 { color: var(--green); font-size: 1em; margin-bottom: 14px; }
+  .qa-item { margin: 12px 0; font-size: 0.95em; color: #1e293b; }
+  .qa-item .question { color: #92400e; font-weight: 600; margin-bottom: 4px; }
+
+  /* ── MISC ── */
+  code { background: #f1f5f9; border: 1px solid #e2e8f0; padding: 1px 7px; border-radius: 4px; font-size: 0.9em; color: var(--orange); }
+  .footer { text-align: center; color: var(--muted); font-size: 0.82em; padding: 24px 0 0; border-top: 1px solid var(--border); margin-top: 40px; }
+  em { color: #1d4ed8; }
+
+  /* ── MOBILE TOC TOGGLE BUTTON ── */
+  .toc-toggle {
+    display: none;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 1.2em;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toc-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,23,42,0.5);
+    z-index: 200;
+  }
+  .toc-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    background: #fff;
+    z-index: 201;
+    overflow-y: auto;
+    padding: 16px 0;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.15);
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+  }
+  .toc-drawer.open { transform: translateX(0); }
+  .toc-overlay.open { display: block; }
+  .toc-drawer-close {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px 14px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+  }
+  .toc-drawer-close span { font-weight: 700; color: var(--dark-blue); font-size: 0.9em; }
+  .toc-drawer-close button {
+    background: none;
+    border: none;
+    font-size: 1.4em;
+    color: var(--muted);
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px 6px;
+  }
+  .toc-drawer a {
+    display: block;
+    padding: 8px 18px;
+    color: #475569;
+    text-decoration: none;
+    font-size: 0.95em;
+    line-height: 1.4;
+    border-left: 3px solid transparent;
+  }
+  .toc-drawer a.chapter-link { color: var(--dark-blue); font-weight: 700; background: #eff6ff; border-left-color: var(--blue); margin-top: 6px; }
+  .toc-drawer .num { display: inline-block; min-width: 30px; color: var(--orange); font-weight: 700; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    body { font-size: 16px; }
+
+    .top-bar { padding: 10px 14px; gap: 10px; flex-wrap: nowrap; }
+    .top-bar h1 { font-size: 0.88em; line-height: 1.3; }
+    .top-bar .meta { display: none; }
+    .slide-count { font-size: 0.82em; white-space: nowrap; }
+    .toc-toggle { display: block; }
+
+    /* Hide desktop sidebar */
+    .toc { display: none; }
+
+    /* Single column layout */
+    .wrapper { grid-template-columns: 1fr; }
+
+    .main { padding: 16px 14px 60px; max-width: 100%; }
+
+    .slide-card, .chapter-card { margin-bottom: 18px; border-radius: 8px; }
+
+    .slide-header, .chapter-header { padding: 10px 14px; gap: 10px; }
+    .slide-num { min-width: 36px; height: 36px; font-size: 0.82em; }
+    .slide-title-text { font-size: 0.95em; }
+    .slide-type { font-size: 0.7em; }
+
+    .slide-body { padding: 14px 14px; }
+    .chapter-body { padding: 12px 14px; }
+
+    .key-message { padding: 9px 13px; font-size: 0.9em; margin-bottom: 12px; }
+    .click-block { padding: 8px 12px; margin: 8px 0; font-size: 0.9em; }
+    .click-label { font-size: 0.72em; }
+    .say-block { padding: 8px 12px; font-size: 0.9em; margin: 8px 0; }
+    .pause-block { padding: 8px 12px; font-size: 0.85em; }
+
+    .reminders-card, .qa-card { padding: 16px 14px; }
+    .reminders-card li, .qa-item { font-size: 0.9em; }
+
+    .footer { font-size: 0.78em; }
+  }
+
+  @media (max-width: 400px) {
+    body { font-size: 15px; }
+    .top-bar h1 { font-size: 0.82em; }
+    .slide-title-text { font-size: 0.88em; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; font-size: 13px; }
+    .toc, .top-bar, .toc-toggle, .toc-overlay, .toc-drawer { display: none; }
+    .wrapper { display: block; }
+    .slide-card, .chapter-card { border: 1px solid #ccc; break-inside: avoid; margin-bottom: 14px; }
+    .say-block { color: #14532d; background: #f0fdf4; }
+    .click-block { background: #eff6ff; }
+    .pause-block { background: #fff1f2; color: #991b1b; }
+  }
+</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <button class="toc-toggle" id="tocToggle" aria-label="Open slide navigation">☰</button>
+  <h1>🎤 Speaker Notes — AI-Native QA Demo Session</h1>
+  <div style="display:flex;align-items:center;gap:18px;">
+    <span class="meta">QTPSudhakar · April 2026</span>
+    <span class="slide-count">29 slides</span>
+  </div>
+</div>
+
+<!-- MOBILE TOC DRAWER -->
+<div class="toc-overlay" id="tocOverlay"></div>
+<div class="toc-drawer" id="tocDrawer">
+  <div class="toc-drawer-close">
+    <span>📋 Slide Navigation</span>
+    <button id="tocClose" aria-label="Close">✕</button>
+  </div>
+  <a href="#s1" class="toc-nav"><span class="num">1</span> Title</a>
+  <a href="#s2" class="toc-nav"><span class="num">2</span> Four Questions</a>
+  <a href="#s3" class="toc-nav"><span class="num">3</span> Your Journey Today</a>
+  <a href="#ch1" class="toc-nav chapter-link"><span class="num">4</span> Ch 1: World Is Moving</a>
+  <a href="#s5" class="toc-nav"><span class="num">5</span> The Velocity Shift</a>
+  <a href="#s6" class="toc-nav"><span class="num">6</span> Everyone Becomes a Validator</a>
+  <a href="#s7" class="toc-nav"><span class="num">7</span> Testing Is No Longer a Phase</a>
+  <a href="#ch2" class="toc-nav chapter-link"><span class="num">8</span> Ch 2: The Big Fear</a>
+  <a href="#s9" class="toc-nav"><span class="num">9</span> Will AI Replace Testers?</a>
+  <a href="#s10" class="toc-nav"><span class="num">10</span> You Already Have What AI Cannot Buy</a>
+  <a href="#s11" class="toc-nav"><span class="num">11</span> Industry Is Shifting</a>
+  <a href="#ch3" class="toc-nav chapter-link"><span class="num">12</span> Ch 3: AI for Manual Testing</a>
+  <a href="#s13" class="toc-nav"><span class="num">13</span> AI for Test Design</a>
+  <a href="#s14" class="toc-nav"><span class="num">14</span> QA Workflows in Manual Testing</a>
+  <a href="#ch4" class="toc-nav chapter-link"><span class="num">15</span> Ch 4: You Still Need to Code</a>
+  <a href="#s16" class="toc-nav"><span class="num">16</span> Why Coding Still Matters</a>
+  <a href="#s17" class="toc-nav"><span class="num">17</span> Your 4-Level Learning Journey</a>
+  <a href="#ch5" class="toc-nav chapter-link"><span class="num">18</span> Ch 5: Playwright + AI</a>
+  <a href="#s19" class="toc-nav"><span class="num">19</span> Why Playwright?</a>
+  <a href="#s20" class="toc-nav"><span class="num">20</span> How Playwright Evolved</a>
+  <a href="#ch6" class="toc-nav chapter-link"><span class="num">21</span> Ch 6: QA Workflows</a>
+  <a href="#s22" class="toc-nav"><span class="num">22</span> New Skills the 4 Phases Demand</a>
+  <a href="#s23" class="toc-nav"><span class="num">23</span> AI SDLC Maturity Model</a>
+  <a href="#s24" class="toc-nav"><span class="num">24</span> The Framework — Two Dimensions</a>
+  <a href="#s25" class="toc-nav"><span class="num">25</span> What This Program Covers</a>
+  <a href="#s26" class="toc-nav"><span class="num">26</span> Questions We Already Know</a>
+  <a href="#s27" class="toc-nav"><span class="num">27</span> 40–45 Days</a>
+  <a href="#s28" class="toc-nav"><span class="num">28</span> The Program — Everything You Need</a>
+  <a href="#s29" class="toc-nav"><span class="num">29</span> Closing CTA — Your Move</a>
+</div>
+
+<div class="wrapper">
+
+<!-- ══ SIDEBAR TOC ══ -->
+<nav class="toc">
+  <h2>Slides</h2>
+  <a href="#s1"><span class="num">1</span> Title</a>
+  <a href="#s2"><span class="num">2</span> Four Questions</a>
+  <a href="#s3"><span class="num">3</span> Your Journey Today</a>
+  <a href="#ch1" class="chapter-link"><span class="num">4</span> Ch 1: World Is Moving</a>
+  <a href="#s5"><span class="num">5</span> The Velocity Shift</a>
+  <a href="#s6"><span class="num">6</span> Everyone Becomes a Validator</a>
+  <a href="#s7"><span class="num">7</span> Testing Is No Longer a Phase</a>
+  <a href="#ch2" class="chapter-link"><span class="num">8</span> Ch 2: The Big Fear</a>
+  <a href="#s9"><span class="num">9</span> Will AI Replace Testers?</a>
+  <a href="#s10"><span class="num">10</span> You Already Have What AI Cannot Buy</a>
+  <a href="#s11"><span class="num">11</span> Industry Is Shifting</a>
+  <a href="#ch3" class="chapter-link"><span class="num">12</span> Ch 3: AI for Manual Testing</a>
+  <a href="#s13"><span class="num">13</span> AI for Test Design</a>
+  <a href="#s14"><span class="num">14</span> QA Workflows in Manual Testing</a>
+  <a href="#ch4" class="chapter-link"><span class="num">15</span> Ch 4: You Still Need to Code</a>
+  <a href="#s16"><span class="num">16</span> Why Coding Still Matters</a>
+  <a href="#s17"><span class="num">17</span> Your 4-Level Learning Journey</a>
+  <a href="#ch5" class="chapter-link"><span class="num">18</span> Ch 5: Playwright + AI</a>
+  <a href="#s19"><span class="num">19</span> Why Playwright?</a>
+  <a href="#s20"><span class="num">20</span> How Playwright Evolved</a>
+  <a href="#ch6" class="chapter-link"><span class="num">21</span> Ch 6: QA Workflows</a>
+  <a href="#s22"><span class="num">22</span> New Skills the 4 Phases Demand</a>
+  <a href="#s23"><span class="num">23</span> AI SDLC Maturity Model</a>
+  <a href="#s24"><span class="num">24</span> The Framework — Two Dimensions</a>
+  <a href="#s25"><span class="num">25</span> What This Program Covers</a>
+  <a href="#s26"><span class="num">26</span> Questions We Already Know</a>
+  <a href="#s27"><span class="num">27</span> 40–45 Days</a>
+  <a href="#s28"><span class="num">28</span> The Program — Everything You Need</a>
+  <a href="#s29"><span class="num">29</span> Closing CTA — Your Move</a>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <!-- ─── HOW TO USE ─── -->
+  <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:14px 18px;margin-bottom:28px;font-size:0.95em;color:#1e293b;">
+    <strong style="color:#c2410c;display:block;margin-bottom:6px;">How to use these notes</strong>
+    Each card maps to one slide. The <strong>slide number</strong> (orange badge) matches the actual position in the deck.
+    <strong style="color:#92400e;">Key message</strong> = the single thing the audience must take away.
+    <strong style="color:#15803d;">Say</strong> = suggested narration (italic).
+    <strong style="color:#b91c1c;">Pause</strong> = stop, let it land. &nbsp;
+    <strong style="color:#1d4ed8;">Click</strong> = advance to next fragment.
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 1 — TITLE SLIDE
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s1">
+    <div class="slide-header">
+      <div class="slide-num">1</div>
+      <div>
+        <div class="slide-title-text">Title Slide — AI-Native QA Engineering</div>
+        <div class="slide-type">Opening</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Set the tone. This is not a tutorial. This is a conversation about their future.</div>
+      <div class="say-block">"Welcome everyone. I am Sudhakar — most of you know me as QTPSudhakar. Before we get into anything — I want to make something clear. This is not a sales session. This is not a lecture. This is a conversation. I am going to ask you some questions, share some things that are happening in the industry right now, and by the end of this session — you will know exactly what your next step should be. Let us begin."</div>
+      <div class="pause-block"><strong>Pause:</strong> 3 seconds before moving forward.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 2 — FOUR QUESTIONS
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s2">
+    <div class="slide-header">
+      <div class="slide-num">2</div>
+      <div>
+        <div class="slide-title-text">Before We Start — Four Questions</div>
+        <div class="slide-type">Opening challenge</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Make them feel seen before you say anything about AI.</div>
+
+      <div class="say-block">"I want to start with four questions. These are not rhetorical. I want you to actually think about each one."</div>
+
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click 1 — Question 1</div>
+        "Why are you not able to test at the pace of development? Sprint starts on Monday. Developers are pushing code every day. And you are still testing features from last sprint. Why? This is not your fault. The tools and workflows you are using were not designed for this speed."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click 2 — Question 2</div>
+        "Why are you not able to automate in the current sprint? You know automation would help. You want to automate. But by the time you write the test — the feature has changed. Again. So the test sits in a backlog. Or does not get written at all."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click 3 — Question 3</div>
+        "If developers can now generate code with AI — why are testers still writing test cases manually? Think about that for a moment. Developers are using Copilot, Cursor, Claude to generate entire features. And we are still opening Excel and typing test cases one by one."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click 4 — Question 4</div>
+        "How will the role of QA look the same in the next year? Honestly — it will not. The question is not whether it changes. The question is whether you change with it."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click 5 — Success box</div>
+        "If any of these questions felt personal — you are in exactly the right room. This session has answers."
+      </div>
+
+      <div class="pause-block"><strong>Pause:</strong> Let this breathe for 5 seconds. Look around the room.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 3 — AGENDA
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s3">
+    <div class="slide-header">
+      <div class="slide-num">3</div>
+      <div>
+        <div class="slide-title-text">Your Journey Today (Agenda)</div>
+        <div class="slide-type">Roadmap</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Show them the map. No surprises.</div>
+      <div class="say-block">"Here is what we are covering today. Six chapters. I will go through each one in order. Do not worry about taking notes — everything will be shared. Just stay with me."</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click through each box briefly</div>
+        "We start with where the world is moving. Then we address the big fear directly. Then I show you what AI can do for your manual testing work today — before you learn a single line of code. Then we talk about why some coding is still needed — but not as much as you think. Then the tool story. And finally the workflows and the program plan."
+      </div>
+      <div class="say-block">"Let us go."</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CHAPTER 1 — SLIDE 4
+  ════════════════════════════════════════════ -->
+  <div class="chapter-card" id="ch1">
+    <div class="chapter-header">
+      <div class="slide-num chapter-num">4</div>
+      <div>
+        <div class="slide-title-text">Chapter 1 — Where the World Is Moving</div>
+        <div class="slide-type">Chapter divider</div>
+      </div>
+    </div>
+    <div class="chapter-body">
+      <div class="say-block">"Chapter 1. Let me show you what is actually happening — not in the future, but right now."</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 5 — THE VELOCITY SHIFT
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s5">
+    <div class="slide-header">
+      <div class="slide-num">5</div>
+      <div>
+        <div class="slide-title-text">The Velocity Shift</div>
+        <div class="slide-type">Chapter 1</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>The world changed. Speed is the new reality. AI is the engine.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Speed is the new competitive advantage. And AI is the engine. Let me show you what I mean."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Manual Era</div>
+        "When I started — everything was manual. Requirements came in, testers wrote test cases, developers coded, we tested at the end. Weeks to ship. This was normal."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — DevOps Era</div>
+        "Then CI/CD came. Pipelines automated the build and deployment. Days to ship. QA shifted left. Test automation became important."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — AI-Assisted Era</div>
+        "Then Copilot. Then ChatGPT. Developers started generating code with AI. Hours to ship. Speed went up. But QA workflows did not change at the same pace."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — AI-Native Era</div>
+        "And now — AI generates. Humans validate. The teams doing this are shipping in minutes. Not all teams. But the ones moving fastest."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Left column (What AI Generates)</div>
+        "Today, AI can generate entire application code from a specification. UI components from a design mockup. API contracts. Database schemas. The developer's job is changing from writing to directing."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Right column (What Humans Do)</div>
+        "And what do humans do? They validate. They define what correct looks like. They catch the hallucinations — the places where AI got it confidently wrong. And they architect the quality strategy. This is now the most important job."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Dark strip</div>
+        "The teams that used to need 10 testers now ship with 3. The 3 who stayed — moved with AI. This is not speculation. This is happening in companies right now."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 6 — EVERYONE BECOMES A VALIDATOR
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s6">
+    <div class="slide-header">
+      <div class="slide-num">6</div>
+      <div>
+        <div class="slide-title-text">Everyone Becomes a Validator</div>
+        <div class="slide-type">Chapter 1</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>QA is not shrinking — it is becoming the most critical role in the team.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "In the AI-first world — AI generates, humans validate. QA becomes the most critical skill in every team. Let me show you why."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Flow arrow</div>
+        "Look at this pipeline. Requirement goes in. AI generates the code. AI generates the tests. Then — human validates. Then ship. Who is the most important person in this chain? The human validator. That is you."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Speed Pressure icon box</div>
+        "The pressure is real. Release cycles are shrinking. If you cannot keep up — you get left behind. That is the threat."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Validator Role icon box</div>
+        "But here is the opportunity. QA becomes the last line of defense against AI-generated bugs and hallucinations. AI makes mistakes. Confident mistakes. You catch them."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Your Opportunity icon box</div>
+        "And that person — the one who can validate AI output, govern AI agents, define quality strategy — that could be you. And you do not need to be a developer to get there. That is what this program is about."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 7 — TESTING IS NO LONGER A PHASE
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s7">
+    <div class="slide-header">
+      <div class="slide-num">7</div>
+      <div>
+        <div class="slide-title-text">Testing Is No Longer a Phase</div>
+        <div class="slide-type">Chapter 1</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>The old model is broken. The new model embeds QA into every moment of development.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Testing is becoming a continuous system. AI performs it while you write code — not after."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Left column (Old Pipeline)</div>
+        "This is how most teams still work. Dev writes code. Build runs. QA tests at the end. Bugs found late are expensive. And QA is always the bottleneck before release. We have all felt this."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Right column (New Reality)</div>
+        "This is what is happening now. AI runs the application and validates as you code. VS Code 1.110 has a browser inside the editor. QA is embedded in every commit. Testing is not a phase anymore — it is a continuous layer."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Dark strip</div>
+        "Old loop: Write, Test, Fix. New loop: Write, AI validates, suggest fix, repeat. The question for every QA professional is — which loop are you operating in?"
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CHAPTER 2 — SLIDE 8
+  ════════════════════════════════════════════ -->
+  <div class="chapter-card" id="ch2">
+    <div class="chapter-header">
+      <div class="slide-num chapter-num">8</div>
+      <div>
+        <div class="slide-title-text">Chapter 2 — The Big Fear — Addressed</div>
+        <div class="slide-type">Chapter divider</div>
+      </div>
+    </div>
+    <div class="chapter-body">
+      <div class="say-block">"Chapter 2. I know what you are thinking. I have been in training sessions for 20 years — I know what the real question is. Let me address it directly."</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 9 — WILL AI REPLACE TESTERS?
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s9">
+    <div class="slide-header">
+      <div class="slide-num">9</div>
+      <div>
+        <div class="slide-title-text">Will AI Replace Testers?</div>
+        <div class="slide-type">Chapter 2</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Honest answer — some will be replaced. Those who move will not be.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "The honest answer is yes and no. And the difference is entirely in your hands. I am not going to give you a motivational speech. I am going to give you the truth."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Left column (AI Will Replace)</div>
+        "AI will replace testers who only write manual test cases in Excel and call that a day's work. Those who cannot read or validate the code AI generates. Those who treat AI as a magic black box and just paste outputs. And those who choose not to learn how any of this works. I am not saying this to scare you. I am saying this because you deserve the truth."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Right column (AI Cannot Replace)</div>
+        "But AI cannot replace — engineers who validate AI output. Because that requires judgment. Testers who architect QA workflows. Because that requires understanding. Those who prompt and govern AI agents. Because that requires domain knowledge. And QA leads who define the quality strategy for AI SDLC. Because that requires experience. These are things AI cannot buy. These are things you already have."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Success box</div>
+        "AI will replace those who cannot use AI in their workflows. It cannot replace those who make AI work for them. Read that again."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 10 — YOU ALREADY HAVE WHAT AI CANNOT BUY
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s10">
+    <div class="slide-header">
+      <div class="slide-num">10</div>
+      <div>
+        <div class="slide-title-text">You Already Have What AI Cannot Buy</div>
+        <div class="slide-type">Chapter 2 · Hero slide</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>The hero moment. Make them feel capable before asking them to learn anything.</div>
+      <div class="say-block">"Let me show you something. Something that I think most people do not fully appreciate about themselves."</div>
+
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Domain knowledge</div>
+        "You know your product. Its quirks. Its history. Why this field behaves this way. Why this button was built that way. AI does not know any of this unless you tell it."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Instinct</div>
+        "You know what users will complain about — before they log a ticket. You have seen enough support escalations to feel it coming. AI can analyse logged complaints. It cannot anticipate the unlocked ones."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Edge cases</div>
+        "You know which edge cases matter for your specific users. Your users copy-paste into fields. Your users have slow internet. Your users use old phones. AI does not know your users the way you do."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Business judgment</div>
+        "You know which bug cannot ship — regardless of its severity score. That bug on the board reporting screen that the CFO will see. That validation that legal requires. AI does not know your organisation."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Instinct / Experience</div>
+        "And you have the ability to say — this feels wrong — before you can prove it. That is 10 years of experience talking. AI has no experience. It has data. These are not the same thing."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Right column (What AI Adds)</div>
+        "And now — what AI adds. It generates test cases in seconds. It explores your app. It generates automation scripts from your test scenarios. It self-heals broken locators when the UI changes. It plans test strategy from requirements."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Dark banner</div>
+        "AI has the horsepower. You have the wisdom. This program teaches you how to drive."
+      </div>
+      <div class="pause-block"><strong>Pause:</strong> 5 seconds. Let it land.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 11 — INDUSTRY IS SHIFTING
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s11">
+    <div class="slide-header">
+      <div class="slide-num">11</div>
+      <div>
+        <div class="slide-title-text">The Industry Is Shifting — Right Now, In 2026</div>
+        <div class="slide-type">Chapter 2</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>This is not future. This is now. The window is open.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Here is the question that keeps senior QA professionals up at night. If developers themselves are not writing code anymore — why should testers write tests?"
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Flow pipeline</div>
+        "Look at where the industry is heading. Dev Architect designs the system. AI generates the entire codebase. AI generates the tests. QA governs — validates and fixes with AI. Ship. This is already starting. I am seeing it in teams right now."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Left column (The Tester Who Waits)</div>
+        "The tester who waits. Waits for AI to fully replace their current job. Keeps doing the same manual tasks. Watches the window close from the outside. Do not be this person."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Right column (The Tester Who Moves)</div>
+        "The tester who moves now. Uses AI to 10x their testing output today. Learns to govern AI — not just use it. Becomes the person the team cannot ship without."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Success box</div>
+        "This window is open right now. The question is whether you walk through it."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CHAPTER 3 — SLIDE 12
+  ════════════════════════════════════════════ -->
+  <div class="chapter-card" id="ch3">
+    <div class="chapter-header">
+      <div class="slide-num chapter-num">12</div>
+      <div>
+        <div class="slide-title-text">Chapter 3 — AI for Manual Testing</div>
+        <div class="slide-type">Chapter divider</div>
+      </div>
+    </div>
+    <div class="chapter-body">
+      <div class="say-block">"Chapter 3. This is the chapter most relevant to where most of you are today. Let me show you what you can do right now — with your current skills."</div>
+      <div style="font-size:0.88em;color:#c2410c;margin-top:8px;font-weight:600;">⚡ Keep energy high in this chapter — most relevant to the audience.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 13 — AI FOR TEST DESIGN
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s13">
+    <div class="slide-header">
+      <div class="slide-num">13</div>
+      <div>
+        <div class="slide-title-text">AI for Test Design</div>
+        <div class="slide-type">Chapter 3</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>The tasks that consumed your day can now take minutes.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Manual testing is not dying. It is supercharging with AI. Tasks that took hours now take minutes. Let me be specific."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Requirements &amp; Test Case Generation box</div>
+        "Take requirements analysis. You get a user story. You read it. You think about test cases. You write them one by one. With AI — you paste the requirement, AI analyses it and spots the ambiguous parts, generates tabular test cases and Gherkin scenarios instantly, and surfaces the edge cases you might have missed. What used to take 2 hours takes 10 minutes. And the coverage is better."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Prompt Engineering box</div>
+        "But to use AI well — you need to know how to talk to it. That is what prompt engineering is. The CRAFT framework — Role, Context, Action, Format, Tone. You build a prompt library once. You reuse it every day. You write a skills.md file that teaches AI about your specific application. And suddenly AI talks like a tester who knows your product."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Test Data box</div>
+        "Test data. Valid, invalid, edge case sets — as JSON, CSV, SQL — generated in seconds. No more manually crafting data sets. And AI handles synthetic data with privacy — no real PII in your test environment."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Bug Reporting box</div>
+        "Bug reporting. You find a bug. You write rough notes — steps, what you saw, what you expected. AI takes those notes and writes a clear, complete, well-structured bug report. And it can analyse defect patterns across your history — finding root causes you would have missed."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 14 — QA WORKFLOWS IN MANUAL TESTING
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s14">
+    <div class="slide-header">
+      <div class="slide-num">14</div>
+      <div>
+        <div class="slide-title-text">QA Workflows in Manual Testing — With AI</div>
+        <div class="slide-type">Chapter 3</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>AI connects to your existing tools and makes every workflow faster.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "AI does not replace your judgment. It removes the busywork so you can use it more. Let me show you what that looks like with your actual tools."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — MCP + Claude Desktop box</div>
+        "MCP — Model Context Protocol. This is what lets AI agents connect to your real tools. You configure Claude Desktop once. Connect it to Jira — AI reads requirements and creates test cases directly in Jira. Connect it to Xray or Zephyr — AI updates test results. Connect Playwright MCP — AI browses your live application without you writing a single line of code. This is not future technology. This is available today."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Exploratory Testing box</div>
+        "Exploratory testing with AI. You open Claude. You say — explore the login flow and find edge cases. AI navigates your app, clicks around, fills forms, and reports what it finds. You review. You validate. You decide what matters. You are still the one making judgments. AI is doing the legwork."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — HITL box</div>
+        "Human-in-the-Loop. This is a critical concept. You decide what AI generates, what you review, and what ships. You set the criteria for when to trust AI output and when to override it. You are the governor of the system — not the executor."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Human-Irreplaceable box</div>
+        "And there are things AI simply cannot do. UX testing requires human empathy. Accessibility testing requires understanding how real people with real disabilities use software. Security testing requires adversarial thinking. Multi-tenant SaaS testing requires organisational context. These are yours. They always will be."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CHAPTER 4 — SLIDE 15
+  ════════════════════════════════════════════ -->
+  <div class="chapter-card" id="ch4">
+    <div class="chapter-header">
+      <div class="slide-num chapter-num">15</div>
+      <div>
+        <div class="slide-title-text">Chapter 4 — You Still Need to Code</div>
+        <div class="slide-type">Chapter divider</div>
+      </div>
+    </div>
+    <div class="chapter-body">
+      <div class="say-block">"Chapter 4. I know what some of you are thinking. You said this was for manual testers. Now you are telling me I need to code? Let me be very clear about what I mean."</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 16 — WHY CODING STILL MATTERS
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s16">
+    <div class="slide-header">
+      <div class="slide-num">16</div>
+      <div>
+        <div class="slide-title-text">Why Coding Still Matters</div>
+        <div class="slide-type">Chapter 4</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>You do not need to become a developer. You need to know enough to govern AI.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "You do not need to become a developer. You need to know enough to ask the right questions — and recognise when AI gets it wrong. That is the minimum. And that minimum is achievable in this program."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Left column (AI Generates, You Govern)</div>
+        "Here is the problem. AI generates test code. You need to validate it. But if you cannot read the code — how do you know if the test is actually testing what you think it is testing? How do you know if the assertion is correct? How do you know when to trust and when to reject? Without the basics — you are rubber-stamping. That is dangerous."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Right column (What You Will Learn)</div>
+        "So what will you learn? JavaScript — variables, functions, async/await. TypeScript — types, interfaces, classes. Node.js — runtime and package management. Playwright — locators, actions, assertions, Page Object Model. API testing with APIRequestContext. And CI/CD with GitHub Actions. All of this is built up from zero. With AI helping you write every line."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Success box</div>
+        "We teach you to code well enough to govern AI. Not to compete with it."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 17 — YOUR 4-LEVEL LEARNING JOURNEY
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s17">
+    <div class="slide-header">
+      <div class="slide-num">17</div>
+      <div>
+        <div class="slide-title-text">Your 4-Level Learning Journey</div>
+        <div class="slide-type">Chapter 4</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Show them the clear path. They should be able to see themselves on it.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Here is the complete path. Four levels. Each one builds on the last. You leave each level more capable than when you entered."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Level 1</div>
+        "You start with Level 1 — Learning AI. What is an LLM. What is hallucination and why human verification matters. Prompts, context, iterative prompting. VS Code and GitHub Copilot setup. Skills.md. Five days. By the end — you get useful AI output every time you ask."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Level 2</div>
+        "Level 2 — Using AI in Testing. MCP setup. Claude Desktop. Playwright MCP. Requirements analysis, Gherkin, exploratory testing with AI agents, test data, bug reporting. Five days. By the end — you have a complete AI testing toolkit."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Level 3</div>
+        "Level 3 — Using AI in Test Automation. JavaScript, TypeScript, Playwright, POM, Cucumber BDD, API testing — all built using Planner, Generator and Healer agents. Running in GitHub Actions CI. Sixteen days. By the end — you have a production-ready automation framework."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Level 4</div>
+        "Level 4 — Developing QA Workflows for AI SDLC. The AI-Native SDLC. Parallel stream model. Coverage governance. What needs to change for you, your team, your company. Five days. By the end — you understand how to architect quality for any AI team."
+      </div>
+      <div class="pause-block"><strong>Pause:</strong> Let them absorb.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CHAPTER 5 — SLIDE 18
+  ════════════════════════════════════════════ -->
+  <div class="chapter-card" id="ch5">
+    <div class="chapter-header">
+      <div class="slide-num chapter-num">18</div>
+      <div>
+        <div class="slide-title-text">Chapter 5 — How Playwright + AI Evolved</div>
+        <div class="slide-type">Chapter divider</div>
+      </div>
+    </div>
+    <div class="chapter-body">
+      <div class="say-block">"Chapter 5. I want to spend a few minutes on why we chose Playwright — and why it matters more than any other tool right now. I will tell you from my own experience."</div>
+      <div style="font-size:0.88em;color:#92400e;margin-top:8px;font-weight:600;">⏱ If running short on time — this chapter can be compressed. Keep the Gap Story and 4 Phases, move faster through the rest.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 19 — WHY PLAYWRIGHT?
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s19">
+    <div class="slide-header">
+      <div class="slide-num">19</div>
+      <div>
+        <div class="slide-title-text">Why Playwright? 20 Years of Watching the Gap</div>
+        <div class="slide-type">Chapter 5</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Every tool won by filling a gap. Playwright is doing it again — in the AI era.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Mentor quote (success box)</div>
+        "I started with QTP in 2004. I have trained engineers on QTP, Selenium, Cypress, and Playwright. I have watched every tool rise. I have watched every tool fall. And after 20 years — I can tell you that the ones that won always had one thing in common. They filled the gap the previous tool left open."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "That is the lens. Every tool in history won by filling a gap. Playwright is doing it again — in the AI era."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — QTP row</div>
+        "QTP. Complete. GUI, recovery, reporting, everything in one place. But expensive and closed. The gap it left — cost and vendor lock-in."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Selenium row</div>
+        "Selenium filled that gap. Free. Parallel. Distributed. But you got a browser automation library. Nothing else. No framework, no reporting, no integrated experience. You had to assemble everything yourself. The gap it left — developer experience."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Cypress row</div>
+        "Cypress filled that gap. Built everything together. Great developer experience. But ran inside the browser — cross-origin testing, cross-tab workflows, multi-browser support were all limited. The gap it left — architecture constraints."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Playwright row</div>
+        "Playwright filled that gap. One install. Cross-browser. API testing. Test runner. Trace viewer. HTML reports. CI-ready. And now — MCP, AI agents, VS Code integration. The gap that GenAI created? Playwright is filling it in real time."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Success box</div>
+        "I trained engineers on Playwright in 2020 — before the ecosystem caught up. Before LinkedIn posts and conference talks. I saw what it was becoming. This program teaches what is needed — not just what is there."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 20 — HOW PLAYWRIGHT EVOLVED
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s20">
+    <div class="slide-header">
+      <div class="slide-num">20</div>
+      <div>
+        <div class="slide-title-text">How Playwright Evolved — 4 Phases</div>
+        <div class="slide-type">Chapter 5</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Playwright transformed from a script runner to AI infrastructure in 4 steps.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Playwright did not just get new features. It changed what it fundamentally is. In 4 distinct phases."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Phase 1</div>
+        "Phase 1 — Deterministic Automation. 2020 to 2024. Humans write scripts. Playwright executes. Reliable. But coverage is bounded by what you can imagine. Tests encode implementation, not intent."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Phase 2</div>
+        "Phase 2 — AI-Assisted. 2024 to early 2025. AI generates tests from natural language. But humans still ran Playwright. Testing was still a separate phase. AI just made writing faster."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Phase 3</div>
+        "Phase 3 — The MCP Disruption. March 2025. This is where everything changed. AI now directly operates Playwright via Model Context Protocol. AI interacts with the accessibility tree, observes results, decides next steps. Playwright became callable infrastructure for AI."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Phase 4</div>
+        "Phase 4 — Agentic Playwright. October 2025. Planner, Generator and Healer agents. VS Code integration. Testing is now a continuous intelligence layer. Not a phase. A system that runs while you build."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       CHAPTER 6 — SLIDE 21
+  ════════════════════════════════════════════ -->
+  <div class="chapter-card" id="ch6">
+    <div class="chapter-header">
+      <div class="slide-num chapter-num">21</div>
+      <div>
+        <div class="slide-title-text">Chapter 6 — QA Workflows for AI SDLC</div>
+        <div class="slide-type">Chapter divider</div>
+      </div>
+    </div>
+    <div class="chapter-body">
+      <div class="say-block">"Chapter 6. The final chapter. This is where everything comes together. New skills, the maturity model, the framework, the program."</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 22 — NEW SKILLS THE 4 PHASES DEMAND
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s22">
+    <div class="slide-header">
+      <div class="slide-num">22</div>
+      <div>
+        <div class="slide-title-text">New Skills the 4 Phases Demand from QA</div>
+        <div class="slide-type">Chapter 6</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Each phase added a new skill layer. You need all four to stay relevant.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Each phase shift added a new skill layer. You cannot skip one and expect to govern the next."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Phase 1 row</div>
+        "Phase 1 gave us the baseline. Understand what Playwright executes. Know locators, assertions, waits. Read and validate test code. If you cannot do this — you cannot govern what AI generates."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Phase 2 row</div>
+        "Phase 2 added prompt engineering. Use VS Code and Copilot. Generate and review AI-produced test cases and Gherkin files. This is what Level 1 and Level 2 of the program cover."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Phase 3 row</div>
+        "Phase 3 added MCP. Configure MCP servers. Use Claude Desktop and Playwright MCP for live app exploration. Structured exploration capture. Toolkit organisation. This is Level 2."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Phase 4 row</div>
+        "Phase 4 added the governance layer. Govern Planner, Generator and Healer agents. Design the AI-Native SDLC and STLC. Apply the parallel stream model. Be the Quality System Architect — not just the executor. This is Level 3 and 4."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 23 — AI SDLC MATURITY MODEL
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s23">
+    <div class="slide-header">
+      <div class="slide-num">23</div>
+      <div>
+        <div class="slide-title-text">The AI SDLC Maturity Model</div>
+        <div class="slide-type">Chapter 6</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>There are 5 types of AI SDLC. Your workflow must match your type. Mismatch equals failure.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Not every team is at the same stage. And this matters — because the right workflow for Type 1 is wrong for Type 4. Mismatch between your SDLC type and your QA workflow is the number one reason AI adoption fails in quality."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Type 1</div>
+        "AI-Assisted. Tools added. SDLC unchanged. Dev uses Copilot. QA uses Claude. But everything else is the same. Most teams today are here."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Type 2</div>
+        "Spec-Driven. Requirements become machine-readable. Nothing starts without an approved, testable specification. QA owns the requirements gate."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Type 3</div>
+        "Parallel Stream. Dev and QA start on Sprint Day 1. Neither waits for the other. They explore independently and synchronise at defined points. This is the target model."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Type 4</div>
+        "Agentic. Specialised agents handle entire phases. Planner, Generator, Healer, Observability agents. QA governs the system."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Type 5</div>
+        "Regulated. AI accelerates everything. But every artifact requires human sign-off. Banking, healthcare, fintech, pharma."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Left box</div>
+        "Most teams are here — Type 1. All the structural gaps still exist. AI tools added, workflow unchanged."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Right box</div>
+        "The target is Type 3. Same-sprint delivery. Dev and QA running in parallel. This is what this program prepares you for."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 24 — THE FRAMEWORK — TWO DIMENSIONS
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s24">
+    <div class="slide-header">
+      <div class="slide-num">24</div>
+      <div>
+        <div class="slide-title-text">The Framework — Two Dimensions</div>
+        <div class="slide-type">Chapter 6</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Every QA workflow sits on two axes. Understanding these axes is how you design quality systems.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Every QA workflow in the AI era sits on two axes. What QA is doing. And how AI is involved. Understanding this framework is how you stop reacting to AI and start designing with it."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Left box (What QA Is Doing)</div>
+        "The first dimension — what are you doing? Design — before testing starts. Test scenarios, test data, strategy. Execution — while testing. Exploratory, automation, validation. Intelligence — what the system learns. Coverage audits, production signals, traceability."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Right box (How AI Is Involved)</div>
+        "The second dimension — how is AI involved? AI-Assisted — human drives, AI accelerates. Exploration — human and AI explore together via MCP. Agentic — AI agents execute, human governs. Autonomous — system monitors without being triggered. Every workflow you will learn in this program sits somewhere on this grid."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Success box</div>
+        "This is the mental model you take away. Design, Execution, Intelligence. AI-Assisted to Autonomous. Map any task to this grid and you know how to approach it."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 25 — WHAT THIS PROGRAM COVERS
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s25">
+    <div class="slide-header">
+      <div class="slide-num">25</div>
+      <div>
+        <div class="slide-title-text">What This Program Covers</div>
+        <div class="slide-type">Chapter 6</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Four complete levels. Everything connected.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Four structured levels. From AI fundamentals to architecting QA workflows for AI SDLC. Everything connects."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Understanding AI box</div>
+        "Level 1 — you learn how AI actually works. LLMs, hallucination, context windows. You master prompt engineering. You set up VS Code and Copilot. You write skills.md files."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — AI for Manual Testing box</div>
+        "Level 2 — MCP setup. Claude Desktop connected to your tools. Requirements analysis, Gherkin, test cases. Exploratory testing with AI agents. Test data and bug reporting."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — AI for Test Automation box</div>
+        "Level 3 — JavaScript, TypeScript, Playwright. Page Object Model, fixtures. Planner, Generator and Healer agents. Cucumber BDD. API testing. Git and GitHub Actions CI."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — QA Workflows box</div>
+        "Level 4 — AI-Native SDLC. Parallel stream model. Design, Execution and Intelligence workflows. Coverage governance. Your personal AI-Native QA action plan."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 26 — QUESTIONS WE ALREADY KNOW YOU HAVE
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s26">
+    <div class="slide-header">
+      <div class="slide-num">26</div>
+      <div>
+        <div class="slide-title-text">Questions We Already Know You Have</div>
+        <div class="slide-type">Chapter 6</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Show them you already understand their concerns. This builds trust before Q&amp;A.</div>
+      <div class="say-block">"Before I show you the program plan — I want to address something. When you registered for this session, you filled out a form. We read every single response. And there were questions that came up again and again. Let me answer them now."</div>
+
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Q1 (No coding experience)</div>
+        "Multiple people wrote — I have no coding experience, can I still join? Yes. Absolutely yes. Level 1 and Level 2 need zero code. Level 3 teaches JavaScript and TypeScript from scratch. And AI helps you write every line. You are not left alone with a blank editor."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Q2 (JS/TS basics)</div>
+        "Are we learning JavaScript and TypeScript basics? Yes. Variables, functions, async/await, types, interfaces — all of it. From zero. In Level 3."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Q3 (Non-web background)</div>
+        "I am from embedded testing background, will this work for me? Yes. Your testing experience is an advantage — not a gap. The program builds from AI fundamentals. Your domain instincts are exactly what makes you valuable."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Q4 (How does it work, is it hands-on)</div>
+        "How does GenAI with Playwright actually work? Is it hands-on? Every single session is practice-first. You do not watch me code. You build. You run. You leave every session with something that works. The Planner, Generator and Healer agents — you build these yourself."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Q5 (Job seekers)</div>
+        "I am looking for a job, will this make me interview-ready? Yes. Resume preparation is part of the program. Mock interviews are included. You get the Playwright Interview Questions book. And you leave with a GitHub portfolio that shows exactly what you built."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Dark bottom strip</div>
+        "Fee — I will cover that personally after this session. Speak to me directly."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 27 — 40–45 DAYS
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s27">
+    <div class="slide-header">
+      <div class="slide-num">27</div>
+      <div>
+        <div class="slide-title-text">Here Is What 40–45 Days Looks Like</div>
+        <div class="slide-type">Chapter 6</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>Make it concrete. Week by week. They should be able to picture themselves here.</div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Highlight box</div>
+        "Let me make this very concrete. Not what you will learn. Where you will be — week by week."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Week 1–2</div>
+        "Week 1 and 2. You are generating test cases with AI in under 2 minutes. Claude Desktop is set up and connected to your project. You know how to prompt it. You know how to refine it. This is already a transformation from how you work today."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Week 2–3</div>
+        "Week 2 to 3. AI is exploring your live application via Playwright MCP. Your AI Testing Toolkit is built and organised in a folder structure. Gherkin feature files are ready — the same ones that will be used in automation."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Week 3–6</div>
+        "Week 3 to 6. You have a working Playwright automation suite. Built by the Planner, Generator and Healer agents. Cucumber BDD is running. API tests are in. GitHub Actions CI is executing on every push."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Week 6–7</div>
+        "Week 6 to 7. You understand the AI SDLC. You can look at any team — any organisation — and design a QA workflow that fits their maturity type. You know the 13 workflows and when to apply each one."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — End row</div>
+        "By the end — GitHub portfolio. Complete Playwright Book. Playwright Interview Questions. Program certificate. VibeTestQ verified practitioner listing."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Bottom line</div>
+        "This is not a course about AI. This is a course about you — in the AI era."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 28 — THE PROGRAM
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s28">
+    <div class="slide-header">
+      <div class="slide-num">28</div>
+      <div>
+        <div class="slide-title-text">The Program — Everything You Need to Know</div>
+        <div class="slide-type">Chapter 6 · Logistics</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>First time you reveal logistics. They are ready to hear it now.</div>
+      <div class="say-block">"Now — for the first time in this session — let me give you the details."</div>
+
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — Stat boxes one by one</div>
+        <strong>31 Sessions</strong> — "31 sessions." &nbsp;|&nbsp; <strong>1.5 Hours</strong> — "1.5 hours each session." &nbsp;|&nbsp; <strong>7:30 AM</strong> — "7:30 to 9:00 AM IST." &nbsp;|&nbsp; <strong>Apr 15</strong> — "Starting April 15. Monday to Friday."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — What's Included box</div>
+        "Every session is live. Every session has in-session practice — you are not watching a recording. Practice assignments after each session. Assessments. Resume review. Mock interviews. And I — Sudhakar — am with you every session. 20 years of experience. 10,000 engineers trained."
+      </div>
+      <div class="click-block">
+        <div class="click-label"><span class="click-icon">►</span>Click — What You Walk Away With box</div>
+        "You walk away with a production-ready AI-native framework on GitHub. Verified practitioner listing on VibeTestQ.com. The Complete Playwright Book. Playwright Interview Questions. And a skillset that maps directly to what companies are hiring for right now."
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SLIDE 29 — CLOSING CTA
+  ════════════════════════════════════════════ -->
+  <div class="slide-card" id="s29">
+    <div class="slide-header">
+      <div class="slide-num">29</div>
+      <div>
+        <div class="slide-title-text">Closing CTA — Your Move</div>
+        <div class="slide-type">Close</div>
+      </div>
+    </div>
+    <div class="slide-body">
+      <div class="key-message"><strong>Key message</strong>The decision is theirs. Make it easy to say yes.</div>
+      <div class="say-block">"That is everything. You have seen the world that is coming. You have seen what you already have. You have seen what you can do this week. You have seen the path. The only thing left is the decision."</div>
+      <div class="say-block">"Enroll. Forty to forty-five days. AI-Native QA professional. Land the role."</div>
+      <div class="say-block">"WhatsApp me at the number on the screen. Go to VibeTestQ.com. Or ask me your questions right now — I am here."</div>
+      <div class="pause-block"><strong>Pause:</strong> Open for questions.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       Q&A GUIDANCE
+  ════════════════════════════════════════════ -->
+  <div class="qa-card">
+    <h2>Q&amp;A Guidance</h2>
+    <div class="qa-item">
+      <div class="question">On fee — handle personally, not on slide.</div>
+      "Great question. Let us talk after the session — I want to understand your situation and give you the right answer."
+    </div>
+    <div class="qa-item">
+      <div class="question">On timing / next batch:</div>
+      "April 15 is the start date. Monday to Friday. 7:30 to 9 AM IST. 31 sessions."
+    </div>
+    <div class="qa-item">
+      <div class="question">On whether it is recorded:</div>
+      Address this based on your current policy.
+    </div>
+    <div class="qa-item">
+      <div class="question">On prerequisites:</div>
+      "The only prerequisite is the willingness to show up and practice. Everything else is built from the ground up in the program."
+    </div>
+    <div class="qa-item">
+      <div class="question">On corporate / team enrollment:</div>
+      "If you are an automation COE lead or looking to upskill your team — speak to me directly after this session. We can discuss options."
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       PRESENTER REMINDERS
+  ════════════════════════════════════════════ -->
+  <div class="reminders-card">
+    <h2>Presenter Reminders</h2>
+    <ul>
+      <li><strong>Pause after every chapter divider</strong> — let the transition breathe, do not rush</li>
+      <li><strong>Look at the room</strong> after slide 10 (You Already Have What AI Cannot Buy) — watch for nods, emotional responses</li>
+      <li><strong>Do not read the slides</strong> — the notes are for your reference, not a script</li>
+      <li><strong>Slide 2 (Four Questions)</strong> — deliver these slowly, with pauses between each question</li>
+      <li><strong>Fee</strong> — never mention fee during the session. Always redirect to after</li>
+      <li><strong>Keep energy high in Chapter 3 (slides 13–14)</strong> — most relevant chapter for the audience</li>
+      <li><strong>Chapter 5 (slides 19–20)</strong> — if running short on time, compress here. Keep Gap Story and 4 Phases, move faster</li>
+      <li><strong>End on time</strong> — if you have 5 minutes left and are still in Chapter 5, skip to Chapter 6 directly</li>
+    </ul>
+  </div>
+
+  <div class="footer">
+    Speaker notes prepared for QTPSudhakar — Demo Session, April 2026<br>
+    VibeTestQ.com · trainings@vibetestq.com
+  </div>
+
+</main>
+</div>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('tocToggle');
+    var close  = document.getElementById('tocClose');
+    var drawer = document.getElementById('tocDrawer');
+    var overlay= document.getElementById('tocOverlay');
+
+    function openDrawer() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeDrawer() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', openDrawer);
+    close.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // Close drawer when a nav link is tapped
+    drawer.querySelectorAll('a.toc-nav').forEach(function(a) {
+      a.addEventListener('click', closeDrawer);
+    });
+  })();
+</script>
+
+</body>
+</html>

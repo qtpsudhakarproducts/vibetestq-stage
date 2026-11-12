@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangGraph for QA Engineers | VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --green:      #047857;
+            --green-dark: #065f46;
+            --green-deep: #022c22;
+            --green-light:#d1fae5;
+            --green-mid:  #10b981;
+            --amber:      #f59e0b;
+            --blue:       #1e40af;
+            --light-bg:   #f8fafc;
+        }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--green-dark); }
+        .reveal h1 { font-size:1.6em; margin-bottom:.15em; }
+        .reveal h2 { font-size:1.2em; margin-bottom:.2em; color:var(--green); }
+        .reveal h3 { font-size:.92em; color:var(--green-dark); margin-bottom:.15em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.4; }
+        .reveal .slides section { padding:6px 28px; box-sizing:border-box; }
+        .logo-corner { position:absolute; top:10px; right:20px; z-index:100; }
+        .logo-corner img { width:70px; height:auto; }
+
+        /* TITLE SLIDE */
+        .title-slide h1 { font-size:1.75em; color:var(--green-dark); margin:8px 0 6px; }
+        .title-slide .subtitle { font-size:1.05em; color:var(--green); margin:6px 0; font-weight:700; }
+        .title-slide .tagline { font-size:.88em; color:#475569; margin:5px 0 10px; }
+
+        /* CHAPTER DIVIDERS */
+        .chapter-slide { background:var(--green-dark) !important; }
+        .chapter-slide h1 { color:#fff; font-size:2em; margin-bottom:8px; }
+        .chapter-slide h2 { color:#6ee7b7; font-size:1.2em; }
+        .chapter-slide i { color:var(--green-mid); }
+
+        /* BOXES */
+        .content-box   { background:var(--light-bg); border-left:4px solid var(--green); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .highlight-box { background:var(--green-light); border:2px solid var(--green-mid); padding:6px 10px; margin:4px auto; border-radius:8px; max-width:92%; }
+        .success-box   { background:#f0fdf4; border-left:4px solid var(--green); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .warning-box   { background:#fff7ed; border-left:4px solid var(--amber); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .code-box { background:#1e1e2e; color:#cdd6f4; border-radius:8px; padding:10px 14px; margin:6px 0; font-family:'Fira Code','Cascadia Code',monospace; font-size:.72em; line-height:1.55; text-align:left; overflow-x:auto; }
+        .code-box .kw  { color:#cba6f7; }
+        .code-box .str { color:#a6e3a1; }
+        .code-box .cm  { color:#585b70; font-style:italic; }
+        .code-box .fn  { color:#89b4fa; }
+        .code-box .num { color:#fab387; }
+
+        /* LISTS */
+        .reveal ul { list-style:none; margin:5px 0; }
+        .reveal ul li { margin:4px 0; padding-left:28px; position:relative; text-align:left; font-size:.8em; line-height:1.35; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--green); font-size:.95em; position:absolute; left:0; top:1px; }
+        .reveal ul li.cross:before { content:"\f057"; color:#ef4444; }
+        .reveal ul li.dot:before   { content:"\f111"; font-size:.45em; top:6px; color:#94a3b8; }
+        .reveal ul li.arr:before   { content:"\f061"; color:var(--green); }
+
+        /* BADGES */
+        .badge { display:inline-block; color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:.73em; margin:3px; background:var(--green); }
+        .badge.amber  { background:var(--amber); }
+        .badge.blue   { background:var(--blue); }
+        .badge.purple { background:#7c3aed; }
+        .badge.grey   { background:#64748b; }
+        .badge.red    { background:#dc2626; }
+
+        /* GRIDS */
+        .two-col   { display:grid; grid-template-columns:1fr 1fr;     gap:10px; margin:6px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;  margin:6px 0; }
+        .four-col  { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:6px 0; }
+        .compact  { font-size:.8em;  line-height:1.35; }
+        .compact2 { font-size:.74em; line-height:1.3; }
+
+        /* ICON BOX */
+        .icon-box { text-align:center; padding:10px 8px; background:var(--light-bg); border-radius:8px; }
+        .icon-box i { font-size:1.5em; margin-bottom:5px; display:block; color:var(--green); }
+
+        /* FLOW */
+        .flow-container { background:#f1f5f9; border-radius:8px; padding:10px; margin:6px 0; }
+        .arrow-flow { display:flex; align-items:center; justify-content:center; gap:6px; margin:6px 0; flex-wrap:wrap; }
+        .arrow-flow .step { background:var(--green); color:white; padding:5px 10px; border-radius:6px; font-weight:600; font-size:.65em; }
+        .arrow-flow .step.amber  { background:var(--amber); }
+        .arrow-flow .step.blue   { background:var(--blue); }
+        .arrow-flow .step.purple { background:#7c3aed; }
+        .arrow-flow .step.grey   { background:#64748b; }
+        .arrow-flow .arrow { color:var(--green); font-size:1.1em; font-weight:700; }
+
+        /* GRAPH NODE */
+        .graph-container { display:flex; flex-direction:column; align-items:center; gap:0; margin:8px 0; }
+        .graph-row { display:flex; align-items:center; gap:8px; margin:0; }
+        .graph-node {
+            border-radius:8px; padding:8px 14px; text-align:center;
+            font-size:.72em; font-weight:700; min-width:110px;
+        }
+        .gn-start   { background:#f0fdf4; border:2px solid var(--green); color:var(--green-dark); }
+        .gn-action  { background:#eff6ff; border:2px solid var(--blue);  color:var(--blue); }
+        .gn-check   { background:#fff7ed; border:2px dashed var(--amber);color:#92400e; border-radius:50%; min-width:90px; height:60px; display:flex; align-items:center; justify-content:center; }
+        .gn-human   { background:#fdf4ff; border:2px solid #9333ea; color:#6b21a8; }
+        .gn-end     { background:#f0fdf4; border:2px solid var(--green-dark); color:var(--green-deep); }
+        .graph-arrow { font-size:.9em; color:var(--green); font-weight:700; }
+        .graph-label { font-size:.6em; color:#64748b; margin:0 6px; }
+
+        .text-green { color:var(--green); }
+        .text-amber { color:var(--amber); }
+        .text-blue  { color:var(--blue); }
+        .bold { font-weight:700; }
+
+        .cmp-table { width:100%; border-collapse:collapse; font-size:.7em; margin:6px 0; }
+        .cmp-table th { background:var(--green); color:white; padding:5px 8px; text-align:left; font-weight:600; }
+        .cmp-table td { padding:5px 8px; border-bottom:1px solid #e2e8f0; color:#334155; }
+        .cmp-table tr:nth-child(even) td { background:var(--light-bg); }
+        .cmp-table .good { color:var(--green); font-weight:600; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================
+     SLIDE 1 — TITLE
+     ============================================================ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:560px;width:86%;margin:0 auto 10px;display:block;"
+         onerror="this.style.display='none'">
+    <div>
+        <span class="badge"><i class="fas fa-project-diagram"></i> LangGraph</span>
+        <span class="badge amber"><i class="fas fa-vial"></i> QA Engineering</span>
+        <span class="badge blue"><i class="fas fa-code"></i> TypeScript</span>
+    </div>
+    <h1 style="margin-top:16px;">LangGraph for QA Engineers</h1>
+    <p class="subtitle">Stateful Multi-Step AI Workflows for Test Automation</p>
+    <p class="tagline">Orchestrate AI agents, loops, branching, and human-in-the-loop — for complex QA pipelines</p>
+    <div class="flow-container" style="margin-top:14px;">
+        <div class="arrow-flow">
+            <div class="step grey">Single Chain</div>
+            <div class="arrow">→</div>
+            <div class="step amber">State + Nodes</div>
+            <div class="arrow">→</div>
+            <div class="step blue">Edges + Branching</div>
+            <div class="arrow">→</div>
+            <div class="step">Multi-Agent QA</div>
+        </div>
+    </div>
+    <p class="tagline" style="margin-top:12px;">
+        <strong>Sudhakar Kakunuri (qtpsudhakar)</strong>
+        &nbsp;|&nbsp; 21+ Years &nbsp;·&nbsp; 10,000+ Engineers Trained
+    </p>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — WHY LANGGRAPH?
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Why LangGraph? — When Chains Aren't Enough</h2>
+    <div class="two-col">
+        <div>
+            <div class="warning-box">
+                <p class="compact bold">❌ LangChain chains are linear:</p>
+                <ul>
+                    <li class="cross">No loops — can't retry a failing step</li>
+                    <li class="cross">No branching — can't take different paths</li>
+                    <li class="cross">No state — each chain call starts fresh</li>
+                    <li class="cross">No human checkpoints mid-workflow</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="success-box">
+                <p class="compact bold" style="color:var(--green);">✅ LangGraph adds:</p>
+                <ul>
+                    <li>Persistent state across all steps</li>
+                    <li>Conditional edges (branch by result)</li>
+                    <li>Cycles — loop until a condition is met</li>
+                    <li>Human-in-the-loop checkpoints</li>
+                    <li>Parallel execution of independent agents</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact bold text-green" style="text-align:center;">Think of LangGraph as the CI/CD pipeline for your AI agents — with retry logic, gates, and parallel steps.</p>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="icon-box"><i class="fas fa-rotate" style="color:var(--green);"></i><p class="compact bold">Loops &amp; Retry</p></div>
+        <div class="icon-box"><i class="fas fa-code-branch" style="color:var(--blue);"></i><p class="compact bold">Conditional Branching</p></div>
+        <div class="icon-box"><i class="fas fa-user-check" style="color:#9333ea;"></i><p class="compact bold">Human-in-the-Loop</p></div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — THE 3 CORE CONCEPTS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>The 3 Core Concepts: State, Nodes, Edges</h2>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="icon-box" style="background:#f0fdf4;border:2px solid var(--green);padding:16px;">
+            <i class="fas fa-database" style="color:var(--green);"></i>
+            <h3>State</h3>
+            <p class="compact2" style="margin-top:6px;">A TypeScript object passed between every step. Nodes read from it and write to it. The entire workflow history lives here.</p>
+            <div class="code-box" style="margin-top:8px;font-size:.62em;">
+<span class="kw">interface</span> QAState {
+  bugReport:  <span class="kw">string</span>;
+  severity:   <span class="kw">string</span>;
+  rootCause:  <span class="kw">string</span>;
+  approved:   <span class="kw">boolean</span>;
+}
+            </div>
+        </div>
+        <div class="icon-box" style="background:#eff6ff;border:2px solid var(--blue);padding:16px;">
+            <i class="fas fa-circle-dot" style="color:var(--blue);"></i>
+            <h3>Nodes</h3>
+            <p class="compact2" style="margin-top:6px;">Async functions that take state, do work (call an LLM, run a tool, query a DB), and return partial state updates.</p>
+            <div class="code-box" style="margin-top:8px;font-size:.62em;">
+<span class="kw">async function</span> <span class="fn">classifyBug</span>(state) {
+  <span class="kw">const</span> severity =
+    <span class="kw">await</span> llm.<span class="fn">classify</span>(
+      state.bugReport
+    );
+  <span class="kw">return</span> { severity };
+}
+            </div>
+        </div>
+        <div class="icon-box" style="background:#fff7ed;border:2px solid var(--amber);padding:16px;">
+            <i class="fas fa-arrow-right-arrow-left" style="color:var(--amber);"></i>
+            <h3>Edges</h3>
+            <p class="compact2" style="margin-top:6px;">Connections between nodes. Can be simple (always go to X) or conditional (go to X if approved, go to Y if rejected).</p>
+            <div class="code-box" style="margin-top:8px;font-size:.62em;">
+<span class="cm">// Conditional edge</span>
+graph.<span class="fn">addConditionalEdge</span>(
+  <span class="str">"review"</span>,
+  (state) => state.approved
+    ? <span class="str">"close"</span>
+    : <span class="str">"escalate"</span>
+);
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — BUILDING YOUR FIRST GRAPH
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Building a Bug Triage Graph</h2>
+    <div class="two-col">
+        <div>
+            <div class="code-box" style="font-size:.66em;">
+<span class="kw">import</span> { StateGraph, END } <span class="kw">from</span> <span class="str">"@langchain/langgraph"</span>;
+
+<span class="kw">const</span> graph = <span class="kw">new</span> <span class="fn">StateGraph</span>&lt;QAState&gt;({
+  channels: {
+    bugReport:  { value: (a, b) => b ?? a },
+    severity:   { value: (a, b) => b ?? a },
+    rootCause:  { value: (a, b) => b ?? a },
+    approved:   { value: (a, b) => b ?? a }
+  }
+});
+
+<span class="cm">// Add nodes</span>
+graph.<span class="fn">addNode</span>(<span class="str">"classify"</span>,   classifyBugNode);
+graph.<span class="fn">addNode</span>(<span class="str">"rootCause"</span>,  findRootCauseNode);
+graph.<span class="fn">addNode</span>(<span class="str">"review"</span>,     humanReviewNode);
+graph.<span class="fn">addNode</span>(<span class="str">"escalate"</span>,   escalateNode);
+
+<span class="cm">// Connect edges</span>
+graph.<span class="fn">setEntryPoint</span>(<span class="str">"classify"</span>);
+graph.<span class="fn">addEdge</span>(<span class="str">"classify"</span>, <span class="str">"rootCause"</span>);
+graph.<span class="fn">addEdge</span>(<span class="str">"rootCause"</span>, <span class="str">"review"</span>);
+graph.<span class="fn">addConditionalEdges</span>(<span class="str">"review"</span>, routeReview);
+
+<span class="kw">const</span> compiled = graph.<span class="fn">compile</span>();
+            </div>
+        </div>
+        <div>
+            <div class="graph-container">
+                <div class="graph-row"><div class="graph-node gn-start">📥 Input Bug Report</div></div>
+                <div class="graph-row"><div class="graph-arrow">↓</div></div>
+                <div class="graph-row"><div class="graph-node gn-action">🔍 Classify Bug</div></div>
+                <div class="graph-row"><div class="graph-arrow">↓</div></div>
+                <div class="graph-row"><div class="graph-node gn-action">🧠 Find Root Cause</div></div>
+                <div class="graph-row"><div class="graph-arrow">↓</div></div>
+                <div class="graph-row"><div class="graph-node gn-human">👤 Human Review</div></div>
+                <div class="graph-row">
+                    <div style="display:flex;gap:20px;align-items:flex-start;margin-top:4px;">
+                        <div style="text-align:center;">
+                            <div class="graph-arrow" style="color:var(--green);">✓ approve</div>
+                            <div class="graph-node gn-end" style="margin-top:4px;">✅ Close</div>
+                        </div>
+                        <div style="text-align:center;">
+                            <div class="graph-arrow" style="color:#dc2626;">✗ reject</div>
+                            <div class="graph-node" style="margin-top:4px;background:#fff1f2;border:2px solid #f43f5e;color:#be123c;min-width:90px;font-size:.72em;font-weight:700;padding:8px;border-radius:8px;text-align:center;">🔺 Escalate</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — CHAPTER BREAK: LOOPS AND PARALLEL
+     ============================================================ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <i class="fas fa-rotate" style="font-size:2.5em;margin-bottom:16px;display:block;"></i>
+    <h1>Part 2</h1>
+    <h2>Cycles, Parallel Execution &amp; Human-in-the-Loop</h2>
+    <p style="color:#6ee7b7;margin-top:12px;font-size:.9em;">The patterns that make LangGraph uniquely powerful for QA automation</p>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — CYCLES AND LOOPS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Cycles — Retry Until the Quality Bar is Met</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-green" style="text-align:center;">A cycle is an edge that goes backwards — creating a retry loop. Essential for quality gates in AI workflows.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <p class="compact bold">QA Pattern: Generate → Evaluate → Retry</p>
+            <div class="code-box" style="font-size:.67em;margin-top:6px;">
+<span class="kw">function</span> <span class="fn">shouldRetry</span>(state: QAState) {
+  <span class="cm">// Loop back if test cases are < threshold</span>
+  <span class="kw">if</span> (state.qualityScore &lt; <span class="num">0.8</span>) {
+    <span class="kw">return</span> <span class="str">"generate"</span>; <span class="cm">// back to start</span>
+  }
+  <span class="kw">if</span> (state.iterations &gt;= <span class="num">3</span>) {
+    <span class="kw">return</span> END; <span class="cm">// safety limit</span>
+  }
+  <span class="kw">return</span> <span class="str">"approve"</span>; <span class="cm">// move forward</span>
+}
+
+graph.<span class="fn">addConditionalEdges</span>(
+  <span class="str">"evaluate"</span>, shouldRetry
+);
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold">Real QA Use Cases for Cycles:</p>
+                <ul>
+                    <li>Generate test cases until coverage threshold is reached</li>
+                    <li>Retry selector healing until the locator is valid</li>
+                    <li>Re-analyse a bug report if root cause confidence is low</li>
+                    <li>Refine test data until all constraints pass validation</li>
+                </ul>
+            </div>
+            <div class="warning-box">
+                <p class="compact bold">Always set a max iterations limit</p>
+                <p class="compact2">Without a safety limit, cycles can run indefinitely if the quality threshold is never met.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — CONDITIONAL BRANCHING
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Conditional Branching — Different Paths for Different Results</h2>
+    <div class="two-col">
+        <div>
+            <div class="code-box" style="font-size:.67em;">
+<span class="kw">function</span> <span class="fn">routeByTestResult</span>(state: TestState) {
+  <span class="kw">switch</span> (state.testResult) {
+    <span class="kw">case</span> <span class="str">"PASS"</span>:
+      <span class="kw">return</span> <span class="str">"logSuccess"</span>;
+    <span class="kw">case</span> <span class="str">"FAIL"</span>:
+      <span class="kw">return</span> <span class="str">"analyseFailure"</span>;
+    <span class="kw">case</span> <span class="str">"FLAKY"</span>:
+      <span class="kw">return</span> <span class="str">"detectFlakiness"</span>;
+    <span class="kw">default</span>:
+      <span class="kw">return</span> <span class="str">"manualReview"</span>;
+  }
+}
+
+graph.<span class="fn">addConditionalEdges</span>(
+  <span class="str">"runTest"</span>,
+  routeByTestResult,
+  {
+    logSuccess:      <span class="str">"logSuccess"</span>,
+    analyseFailure:  <span class="str">"analyseFailure"</span>,
+    detectFlakiness: <span class="str">"detectFlakiness"</span>,
+    manualReview:    <span class="str">"manualReview"</span>
+  }
+);
+            </div>
+        </div>
+        <div>
+            <div class="graph-container">
+                <div class="graph-row"><div class="graph-node gn-action" style="min-width:130px;">▶ Run Playwright Test</div></div>
+                <div class="graph-row"><div class="graph-arrow">↓</div></div>
+                <div class="graph-row"><div class="graph-node gn-check">Result?</div></div>
+                <div class="graph-row" style="gap:14px;margin-top:8px;">
+                    <div style="text-align:center;">
+                        <div style="font-size:.6em;color:var(--green);font-weight:700;">PASS</div>
+                        <div class="graph-node gn-end" style="margin-top:3px;min-width:80px;font-size:.65em;">✅ Log</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:.6em;color:#dc2626;font-weight:700;">FAIL</div>
+                        <div class="graph-node" style="margin-top:3px;min-width:80px;font-size:.65em;background:#fff1f2;border:2px solid #f43f5e;color:#be123c;padding:6px;border-radius:8px;font-weight:700;">🔍 Analyse</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:.6em;color:var(--amber);font-weight:700;">FLAKY</div>
+                        <div class="graph-node" style="margin-top:3px;min-width:80px;font-size:.65em;background:#fff7ed;border:2px solid var(--amber);color:#92400e;padding:6px;border-radius:8px;font-weight:700;">⚡ Detect</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:.6em;color:#64748b;font-weight:700;">OTHER</div>
+                        <div class="graph-node gn-human" style="margin-top:3px;min-width:80px;font-size:.65em;">👤 Review</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — HUMAN IN THE LOOP
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Human-in-the-Loop — Pause, Review, Resume</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-green" style="text-align:center;">LangGraph can pause the workflow at any node, wait for human input, then resume from exactly where it stopped.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold">QA Use Cases:</p>
+                <ul>
+                    <li>AI generates test cases → QA lead approves before execution</li>
+                    <li>Agent finds a P0 bug → engineer confirms before auto-filing</li>
+                    <li>AI suggests selector fix → dev approves before merge</li>
+                    <li>Automated report drafted → manager reviews before send</li>
+                </ul>
+            </div>
+            <div class="success-box">
+                <p class="compact bold" style="color:var(--green);">How it works:</p>
+                <p class="compact2">Use <code>interrupt_before</code> to pause at a node. State is checkpointed. A human provides input. The graph resumes from the interrupt point with updated state.</p>
+            </div>
+        </div>
+        <div>
+            <div class="code-box" style="font-size:.66em;">
+<span class="cm">// Compile with checkpointer for persistence</span>
+<span class="kw">const</span> app = graph.<span class="fn">compile</span>({
+  checkpointer: <span class="kw">new</span> <span class="fn">MemorySaver</span>(),
+  interrupt_before: [<span class="str">"humanApproval"</span>]
+});
+
+<span class="cm">// Phase 1: Run until interruption</span>
+<span class="kw">const</span> config = { configurable: { thread_id: <span class="str">"bug-001"</span> } };
+<span class="kw">await</span> app.<span class="fn">invoke</span>({ bugReport }, config);
+<span class="cm">// Workflow pauses here — human reviews</span>
+
+<span class="cm">// Phase 2: Human provides decision</span>
+<span class="kw">await</span> app.<span class="fn">updateState</span>(config, {
+  humanDecision: <span class="str">"approved"</span>,
+  humanComment: <span class="str">"P1, assign to payments team"</span>
+});
+
+<span class="cm">// Phase 3: Resume from interrupt</span>
+<span class="kw">await</span> app.<span class="fn">invoke</span>(<span class="num">null</span>, config);
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — PARALLEL EXECUTION
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Parallel Execution — Run Agents Simultaneously</h2>
+    <div class="two-col">
+        <div>
+            <div class="warning-box">
+                <p class="compact bold">❌ Sequential (slow):</p>
+                <div class="arrow-flow" style="flex-direction:column;gap:4px;margin-top:4px;">
+                    <div class="step" style="width:80%;text-align:center;">Test Unit Coverage</div>
+                    <div class="arrow">↓ wait...</div>
+                    <div class="step" style="width:80%;text-align:center;">Test API Coverage</div>
+                    <div class="arrow">↓ wait...</div>
+                    <div class="step" style="width:80%;text-align:center;">Test UI Coverage</div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="success-box">
+                <p class="compact bold" style="color:var(--green);">✅ Parallel with LangGraph:</p>
+                <div style="display:flex;gap:8px;margin-top:6px;align-items:flex-start;">
+                    <div style="text-align:center;flex:1;">
+                        <div class="graph-node gn-action" style="font-size:.65em;min-width:0;padding:6px;">Unit Tests</div>
+                    </div>
+                    <div style="text-align:center;flex:1;">
+                        <div class="graph-node gn-action" style="font-size:.65em;min-width:0;padding:6px;">API Tests</div>
+                    </div>
+                    <div style="text-align:center;flex:1;">
+                        <div class="graph-node gn-action" style="font-size:.65em;min-width:0;padding:6px;">UI Tests</div>
+                    </div>
+                </div>
+                <div style="text-align:center;margin-top:6px;">
+                    <div class="graph-arrow">↓ all complete</div>
+                    <div class="graph-node gn-end" style="margin-top:4px;font-size:.72em;display:inline-block;">Merge Coverage Report</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-box" style="margin-top:10px;">
+        <p class="compact bold">Fan-out / Fan-in Pattern:</p>
+        <div class="arrow-flow">
+            <div class="step grey">orchestrator</div>
+            <div class="arrow">→</div>
+            <div class="step">agent 1</div>
+            <div class="step">agent 2</div>
+            <div class="step">agent 3</div>
+            <div class="arrow">→</div>
+            <div class="step">merge results</div>
+        </div>
+        <p class="compact2" style="margin-top:6px;">Each sub-agent runs independently (different LLMs, different tools) and writes its result back into shared state. The merge node waits for all.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — MULTI-AGENT QA SYSTEM
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Multi-Agent QA System with LangGraph</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-green" style="text-align:center;">A supervisor agent delegates tasks to specialist agents — just like a QA lead coordinates a testing team.</p>
+    </div>
+    <div class="three-col" style="margin-top:12px;">
+        <div class="icon-box" style="background:#f0fdf4;border:2px solid var(--green);padding:14px;">
+            <i class="fas fa-user-tie" style="color:var(--green);"></i>
+            <p class="compact bold" style="color:var(--green-dark);">QA Supervisor Agent</p>
+            <p class="compact2">Receives a testing goal. Breaks it into sub-tasks. Delegates to specialists. Monitors progress. Synthesises the final report.</p>
+        </div>
+        <div class="icon-box" style="background:#eff6ff;border:2px solid var(--blue);padding:14px;">
+            <i class="fas fa-vial" style="color:var(--blue);"></i>
+            <p class="compact bold" style="color:var(--blue);">Test Generator Agent</p>
+            <p class="compact2">Reads requirements. Generates test cases using LangChain chains. Returns structured test plan JSON.</p>
+        </div>
+        <div class="icon-box" style="background:#fdf4ff;border:2px solid #9333ea;padding:14px;">
+            <i class="fas fa-theater-masks" style="color:#9333ea;"></i>
+            <p class="compact bold" style="color:#6b21a8;">Playwright Runner Agent</p>
+            <p class="compact2">Executes the Playwright tests. Captures results, screenshots, and trace files. Returns structured results.</p>
+        </div>
+    </div>
+    <div class="three-col" style="margin-top:8px;">
+        <div class="icon-box" style="background:#fff7ed;border:2px solid var(--amber);padding:14px;">
+            <i class="fas fa-bug" style="color:var(--amber);"></i>
+            <p class="compact bold" style="color:#92400e;">Bug Analyst Agent</p>
+            <p class="compact2">Analyses failures. Classifies root cause. Suggests fixes. Files structured defect reports.</p>
+        </div>
+        <div class="icon-box" style="background:#fff1f2;border:2px solid #f43f5e;padding:14px;">
+            <i class="fas fa-chart-bar" style="color:#f43f5e;"></i>
+            <p class="compact bold" style="color:#be123c);">Coverage Reporter Agent</p>
+            <p class="compact2">Calculates coverage metrics. Identifies gaps. Generates the executive test summary.</p>
+        </div>
+        <div class="icon-box" style="padding:14px;">
+            <i class="fas fa-arrows-rotate" style="color:#64748b;"></i>
+            <p class="compact bold" style="color:#475569;">All coordinated by the Supervisor through LangGraph state</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — ORCHESTRATING PLAYWRIGHT WITH LANGGRAPH
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Orchestrating Playwright Tests with LangGraph</h2>
+    <div class="two-col">
+        <div>
+            <div class="code-box" style="font-size:.65em;">
+<span class="cm">// Node: AI generates test steps from requirement</span>
+<span class="kw">async function</span> <span class="fn">generateSteps</span>(state) {
+  <span class="kw">const</span> steps = <span class="kw">await</span> chain.<span class="fn">invoke</span>({
+    requirement: state.requirement
+  });
+  <span class="kw">return</span> { playwrightSteps: steps };
+}
+
+<span class="cm">// Node: Playwright executes the generated test</span>
+<span class="kw">async function</span> <span class="fn">runTest</span>(state) {
+  <span class="kw">const</span> result = <span class="kw">await</span> <span class="fn">execPlaywright</span>(
+    state.playwrightSteps
+  );
+  <span class="kw">return</span> { testResult: result };
+}
+
+<span class="cm">// Node: AI analyses if failure was a bug or flake</span>
+<span class="kw">async function</span> <span class="fn">analyseFailure</span>(state) {
+  <span class="kw">if</span> (state.testResult.status !== <span class="str">"FAIL"</span>)
+    <span class="kw">return</span> {};
+  <span class="kw">const</span> analysis = <span class="kw">await</span> bugAnalyser.<span class="fn">invoke</span>({
+    error:  state.testResult.error,
+    trace:  state.testResult.trace
+  });
+  <span class="kw">return</span> { rootCause: analysis };
+}
+            </div>
+        </div>
+        <div>
+            <div class="graph-container">
+                <div class="graph-row"><div class="graph-node gn-action">📝 Generate Test Steps (AI)</div></div>
+                <div class="graph-row"><div class="graph-arrow">↓</div></div>
+                <div class="graph-row"><div class="graph-node gn-action" style="background:#fdf4ff;border-color:#9333ea;color:#6b21a8;">▶ Run Playwright Test</div></div>
+                <div class="graph-row"><div class="graph-arrow">↓</div></div>
+                <div class="graph-row"><div class="graph-node gn-check" style="min-width:100px;">Pass?</div></div>
+                <div class="graph-row" style="gap:20px;margin-top:6px;">
+                    <div style="text-align:center;">
+                        <div style="font-size:.6em;color:var(--green);font-weight:700;">YES</div>
+                        <div class="graph-node gn-end" style="margin-top:3px;">✅ Report Pass</div>
+                    </div>
+                    <div style="text-align:center;">
+                        <div style="font-size:.6em;color:#dc2626;font-weight:700;">NO</div>
+                        <div class="graph-node" style="margin-top:3px;background:#fff1f2;border:2px solid #f43f5e;color:#be123c;padding:6px 10px;border-radius:8px;font-size:.72em;font-weight:700;">🔍 AI Analyse Failure</div>
+                        <div class="graph-arrow" style="margin-top:3px;">↓</div>
+                        <div class="graph-node gn-human" style="font-size:.72em;">👤 Approve Fix?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — KEY TAKEAWAYS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Key Takeaways — LangGraph for QA</h2>
+    <div class="two-col">
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold text-green">What LangGraph adds to LangChain:</p>
+                <ul>
+                    <li>Stateful workflows — context persists across all steps</li>
+                    <li>Loops and retry — quality gates with iteration limits</li>
+                    <li>Conditional branching — different paths by result</li>
+                    <li>Human-in-the-loop — pause → review → resume</li>
+                    <li>Parallel execution — fan-out multiple agents</li>
+                    <li>Multi-agent supervision — delegate and orchestrate</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="success-box" style="margin-bottom:8px;">
+                <p class="compact bold" style="color:var(--green);">QA workflows to build with LangGraph:</p>
+                <ul>
+                    <li>End-to-end test lifecycle pipeline</li>
+                    <li>Playwright test with AI failure analysis</li>
+                    <li>Multi-agent: generate → execute → report</li>
+                    <li>Bug triage with human approval gate</li>
+                </ul>
+            </div>
+            <div class="warning-box">
+                <p class="compact bold">Start with LangChain first</p>
+                <p class="compact2">Learn to build single-step chains well. Use LangGraph only when your workflow needs loops, branching, or multiple coordinated agents.</p>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact bold text-green" style="text-align:center;">📖 Full book: <strong>docs/lang/langgraph/</strong> &nbsp;·&nbsp; 12 chapters + appendix &nbsp;·&nbsp; All code in TypeScript</p>
+    </div>
+</section>
+
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+    hash: true, slideNumber: 'c/t', transition: 'slide',
+    transitionSpeed: 'fast', controls: true, progress: true,
+    center: false, width: 1280, height: 720,
+    margin: 0.04, minScale: 0.2, maxScale: 2.0
+});
+</script>
+</body>
+</html>

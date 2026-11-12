@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Native QA Engineering - Demo Session - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+        .reveal h1 { font-size: 1.6em; margin-bottom: 0.15em; }
+        .reveal h2 { font-size: 1.25em; margin-bottom: 0.2em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.15em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.4; }
+        .reveal .slides section { padding: 6px 28px; box-sizing: border-box; overflow: hidden; }
+        .logo-corner { position: absolute; top: 10px; right: 20px; z-index: 100; }
+        .logo-corner img { width: 70px; height: auto; }
+        .title-slide { background: #ffffff !important; }
+        .title-slide h1 { font-size: 1.7em; color: var(--vibe-dark-blue); margin: 8px 0 6px; }
+        .title-slide .subtitle { font-size: 1.05em; color: var(--vibe-orange); margin: 6px 0; }
+        .title-slide .tagline  { font-size: 0.9em; color: var(--vibe-blue); margin: 5px 0 10px; }
+        .chapter-slide { background: #1e3a8a !important; }
+        .chapter-slide h1 { color: #ffffff; font-size: 2.2em; margin-bottom: 10px; }
+        .chapter-slide h2 { color: #94a3b8; font-size: 1.3em; }
+        .chapter-slide i  { color: var(--vibe-green); }
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 5px 10px; margin: 3px 0; border-radius: 6px;
+        }
+        .highlight-box {
+            background: #fef3c7; border: 2px solid var(--vibe-yellow);
+            padding: 5px 10px; margin: 3px auto; border-radius: 8px; max-width: 92%;
+        }
+        .success-box {
+            background: #f0fdf4; border-left: 4px solid var(--vibe-green);
+            padding: 5px 10px; margin: 3px 0; border-radius: 6px;
+        }
+        .warning-box {
+            background: #fff1f2; border-left: 4px solid #ef4444;
+            padding: 5px 10px; margin: 3px 0; border-radius: 6px;
+        }
+        .stat-box {
+            display: inline-block; background: #dbeafe;
+            border: 2px solid var(--vibe-blue);
+            padding: 8px 16px; margin: 4px; border-radius: 8px;
+        }
+        .stat-number { font-size: 1.8em; font-weight: 700; color: var(--vibe-orange); display: block; }
+        .stat-label  { font-size: 0.75em; color: var(--vibe-blue); }
+        .reveal ul { list-style: none; margin: 5px 0; }
+        .reveal ul li {
+            margin: 4px 0; padding-left: 30px; position: relative;
+            text-align: left; font-size: 0.8em; line-height: 1.35;
+        }
+        .reveal ul li:before {
+            content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            color: var(--vibe-green); font-size: 0.95em; position: absolute; left: 0; top: 1px;
+        }
+        .reveal ul li.cross:before { content: "\f057"; color: var(--vibe-orange); }
+        .reveal ul li.warn:before  { content: "\f071"; color: var(--vibe-yellow); }
+        .reveal ul li.blue:before  { content: "\f058"; color: var(--vibe-blue); }
+        .reveal ul li.dot:before   { content: "\f111"; font-size: 0.45em; top: 6px; color: #94a3b8; }
+        .reveal ul li.red:before   { content: "\f057"; color: #ef4444; }
+        .text-blue   { color: var(--vibe-blue); }
+        .text-green  { color: var(--vibe-green); }
+        .text-yellow { color: var(--vibe-yellow); }
+        .text-orange { color: var(--vibe-orange); }
+        .text-red    { color: #ef4444; }
+        .text-purple { color: #9333ea; }
+        .bold { font-weight: 700; }
+        .badge {
+            display: inline-block; background: var(--vibe-orange); color: white;
+            padding: 4px 10px; border-radius: 20px;
+            font-weight: 600; font-size: 0.75em; margin: 3px;
+        }
+        .badge.blue   { background: var(--vibe-blue); }
+        .badge.green  { background: #16a34a; }
+        .badge.purple { background: #7c3aed; }
+        .badge.red    { background: #dc2626; }
+        .two-col   { display: grid; grid-template-columns: 1fr 1fr;       gap: 10px; margin: 6px 0; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 8px;  margin: 6px 0; }
+        .four-col  { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px;  margin: 6px 0; }
+        .compact  { font-size: 0.8em;  line-height: 1.35; }
+        .compact2 { font-size: 0.74em; line-height: 1.3; }
+        .code-snippet {
+            background: #0d1117; border: 1px solid #30363d; border-radius: 8px;
+            padding: 10px 14px; font-family: 'Consolas', monospace;
+            font-size: 0.58em; margin: 6px 0;
+            color: #c9d1d9; text-align: left; white-space: pre; line-height: 1.6;
+        }
+        .icon-box {
+            text-align: center; padding: 10px 8px;
+            background: var(--vibe-light-bg); border-radius: 8px;
+        }
+        .icon-box i { font-size: 1.5em; margin-bottom: 5px; display: block; }
+        .icon-box.blue   i { color: var(--vibe-blue); }
+        .icon-box.green  i { color: var(--vibe-green); }
+        .icon-box.orange i { color: var(--vibe-orange); }
+        .icon-box.purple i { color: #9333ea; }
+        .icon-box.red    i { color: #ef4444; }
+        .flow-container { background: #f1f5f9; border-radius: 8px; padding: 7px; margin: 4px 0; }
+        .arrow-flow { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+        .arrow-flow .step {
+            background: var(--vibe-blue); color: white;
+            padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 0.65em;
+        }
+        .arrow-flow .step.green  { background: var(--vibe-green); }
+        .arrow-flow .step.orange { background: var(--vibe-orange); }
+        .arrow-flow .step.purple { background: #9333ea; }
+        .arrow-flow .step.red    { background: #ef4444; }
+        .arrow-flow .arrow { color: var(--vibe-orange); font-size: 1.1em; }
+        .timeline { display: flex; justify-content: space-between; align-items: flex-start; position: relative; margin: 12px 0 6px; }
+        .timeline::before { content: ''; position: absolute; top: 16px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--vibe-orange), var(--vibe-blue), var(--vibe-green)); }
+        .tl-node { text-align: center; flex: 1; position: relative; }
+        .tl-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.85em; position: relative; z-index: 1; }
+        .tl-dot.orange { background: #ffedd5; border: 3px solid var(--vibe-orange); }
+        .tl-dot.blue   { background: #dbeafe; border: 3px solid var(--vibe-blue); }
+        .tl-dot.green  { background: #dcfce7; border: 3px solid var(--vibe-green); }
+        .tl-dot.red    { background: #fee2e2; border: 3px solid #ef4444; }
+        .tl-dot.purple { background: #ede9fe; border: 3px solid #7c3aed; }
+        .tl-label { font-size: 0.72em; font-weight: 700; color: var(--vibe-dark-blue); margin-bottom: 2px; }
+        .tl-sub   { font-size: 0.62em; color: #64748b; line-height: 1.3; }
+        .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.7em; margin: 6px 0; }
+        .cmp-table th { background: var(--vibe-blue); color: white; padding: 5px 8px; text-align: left; font-weight: 600; }
+        .cmp-table td { padding: 4px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+        .cmp-table tr:nth-child(even) td { background: var(--vibe-light-bg); }
+        .cmp-table .good { color: #16a34a; font-weight: 600; }
+        .cmp-table .bad  { color: #dc2626; font-weight: 600; }
+        .cmp-table .warn { color: var(--vibe-orange); font-weight: 600; }
+
+        /* Pyramid visualization */
+        .pyramid-level {
+            text-align: center; margin: 3px auto; border-radius: 6px;
+            padding: 8px 12px; color: white; font-weight: 700; font-size: 0.78em;
+        }
+        /* Big question style */
+        .big-question {
+            font-size: 1.3em; font-weight: 800; color: var(--vibe-dark-blue);
+            text-align: center; margin: 12px 0 8px; line-height: 1.3;
+        }
+        /* Day card */
+        .day-card {
+            border-radius: 8px; padding: 8px 12px; margin: 3px 0;
+            display: flex; align-items: center; gap: 10px; font-size: 0.75em;
+        }
+        .day-card .time-badge {
+            background: var(--vibe-blue); color: white;
+            padding: 3px 8px; border-radius: 20px; font-size: 0.8em;
+            font-weight: 700; white-space: nowrap; flex-shrink: 0;
+        }
+        .day-card.old { background: #fff1f2; }
+        .day-card.new { background: #f0fdf4; }
+        .day-card.old .time-badge { background: #dc2626; }
+        .day-card.new .time-badge { background: #16a34a; }
+
+        /* Skill tier */
+        .skill-tier {
+            border-radius: 8px; padding: 7px 12px; margin: 3px 0;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .skill-tier .tier-icon {
+            font-size: 1.4em; width: 38px; text-align: center; flex-shrink: 0;
+        }
+        .skill-tier .tier-content { flex: 1; }
+        .skill-tier .tier-title { font-weight: 700; font-size: 0.85em; margin-bottom: 2px; }
+        .skill-tier .tier-desc { font-size: 0.72em; color: #64748b; }
+        .skill-tier.t1 { background: #dbeafe; border-left: 4px solid var(--vibe-blue); }
+        .skill-tier.t2 { background: #fef3c7; border-left: 4px solid var(--vibe-yellow); }
+        .skill-tier.t3 { background: #dcfce7; border-left: 4px solid var(--vibe-green); }
+        .skill-tier.t4 { background: #ede9fe; border-left: 4px solid #7c3aed; }
+
+        /* JD highlight pill */
+        .jd-pill {
+            display: inline-block; background: #f0fdf4;
+            border: 1.5px solid var(--vibe-green); color: #15803d;
+            padding: 3px 10px; border-radius: 20px; font-size: 0.68em;
+            font-weight: 600; margin: 2px;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 1 — TITLE
+══════════════════════════════════════════════ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:540px;width:84%;margin:0 auto 10px;display:block;"
+         onerror="this.style.display='none'">
+    <h1>AI-Native QA Engineering</h1>
+    <p class="subtitle">Test Lead Mastery Program — Free Demo Session</p>
+    <p class="tagline">
+        <i class="fas fa-robot"></i> GenAI · Playwright · AI SDLC · Agentic QA Workflows
+    </p>
+    <div style="margin-top:10px;">
+        <span class="badge"><i class="fas fa-graduation-cap"></i> Mentor: QTP Sudhakar</span>
+        <span class="badge blue"><i class="fas fa-calendar"></i> Starts April 15 · 7:30–9:00 AM IST</span>
+        <span class="badge green"><i class="fas fa-layer-group"></i> 31 Sessions</span>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 2 — OPENING HOOK (Reality Check)
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Before We Start — A Reality Check</h2>
+    <div class="highlight-box" style="margin-bottom:10px;">
+        <p class="bold text-blue" style="font-size:0.95em;text-align:center;">
+            <i class="fas fa-hand-paper text-orange"></i> &nbsp;Quick Questions for You
+        </p>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="icon-box orange" style="padding:14px 8px;">
+            <i class="fas fa-magic"></i>
+            <h3 style="color:var(--vibe-orange);">Used AI to write test code last week?</h3>
+            <p class="compact2">GitHub Copilot, ChatGPT, Cursor...</p>
+        </div>
+        <div class="icon-box blue" style="padding:14px 8px;">
+            <i class="fas fa-question-circle"></i>
+            <h3>Did you know if the AI was correct?</h3>
+            <p class="compact2">Did you just trust it, or could you validate it?</p>
+        </div>
+        <div class="icon-box purple" style="padding:14px 8px;">
+            <i class="fas fa-brain"></i>
+            <h3 style="color:#9333ea;">Are you ready for AI-built software?</h3>
+            <p class="compact2">When the entire app is AI-generated, who tests it?</p>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:8px;text-align:center;">
+        <p class="bold" style="font-size:0.82em;">
+            <i class="fas fa-lightbulb text-green"></i>&nbsp;
+            This demo session will answer these questions — and show you exactly what to do about it.
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 3 — AGENDA
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Demo Session Agenda</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <p class="bold text-orange"><i class="fas fa-globe"></i> &nbsp;1. Where the World Is Moving</p>
+            <p class="compact">4 phases of AI evolution, testing as a continuous system, and new skills QA must have</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <p class="bold text-green"><i class="fas fa-exclamation-triangle"></i> &nbsp;2. The Big Fear — Addressed</p>
+            <p class="compact">Will AI replace you? The honest answer and what to do now</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <p class="bold text-blue"><i class="fas fa-tools"></i> &nbsp;3. AI for Day-to-Day QA</p>
+            <p class="compact">Manual testing agents, MCP tools, daily AI-augmented workflows</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-yellow);">
+            <p class="bold text-yellow"><i class="fas fa-code"></i> &nbsp;4. You Still Need to Code</p>
+            <p class="compact">JS, TS, Node, Playwright — why the foundation matters more than ever</p>
+        </div>
+        <div class="content-box" style="border-left-color:#9333ea;">
+            <p class="bold text-purple"><i class="fas fa-sitemap"></i> &nbsp;5. AI SDLC Maturity Model &amp; Framework</p>
+            <p class="compact">AI SDLC maturity model, the two-dimension framework, and QA workflows we cover</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <p class="bold text-green"><i class="fas fa-layer-group"></i> &nbsp;6. AI-Native SDLC Workflows &amp; What Changes</p>
+            <p class="compact">AI-Native SDLC, parallel stream model, self-healing governance, and what needs to change</p>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 1 — WHERE THE WORLD IS MOVING
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-globe" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Chapter 1</h1>
+        <h2>Where the World Is Moving</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">4 Phases of AI Evolution · Testing as a Continuous System · New QA Skills</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 4 — The Velocity Shift
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>The Velocity Shift in Software Development</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;font-size:0.9em;">
+            <i class="fas fa-bolt text-orange"></i>&nbsp; Speed is the new competitive advantage — and AI is the engine
+        </p>
+    </div>
+    <div class="timeline" style="margin-top:14px;">
+        <div class="tl-node">
+            <div class="tl-dot orange">⌨️</div>
+            <div class="tl-label">Manual Era</div>
+            <div class="tl-sub">Humans write every line. Weeks to ship.</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot blue">🔧</div>
+            <div class="tl-label">DevOps Era</div>
+            <div class="tl-sub">CI/CD pipelines. Days to ship.</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot purple">🤖</div>
+            <div class="tl-label">AI-Assisted Era</div>
+            <div class="tl-sub">Copilot helps. Hours to ship.</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot green">⚡</div>
+            <div class="tl-label">AI-Native Era</div>
+            <div class="tl-sub">AI generates. Humans validate. Minutes.</div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">What AI Generates Today</h3>
+            <ul>
+                <li>Full application code from specs</li>
+                <li>UI components from design mockups</li>
+                <li>API contracts from requirements</li>
+                <li>Database schemas and migrations</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>What Humans Do Now</h3>
+            <ul>
+                <li>Validate AI output is correct</li>
+                <li>Define acceptance criteria</li>
+                <li>Catch hallucinations and edge cases</li>
+                <li>Architect the quality strategy</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5 — Everyone Becomes a Validator
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Everyone Becomes a Validator</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;font-size:0.88em;">
+            In the AI-first world: <span class="text-orange">AI generates</span>, <span class="text-green">humans validate</span> — QA becomes the most critical skill in every team
+        </p>
+    </div>
+    <div class="flow-container" style="margin-top:8px;">
+        <div class="arrow-flow">
+            <div class="step orange">Requirement</div>
+            <div class="arrow">→</div>
+            <div class="step purple">AI Generates Code</div>
+            <div class="arrow">→</div>
+            <div class="step">AI Generates Tests</div>
+            <div class="arrow">→</div>
+            <div class="step green">Human Validates</div>
+            <div class="arrow">→</div>
+            <div class="step orange">Ship</div>
+        </div>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="icon-box orange">
+            <i class="fas fa-tachometer-alt"></i>
+            <h3>Speed Pressure</h3>
+            <p class="compact2">Release cycles shrink from weeks to hours. Testers who can't keep up get left behind.</p>
+        </div>
+        <div class="icon-box blue">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Validator Role</h3>
+            <p class="compact2">QA becomes the last line of defense against AI-generated bugs and hallucinations.</p>
+        </div>
+        <div class="icon-box green">
+            <i class="fas fa-crown"></i>
+            <h3>Lead Opportunity</h3>
+            <p class="compact2">Those who can architect AI quality workflows become the most valuable engineers.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5b — Testing Is No Longer a Phase
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Testing Is No Longer a Phase</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;font-size:0.88em;">
+            <i class="fas fa-infinity text-orange"></i>&nbsp;
+            Testing is becoming a <span class="text-orange">continuous system</span> AI performs <em>while you write code</em> — not after
+        </p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="background:#fff1f2;border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ Old Pipeline Thinking</h3>
+            <div class="flow-container" style="background:#fee2e2;margin:4px 0;">
+                <div class="arrow-flow">
+                    <div class="step" style="background:#6b7280;">Dev</div>
+                    <div class="arrow">→</div>
+                    <div class="step" style="background:#6b7280;">Build</div>
+                    <div class="arrow">→</div>
+                    <div class="step red">QA Phase</div>
+                    <div class="arrow">→</div>
+                    <div class="step" style="background:#6b7280;">Ship</div>
+                </div>
+            </div>
+            <ul>
+                <li class="red">Testing happens at the end</li>
+                <li class="red">Bugs found late = expensive fixes</li>
+                <li class="red">QA is a bottleneck before release</li>
+            </ul>
+        </div>
+        <div class="content-box" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3>✅ New Continuous Reality</h3>
+            <div class="flow-container" style="background:#dcfce7;margin:4px 0;">
+                <div class="arrow-flow">
+                    <div class="step green">Dev + AI Test</div>
+                    <div class="arrow">→</div>
+                    <div class="step green">Validate</div>
+                    <div class="arrow">→</div>
+                    <div class="step green">Ship</div>
+                </div>
+            </div>
+            <ul>
+                <li>AI runs app and validates as you code</li>
+                <li>VS Code 1.110 — browser inside the editor</li>
+                <li>QA is embedded in every commit</li>
+            </ul>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:6px;text-align:center;">
+        <p style="font-size:0.78em;" class="bold">
+            <i class="fas fa-quote-left text-blue"></i>&nbsp;
+            Old loop: Write → Test → Fix &nbsp;|&nbsp;
+            <span class="text-orange">New loop: Write → AI Validates → Suggest Fix → Repeat</span>
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5c — 4 Phases of Playwright + AI Evolution
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>How Playwright Evolved: 4 Phases</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.82em;text-align:center;">
+            Playwright transformed from a script runner to the <span class="text-orange">infrastructure AI operates</span> — this happened in 4 distinct phases
+        </p>
+    </div>
+    <div style="margin-top:8px;">
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#f8fafc;border-left:4px solid #6b7280;border-radius:6px;padding:6px 12px;margin:3px 0;font-size:0.75em;">
+            <div style="background:#6b7280;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;">1</div>
+            <div style="flex:1;">
+                <strong style="color:var(--vibe-dark-blue);">Deterministic Automation (2020–2024)</strong>
+                <span style="color:#64748b;"> — Humans write scripts, Playwright executes. Reliable, but coverage bounded by imagination. Tests encode implementation, not intent.</span>
+            </div>
+            <div style="background:#e2e8f0;color:#475569;font-size:0.78em;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;">Script Era</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dbeafe;border-left:4px solid var(--vibe-blue);border-radius:6px;padding:6px 12px;margin:3px 0;font-size:0.75em;">
+            <div style="background:var(--vibe-blue);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;">2</div>
+            <div style="flex:1;">
+                <strong style="color:var(--vibe-dark-blue);">AI-Assisted Testing (2024–Early 2025)</strong>
+                <span style="color:#64748b;"> — AI generates tests from natural language. But humans still ran Playwright. Testing was still a <em>separate phase after development</em>.</span>
+            </div>
+            <div style="background:#dbeafe;color:var(--vibe-blue);font-size:0.78em;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;">AI Assist</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#fef3c7;border-left:4px solid var(--vibe-yellow);border-radius:6px;padding:6px 12px;margin:3px 0;font-size:0.75em;">
+            <div style="background:var(--vibe-yellow);color:#92400e;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;">3</div>
+            <div style="flex:1;">
+                <strong style="color:var(--vibe-dark-blue);">MCP Disruption (March 2025 · v1.52)</strong>
+                <span style="color:#64748b;"> — AI now <em>directly operates</em> Playwright via Model Context Protocol. AI interacts with the accessibility tree, observes results, decides next steps. Playwright became callable infrastructure for AI.</span>
+            </div>
+            <div style="background:#fef3c7;color:#92400e;font-size:0.78em;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;">MCP Era</div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dcfce7;border-left:4px solid var(--vibe-green);border-radius:6px;padding:6px 12px;margin:3px 0;font-size:0.75em;">
+            <div style="background:var(--vibe-green);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;">4</div>
+            <div style="flex:1;">
+                <strong style="color:var(--vibe-dark-blue);">Agentic Playwright (Oct 2025 · v1.56 → 1.59)</strong>
+                <span style="color:#64748b;"> — Planner/Generator/Healer agents + VS Code integration. Testing is now a continuous intelligence layer. Not a phase — a <em>system that runs while you build</em>.</span>
+            </div>
+            <div style="background:#dcfce7;color:#15803d;font-size:0.78em;font-weight:700;padding:2px 8px;border-radius:999px;flex-shrink:0;">Agentic Era</div>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5e — New Skills Required for QA
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>New Skills the 4 Phases Demand from QA</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.85em;text-align:center;">
+            Each phase shift added a new skill layer — QA must master all four to stay relevant
+        </p>
+    </div>
+    <div style="margin-top:8px;">
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#f8fafc;border-left:4px solid #6b7280;border-radius:6px;padding:6px 12px;margin:4px 0;font-size:0.75em;">
+            <div style="background:#6b7280;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;">1</div>
+            <div style="flex:1;"><strong style="color:var(--vibe-dark-blue);">Phase 1 — Script Era:</strong><span style="color:#64748b;"> Understand what Playwright executes. Know locators, assertions, waits. Read and validate test code.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dbeafe;border-left:4px solid var(--vibe-blue);border-radius:6px;padding:6px 12px;margin:4px 0;font-size:0.75em;">
+            <div style="background:var(--vibe-blue);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;">2</div>
+            <div style="flex:1;"><strong style="color:var(--vibe-dark-blue);">Phase 2 — AI-Assisted:</strong><span style="color:#64748b;"> Prompts &amp; context engineering. Use VS Code + GitHub Copilot. Generate and review AI-produced test cases and Gherkin feature files.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#fef3c7;border-left:4px solid var(--vibe-yellow);border-radius:6px;padding:6px 12px;margin:4px 0;font-size:0.75em;">
+            <div style="background:var(--vibe-yellow);color:#92400e;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;">3</div>
+            <div style="flex:1;"><strong style="color:var(--vibe-dark-blue);">Phase 3 — MCP Era:</strong><span style="color:#64748b;"> Configure MCP servers. Use Claude Desktop + Playwright MCP for live app exploration. Structured exploration capture &amp; toolkit organisation.</span></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:8px;background:#dcfce7;border-left:4px solid var(--vibe-green);border-radius:6px;padding:6px 12px;margin:4px 0;font-size:0.75em;">
+            <div style="background:var(--vibe-green);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;">4</div>
+            <div style="flex:1;"><strong style="color:var(--vibe-dark-blue);">Phase 4 — Agentic Era:</strong><span style="color:#64748b;"> Govern Planner, Generator &amp; Healer agents. Design the AI-Native SDLC &amp; STLC. Apply the parallel stream model. Be the Quality System Architect — not just the executor.</span></div>
+        </div>
+    </div>
+    <div class="warning-box" style="margin-top:8px;text-align:center;">
+        <p class="bold" style="font-size:0.78em;">
+            <i class="fas fa-exclamation-triangle text-orange"></i>&nbsp;
+            <span class="text-orange">None of these skills</span> are taught in standard Playwright tutorials — this is exactly the gap this program fills
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 2 — THE BIG FEAR
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-exclamation-circle" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Chapter 2</h1>
+        <h2>The Big Fear — Addressed</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">"Will AI Replace Testers?"</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 6 — Will AI Replace You?
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Will AI Replace Testers?</h2>
+    <div class="highlight-box" style="margin-bottom:10px;">
+        <p class="bold text-blue" style="text-align:center;font-size:0.95em;">
+            The honest answer: <span class="text-orange">Yes and No</span> — and the difference is entirely in your hands
+        </p>
+    </div>
+    <div class="two-col">
+        <div class="content-box" style="background:#fff1f2;border-left-color:#ef4444;">
+            <h3 style="color:#be123c;">❌ AI Will Replace...</h3>
+            <ul>
+                <li class="red">Testers who only write manual test cases</li>
+                <li class="red">Those who can't read or validate code</li>
+                <li class="red">QA who treat tools as magic black boxes</li>
+                <li class="red">Anyone who doesn't learn how AI works</li>
+            </ul>
+        </div>
+        <div class="content-box" style="background:#f0fdf4;border-left-color:var(--vibe-green);">
+            <h3>✅ AI Cannot Replace...</h3>
+            <ul>
+                <li>Engineers who <strong>validate AI output</strong></li>
+                <li>Testers who architect QA workflows</li>
+                <li>Those who prompt and <strong>govern AI agents</strong></li>
+                <li>QA leads who define the <strong>quality strategy for AI SDLC</strong></li>
+            </ul>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:8px;text-align:center;">
+        <p class="bold" style="font-size:0.84em;">
+            <i class="fas fa-fire text-orange"></i>&nbsp;
+            <span class="text-orange">"AI will replace those who cannot use AI in their workflows.</span>
+            <span class="text-green"> It cannot replace those who make AI work for them."</span>
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 3 — AI FOR DAILY QA WORKFLOWS
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-robot" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Chapter 3</h1>
+        <h2>AI for Day-to-Day QA</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Agents · MCPs · Manual Testing · Daily Workflows</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 7 — AI Tools for Manual Testing
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>AI for Manual Testing Workflows</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.85em;text-align:center;">
+            Manual testing is not dying — it's <span class="text-green">supercharging with AI agents</span>
+        </p>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">Requirements &amp; Test Design</h3>
+            <ul>
+                <li>Requirements analysis with AI</li>
+                <li>Generate test cases in tabular &amp; Gherkin formats</li>
+                <li>Create .feature files from user stories instantly</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>Exploratory Testing with MCP</h3>
+            <ul>
+                <li>MCP-connected Claude browses your live app</li>
+                <li>AI agents actively explore and capture findings</li>
+                <li>Structured exploration results stored in repo</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Test Data &amp; Bug Reporting</h3>
+            <ul>
+                <li>Generate test data: JSON, CSV, SQL with AI</li>
+                <li>AI writes clear bug reports from rough notes</li>
+                <li>Defect pattern analysis &amp; root cause assistance</li>
+            </ul>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:8px;text-align:center;">
+        <p class="bold" style="font-size:0.8em;">
+            <i class="fas fa-check-circle text-green"></i>&nbsp;
+            All of this is organised into a reusable <strong>AI Testing Toolkit</strong> — your input for automation in Level 3
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 4 — YOU STILL NEED TO CODE
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-code" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Chapter 4</h1>
+        <h2>You Still Need to Code</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">JS · TypeScript · Node.js · Playwright — The Foundation That AI Can't Replace</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 10 — Why Coding Still Matters
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Why Coding Still Matters in the AI Era</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.88em;text-align:center;">
+            <i class="fas fa-exclamation-triangle text-orange"></i>&nbsp;
+            If you can't read the code AI generates, you <em>cannot</em> validate it. You're just rubber-stamping bugs.
+        </p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">AI Generates, You Govern</h3>
+            <p class="compact">AI writes the code — but you need coding knowledge to:</p>
+            <ul>
+                <li>Spot AI hallucinations in test logic</li>
+                <li>Understand what the test is actually asserting</li>
+                <li>Debug when AI-generated tests fail</li>
+                <li>Know when to trust vs reject AI output</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>What You Will Learn</h3>
+            <ul>
+                <li class="blue"><strong>JavaScript</strong> — Variables, Functions, Async/Await, ES6+</li>
+                <li class="blue"><strong>TypeScript</strong> — Types, Interfaces, Classes</li>
+                <li class="blue"><strong>Node.js</strong> — Runtime, npm, package.json</li>
+                <li class="blue"><strong>Playwright</strong> — Locators, Actions, Assertions, POM</li>
+                <li class="blue"><strong>API Testing</strong> — APIRequestContext, Swagger/OpenAPI</li>
+                <li class="blue"><strong>CI/CD</strong> — GitHub Actions pipelines</li>
+            </ul>
+        </div>
+    </div>
+    <div class="success-box" style="text-align:center;margin-top:6px;">
+        <p class="bold" style="font-size:0.8em;">
+            <i class="fas fa-check-circle text-green"></i>&nbsp;
+            We teach you to <strong>code well enough to govern AI</strong> — not to compete with AI
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 11 — The 4-Level Learning Journey
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>Your 4-Level Learning Journey</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.85em;text-align:center;">
+            Each level builds on the last — all 4 levels in 31 sessions, starting April 15
+        </p>
+    </div>
+    <div style="margin-top:10px;">
+        <div class="skill-tier t4">
+            <div class="tier-icon">🏗️</div>
+            <div class="tier-content">
+                <div class="tier-title" style="color:#7c3aed;">Level 4 — Developing QA Workflows for AI SDLC</div>
+                <div class="tier-desc">AI-Native SDLC &amp; STLC. Parallel stream model. Repository as single source of truth. Self-healing risks &amp; coverage governance. What needs to change — for you, your team, your company.</div>
+            </div>
+            <span class="badge purple">5 Days</span>
+        </div>
+        <div class="skill-tier t2" style="margin-top:5px;">
+            <div class="tier-icon">🤖</div>
+            <div class="tier-content">
+                <div class="tier-title" style="color:#92400e;">Level 3 — Using AI in Test Automation</div>
+                <div class="tier-desc">JavaScript, TypeScript, Playwright, POM, Cucumber BDD, API Testing — built with Planner, Generator &amp; Healer agents. Running in GitHub Actions CI.</div>
+            </div>
+            <span class="badge" style="background:var(--vibe-yellow);color:#92400e;">16 Days</span>
+        </div>
+        <div class="skill-tier t1" style="margin-top:5px;">
+            <div class="tier-icon">🛠️</div>
+            <div class="tier-content">
+                <div class="tier-title" style="color:var(--vibe-blue);">Level 2 — Using AI in Testing</div>
+                <div class="tier-desc">MCP setup, Claude Desktop, Playwright MCP. Requirements analysis, Gherkin generation, exploratory testing with AI agents, test data &amp; bug reporting.</div>
+            </div>
+            <span class="badge blue">5 Days</span>
+        </div>
+        <div class="skill-tier t1" style="margin-top:5px;background:#f0fdf4;border-left:4px solid var(--vibe-green);">
+            <div class="tier-icon">🧠</div>
+            <div class="tier-content">
+                <div class="tier-title" style="color:#15803d;">Level 1 — Learning AI</div>
+                <div class="tier-desc">What is an LLM. Hallucination &amp; why human verification matters. Prompts, context &amp; iterative prompting. VS Code + GitHub Copilot. Skills.md.</div>
+            </div>
+            <span class="badge green">5 Days</span>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     CHAPTER 5 — QA WORKFLOWS FOR AI SDLC
+══════════════════════════════════════════════ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:50px 0;">
+        <i class="fas fa-sitemap" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Chapter 5</h1>
+        <h2>QA Workflows for AI SDLC</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Types of AI SDLC · Maturity Model · Two Dimensions · QA Workflows</p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 12 — The AI SDLC Maturity Model
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>The AI SDLC Maturity Model</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.85em;text-align:center;">
+            5 types of AI SDLC — the workflow must match the type. Mismatch = failure.
+        </p>
+    </div>
+    <div class="timeline" style="margin-top:18px;">
+        <div class="tl-node">
+            <div class="tl-dot orange"><i class="fas fa-wrench" style="font-size:0.7em;"></i></div>
+            <div class="tl-label">Type 1</div>
+            <div class="tl-sub">AI-Assisted<br>Tools added<br>SDLC unchanged</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot blue"><i class="fas fa-file-alt" style="font-size:0.7em;"></i></div>
+            <div class="tl-label">Type 2</div>
+            <div class="tl-sub">Spec-Driven<br>Requirements<br>gate everything</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot green"><i class="fas fa-stream" style="font-size:0.7em;"></i></div>
+            <div class="tl-label">Type 3</div>
+            <div class="tl-sub">Parallel Stream<br>Dev + QA run<br>simultaneously</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot purple"><i class="fas fa-robot" style="font-size:0.7em;"></i></div>
+            <div class="tl-label">Type 4</div>
+            <div class="tl-sub">Agentic<br>Agents handle<br>entire phases</div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot red"><i class="fas fa-balance-scale" style="font-size:0.7em;"></i></div>
+            <div class="tl-label">Type 5</div>
+            <div class="tl-sub">Regulated<br>AI + mandatory<br>human sign-off</div>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:12px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <p class="compact"><span style="background:#ffedd5;padding:2px 6px;border-radius:4px;font-weight:700;color:var(--vibe-orange);">Most teams today</span> — Type 1. AI tools added, but all structural gaps still exist. QA still enters after dev completes.</p>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <p class="compact"><span style="background:#dcfce7;padding:2px 6px;border-radius:4px;font-weight:700;color:#16a34a;">Target model</span> — Type 3. Dev and QA start at the same moment. Same-sprint delivery. Neither waits.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 13 — The Framework: Two Dimensions
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>The Framework — Two Dimensions</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.85em;text-align:center;">
+            Every QA workflow in the AI era sits on two axes — <span class="text-orange">what QA is doing</span> and <span class="text-green">how AI is involved</span>
+        </p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="content-box">
+            <h3><i class="fas fa-question-circle"></i> What QA Is Doing</h3>
+            <div class="three-col" style="gap:6px;margin-top:6px;">
+                <div style="text-align:center;background:#dbeafe;border-radius:8px;padding:8px 4px;">
+                    <i class="fas fa-pencil-alt" style="color:var(--vibe-blue);display:block;font-size:1.2em;margin-bottom:4px;"></i>
+                    <p style="font-size:0.65em;font-weight:700;color:var(--vibe-dark-blue);margin:0;">DESIGN</p>
+                    <p style="font-size:0.58em;color:#64748b;">Before testing</p>
+                </div>
+                <div style="text-align:center;background:#dcfce7;border-radius:8px;padding:8px 4px;">
+                    <i class="fas fa-play-circle" style="color:var(--vibe-green);display:block;font-size:1.2em;margin-bottom:4px;"></i>
+                    <p style="font-size:0.65em;font-weight:700;color:#15803d;margin:0;">EXECUTION</p>
+                    <p style="font-size:0.58em;color:#64748b;">While testing</p>
+                </div>
+                <div style="text-align:center;background:#ede9fe;border-radius:8px;padding:8px 4px;">
+                    <i class="fas fa-brain" style="color:#9333ea;display:block;font-size:1.2em;margin-bottom:4px;"></i>
+                    <p style="font-size:0.65em;font-weight:700;color:#6d28d9;margin:0;">INTELLIGENCE</p>
+                    <p style="font-size:0.58em;color:#64748b;">What it learns</p>
+                </div>
+            </div>
+        </div>
+        <div class="content-box">
+            <h3><i class="fas fa-sliders-h"></i> How AI Is Involved</h3>
+            <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px;">
+                <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#dbeafe;border-radius:6px;">
+                    <span style="background:#dbeafe;color:var(--vibe-blue);padding:2px 8px;border-radius:10px;font-size:0.62em;font-weight:700;border:1px solid var(--vibe-blue);">AI-Assisted</span>
+                    <span style="font-size:0.68em;">Human drives · AI accelerates</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#dcfce7;border-radius:6px;">
+                    <span style="background:#dcfce7;color:#15803d;padding:2px 8px;border-radius:10px;font-size:0.62em;font-weight:700;border:1px solid #16a34a;">Exploration</span>
+                    <span style="font-size:0.68em;">Human + AI explore via MCP</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#ede9fe;border-radius:6px;">
+                    <span style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:10px;font-size:0.62em;font-weight:700;border:1px solid #9333ea;">Agentic</span>
+                    <span style="font-size:0.68em;">AI agents execute · human governs</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;background:#ffedd5;border-radius:6px;">
+                    <span style="background:#ffedd5;color:#9a3412;padding:2px 8px;border-radius:10px;font-size:0.62em;font-weight:700;border:1px solid var(--vibe-orange);">Autonomous</span>
+                    <span style="font-size:0.68em;">System monitors without trigger</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:6px;text-align:center;">
+        <p class="bold" style="font-size:0.78em;">
+            <i class="fas fa-info-circle text-green"></i>&nbsp;
+            Every QA workflow in this program maps to one of these dimensions — Design, Execution, or Intelligence
+        </p>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 14 — QA Workflows: What We Cover
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>QA Workflows We Cover in This Program</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.85em;text-align:center;">
+            13 real-world workflows across Design, Execution &amp; Intelligence — mapped to the AI-Native SDLC
+        </p>
+    </div>
+    <div class="three-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3 style="color:var(--vibe-blue);">🎯 Design</h3>
+            <ul>
+                <li><strong>WF1</strong> Requirements → Test Scenarios</li>
+                <li><strong>WF2</strong> Test Data Generation</li>
+                <li><strong>WF3</strong> Test Strategy</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">⚙️ Execution</h3>
+            <ul>
+                <li><strong>WF4</strong> Exploratory Testing</li>
+                <li><strong>WF5</strong> Feature Readiness</li>
+                <li><strong>WF6</strong> Bug Reporting</li>
+                <li><strong>WF7</strong> Automation Generation</li>
+                <li><strong>WF8</strong> Test Maintenance</li>
+                <li><strong>WF9</strong> Self-Healing</li>
+                <li><strong>WF10</strong> CI Quality Gate</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3 style="color:var(--vibe-green);">🧠 Intelligence</h3>
+            <ul>
+                <li><strong>WF11</strong> Coverage Audit</li>
+                <li><strong>WF12</strong> Production Signals</li>
+                <li><strong>WF13</strong> Traceability Maintenance</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 15 — What This Program Covers
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>What This Program Covers</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="font-size:0.82em;text-align:center;">
+            4 structured tracks — from AI fundamentals to advanced QA workflows
+        </p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3 style="color:var(--vibe-blue);">🤖 Understanding AI</h3>
+            <ul>
+                <li>LLMs, hallucination &amp; how AI models work</li>
+                <li>Prompt engineering — role, context, instruction, format</li>
+                <li>VS Code + GitHub Copilot setup &amp; usage</li>
+                <li>skills.md — teaching AI your codebase</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">🔍 AI for Manual Testing</h3>
+            <ul>
+                <li>MCP setup — Claude Desktop + Playwright MCP</li>
+                <li>Requirements analysis, Gherkin &amp; test cases</li>
+                <li>Exploratory testing with AI agents</li>
+                <li>Test data generation &amp; AI bug reporting</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3 style="color:var(--vibe-green);">⚙️ AI for Test Automation</h3>
+            <ul>
+                <li>JavaScript, TypeScript &amp; Playwright (POM, fixtures)</li>
+                <li>Planner, Generator &amp; Healer agents</li>
+                <li>Cucumber BDD — feature files &amp; step definitions</li>
+                <li>API testing, Git &amp; GitHub Actions CI</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:#9333ea;">
+            <h3 style="color:#9333ea;">🏗️ QA Workflows for AI SDLC</h3>
+            <ul>
+                <li>AI-Native SDLC &amp; parallel stream model</li>
+                <li>Repo-first approach — compounding intelligence</li>
+                <li>Coverage governance every sprint</li>
+                <li>Your personal AI-Native QA action plan</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 16 — Program Summary
+══════════════════════════════════════════════ -->
+<section>
+    <div class="logo-corner">
+        <img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'">
+    </div>
+    <h2>What You Get: Program at a Glance</h2>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>What's Included</h3>
+            <ul>
+                <li>Daily 1.5 hr live sessions</li>
+                <li>In-session practice — hands-on every day</li>
+                <li>Practice assignments</li>
+                <li>Assessments</li>
+                <li>Resume review + mock interviews</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>What You Walk Away With</h3>
+            <ul>
+                <li>Production-ready AI-native framework on GitHub</li>
+                <li>Verified practitioner on VibeTestQ.com</li>
+                <li>Complete AI SDLC testing skillset</li>
+                <li>Interview-ready for top AI companies</li>
+                <li>📗 <strong>Complete Playwright Book</strong></li>
+                <li>❓ <strong>Playwright Interview Questions</strong></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 17 — CLOSING / CTA
+══════════════════════════════════════════════ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:500px;width:78%;margin:0 auto 10px;display:block;"
+         onerror="this.style.display='none'">
+    <h1>Your Move</h1>
+    <p class="subtitle">The AI era won't wait. Become the QA professional it demands.</p>
+    <div class="flow-container" style="max-width:700px;margin:10px auto;">
+        <div class="arrow-flow">
+            <div class="step">Enroll</div>
+            <div class="arrow">→</div>
+            <div class="step green">31 Sessions</div>
+            <div class="arrow">→</div>
+            <div class="step orange">AI-Native QA</div>
+            <div class="arrow">→</div>
+            <div class="step purple">Land the Role</div>
+        </div>
+    </div>
+    <div style="margin-top:10px;">
+        <span class="badge"><i class="fas fa-whatsapp"></i> &nbsp;WhatsApp: +91-8328152362</span>
+        <span class="badge blue"><i class="fas fa-globe"></i> &nbsp;VibeTestQ.com</span>
+        <span class="badge green"><i class="fas fa-question-circle"></i> &nbsp;Questions Welcome!</span>
+    </div>
+    <p class="tagline" style="margin-top:12px;">
+        <i class="fab fa-linkedin"></i> QTP Sudhakar &nbsp;|&nbsp;
+        India's First Playwright Corporate Trainer &nbsp;|&nbsp; 10,000+ Engineers Trained
+    </p>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    (function () {
+        var MARGIN = 0.04;
+        function getSize() { return { w: window.innerWidth, h: window.innerHeight }; }
+        function buildConfig() {
+            var s = getSize();
+            return {
+                hash: true, transition: 'slide', transitionSpeed: 'default',
+                slideNumber: true, controls: true, progress: true, center: true,
+                width: s.w, height: s.h, margin: MARGIN, minScale: 0.1, maxScale: 1.0
+            };
+        }
+        var initialized = false;
+        function init() {
+            if (typeof Reveal === 'undefined') return false;
+            Reveal.initialize(buildConfig());
+            initialized = true;
+            return true;
+        }
+        var resizeTimer = null;
+        var lastDPR = window.devicePixelRatio;
+        function onViewportChange() {
+            if (!initialized) return;
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                var s = getSize();
+                Reveal.configure({ width: s.w, height: s.h });
+                Reveal.layout();
+            }, 60);
+        }
+        window.addEventListener('resize', onViewportChange);
+        setInterval(function () {
+            var dpr = window.devicePixelRatio;
+            if (dpr !== lastDPR) { lastDPR = dpr; onViewportChange(); }
+        }, 250);
+        document.addEventListener('keydown', function (e) {
+            if (!initialized) return;
+            if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
+                e.preventDefault();
+                var s = getSize();
+                Reveal.configure({ width: s.w * 0.97, height: s.h * 0.97 });
+                Reveal.layout();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+                e.preventDefault();
+                var s2 = getSize();
+                Reveal.configure({ width: s2.w * 1.03, height: s2.h * 1.03 });
+                Reveal.layout();
+            }
+        });
+        if (!init()) {
+            var attempts = 0;
+            var pollTimer = setInterval(function () {
+                attempts++;
+                if (init()) { clearInterval(pollTimer); }
+                else if (attempts >= 50) {
+                    clearInterval(pollTimer);
+                    console.error('Reveal.js failed to load from CDN.');
+                }
+            }, 100);
+        }
+    })();
+</script>
+</body>
+</html>

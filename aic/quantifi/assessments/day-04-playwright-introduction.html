@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Playwright Introduction - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;transition:all 0.2s ease;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s ease;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;margin-bottom:25px;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;transition:all 0.2s ease;border:none;gap:8px;font-size:1rem;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background-color:white;padding:0;}.card{box-shadow:none;border:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}
+    @media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Assessment</h1><p>Loading topics...</p></div>
+    </header>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: Playwright Introduction
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** Installation, playwright.config.ts, Browser/Context/Page hierarchy, Writing first tests
+
+---
+
+## Questions
+
+### Question 1
+What command initializes a new Playwright project and installs browsers?
+
+A) npm install playwright
+B) npx playwright install
+C) npm init playwright@latest
+D) npx create-playwright
+
+**Answer: C) npm init playwright@latest**
+
+**Explanation:** `npm init playwright@latest` is the official scaffold command that creates the project structure, installs dependencies, and sets up browsers.
+
+---
+
+### Question 2
+What is the primary configuration file for a Playwright project?
+
+A) playwright.json
+B) playwright.setup.ts
+C) playwright.config.ts
+D) playwright.settings.json
+
+**Answer: C) playwright.config.ts**
+
+**Explanation:** `playwright.config.ts` is the TypeScript configuration file where you define browsers, base URL, timeouts, reporters, and test directory settings.
+
+---
+
+### Question 3
+What is the correct hierarchy of Playwright's browser objects from outermost to innermost?
+
+A) Page → Context → Browser
+B) Context → Browser → Page
+C) Browser → Context → Page
+D) Browser → Page → Context
+
+**Answer: C) Browser → Context → Page**
+
+**Explanation:** A `Browser` (e.g., Chromium) can have multiple `BrowserContext` instances (like isolated browser profiles), and each context can have multiple `Page` instances (tabs).
+
+---
+
+### Question 4
+What does `test.beforeEach(async ({ page }) => { ... })` do?
+
+A) Runs once before the entire test file
+B) Runs after every test completes
+C) Runs before every test in the current describe block
+D) Runs only before failing tests
+
+**Answer: C) Runs before every test in the current describe block**
+
+**Explanation:** `test.beforeEach` sets up preconditions for each individual test. Use `test.beforeAll` for one-time setup shared across all tests in a block.
+
+---
+
+### Question 5
+In a Playwright test function, the `page` parameter comes from:
+
+A) A manually launched browser
+B) The test fixture system — Playwright provides it automatically
+C) The playwright.config.ts `page` property
+D) An imported Page class
+
+**Answer: B) The test fixture system — Playwright provides it automatically**
+
+**Explanation:** Playwright's test runner uses fixtures. `page` is a built-in fixture that provides a clean browser page for each test without manual setup.
+
+---
+
+### Question 6
+What does `await page.goto('https://example.com')` do by default?
+
+A) Creates a new browser context
+B) Navigates the page and waits for the `load` event
+C) Takes a screenshot of the URL
+D) Validates the HTTP status code
+
+**Answer: B) Navigates the page and waits for the `load` event**
+
+**Explanation:** `page.goto()` navigates to the URL and waits for the `load` event by default. You can change this with the `waitUntil` option.
+
+---
+
+### Question 7
+Which of the following correctly declares a Playwright test?
+
+A) it('test name', async ({ page }) => { ... })
+B) spec('test name', async ({ page }) => { ... })
+C) test('test name', async ({ page }) => { ... })
+D) describe('test name', async ({ page }) => { ... })
+
+**Answer: C) test('test name', async ({ page }) => { ... })**
+
+**Explanation:** Playwright uses `test()` from `@playwright/test`. `describe()` groups tests but doesn't define an individual test. `it()` is Jest/Jasmine syntax.
+
+---
+
+### Question 8
+What does `fullyParallel: true` in `playwright.config.ts` enable?
+
+A) Runs all tests within a file in sequence
+B) Disables browser parallelism
+C) Runs individual tests across files in parallel (not just files)
+D) Enables parallel reporting only
+
+**Answer: C) Runs individual tests across files in parallel (not just files)**
+
+**Explanation:** By default, Playwright runs test FILES in parallel. `fullyParallel: true` also parallelizes individual tests within the same file.
+
+---
+
+### Question 9
+How do you configure a base URL so `page.goto('/login')` resolves to the full URL?
+
+A) Set `url: 'https://...'` in the config
+B) Set `rootURL: 'https://...'` in the config
+C) Set `baseURL: 'https://...'` in the `use` section of the config
+D) Set `host: 'https://...'` in the config
+
+**Answer: C) Set `baseURL: 'https://...'` in the `use` section of the config**
+
+**Explanation:** `use: { baseURL: 'https://example.com' }` in `playwright.config.ts` allows relative paths in `page.goto()`, making the config the single source of truth for the target URL.
+
+---
+
+### Question 10
+What does a `BrowserContext` provide in Playwright?
+
+A) A shared session across all tests
+B) An isolated environment with its own cookies, storage, and session
+C) A network proxy configuration
+D) A headless browser instance
+
+**Answer: B) An isolated environment with its own cookies, storage, and session**
+
+**Explanation:** Each `BrowserContext` is like a fresh browser profile — isolated from other contexts. This is how Playwright runs tests in parallel without cross-contamination.
+
+---
+
+### Question 11
+What does `retries: 2` in `playwright.config.ts` do?
+
+A) Runs every test exactly 2 times
+B) Adds a 2-second delay between tests
+C) Retries FAILED tests up to 2 additional times
+D) Sets worker count to 2
+
+**Answer: C) Retries FAILED tests up to 2 additional times**
+
+**Explanation:** The `retries` setting controls how many times Playwright re-runs a failing test before marking it as failed. This helps with flaky tests in unstable environments.
+
+---
+
+### Question 12
+What command runs Playwright tests in headed (visible browser) mode?
+
+A) npx playwright test --visible
+B) npx playwright test --headed
+C) npx playwright open
+D) npx playwright run --browser
+
+**Answer: B) npx playwright test --headed**
+
+**Explanation:** `--headed` runs tests with the browser UI visible, which is useful for debugging. Tests run headlessly by default for speed.
+
+---
+
+### Question 13
+What does `npx playwright show-report` do?
+
+A) Lists all test names
+B) Opens the Playwright Inspector
+C) Opens the HTML test report in the local browser
+D) Sends the report to a CI server
+
+**Answer: C) Opens the HTML test report in the local browser**
+
+**Explanation:** After a test run, Playwright generates an HTML report. `show-report` opens it in the browser for a visual summary of results.
+
+---
+
+### Question 14
+What does `test.only()` do when placed in a test file?
+
+A) Marks the test as skipped
+B) Makes only that specific test run in the entire suite
+C) Increases priority of that test
+D) Runs the test twice for verification
+
+**Answer: B) Makes only that specific test run in the entire suite**
+
+**Explanation:** `test.only()` filters out all other tests and runs only the marked one. Useful for debugging but should be removed before committing.
+
+---
+
+### Question 15
+What does `expect(page).toHaveTitle(/OrangeHRM/)` verify?
+
+A) The page URL contains "OrangeHRM"
+B) An element with text "OrangeHRM" is visible
+C) The page's `<title>` matches the regex pattern
+D) The page loaded without errors
+
+**Answer: C) The page's `<title>` matches the regex pattern**
+
+**Explanation:** `toHaveTitle()` checks the document `<title>`. It accepts a string or regex pattern and auto-waits until the title matches or times out.
+
+---
+
+### Question 16
+What does `await page.waitForLoadState('networkidle')` wait for?
+
+A) The DOMContentLoaded event
+B) All JavaScript to finish executing
+C) No more than 0 network connections for at least 500ms
+D) The page scroll position to be at top
+
+**Answer: C) No more than 0 network connections for at least 500ms**
+
+**Explanation:** `networkidle` waits until there are no network connections for 500ms, indicating all resources have likely loaded. Useful for SPAs.
+
+---
+
+### Question 17
+How do you run a specific Playwright test file?
+
+A) npx playwright run --only tests/login.spec.ts
+B) npx playwright test tests/login.spec.ts
+C) npx playwright exec tests/login.spec.ts
+D) npx playwright --file tests/login.spec.ts
+
+**Answer: B) npx playwright test tests/login.spec.ts**
+
+**Explanation:** Simply append the file path to the `npx playwright test` command. You can also use a grep pattern with `--grep` to filter by test name.
+
+---
+
+### Question 18
+What does `test.skip()` do?
+
+A) Marks the test as failed
+B) Runs the test but ignores assertions
+C) Excludes the test from the current run entirely
+D) Runs the test in a slow-motion mode
+
+**Answer: C) Excludes the test from the current run entirely**
+
+**Explanation:** `test.skip()` marks a test as skipped. It appears in the report as skipped, not failed. Useful for temporarily disabling a test.
+
+---
+
+### Question 19
+What does the `projects` array in `playwright.config.ts` allow you to configure?
+
+A) Multiple test data files
+B) Multiple reporter configurations
+C) Running the same tests across multiple browsers or device configurations
+D) Multiple test directories
+
+**Answer: C) Running the same tests across multiple browsers or device configurations**
+
+**Explanation:** Each project in the array can specify a different browser (`chromium`, `firefox`, `webkit`) or device emulation profile, allowing cross-browser testing with one command.
+
+---
+
+### Question 20
+What does the Playwright Codegen tool (`npx playwright codegen`) do?
+
+A) Compiles TypeScript test files
+B) Generates a default playwright.config.ts
+C) Records browser interactions and generates corresponding Playwright test code
+D) Creates page object classes automatically
+
+**Answer: C) Records browser interactions and generates corresponding Playwright test code**
+
+**Explanation:** Codegen opens a browser and records your clicks, fills, and navigations, then generates the equivalent Playwright test code — great for quickly capturing locators and flows.
+
+---
+
+</script>
+<script>
+(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'Perfect Score! Playwright fundamentals nailed!':pct>=80?'Excellent! Strong Playwright foundation.':pct>=60?'Good job! Review configuration and browser hierarchy.':'Keep learning! Re-read Chapter 04 and run the first-test exercises.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Student: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();
+</script>
+</body>
+</html>

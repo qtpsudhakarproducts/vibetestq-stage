@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Testing & Network Interception - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>API Testing &amp; Network Interception</h1>
+    <p class="subtitle">request Context · route.fulfill() · Mocking · HAR Files</p>
+    <p class="tagline">Test APIs directly and control network traffic in your UI tests — Session 18</p>
+    <div style="margin-top:15px;">
+        <span class="badge">APIRequest</span>
+        <span class="badge" style="background:var(--vibe-blue);">route.fulfill()</span>
+        <span class="badge" style="background:var(--vibe-green);">Network Mocking</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Playwright APIRequestContext — Pure API Testing</h2>
+    <div class="code-snippet">import { test, expect } from '@playwright/test';
+
+test.describe('Users API', () => {
+
+  test('GET /users returns list', async ({ request }) => {
+    const response = await request.get('/api/users');
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body).toHaveProperty('users');
+    expect(body.users.length).toBeGreaterThan(0);
+  });
+
+  test('POST /users creates user', async ({ request }) => {
+    const response = await request.post('/api/users', {
+      data: { name: 'Jane Doe', email: 'jane@test.com', role: 'user' },
+    });
+    expect(response.status()).toBe(201);
+    const created = await response.json();
+    expect(created).toMatchObject({ name: 'Jane Doe', email: 'jane@test.com' });
+    expect(created.id).toBeDefined();
+  });
+
+  test('DELETE /users/:id removes user', async ({ request }) => {
+    const deleteResponse = await request.delete('/api/users/123');
+    expect(deleteResponse.status()).toBe(204);
+    const getResponse = await request.get('/api/users/123');
+    expect(getResponse.status()).toBe(404);
+  });
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>API Testing with Auth Headers</h2>
+    <div class="code-snippet">// Get a token via API, then use it for subsequent requests
+test('authenticated API calls', async ({ request }) => {
+
+  // Step 1: Login via API to get token
+  const loginResponse = await request.post('/api/auth/login', {
+    data: { email: 'admin@test.com', password: 'Admin123!' },
+  });
+  expect(loginResponse.ok()).toBeTruthy();
+  const { token } = await loginResponse.json();
+
+  // Step 2: Use token for authenticated request
+  const profileResponse = await request.get('/api/profile', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  expect(profileResponse.status()).toBe(200);
+  const profile = await profileResponse.json();
+  expect(profile.role).toBe('admin');
+});
+
+// Reusable API context with baseURL
+const apiContext = await request.newContext({
+  baseURL: 'https://api.example.com',
+  extraHTTPHeaders: {
+    Accept: 'application/json',
+    Authorization: `Bearer ${process.env.API_TOKEN}`,
+  },
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Network Interception with route.fulfill()</h2>
+    <div class="code-snippet">// Mock an API response in a UI test
+test('shows error banner when API fails', async ({ page }) => {
+  // Intercept the products API and return a 500
+  await page.route('**/api/products', async route => {
+    await route.fulfill({
+      status: 500,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Internal Server Error' }),
+    });
+  });
+
+  await page.goto('/shop');
+  await expect(page.getByRole('alert')).toContainText('Unable to load products');
+});
+
+// Mock with custom data
+test('shows correct product count from API', async ({ page }) => {
+  await page.route('**/api/products', async route => {
+    await route.fulfill({
+      status: 200,
+      json: { products: [{ id: 1 }, { id: 2 }, { id: 3 }], total: 3 },
+    });
+  });
+  await page.goto('/shop');
+  await expect(page.getByTestId('product-count')).toHaveText('3 products');
+});</div>
+    <div class="highlight-box">
+        <p class="compact">Use route mocking to test UI behavior for API error states without needing a broken backend.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>API as Shortcut: Setup Test State Faster</h2>
+    <div class="code-snippet">// Use API to set up test state — much faster than UI
+test('can edit existing user profile', async ({ page, request }) => {
+
+  // Create test user via API (instant — no UI clicks)
+  const createResponse = await request.post('/api/users', {
+    data: { name: 'Test User', email: 'testuser@qa.com' },
+    headers: { Authorization: `Bearer ${process.env.API_TOKEN}` },
+  });
+  const { id } = await createResponse.json();
+
+  // Navigate UI to edit this specific user
+  await page.goto(`/admin/users/${id}/edit`);
+  await page.getByLabel('Name').fill('Updated Name');
+  await page.getByRole('button', { name: 'Save' }).click();
+
+  // Verify via API (also faster than checking UI)
+  const updated = await request.get(`/api/users/${id}`);
+  const user = await updated.json();
+  expect(user.name).toBe('Updated Name');
+
+  // Cleanup via API
+  await request.delete(`/api/users/${id}`);
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Network Monitoring and HAR Files</h2>
+    <div class="code-snippet">// Listen to all network requests in a test
+test('login triggers correct API call', async ({ page }) => {
+  const requests: string[] = [];
+
+  page.on('request', req => {
+    if (req.url().includes('/api')) requests.push(req.url());
+  });
+
+  await page.goto('/login');
+  await page.getByLabel('Email').fill('user@test.com');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+
+  expect(requests).toContain(expect.stringContaining('/api/auth/login'));
+});
+
+// Wait for a specific network response
+const [response] = await Promise.all([
+  page.waitForResponse('**/api/users'),
+  page.getByRole('button', { name: 'Load Users' }).click(),
+]);
+expect(response.status()).toBe(200);
+
+// Record HAR for playback
+await page.context().routeFromHAR('tests/fixtures/api.har', {
+  url: '**/api/**',
+  update: false,  // true to re-record, false to replay
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 18 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>API Testing</h3>
+            <ul>
+                <li>request fixture — built-in API client</li>
+                <li>GET, POST, PUT, DELETE HTTP methods</li>
+                <li>response.status(), response.json()</li>
+                <li>Auth headers for secured endpoints</li>
+                <li>API setup/teardown for UI test data</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Network Control</h3>
+            <ul>
+                <li>route.fulfill() — mock any API response</li>
+                <li>Test error states without broken backend</li>
+                <li>page.on('request') — monitor requests</li>
+                <li>waitForResponse() — assert API calls made</li>
+                <li>HAR files for deterministic playback</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 19 — Advanced Scenarios: iframes, Dialogs, Multi-Tab and Visual Testing</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

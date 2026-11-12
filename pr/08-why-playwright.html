@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Playwright - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .stat-box { display:inline-block; background:#dbeafe; border:2px solid var(--vibe-blue); padding:12px 20px; margin:6px; border-radius:8px; }
+        .stat-number { font-size:1.8em; font-weight:700; color:var(--vibe-orange); display:block; }
+        .stat-label { font-size:0.8em; color:var(--vibe-blue); }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+        .vibe-table { width:100%; border-collapse:collapse; margin:10px 0; font-size:0.75em; }
+        .vibe-table th { background:var(--vibe-dark-blue); color:white; padding:8px 10px; text-align:left; }
+        .vibe-table td { padding:7px 10px; border-bottom:1px solid #e2e8f0; color:#334155; }
+        .vibe-table tr:nth-child(even) td { background:var(--vibe-light-bg); }
+        .check { color:var(--vibe-green); font-weight:700; }
+        .x { color:var(--vibe-orange); font-weight:700; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Why Playwright?</h1>
+    <p class="subtitle">The Architecture That Changes Everything</p>
+    <p class="tagline">Playwright vs Selenium vs Cypress — and the rise of BiDi and MCP — Session 8</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Architecture</span>
+        <span class="badge" style="background:var(--vibe-blue);">vs Selenium</span>
+        <span class="badge" style="background:var(--vibe-green);">BiDi Protocol</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Problem with Old-School Automation</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">Selenium's Legacy Pain</h3>
+            <ul>
+                <li class="cross">WebDriver protocol: HTTP round-trip per action</li>
+                <li class="cross">External driver process (ChromeDriver, GeckoDriver)</li>
+                <li class="cross">No auto-waiting — need explicit waits everywhere</li>
+                <li class="cross">Flaky tests due to timing issues</li>
+                <li class="cross">No native API testing support</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>What Playwright Did Differently</h3>
+            <ul>
+                <li>Direct CDP/BiDi connection — no HTTP overhead</li>
+                <li>Bundled browser binaries — no driver version mismatch</li>
+                <li>Auto-waiting built into every action and assertion</li>
+                <li>Network interception at the protocol level</li>
+                <li>API testing built in — one tool for everything</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Playwright was built by ex-Puppeteer team at Microsoft with lessons learned from every previous tool's failures.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Tool Comparison: Playwright vs Selenium vs Cypress</h2>
+    <table class="vibe-table">
+        <thead>
+            <tr><th>Feature</th><th>Playwright</th><th>Selenium</th><th>Cypress</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Auto-wait</td><td class="check">Built-in</td><td class="x">Manual</td><td class="check">Limited</td></tr>
+            <tr><td>Cross-browser</td><td class="check">Chrome/FF/Safari</td><td class="check">All+IE</td><td class="x">Chrome/FF only</td></tr>
+            <tr><td>API Testing</td><td class="check">Native</td><td class="x">External</td><td class="check">Basic</td></tr>
+            <tr><td>Multi-tab</td><td class="check">Yes</td><td class="check">Yes</td><td class="x">Experimental</td></tr>
+            <tr><td>Mobile Emulation</td><td class="check">Yes</td><td class="x">Limited</td><td class="x">Limited</td></tr>
+            <tr><td>Trace Viewer</td><td class="check">Built-in</td><td class="x">No</td><td class="check">Dashboard (paid)</td></tr>
+            <tr><td>Parallel Tests</td><td class="check">Native workers</td><td class="check">Grid needed</td><td class="x">Paid addon</td></tr>
+            <tr><td>AI/MCP Support</td><td class="check">Official MCP server</td><td class="x">No</td><td class="x">No</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Playwright Architecture: How It Really Works</h2>
+    <div class="three-col">
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-blue); margin-bottom:6px;"><i class="fas fa-code"></i></div>
+            <h3>Your Test</h3>
+            <p class="compact" style="font-size:0.75em;">TypeScript/JS running in Node.js — your test code calls Playwright APIs.</p>
+        </div>
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-orange); margin-bottom:6px;"><i class="fas fa-server"></i></div>
+            <h3>Playwright Node</h3>
+            <p class="compact" style="font-size:0.75em;">Translates API calls to browser commands via CDP (Chrome) or BiDi (all).</p>
+        </div>
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-green); margin-bottom:6px;"><i class="fas fa-globe"></i></div>
+            <h3>Browser Process</h3>
+            <p class="compact" style="font-size:0.75em;">Chromium, Firefox, or WebKit running in isolated context. Bundled, versioned.</p>
+        </div>
+    </div>
+    <div class="content-box" style="margin-top:10px;">
+        <h3>Browser Context = Isolated Session</h3>
+        <p class="compact">Each test gets its own BrowserContext — isolated cookies, storage, cache. Multiple tests run truly parallel without interference.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Auto-Waiting — The Most Valuable Feature</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">Selenium Way — Manual Waiting</h3>
+            <div class="code-snippet" style="margin-top:4px;">driver.get("https://app.com");
+WebDriverWait(driver, 10).until(
+  EC.presence_of_element_located((By.ID, "username"))
+)
+driver.find_element(By.ID, "username").send_keys("admin")
+WebDriverWait(driver, 10).until(
+  EC.element_to_be_clickable((By.ID, "login"))
+)
+driver.find_element(By.ID, "login").click()</div>
+        </div>
+        <div class="content-box">
+            <h3>Playwright Way — Auto-Wait</h3>
+            <div class="code-snippet" style="margin-top:4px;">await page.goto('https://app.com');
+// Automatically waits for element to be:
+// visible, enabled, stable (no animation)
+await page.getByLabel('Username').fill('admin');
+await page.getByRole('button', { name:'Login' }).click();
+// No explicit waits needed!</div>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Playwright checks: attached → visible → stable → enabled → focused — all before each action. This eliminates 90% of flaky tests.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The BiDi Protocol — The Future of Browser Automation</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>What is WebDriver BiDi?</h3>
+            <ul>
+                <li>W3C standard: bidirectional browser-to-driver communication</li>
+                <li>Replaces HTTP request/response with WebSocket stream</li>
+                <li>Real-time event subscription (console, network, DOM)</li>
+                <li>Playwright uses BiDi for Firefox and Safari</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>BiDi vs CDP</h3>
+            <ul>
+                <li>CDP (Chrome DevTools Protocol) — Chrome/Chromium only</li>
+                <li>BiDi — cross-browser standard (W3C backed)</li>
+                <li>Playwright uses both and abstracts the difference</li>
+                <li>Future: all browsers BiDi-native</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact">BiDi enables features impossible with old WebDriver: console log capture, network event streaming, JS exception monitoring.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Playwright MCP — AI Meets Browser Automation</h2>
+    <div class="content-box">
+        <h3>What is Playwright MCP?</h3>
+        <p class="compact">MCP (Model Context Protocol) is an open standard that lets AI assistants control tools. The official <strong>@playwright/mcp</strong> package exposes Playwright as an MCP server, letting AI agents browse the web and generate tests.</p>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>What It Enables</h3>
+            <ul>
+                <li>Claude, Copilot uses browser via Playwright</li>
+                <li>AI can inspect pages, click, fill forms</li>
+                <li>Generate test code from live interaction</li>
+                <li>Debug tests by having AI reproduce failures</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Setup (VS Code Co-pilot / Cursor)</h3>
+            <div class="code-snippet" style="margin-top:4px;">npx @playwright/mcp@latest
+# Adds Playwright as a tool available
+# to your AI assistant in Cursor or
+# VS Code Copilot Agent mode</div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Playwright at a Glance — By the Numbers</h2>
+    <div class="three-col">
+        <div class="stat-box" style="text-align:center; width:100%; box-sizing:border-box;">
+            <span class="stat-number">3</span>
+            <span class="stat-label">Browsers: Chromium, Firefox, WebKit</span>
+        </div>
+        <div class="stat-box" style="text-align:center; width:100%; box-sizing:border-box;">
+            <span class="stat-number">7+</span>
+            <span class="stat-label">Languages: JS, TS, Python, Java, C#, Go</span>
+        </div>
+        <div class="stat-box" style="text-align:center; width:100%; box-sizing:border-box;">
+            <span class="stat-number">67K+</span>
+            <span class="stat-label">GitHub stars (top automation tool 2026)</span>
+        </div>
+    </div>
+    <div class="content-box" style="margin-top:10px;">
+        <h3>Why TypeScript + Playwright is the Industry Standard</h3>
+        <ul>
+            <li>Most job postings require Playwright now — Selenium is declining</li>
+            <li>Auto-wait eliminates majority of flaky test patterns</li>
+            <li>Official MCP support = future-proof for AI-native testing workflows</li>
+            <li>Single tool: UI, API, Mobile emulation, Visual regression</li>
+        </ul>
+    </div>
+    <div class="highlight-box" style="text-align:center; background:#eff6ff; border-color:var(--vibe-blue);">
+        <p class="bold text-blue">Next: Session 9 — Playwright Setup, Browser/Context/Page architecture, your first test</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

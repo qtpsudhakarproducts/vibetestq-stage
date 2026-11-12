@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantifi Playwright Training – Assignments - VibeTestQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ea580c;
+            --primary-dark: #c2410c;
+            --primary-light: #fff7ed;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --sidebar-width: 300px;
+            --header-height: 70px;
+            --glass: rgba(255,255,255,0.9);
+            --shadow: 0 4px 6px -1px rgb(0 0 0/0.1),0 2px 4px -2px rgb(0 0 0/0.1);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+        h1,h2,h3,h4 { font-family: 'Outfit', sans-serif; color: var(--text); margin-bottom: 1rem; margin-top: 2rem; }
+        h1 { font-size: 2.5rem; color: var(--primary-dark); }
+        h2 { font-size: 1.8rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; margin-top: 3rem; }
+        h3 { font-size: 1.4rem; color: var(--secondary); }
+        p { margin-bottom: 1.2rem; }
+        code { background: #f1f5f9; padding: 0.2rem 0.4rem; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.9em; color: #d946ef; font-variant-ligatures: none; font-feature-settings: "calt" 0; }
+        pre[class*="language-"] { border-radius: 12px; margin: 1.5rem 0; box-shadow: var(--shadow); font-size: 0.9rem; position: relative; }
+        .app-container { display: flex; min-height: 100vh; }
+        header {
+            position: fixed; top: 0; right: 0; left: 0; height: var(--header-height);
+            background: var(--glass); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); z-index: 1000;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 2rem;
+        }
+        .logo { display: flex; align-items: center; gap: 12px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.3rem; color: var(--primary-dark); }
+        .logo img { height: 40px; }
+        .header-links { display: flex; align-items: center; gap: 16px; font-weight: 600; font-size: 0.95rem; }
+        .header-links a { text-decoration: none; color: var(--primary-dark); padding: 6px 10px; border-radius: 6px; transition: all 0.2s; }
+        .header-links a:hover { background: var(--primary-light); color: var(--primary); }
+        aside {
+            width: var(--sidebar-width); background: var(--card-bg); border-right: 1px solid var(--border);
+            height: 100vh; position: fixed; top: 0; left: 0;
+            padding-top: var(--header-height); overflow-y: auto; z-index: 900;
+        }
+        .sidebar-content { padding: 2rem 1.5rem; }
+        .nav-section { margin-bottom: 2rem; }
+        .nav-section h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-light); margin-bottom: 1rem; margin-top: 0; }
+        .nav-list { list-style: none; }
+        .nav-item { margin-bottom: 0.5rem; }
+        .nav-link { display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text); text-decoration: none; border-radius: 8px; transition: all 0.2s; font-size: 0.9rem; font-weight: 500; }
+        .nav-link:hover { background: var(--primary-light); color: var(--primary); }
+        .nav-link.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(234,88,12,0.25); }
+        .nav-link i { font-size: 0.95rem; opacity: 0.8; width: 20px; text-align: center; }
+        main { flex: 1; margin-left: var(--sidebar-width); padding-top: var(--header-height); min-height: 100vh; }
+        .content-area { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+        section { display: none; animation: fadeIn 0.4s ease-out; }
+        section.active { display: block; }
+        section ul, section ol { margin-left: 1.5rem; margin-bottom: 1.5rem; }
+        section li { margin-bottom: 0.5rem; }
+        section blockquote { padding: 1rem 1.5rem; background: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 0 8px 8px 0; margin: 1.5rem 0; font-style: italic; color: var(--primary-dark); }
+        section blockquote p { margin-bottom: 0; }
+        section table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: white; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--border); }
+        section th, section td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border); }
+        section th { background: var(--primary-light); color: var(--primary-dark); font-weight: 600; }
+        section img { max-width: 100%; border-radius: 12px; margin: 1.5rem 0; box-shadow: var(--shadow); }
+        /* Reveal Answer */
+        details { background: #f8fafc; border: 1px solid var(--border); border-radius: 12px; margin: 2rem 0; padding: 0; overflow: hidden; transition: all 0.3s; }
+        details[open] { background: white; border-color: var(--primary); box-shadow: var(--shadow); }
+        summary { padding: 1rem 1.5rem; list-style: none; cursor: pointer; font-weight: 700; font-family: 'Outfit', sans-serif; color: var(--primary); display: flex; align-items: center; gap: 12px; user-select: none; background: #f1f5f9; transition: background 0.2s; }
+        summary:hover { background: var(--primary-light); }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '\f06e'; font-family: 'Font Awesome 6 Free'; font-weight: 900; }
+        details[open] summary::before { content: '\f070'; }
+        summary::after { content: 'Click to Reveal Answer & Solutions'; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-left: auto; color: var(--text-light); }
+        details[open] summary::after { content: 'Hide Solutions'; }
+        .details-content { padding: 1.5rem; }
+        .alert { padding: 1rem 1.5rem; border-radius: 12px; margin: 1.5rem 0; display: flex; gap: 15px; border-left: 5px solid; }
+        .alert-info { background: #fff7ed; border-color: var(--primary); color: var(--primary-dark); }
+        .alert-success { background: #f0fdf4; border-color: #22c55e; color: #166534; }
+        .btn-group { display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+        .btn-group.top-nav { margin-top: 0; margin-bottom: 3rem; padding-top: 0; padding-bottom: 2rem; border-top: none; border-bottom: 1px solid var(--border); }
+        .btn-nav { padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
+        .btn-prev { color: var(--text-light); }
+        .btn-next { background: var(--primary); color: white; }
+        .btn-next:hover { background: var(--primary-dark); }
+        .copy-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #cbd5e1; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; z-index: 10; opacity: 0; }
+        pre:hover .copy-btn { opacity: 1; }
+        .copy-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .copy-btn i { margin-right: 4px; }
+        footer { margin-top: 5rem; padding: 2rem; text-align: center; border-top: 1px solid var(--border); color: var(--text-light); font-size: 0.9rem; }
+        .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 850; }
+        .sidebar-overlay.open { display: block; }
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); padding: 6px; border-radius: 6px; }
+        .mobile-menu-btn:hover { background: var(--primary-light); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 1024px) {
+            aside { transform: translateX(-100%); transition: transform 0.3s; }
+            aside.open { transform: translateX(0); }
+            main { margin-left: 0; }
+            .mobile-menu-btn { display: block !important; }
+        }
+        @media (max-width: 768px) {
+            .header-links { display: none; }
+            header { padding: 0 1rem; }
+            .logo span { font-size: 1rem; }
+            .sidebar-nav-mobile { display: block !important; }
+        }
+        @media (max-width: 480px) {
+            .content-area { padding: 2rem 1rem; }
+            h1 { font-size: 2rem; }
+            section table { display: block; overflow-x: auto; }
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <header>
+        <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Open navigation"><i class="fas fa-bars"></i></button>
+        <div class="logo">
+            <img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo">
+            <span>Quantifi Playwright Assignments</span>
+        </div>
+        <div class="header-links">
+            <a href=".."><i class="fas fa-home"></i> Quantifi Home</a>
+            <a href="../docs">Docs</a>
+            <a href="../assessments">Assessments</a>
+        </div>
+    </header>
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-container">
+        <aside id="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-nav-mobile nav-section" style="display:none; border-bottom:1px solid var(--border); margin-bottom:1.2rem; padding-bottom:1.2rem;">
+                    <h4>Navigate</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a class="nav-link" href=".."><i class="fas fa-home"></i> Quantifi Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../docs"><i class="fas fa-book-open"></i> Docs</a></li>
+                        <li class="nav-item"><a class="nav-link" href="../assessments"><i class="fas fa-pen-to-square"></i> Assessments</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>Overview</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="#intro" class="nav-link active" onclick="showSection('intro')"><i class="fas fa-rocket"></i> Getting Started</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>Phase 1 · JS &amp; TypeScript</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="#a01" class="nav-link" onclick="showSection('a01')"><i class="fab fa-js"></i> Day 01 – JS Fundamentals</a></li>
+                        <li class="nav-item"><a href="#a02" class="nav-link" onclick="showSection('a02')"><i class="fab fa-js"></i> Day 02 – Advanced JS</a></li>
+                        <li class="nav-item"><a href="#a03" class="nav-link" onclick="showSection('a03')"><i class="fas fa-code"></i> Day 03 – TypeScript Essentials</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>Phase 2 · Playwright Core</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="#a04" class="nav-link" onclick="showSection('a04')"><i class="fas fa-theater-masks"></i> Day 04 – Playwright Intro</a></li>
+                        <li class="nav-item"><a href="#a05" class="nav-link" onclick="showSection('a05')"><i class="fas fa-crosshairs"></i> Day 05 – Locators</a></li>
+                        <li class="nav-item"><a href="#a06" class="nav-link" onclick="showSection('a06')"><i class="fas fa-mouse-pointer"></i> Day 06 – Interactions</a></li>
+                        <li class="nav-item"><a href="#a07" class="nav-link" onclick="showSection('a07')"><i class="fas fa-play-circle"></i> Day 07 – Test Runner</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>Phase 3 · AI Testing</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="#a08" class="nav-link" onclick="showSection('a08')"><i class="fas fa-robot"></i> Day 08 – AI IDEs &amp; MCP</a></li>
+                        <li class="nav-item"><a href="#a09" class="nav-link" onclick="showSection('a09')"><i class="fas fa-magic"></i> Day 09 – Generator &amp; Healer</a></li>
+                    </ul>
+                </div>
+                <div class="nav-section">
+                    <h4>Phase 4 · Advanced Patterns</h4>
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="#a10" class="nav-link" onclick="showSection('a10')"><i class="fas fa-plug"></i> Day 10 – API Testing</a></li>
+                        <li class="nav-item"><a href="#a11" class="nav-link" onclick="showSection('a11')"><i class="fas fa-layer-group"></i> Day 11 – Page Object Model</a></li>
+                        <li class="nav-item"><a href="#a12" class="nav-link" onclick="showSection('a12')"><i class="fas fa-tools"></i> Day 12 – Framework &amp; Libraries</a></li>
+                        <li class="nav-item"><a href="#a13" class="nav-link" onclick="showSection('a13')"><i class="fas fa-seedling"></i> Day 13 – BDD &amp; Cucumber</a></li>
+                        <li class="nav-item"><a href="#a14" class="nav-link" onclick="showSection('a14')"><i class="fas fa-chart-bar"></i> Day 14 – Reporting &amp; CI/CD</a></li>
+                        <li class="nav-item"><a href="#a15" class="nav-link" onclick="showSection('a15')"><i class="fas fa-graduation-cap"></i> Day 15 – Capstone Project</a></li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+
+        <main>
+            <div class="content-area">
+                <div class="btn-group top-nav" id="nav-btns-top" style="display:none;">
+                    <a href="javascript:void(0)" class="btn-nav btn-prev prev-btn"><i class="fas fa-arrow-left"></i> Previous</a>
+                    <a href="javascript:void(0)" class="btn-nav btn-next next-btn">Next <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <section id="intro" class="active">
+                    <h1>Quantifi Playwright Assignments</h1>
+                    <p style="font-size:1.1rem;color:var(--text-light);margin-bottom:1.5rem;">15 hands-on practice tasks for the 15-day Playwright + AI Testing program. Each assignment maps directly to a chapter in Docs.</p>
+
+                    <div style="display:flex;align-items:stretch;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+                        <div style="flex:1;min-width:260px;background:#f0fdf4;border:1.5px solid #86efac;border-radius:12px;padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:0.5rem;">
+                            <div style="font-family:'Outfit',sans-serif;font-weight:700;color:#166534;font-size:0.95rem;"><i class="fas fa-route"></i> How to complete each assignment</div>
+                            <ol style="margin-left:1.3rem;color:#14532d;font-size:0.9rem;">
+                                <li>Read the chapter in <a href="../docs" style="color:#16a34a;font-weight:600;">Docs</a> first.</li>
+                                <li>Open the assignment and read the brief fully.</li>
+                                <li>Practice on OrangeHRM in your own Playwright project.</li>
+                                <li>Take the daily <a href="../assessments" style="color:#16a34a;font-weight:600;">Assessment</a> to verify your understanding.</li>
+                            </ol>
+                        </div>
+                        <div style="display:flex;flex-direction:column;gap:0.8rem;justify-content:center;">
+                            <a href="https://opensource-demo.orangehrmlive.com" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#ea580c,#c2410c);color:#fff;padding:13px 20px;border-radius:10px;font-weight:700;font-size:0.95rem;text-decoration:none;box-shadow:0 4px 12px rgba(234,88,12,0.3);transition:transform 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+                                <i class="fas fa-external-link-alt"></i> Open OrangeHRM
+                            </a>
+                            <div style="font-size:0.78rem;color:var(--text-light);text-align:center;">Practice site for all assignments</div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <i class="fas fa-lightbulb"></i>
+                        <div>Always complete assignments <strong>after</strong> reading the corresponding chapter. Some assignments specify a different target URL — check the brief.</div>
+                    </div>
+
+                    <div class="btn-group">
+                        <div></div>
+                        <a href="javascript:void(0)" class="btn-nav btn-next" onclick="showSection('a01')">Start with Day 01 <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </section>
+
+                <div id="docs-content"></div>
+
+                <div class="btn-group" id="nav-btns-bottom" style="display:none;">
+                    <a href="javascript:void(0)" class="btn-nav btn-prev prev-btn"><i class="fas fa-arrow-left"></i> Previous</a>
+                    <a href="javascript:void(0)" class="btn-nav btn-next next-btn">Next <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <footer>&copy; 2026 VibeTestQ. All rights reserved.</footer>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+        const sectionOrder = ['intro','a01','a02','a03','a04','a05','a06','a07','a08','a09','a10','a11','a12','a13','a14','a15'];
+        const sections = {
+            'a01': 'Assignment-01-JavaScript-Fundamentals.md',
+            'a02': 'Assignment-02-Advanced-JavaScript.md',
+            'a03': 'Assignment-03-TypeScript-Essentials.md',
+            'a04': 'Assignment-04-Playwright-Introduction.md',
+            'a05': 'Assignment-05-Locators-Element-Selection.md',
+            'a06': 'Assignment-06-Interactions-Navigation.md',
+            'a07': 'Assignment-07-Playwright-Test-Runner.md',
+            'a08': 'Assignment-08-AI-IDEs-MCP-Planner-Agents.md',
+            'a09': 'Assignment-09-Generator-Healer-Agents.md',
+            'a10': 'Assignment-10-API-Testing.md',
+            'a11': 'Assignment-11-Page-Object-Model.md',
+            'a12': 'Assignment-12-Framework-Libraries.md',
+            'a13': 'Assignment-13-BDD-Cucumber.md',
+            'a14': 'Assignment-14-Reporting-CICD.md',
+            'a15': 'Assignment-15-Capstone-Project.md'
+        };
+        const loadedSections = {};
+
+        async function loadSection(id) {
+            if (id === 'intro' || loadedSections[id]) return;
+            const filename = sections[id];
+            if (!filename) return;
+            try {
+                const response = await fetch(filename);
+                if (!response.ok) throw new Error('File not found: ' + filename);
+                const text = await response.text();
+                const section = document.createElement('section');
+                section.id = id;
+                let htmlContent = marked.parse(text);
+                section.innerHTML = htmlContent;
+
+                // Wrap answer/solution sections in <details>
+                const headers = section.querySelectorAll('h2');
+                headers.forEach(h => {
+                    const ht = h.innerText.toLowerCase();
+                    if (ht.includes('answer') || ht.includes('solution')) {
+                        const details = document.createElement('details');
+                        const summary = document.createElement('summary');
+                        summary.innerText = h.innerText;
+                        details.appendChild(summary);
+                        const content = document.createElement('div');
+                        content.className = 'details-content';
+                        let next = h.nextElementSibling;
+                        while (next) {
+                            const toMove = next;
+                            next = next.nextElementSibling;
+                            content.appendChild(toMove);
+                        }
+                        details.appendChild(content);
+                        h.parentNode.replaceChild(details, h);
+                    }
+                });
+
+                section.querySelectorAll('pre code').forEach(block => {
+                    if (!block.className) block.className = 'language-javascript';
+                });
+                document.getElementById('docs-content').appendChild(section);
+                loadedSections[id] = true;
+                addCopyButtons(section);
+                Prism.highlightAllUnder(section);
+            } catch (error) {
+                console.error(error);
+                const section = document.createElement('section');
+                section.id = id;
+                section.innerHTML = `<div class="alert alert-info"><i class="fas fa-exclamation-triangle"></i><div>Could not load <code>${filename}</code>. Ensure you are serving this page from a local server.</div></div>`;
+                document.getElementById('docs-content').appendChild(section);
+                loadedSections[id] = true;
+            }
+        }
+
+        function addCopyButtons(root) {
+            root.querySelectorAll('pre').forEach(pre => {
+                const btn = document.createElement('button');
+                btn.className = 'copy-btn';
+                btn.innerHTML = '<i class="far fa-copy"></i> Copy';
+                btn.onclick = () => copyCode(btn);
+                pre.appendChild(btn);
+            });
+        }
+
+        async function copyCode(button) {
+            const code = button.parentElement.querySelector('code').innerText;
+            try {
+                await navigator.clipboard.writeText(code);
+                button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => { button.innerHTML = '<i class="far fa-copy"></i> Copy'; }, 2000);
+            } catch (err) { console.error('Copy failed', err); }
+        }
+
+        async function showSection(id) {
+            if (id !== 'intro') await loadSection(id);
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            const target = document.getElementById(id);
+            if (target) target.classList.add('active');
+            const link = document.querySelector(`a[href="#${id}"]`);
+            if (link) link.classList.add('active');
+            updateNavButtons(id);
+            history.pushState(null, null, `#${id}`);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('sidebar').classList.remove('open');
+            const ov = document.getElementById('sidebar-overlay');
+            if (ov) ov.classList.remove('open');
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebar-overlay').classList.toggle('open');
+        }
+
+        function updateNavButtons(currentId) {
+            const idx = sectionOrder.indexOf(currentId);
+            const topNav = document.getElementById('nav-btns-top');
+            const bottomNav = document.getElementById('nav-btns-bottom');
+            if (idx === 0) { topNav.style.display = 'none'; bottomNav.style.display = 'none'; return; }
+            topNav.style.display = 'flex';
+            bottomNav.style.display = 'flex';
+            [topNav, bottomNav].forEach(nav => {
+                const prevBtn = nav.querySelector('.prev-btn');
+                const nextBtn = nav.querySelector('.next-btn');
+                if (idx > 0) {
+                    prevBtn.style.visibility = 'visible';
+                    prevBtn.onclick = () => showSection(sectionOrder[idx - 1]);
+                    prevBtn.innerHTML = `<i class="fas fa-arrow-left"></i> ${getSectionName(sectionOrder[idx - 1])}`;
+                } else { prevBtn.style.visibility = 'hidden'; }
+                if (idx < sectionOrder.length - 1) {
+                    nextBtn.style.visibility = 'visible';
+                    nextBtn.onclick = () => showSection(sectionOrder[idx + 1]);
+                    nextBtn.innerHTML = `${getSectionName(sectionOrder[idx + 1])} <i class="fas fa-arrow-right"></i>`;
+                } else { nextBtn.style.visibility = 'hidden'; }
+            });
+        }
+
+        function getSectionName(id) {
+            const link = document.querySelector(`a[href="#${id}"]`);
+            return link ? link.innerText.trim() : id;
+        }
+
+        window.addEventListener('load', async () => {
+            const hash = window.location.hash.slice(1) || 'intro';
+            await showSection(hash);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction — QA Workflows for AI SDLC | VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .reveal h1, .reveal h2, .reveal h3 {
+            text-transform: none; font-weight: 700; color: var(--vibe-dark-blue);
+        }
+        .reveal h1 { font-size: 1.6em; margin-bottom: 0.15em; }
+        .reveal h2 { font-size: 1.25em; margin-bottom: 0.2em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.15em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.4; }
+        .reveal .slides section { padding: 6px 28px; box-sizing: border-box; }
+        .logo-corner { position: absolute; top: 10px; right: 20px; z-index: 100; }
+        .logo-corner img { width: 70px; height: auto; }
+
+        .title-slide { background: #ffffff !important; }
+        .title-slide h1 { font-size: 1.7em; color: var(--vibe-dark-blue); margin: 8px 0 6px; }
+        .title-slide .subtitle { font-size: 1.05em; color: var(--vibe-orange); margin: 6px 0; }
+        .title-slide .tagline { font-size: 0.9em; color: var(--vibe-blue); margin: 5px 0 10px; }
+
+        .chapter-slide { background: #1e3a8a !important; }
+        .chapter-slide h1 { color: #ffffff; font-size: 2.2em; margin-bottom: 10px; }
+        .chapter-slide h2 { color: #94a3b8; font-size: 1.3em; }
+        .chapter-slide i { color: var(--vibe-green); }
+
+        .content-box {
+            background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue);
+            padding: 6px 12px; margin: 4px 0; border-radius: 6px;
+        }
+        .highlight-box {
+            background: #fef3c7; border: 2px solid var(--vibe-yellow);
+            padding: 6px 10px; margin: 4px auto; border-radius: 8px; max-width: 92%;
+        }
+        .success-box {
+            background: #f0fdf4; border-left: 4px solid var(--vibe-green);
+            padding: 6px 12px; margin: 4px 0; border-radius: 6px;
+        }
+        .warning-box {
+            background: #fff7ed; border-left: 4px solid var(--vibe-orange);
+            padding: 6px 12px; margin: 4px 0; border-radius: 6px;
+        }
+
+        .reveal ul { list-style: none; margin: 5px 0; }
+        .reveal ul li {
+            margin: 4px 0; padding-left: 30px; position: relative;
+            text-align: left; font-size: 0.8em; line-height: 1.35;
+        }
+        .reveal ul li:before {
+            content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900;
+            color: var(--vibe-green); font-size: 0.95em; position: absolute; left: 0; top: 1px;
+        }
+        .reveal ul li.cross:before { content: "\f057"; color: #ef4444; }
+        .reveal ul li.dot:before   { content: "\f111"; font-size: 0.45em; top: 6px; color: #94a3b8; }
+
+        .text-blue   { color: var(--vibe-blue); }
+        .text-green  { color: var(--vibe-green); }
+        .text-orange { color: var(--vibe-orange); }
+        .bold { font-weight: 700; }
+
+        .badge {
+            display: inline-block; color: white;
+            padding: 4px 10px; border-radius: 20px;
+            font-weight: 600; font-size: 0.75em; margin: 3px;
+            background: var(--vibe-orange);
+        }
+        .badge.blue   { background: var(--vibe-blue); }
+        .badge.green  { background: #16a34a; }
+        .badge.purple { background: #7c3aed; }
+        .badge.grey   { background: #64748b; }
+        .badge.red    { background: #dc2626; }
+
+        .two-col   { display: grid; grid-template-columns: 1fr 1fr;       gap: 10px; margin: 6px 0; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 8px;  margin: 6px 0; }
+        .four-col  { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px;  margin: 6px 0; }
+
+        .compact  { font-size: 0.8em;  line-height: 1.35; }
+        .compact2 { font-size: 0.74em; line-height: 1.3; }
+
+        .icon-box {
+            text-align: center; padding: 10px 8px;
+            background: var(--vibe-light-bg); border-radius: 8px;
+        }
+        .icon-box i { font-size: 1.5em; margin-bottom: 5px; display: block; }
+        .icon-box.blue   i { color: var(--vibe-blue); }
+        .icon-box.green  i { color: var(--vibe-green); }
+        .icon-box.orange i { color: var(--vibe-orange); }
+        .icon-box.purple i { color: #9333ea; }
+        .icon-box.grey   i { color: #64748b; }
+
+        .flow-container { background: #f1f5f9; border-radius: 8px; padding: 10px; margin: 6px 0; }
+        .arrow-flow { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+        .arrow-flow .step {
+            background: var(--vibe-blue); color: white;
+            padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 0.65em;
+        }
+        .arrow-flow .step.green  { background: #16a34a; }
+        .arrow-flow .step.orange { background: var(--vibe-orange); }
+        .arrow-flow .step.purple { background: #9333ea; }
+        .arrow-flow .step.grey   { background: #64748b; }
+        .arrow-flow .arrow { color: var(--vibe-orange); font-size: 1.1em; font-weight: 700; }
+
+        .cmp-table { width: 100%; border-collapse: collapse; font-size: 0.7em; margin: 6px 0; }
+        .cmp-table th { background: var(--vibe-blue); color: white; padding: 5px 8px; text-align: left; font-weight: 600; }
+        .cmp-table td { padding: 5px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+        .cmp-table tr:nth-child(even) td { background: var(--vibe-light-bg); }
+        .cmp-table .good { color: #16a34a; font-weight: 600; }
+
+        .timeline { display: flex; justify-content: space-between; align-items: flex-start; position: relative; margin: 12px 0 6px; }
+        .timeline::before { content: ''; position: absolute; top: 16px; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--vibe-orange), var(--vibe-blue), var(--vibe-green), #9333ea); }
+        .tl-node { text-align: center; flex: 1; position: relative; }
+        .tl-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 6px; font-size: 0.85em; position: relative; z-index: 1; }
+        .tl-dot.orange { background: #ffedd5; border: 3px solid var(--vibe-orange); }
+        .tl-dot.blue   { background: #dbeafe; border: 3px solid var(--vibe-blue); }
+        .tl-dot.green  { background: #dcfce7; border: 3px solid var(--vibe-green); }
+        .tl-dot.purple { background: #ede9fe; border: 3px solid #7c3aed; }
+        .tl-label { font-size: 0.72em; font-weight: 700; color: var(--vibe-dark-blue); margin-bottom: 2px; }
+        .tl-sub   { font-size: 0.62em; color: #64748b; line-height: 1.3; }
+
+        /* ── 4 Types cards ── */
+        .qa-type-card {
+            border-radius: 10px; padding: 14px 12px; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+        }
+        .qa-type-card .type-icon { font-size: 2em; margin-bottom: 6px; display: block; }
+        .qa-type-card .type-num {
+            font-size: 0.58em; font-weight: 800; letter-spacing: 0.1em;
+            text-transform: uppercase; margin-bottom: 4px;
+            padding: 2px 8px; border-radius: 20px; color: white; display: inline-block;
+        }
+        .qa-type-card h3 { font-size: 0.85em; margin: 6px 0 4px; }
+        .qa-type-card p  { font-size: 0.66em; line-height: 1.35; margin: 0; color: #475569; }
+
+        .type-t1 { background: #f8fafc; border: 2px solid #cbd5e1; }
+        .type-t1 .type-num { background: #64748b; }
+
+        .type-t2 { background: #fff7ed; border: 2px solid var(--vibe-orange); }
+        .type-t2 .type-num { background: var(--vibe-orange); }
+
+        .type-t3 { background: #eff6ff; border: 2px solid var(--vibe-blue); }
+        .type-t3 .type-num { background: var(--vibe-blue); }
+
+        .type-t4 { background: #f0fdf4; border: 2px solid #16a34a; }
+        .type-t4 .type-num { background: #16a34a; }
+
+        /* reflection card */
+        .reflect-card {
+            border-radius: 10px; padding: 14px 16px; text-align: center;
+        }
+        .reflect-card .r-icon { font-size: 2.4em; display: block; margin-bottom: 8px; }
+        .reflect-card h3 { font-size: 0.9em; margin: 0 0 6px; }
+        .reflect-card p { font-size: 0.68em; line-height: 1.4; margin: 0; color: #475569; }
+        .r1 { background: #f8fafc; border: 2px solid #cbd5e1; }
+        .r2 { background: #fff7ed; border: 2px dashed var(--vibe-orange); }
+        .r3 { background: #eff6ff; border: 2px solid var(--vibe-blue); opacity: 0.55; }
+        .r4 { background: #f0fdf4; border: 2px solid #16a34a; opacity: 0.55; }
+
+        /* Exploratory learning steps */
+        .el-flow {
+            display: flex; align-items: stretch; gap: 0; margin: 10px 0;
+            border-radius: 10px; overflow: hidden;
+        }
+        .el-step {
+            flex: 1; text-align: center; padding: 14px 8px;
+        }
+        .el-step i { font-size: 1.6em; display: block; margin-bottom: 6px; }
+        .el-step .el-num {
+            font-size: 0.6em; font-weight: 800; letter-spacing: 0.1em;
+            text-transform: uppercase; margin-bottom: 4px; display: block; opacity: 0.7;
+        }
+        .el-step h3 { font-size: 0.85em; margin: 0 0 4px; }
+        .el-step p  { font-size: 0.65em; line-height: 1.3; margin: 0; color: #475569; }
+        .el-step.s1 { background: #fff7ed; }
+        .el-step.s2 { background: #fef9c3; }
+        .el-step.s3 { background: #eff6ff; }
+        .el-step.s4 { background: #f0fdf4; }
+        .el-divider { width: 3px; background: white; flex-shrink: 0; }
+
+        /* Level cards */
+        .level-card {
+            border-radius: 8px; padding: 10px 14px; margin: 4px 0;
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .level-card .lc-num {
+            font-size: 1.1em; font-weight: 900; flex-shrink: 0;
+            width: 34px; height: 34px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: white;
+        }
+        .level-card .lc-body { flex: 1; }
+        .level-card .lc-title { font-size: 0.8em; font-weight: 700; color: var(--vibe-dark-blue); margin-bottom: 2px; }
+        .level-card .lc-desc  { font-size: 0.68em; color: #64748b; line-height: 1.35; }
+        .level-card .lc-days  {
+            font-size: 0.62em; font-weight: 700; padding: 2px 8px;
+            border-radius: 20px; color: white; flex-shrink: 0; align-self: center;
+        }
+
+        /* need-item rows */
+        .need-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            border-radius: 8px; padding: 8px 12px; margin: 5px 0;
+        }
+        .need-item i { font-size: 1.1em; flex-shrink: 0; margin-top: 2px; }
+        .need-item .ni-body p { font-size: 0.76em; line-height: 1.35; margin: 0; color: #334155; }
+        .need-item .ni-body strong { color: var(--vibe-dark-blue); }
+        .need-item .ni-body span  { color: #64748b; font-size: 0.9em; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================
+     SLIDE 1 — TITLE
+     ============================================================ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:560px;width:86%;margin:0 auto 10px;display:block;"
+         onerror="this.style.display='none'">
+    <h1>QA Workflows for AI SDLC</h1>
+    <p class="subtitle">Using Playwright Test Automation</p>
+    <p class="tagline">31 Days &nbsp;·&nbsp; 1.5 Hours Daily &nbsp;·&nbsp; Exploratory Learning &nbsp;·&nbsp; AI from Day 1</p>
+    <div style="margin-top:12px;">
+        <span class="badge"><i class="fas fa-robot"></i> AI-Powered</span>
+        <span class="badge blue"><i class="fas fa-vial"></i> BDD + Playwright</span>
+        <span class="badge green"><i class="fas fa-compass"></i> Exploratory Learning</span>
+    </div>
+    <p class="tagline" style="margin-top:12px;font-size:0.82em;">
+        <strong>Sudhakar Kakunuri (qtpsudhakar)</strong>
+        &nbsp;|&nbsp; 21+ Years &nbsp;·&nbsp; 10,000+ Engineers Trained
+        &nbsp;|&nbsp; India's First Playwright Corporate Trainer
+    </p>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — THE 4 TYPES OF QA PROFESSIONAL
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>4 Types of QA Professional in the AI Era</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">AI didn't create one type of QA professional. It created a spectrum. Where you sit on it today determines where you go next.</p>
+    </div>
+    <div class="four-col" style="margin-top:12px;">
+        <div class="qa-type-card type-t1">
+            <span class="type-icon">🧱</span>
+            <span class="type-num">Type 1</span>
+            <h3 style="color:#475569;">Hasn't Upgraded Yet</h3>
+            <p>Works exactly as before. Manual testing, manual scripts, no AI in the workflow. Not because of reluctance — simply hasn't started yet.</p>
+        </div>
+        <div class="qa-type-card type-t2">
+            <span class="type-icon">💬</span>
+            <span class="type-num">Type 2</span>
+            <h3 style="color:var(--vibe-dark-blue);">Chat-Only User</h3>
+            <p>Uses ChatGPT or Claude to ask questions, get explanations, maybe draft a test case — but hasn't connected AI to an actual QA workflow yet.</p>
+        </div>
+        <div class="qa-type-card type-t3">
+            <span class="type-icon">🤝</span>
+            <span class="type-num">Type 3</span>
+            <h3 style="color:var(--vibe-dark-blue);">AI-Assisted</h3>
+            <p>Uses AI tools as part of their daily QA work — prompts for test cases, Copilot for automation, agents for exploration. AI is a regular collaborator.</p>
+        </div>
+        <div class="qa-type-card type-t4">
+            <span class="type-icon">🏗️</span>
+            <span class="type-num">Type 4</span>
+            <h3 style="color:var(--vibe-dark-blue);">Workflow Designer</h3>
+            <p>Designs the AI-powered quality system itself. Defines how agents work, how coverage is governed, how the team uses AI — operates at the architecture level.</p>
+        </div>
+    </div>
+    <div class="flow-container" style="margin-top:10px;">
+        <div class="arrow-flow">
+            <div class="step grey">No AI yet</div>
+            <div class="arrow">→</div>
+            <div class="step orange">Chat only</div>
+            <div class="arrow">→</div>
+            <div class="step">AI-Assisted</div>
+            <div class="arrow">→</div>
+            <div class="step green">Workflow Designer</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — WHICH TYPE ARE YOU?
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Which Type Are You?</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;">Be honest with yourself. Which of these describes how you use AI in your testing work today?</p>
+    </div>
+    <div class="four-col" style="margin-top:14px;">
+        <div class="reflect-card r1">
+            <span class="r-icon">🧱</span>
+            <span class="badge grey" style="font-size:0.65em;">Type 1</span>
+            <h3 style="color:#475569;margin-top:8px;">I haven't used AI for testing yet</h3>
+            <p>I know it exists. I haven't started.</p>
+        </div>
+        <div class="reflect-card r2">
+            <span class="r-icon">💬</span>
+            <span class="badge" style="font-size:0.65em;">Type 2</span>
+            <h3 style="color:var(--vibe-dark-blue);margin-top:8px;">I've chatted with AI but not in my QA workflow</h3>
+            <p>I've asked it questions. I haven't made it part of how I work.</p>
+        </div>
+        <div class="reflect-card r3">
+            <span class="r-icon">🤝</span>
+            <span class="badge blue" style="font-size:0.65em;">Type 3</span>
+            <h3 style="color:var(--vibe-dark-blue);margin-top:8px;">AI is already part of my daily QA work</h3>
+            <p>I use it regularly for testing tasks.</p>
+        </div>
+        <div class="reflect-card r4">
+            <span class="r-icon">🏗️</span>
+            <span class="badge green" style="font-size:0.65em;">Type 4</span>
+            <h3 style="color:var(--vibe-dark-blue);margin-top:8px;">I design AI-powered QA workflows</h3>
+            <p>I define how the team uses AI for quality.</p>
+        </div>
+    </div>
+    <div class="warning-box" style="margin-top:14px;">
+        <p class="compact" style="text-align:center;"><strong style="color:var(--vibe-orange);">Types 3 and 4 are dimmed intentionally.</strong> Most people in this room are Type 1 or Type 2 — and that is exactly the right starting point for this program.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — WHERE YOU ARE TODAY + LEVEL 1 CONNECTS THE DOTS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Where You Are Today — And Where Level 1 Takes You</h2>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="qa-type-card type-t1" style="padding:16px;">
+            <span class="type-icon">🧱</span>
+            <span class="type-num">Type 1 — Hasn't Upgraded Yet</span>
+            <p style="margin-top:8px;font-size:0.72em;color:#475569;">You have strong QA instincts. You know testing. You haven't touched AI yet — not because you can't, but because no one showed you a clear path in.</p>
+            <div class="success-box" style="margin-top:10px;text-align:left;">
+                <p class="compact"><strong class="text-green">Level 1 is your starting point.</strong> You will use Claude on Day 1. By Day 5 you will understand why it works, how to use it reliably, and what to watch out for.</p>
+            </div>
+        </div>
+        <div class="qa-type-card type-t2" style="padding:16px;">
+            <span class="type-icon">💬</span>
+            <span class="type-num">Type 2 — Chat-Only User</span>
+            <p style="margin-top:8px;font-size:0.72em;color:#475569;">You've seen AI work. You've asked it questions, maybe got a test case out of it. But it feels disconnected — a chat tool, not a QA tool. The dots haven't connected yet.</p>
+            <div class="success-box" style="margin-top:10px;text-align:left;">
+                <p class="compact"><strong class="text-green">Level 1 connects those dots.</strong> Context window, tokens, prompts, Skills.md — these explain why your AI interactions sometimes work brilliantly and sometimes miss completely.</p>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact bold text-blue" style="text-align:center;">Both types leave Level 1 as Type 3. That is the only goal of the next 5 days.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — WHO THIS PROGRAM IS BUILT FOR
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Who This Program Is Built For</h2>
+    <div class="three-col" style="margin-top:14px;">
+        <div class="icon-box blue" style="padding:16px 10px;">
+            <i class="fas fa-user-check" style="font-size:2em;"></i>
+            <h3 style="font-size:1em;margin-top:6px;">Manual QA Engineers</h3>
+            <p class="compact2" style="margin-top:6px;">You write test cases, find bugs, and own quality. You are starting from Type 1 or Type 2. This program builds you into Type 3 — and gives you a clear path to Type 4.</p>
+        </div>
+        <div class="icon-box orange" style="padding:16px 10px;">
+            <i class="fas fa-user-tie" style="font-size:2em;"></i>
+            <h3 style="font-size:1em;margin-top:6px;">QA Leads</h3>
+            <p class="compact2" style="margin-top:6px;">You own quality strategy for your team. This program gives you the tools, language, and architecture to lead an AI-era QA transformation — not just participate in one.</p>
+        </div>
+        <div class="icon-box green" style="padding:16px 10px;">
+            <i class="fas fa-code-branch" style="font-size:2em;"></i>
+            <h3 style="font-size:1em;margin-top:6px;">Developers Moving into QA</h3>
+            <p class="compact2" style="margin-top:6px;">You have coding skills but want QA depth. This program adds test strategy, BDD, and AI governance — the things code alone doesn't teach you.</p>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:12px;">
+        <p class="compact" style="text-align:center;"><strong class="text-green">The common thread across all three:</strong> You care about quality. You want to stay relevant. You are ready to explore.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — WHAT YOU DO NOT NEED
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What You Do NOT Need to Start</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;">Type 1 and Type 2 both carry the same fears. None of them are blockers.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="need-item" style="background:#fff1f2;">
+                <i class="fas fa-times-circle" style="color:#dc2626;"></i>
+                <div class="ni-body">
+                    <p><strong>No AI or prompt engineering experience</strong><br><span>You will learn prompting by doing it — starting Level 1, Day 1</span></p>
+                </div>
+            </div>
+            <div class="need-item" style="background:#fff1f2;margin-top:4px;">
+                <i class="fas fa-times-circle" style="color:#dc2626;"></i>
+                <div class="ni-body">
+                    <p><strong>No coding or automation background</strong><br><span>JavaScript, TypeScript, and Playwright are taught from scratch in Level 3</span></p>
+                </div>
+            </div>
+            <div class="need-item" style="background:#fff1f2;margin-top:4px;">
+                <i class="fas fa-times-circle" style="color:#dc2626;"></i>
+                <div class="ni-body">
+                    <p><strong>No understanding of how LLMs work</strong><br><span>That is the entire point of Level 1 — you experience it first, then understand it</span></p>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="need-item" style="background:#fff1f2;">
+                <i class="fas fa-times-circle" style="color:#dc2626;"></i>
+                <div class="ni-body">
+                    <p><strong>No CI/CD or DevOps knowledge</strong><br><span>GitHub Actions is covered step by step in Level 3 — AI helps build it</span></p>
+                </div>
+            </div>
+            <div class="need-item" style="background:#fff1f2;margin-top:4px;">
+                <i class="fas fa-times-circle" style="color:#dc2626;"></i>
+                <div class="ni-body">
+                    <p><strong>No BDD or Cucumber experience</strong><br><span>Gherkin starts in Level 2. Step definitions in Level 3. Both built with AI.</span></p>
+                </div>
+            </div>
+            <div class="need-item" style="background:#fff7ed;margin-top:4px;">
+                <i class="fas fa-lightbulb" style="color:var(--vibe-orange);"></i>
+                <div class="ni-body">
+                    <p><strong>The only thing you need</strong><br><span>Curiosity. The willingness to try before you fully understand. That is Exploratory Learning — and you already know how to do it.</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER — EXPLORATORY LEARNING
+     ============================================================ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:55px 0;">
+        <i class="fas fa-compass" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>Exploratory Learning</h1>
+        <h2>How this program works — and why</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">Use first &nbsp;·&nbsp; Notice &nbsp;·&nbsp; Understand &nbsp;·&nbsp; Master</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — EXPLORATORY LEARNING — THE 4-STEP FLOW
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Exploratory Learning</h2>
+    <div class="el-flow">
+        <div class="el-step s1">
+            <i class="fas fa-hand-pointer" style="color:var(--vibe-orange);"></i>
+            <span class="el-num">Step 1</span>
+            <h3 style="color:var(--vibe-dark-blue);">Use</h3>
+            <p>Open the tool. Try it. Do something real with it — before anyone explains how it works.</p>
+        </div>
+        <div class="el-divider"></div>
+        <div class="el-step s2">
+            <i class="fas fa-eye" style="color:#ca8a04;"></i>
+            <span class="el-num">Step 2</span>
+            <h3 style="color:var(--vibe-dark-blue);">Notice</h3>
+            <p>What surprised you? What worked? What didn't? What questions did the experience create?</p>
+        </div>
+        <div class="el-divider"></div>
+        <div class="el-step s3">
+            <i class="fas fa-lightbulb" style="color:var(--vibe-blue);"></i>
+            <span class="el-num">Step 3</span>
+            <h3 style="color:var(--vibe-dark-blue);">Understand</h3>
+            <p>Now the theory lands — because you've already felt the problem it solves.</p>
+        </div>
+        <div class="el-divider"></div>
+        <div class="el-step s4">
+            <i class="fas fa-trophy" style="color:var(--vibe-green);"></i>
+            <span class="el-num">Step 4</span>
+            <h3 style="color:var(--vibe-dark-blue);">Master</h3>
+            <p>Use again with understanding. Each iteration deepens both skill and confidence.</p>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Why this works for AI specifically</h3>
+            <ul>
+                <li>AI is experiential — reading about it means nothing until you've used it</li>
+                <li>Fear of AI dissolves the moment you get a useful output</li>
+                <li>The tool changes faster than any curriculum — instinct travels better than theory</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-blue);">
+            <h3>What this means for you in this program</h3>
+            <ul>
+                <li>Theory never comes first — it always follows a real experience</li>
+                <li>Confusion is not a sign you're behind — it means you're about to understand something</li>
+                <li>Every session produces something real in your hands</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — EXPLORATORY TESTING vs EXPLORATORY LEARNING
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>You Have Been Doing This Your Whole Career</h2>
+    <div class="highlight-box">
+        <p class="bold text-blue" style="text-align:center;">It's called Exploratory Testing. Same instinct. New territory.</p>
+    </div>
+    <table class="cmp-table" style="margin-top:12px;">
+        <thead>
+            <tr>
+                <th style="width:10%;"></th>
+                <th>🔍 Exploratory Testing</th>
+                <th>🧭 Exploratory Learning</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-weight:700;color:var(--vibe-orange);text-align:center;">Start</td>
+                <td>Open the app <strong>before</strong> reading the full spec</td>
+                <td>Use the AI tool <strong>before</strong> the theory is explained</td>
+            </tr>
+            <tr>
+                <td style="font-weight:700;color:var(--vibe-blue);text-align:center;">Observe</td>
+                <td>Notice what surprises, breaks, or behaves unexpectedly</td>
+                <td>Notice what confuses, excites, or produces unexpected results</td>
+            </tr>
+            <tr>
+                <td style="font-weight:700;color:#9333ea;text-align:center;">Hypothesise</td>
+                <td>Form ideas about why it behaves that way</td>
+                <td>Ask "why does it do that?" — curiosity drives understanding</td>
+            </tr>
+            <tr>
+                <td style="font-weight:700;color:var(--vibe-green);text-align:center;">Go Deeper</td>
+                <td>Investigate the areas that need more attention</td>
+                <td>The theory you need becomes obvious — and lands permanently</td>
+            </tr>
+            <tr>
+                <td style="font-weight:700;color:#16a34a;text-align:center;">Improve</td>
+                <td>Your instinct sharpens with every session</td>
+                <td>Your understanding deepens with every use</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="success-box" style="margin-top:10px;">
+        <p class="compact" style="text-align:center;"><strong class="text-green">You already know how to learn this way. You just didn't call it Exploratory Learning before.</strong></p>
+    </div>
+</section>
+
+<!-- ============================================================
+     CHAPTER — THE PROGRAM
+     ============================================================ -->
+<section class="chapter-slide">
+    <div style="text-align:center;padding:55px 0;">
+        <i class="fas fa-map" style="font-size:4em;margin-bottom:20px;display:block;"></i>
+        <h1>The Program</h1>
+        <h2>31 days · What you build · How it works · Tools you'll use</h2>
+        <p style="color:#94a3b8;margin-top:12px;font-size:0.9em;">The full picture before you begin</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — 31 DAYS — BIG PICTURE
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>31 Days — The Full Journey</h2>
+    <div class="timeline" style="margin-top:20px;">
+        <div class="tl-node">
+            <div class="tl-dot orange">🧠</div>
+            <div class="tl-label">Level 1</div>
+            <div class="tl-sub">Understanding AI<br><strong>5 days</strong></div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot blue">🔍</div>
+            <div class="tl-label">Level 2</div>
+            <div class="tl-sub">AI for Manual Testing<br><strong>5 days</strong></div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot green">⚙️</div>
+            <div class="tl-label">Level 3</div>
+            <div class="tl-sub">AI for Test Automation<br><strong>16 days</strong></div>
+        </div>
+        <div class="tl-node">
+            <div class="tl-dot purple">🏛️</div>
+            <div class="tl-label">Level 4</div>
+            <div class="tl-sub">QA Workflows for AI SDLC<br><strong>5 days</strong></div>
+        </div>
+    </div>
+    <div style="margin-top:14px;">
+        <div class="level-card" style="background:#fff7ed;">
+            <div class="lc-num" style="background:var(--vibe-orange);">1</div>
+            <div class="lc-body">
+                <div class="lc-title">Understanding AI — Foundation</div>
+                <div class="lc-desc">LLMs · Hallucination · Prompts · Context Window · VS Code · GitHub Copilot · Skills.md</div>
+            </div>
+            <div class="lc-days" style="background:var(--vibe-orange);">5 days</div>
+        </div>
+        <div class="level-card" style="background:#eff6ff;margin-top:4px;">
+            <div class="lc-num" style="background:var(--vibe-blue);">2</div>
+            <div class="lc-body">
+                <div class="lc-title">AI for Manual Testing — Collaboration</div>
+                <div class="lc-desc">MCP · Requirements Analysis · Gherkin Feature Files · Exploratory Testing with Agents · Test Data · Bug Reporting</div>
+            </div>
+            <div class="lc-days" style="background:var(--vibe-blue);">5 days</div>
+        </div>
+        <div class="level-card" style="background:#f0fdf4;margin-top:4px;">
+            <div class="lc-num" style="background:#16a34a;">3</div>
+            <div class="lc-body">
+                <div class="lc-title">AI for Test Automation — Execution</div>
+                <div class="lc-desc">JavaScript · TypeScript · Playwright POM · Cucumber BDD · API Testing · GitHub Actions CI · AI Agents</div>
+            </div>
+            <div class="lc-days" style="background:#16a34a;">16 days</div>
+        </div>
+        <div class="level-card" style="background:#faf5ff;margin-top:4px;">
+            <div class="lc-num" style="background:#7c3aed;">4</div>
+            <div class="lc-body">
+                <div class="lc-title">QA Workflows for AI SDLC — Intelligence</div>
+                <div class="lc-desc">AI-Native SDLC · Parallel Streams · Repository as Single Source of Truth · Coverage Governance · Action Plan</div>
+            </div>
+            <div class="lc-days" style="background:#7c3aed;">5 days</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — WHAT YOU WILL BUILD
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What You Will Build — Level by Level</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">Every level ends with something tangible. Not just knowledge — deliverables you own.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>Level 1 — AI Toolkit Foundations</h3>
+                <ul>
+                    <li>VS Code + GitHub Copilot configured</li>
+                    <li>Your first Skills.md file</li>
+                    <li>A personal prompt library for QA tasks</li>
+                </ul>
+            </div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);margin-top:6px;">
+                <h3>Level 2 — AI-Powered Manual Testing Toolkit</h3>
+                <ul>
+                    <li>MCP configured and connected</li>
+                    <li>Gherkin feature files from real requirements</li>
+                    <li>Synthetic test data sets ready to use</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-green);">
+                <h3>Level 3 — Complete Automation Project</h3>
+                <ul>
+                    <li>Playwright POM test suite</li>
+                    <li>Cucumber BDD test suite</li>
+                    <li>API test suite</li>
+                    <li>GitHub Actions CI — running on every push</li>
+                </ul>
+            </div>
+            <div class="content-box" style="border-left-color:#7c3aed;margin-top:6px;">
+                <h3>Level 4 — Strategic Readiness</h3>
+                <ul>
+                    <li>Full project repository organised</li>
+                    <li>Personal AI-era action plan</li>
+                    <li>Ability to lead your team's AI transition</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — HOW THE PROGRAM WORKS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>How the Program Works</h2>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="content-box" style="border-left-color:var(--vibe-orange);">
+                <h3>The daily rhythm</h3>
+                <ul>
+                    <li>1.5 hours per session, every working day</li>
+                    <li>AI tools in use from Day 1</li>
+                    <li>Practice before theory — always</li>
+                    <li>Every concept has a QA-flavoured example</li>
+                    <li>You build something in every session</li>
+                </ul>
+            </div>
+            <div class="content-box" style="border-left-color:var(--vibe-blue);margin-top:6px;">
+                <h3>The Exploratory Learning loop — every day</h3>
+                <div class="flow-container" style="margin-top:6px;">
+                    <div class="arrow-flow">
+                        <div class="step orange" style="font-size:0.6em;">Use it</div>
+                        <div class="arrow">→</div>
+                        <div class="step" style="font-size:0.6em;">Notice</div>
+                        <div class="arrow">→</div>
+                        <div class="step green" style="font-size:0.6em;">Understand</div>
+                        <div class="arrow">→</div>
+                        <div class="step purple" style="font-size:0.6em;">Master</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>The journey through the 4 types</h3>
+            <div class="flow-container" style="margin-top:6px;">
+                <div class="arrow-flow" style="flex-direction:column;align-items:flex-start;gap:4px;">
+                    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <div class="step grey" style="font-size:0.6em;min-width:80px;text-align:center;">Type 1 or 2</div>
+                        <span style="color:#64748b;font-size:0.65em;">You start here — today</span>
+                    </div>
+                    <div style="padding-left:36px;color:var(--vibe-orange);font-size:0.9em;">↓</div>
+                    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <div class="step orange" style="font-size:0.6em;min-width:80px;text-align:center;">Level 1–2</div>
+                        <span style="color:#64748b;font-size:0.65em;">AI in your manual QA workflow</span>
+                    </div>
+                    <div style="padding-left:36px;color:var(--vibe-orange);font-size:0.9em;">↓</div>
+                    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <div class="step" style="font-size:0.6em;min-width:80px;text-align:center;">Level 3</div>
+                        <span style="color:#64748b;font-size:0.65em;">Type 3 — AI-Assisted QA professional</span>
+                    </div>
+                    <div style="padding-left:36px;color:var(--vibe-orange);font-size:0.9em;">↓</div>
+                    <div style="display:flex;align-items:center;gap:8px;width:100%;">
+                        <div class="step green" style="font-size:0.6em;min-width:80px;text-align:center;">Level 4</div>
+                        <span style="color:#64748b;font-size:0.65em;">Path to Type 4 — Workflow Designer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — TOOLS YOU WILL USE
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Tools You Will Use</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-blue" style="text-align:center;">You don't need to know any of these today. You will pick them up one by one — by using them.</p>
+    </div>
+    <div class="four-col" style="margin-top:12px;">
+        <div class="icon-box orange">
+            <i class="fas fa-robot"></i>
+            <h3>Claude.ai</h3>
+            <p class="compact2">Your primary AI collaborator for all QA tasks</p>
+            <span class="badge" style="font-size:0.6em;margin-top:4px;">Level 1</span>
+        </div>
+        <div class="icon-box blue">
+            <i class="fas fa-code"></i>
+            <h3>VS Code</h3>
+            <p class="compact2">Your AI-powered workspace and editor hub</p>
+            <span class="badge blue" style="font-size:0.6em;margin-top:4px;">Level 1</span>
+        </div>
+        <div class="icon-box green">
+            <i class="fas fa-graduation-cap"></i>
+            <h3>GitHub Copilot</h3>
+            <p class="compact2">AI inline suggestions as you write tests</p>
+            <span class="badge green" style="font-size:0.6em;margin-top:4px;">Level 1</span>
+        </div>
+        <div class="icon-box purple">
+            <i class="fas fa-plug"></i>
+            <h3>MCP</h3>
+            <p class="compact2">Connect Claude directly to your files and live app</p>
+            <span class="badge purple" style="font-size:0.6em;margin-top:4px;">Level 2</span>
+        </div>
+    </div>
+    <div class="four-col" style="margin-top:6px;">
+        <div class="icon-box blue">
+            <i class="fas fa-theater-masks"></i>
+            <h3>Playwright</h3>
+            <p class="compact2">The automation framework — AI agents build tests for you</p>
+            <span class="badge blue" style="font-size:0.6em;margin-top:4px;">Level 3</span>
+        </div>
+        <div class="icon-box green">
+            <i class="fas fa-leaf"></i>
+            <h3>Cucumber BDD</h3>
+            <p class="compact2">Gherkin scenarios turned into living automation</p>
+            <span class="badge green" style="font-size:0.6em;margin-top:4px;">Level 3</span>
+        </div>
+        <div class="icon-box orange">
+            <i class="fab fa-github"></i>
+            <h3>GitHub Actions</h3>
+            <p class="compact2">Your tests run automatically on every push</p>
+            <span class="badge" style="font-size:0.6em;margin-top:4px;">Level 3</span>
+        </div>
+        <div class="icon-box grey">
+            <i class="fas fa-terminal"></i>
+            <h3>Node.js &amp; npm</h3>
+            <p class="compact2">The runtime that powers the whole stack</p>
+            <span class="badge grey" style="font-size:0.6em;margin-top:4px;">Level 3</span>
+        </div>
+    </div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    (function () {
+        var MARGIN = 0.04;
+        function getSize() { return { w: window.innerWidth, h: window.innerHeight }; }
+        function buildConfig() {
+            var s = getSize();
+            return {
+                hash: true, transition: 'slide', transitionSpeed: 'default',
+                slideNumber: true, controls: true, progress: true, center: true,
+                width: s.w, height: s.h, margin: MARGIN, minScale: 0.1, maxScale: 1.0
+            };
+        }
+        var initialized = false;
+        function init() {
+            if (typeof Reveal === 'undefined') return false;
+            Reveal.initialize(buildConfig());
+            initialized = true;
+            return true;
+        }
+        var resizeTimer = null;
+        var lastDPR = window.devicePixelRatio;
+        function onViewportChange() {
+            if (!initialized) return;
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                var s = getSize();
+                Reveal.configure({ width: s.w, height: s.h });
+                Reveal.layout();
+            }, 60);
+        }
+        window.addEventListener('resize', onViewportChange);
+        setInterval(function () {
+            var dpr = window.devicePixelRatio;
+            if (dpr !== lastDPR) { lastDPR = dpr; onViewportChange(); }
+        }, 250);
+        document.addEventListener('keydown', function (e) {
+            if (!initialized) return;
+            if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
+                e.preventDefault();
+                var s = getSize();
+                Reveal.configure({ width: s.w * 0.97, height: s.h * 0.97 });
+                Reveal.layout();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+                e.preventDefault();
+                var s2 = getSize();
+                Reveal.configure({ width: s2.w * 1.03, height: s2.h * 1.03 });
+                Reveal.layout();
+            }
+        });
+        if (!init()) {
+            var attempts = 0;
+            var pollTimer = setInterval(function () {
+                attempts++;
+                if (init()) { clearInterval(pollTimer); }
+                else if (attempts >= 50) {
+                    clearInterval(pollTimer);
+                    console.error('Reveal.js failed to load from CDN.');
+                }
+            }, 100);
+        }
+    })();
+</script>
+</body>
+</html>

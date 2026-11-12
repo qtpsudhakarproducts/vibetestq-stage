@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #1e40af;
+    --primary-dark: #1e3a8a;
+    --secondary: #22c55e;
+    --accent: #f97316;
+    --warning: #fbbf24;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+}
+
+.logo img {
+    height: 50px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--primary-dark);
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #eff6ff;
+    color: var(--primary);
+}
+
+.assessment-title {
+    text-align: right;
+}
+
+.assessment-title h1 {
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+}
+
+.assessment-title p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
+
+.question {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.question:last-child {
+    border-bottom: none;
+}
+
+.question-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.question-number {
+    color: var(--primary);
+    min-width: 25px;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    background-color: #f1f5f9;
+    border-color: var(--primary);
+}
+
+.option input {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.option.correct {
+    border-color: var(--secondary);
+    background-color: #ecfdf5;
+}
+
+.option.incorrect {
+    border-color: var(--danger);
+    background-color: #fef2f2;
+}
+
+.question.unanswered {
+    border: 2px solid var(--danger) !important;
+    background-color: #fef2f2 !important;
+    border-radius: 8px;
+    padding: 15px !important;
+    margin-bottom: 25px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-success {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.result-section {
+    display: none;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.score-display {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+.feedback-text {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.name-input-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.name-input-section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.name-input-section input {
+    padding: 10px 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: #ef4444;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: none;
+    z-index: 1000;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.explanation {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    display: none;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary);
+}
+
+@media print {
+
+    .btn,
+    .name-input-section {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+        padding: 0;
+    }
+
+    .card {
+        box-shadow: none;
+        border: none;
+    }
+
+    .explanation,
+    .result-section {
+        display: block !important;
+    }
+
+    #printed-name {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 10px;
+    }
+}
+
+#printed-name {
+    display: none;
+}
+
+code {
+    background: #f1f5f9;
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: #e11d48;
+    font-family: monospace;
+}
+
+pre {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 10px 0;
+    font-size: 0.85rem;
+}
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><img src="../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+            <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+            <div class="assessment-title">
+                <h1>Assessment</h1>
+                <p>Loading topics...</p>
+            </div>
+        </header>
+
+        <div id="result-container" class="card result-section">
+            <div id="printed-name"></div>
+            <h2>Assessment Completed!</h2>
+            <div id="score-display" class="score-display">0 / 0</div>
+            <p id="feedback-text" class="feedback-text"></p>
+            <div class="name-input-section">
+                <label for="student-name">Enter your name for the report:</label>
+                <input type="text" id="student-name" placeholder="Your Full Name"><br>
+                <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print
+                    Result</button>
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <div class="card">
+                <form id="quiz-form"></form>
+            </div>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; color: var(--text-light); font-size: 0.8rem;">
+            &copy; 2026 VibeTestQ. All rights reserved.
+        </footer>
+    </div>
+
+    <script type="text/plain" id="assessment-markdown">
+# Assessment 09: Exception Handling MCQ
+
+**Total Questions:** 20  
+**Time:** 20 minutes  
+**Pass Mark:** 60%  
+**Topics:** try-catch-finally, Error Types, throw
+
+---
+
+## Questions
+
+### Question 1
+What is exception handling?
+
+A) Deleting exceptions  
+B) Managing runtime errors gracefully  
+C) Creating exceptions  
+D) Ignoring errors
+
+**Answer: B) Managing runtime errors gracefully**
+
+**Explanation:** Exception handling allows programs to handle errors without crashing.
+
+---
+
+### Question 2
+What is the syntax for exception handling?
+
+A) `try...catch`  
+B) `error...handle`  
+C) `attempt...rescue`  
+D) `test...fix`
+
+**Answer: A) try...catch**
+
+**Explanation:** JavaScript uses try...catch...finally for exception handling.
+
+---
+
+### Question 3
+What does the `try` block do?
+
+A) Contains code that might throw errors  
+B) Handles errors  
+C) Creates errors  
+D) Deletes errors
+
+**Answer: A) Contains code that might throw errors**
+
+**Explanation:** The try block wraps code that might cause an exception.
+
+---
+
+### Question 4
+What does the `catch` block do?
+
+A) Creates errors  
+B) Handles errors from try block  
+C) Deletes errors  
+D) Ignores errors
+
+**Answer: B) Handles errors from try block**
+
+**Explanation:** The catch block executes when an error occurs in the try block.
+
+---
+
+### Question 5
+What does the `finally` block do?
+
+A) Ends the program  
+B) Executes regardless of error occurrence  
+C) Only runs on success  
+D) Only runs on error
+
+**Answer: B) Executes regardless of error occurrence**
+
+**Explanation:** finally runs whether an error occurred or not.
+
+---
+
+### Question 6
+What will be the output?
+```javascript
+try {
+    console.log("A");
+    throw new Error("Oops");
+    console.log("B");
+} catch(e) {
+    console.log("C");
+}
+```
+
+A) A B C  
+B) A C  
+C) A B  
+D) C
+
+**Answer: B) A C**
+
+**Explanation:** "A" logs, error is thrown, "B" never executes, catch logs "C".
+
+---
+
+### Question 7
+How do you manually throw an error?
+
+A) `throw "error";`  
+B) `throw new Error("message");`  
+C) Both A and B  
+D) `error("message");`
+
+**Answer: C) Both A and B**
+
+**Explanation:** You can throw any value, but Error objects are recommended.
+
+---
+
+### Question 8
+What is a ReferenceError?
+
+A) Array error  
+B) Error when accessing non-existent variable  
+C) Math error  
+D) String error
+
+**Answer: B) Error when accessing non-existent variable**
+
+**Explanation:** ReferenceError occurs when referencing an undefined variable.
+
+---
+
+### Question 9
+What is a TypeError?
+
+A) Writing errors  
+B) Error when value is not the expected type  
+C) Time errors  
+D) Timeout errors
+
+**Answer: B) Error when value is not the expected type**
+
+**Explanation:** TypeError occurs with incorrect type operations.
+
+---
+
+### Question 10
+What is a SyntaxError?
+
+A) Grammar mistake in code  
+B) Logic error  
+C) Runtime error  
+D) Type error
+
+**Answer: A) Grammar mistake in code**
+
+**Explanation:** SyntaxError occurs when code violates JavaScript syntax rules.
+
+---
+
+### Question 11
+Can you have try without catch?
+
+A) No, catch is required  
+B) Yes, if finally is present  
+C) Never  
+D) Only in strict mode
+
+**Answer: B) Yes, if finally is present**
+
+**Explanation:** try must have either catch, finally, or both.
+
+---
+
+### Question 12
+What will be the output?
+```javascript
+try {
+    throw new Error("Test");
+} catch(e) {
+    console.log(e.message);
+}
+```
+
+A) Error  
+B) "Test"  
+C) undefined  
+D) null
+
+**Answer: B) "Test"**
+
+**Explanation:** The catch block receives the error object. e.message is "Test".
+
+---
+
+### Question 13
+What is a custom error?
+
+A) A default error  
+B) User-defined error class extending Error  
+C) A deleted error  
+D) A system error
+
+**Answer: B) User-defined error class extending Error**
+
+**Explanation:** Custom errors extend the Error class for specific error types.
+
+---
+
+### Question 14
+How do you create a custom error?
+
+A) `class MyError {}`  
+B) `class MyError extends Error {}`  
+C) `function MyError() {}`  
+D) `new Error("custom")`
+
+**Answer: B) class MyError extends Error {}**
+
+**Explanation:** Custom errors extend the built-in Error class.
+
+---
+
+### Question 15
+What will happen if an error is not caught?
+
+A) Program continues  
+B) Program crashes/stops execution  
+C) Error is ignored  
+D) Error is logged only
+
+**Answer: B) Program crashes/stops execution**
+
+**Explanation:** Uncaught errors terminate program execution.
+
+---
+
+### Question 16
+Can you re-throw an error?
+
+A) No  
+B) Yes, using throw in catch  
+C) Only once  
+D) Only in finally
+
+**Answer: B) Yes, using throw in catch**
+
+**Explanation:** You can throw errors again in catch blocks for upstream handling.
+
+---
+
+### Question 17
+What is the error object's `stack` property?
+
+A) Error location  
+B) Stack trace showing call sequence  
+C) Error number  
+D) Error severity
+
+**Answer: B) Stack trace showing call sequence**
+
+**Explanation:** The stack property contains a trace of function calls leading to the error.
+
+---
+
+### Question 18
+What will be the output?
+```javascript
+try {
+    console.log("1");
+} finally {
+    console.log("2");
+}
+console.log("3");
+```
+
+A) 1 2 3  
+B) 1 3 2  
+C) 2 1 3  
+D) 3 2 1
+
+**Answer: A) 1 2 3**
+
+**Explanation:** try runs "1", finally runs "2" (even without errors), then "3" logs.
+
+---
+
+### Question 19
+Can finally have a return statement?
+
+A) No, syntax error  
+B) Yes, it overrides try/catch returns  
+C) Only if try has return  
+D) Only if catch has return
+
+**Answer: B) Yes, it overrides try/catch returns**
+
+**Explanation:** Return in finally overrides returns from try or catch.
+
+---
+
+### Question 20
+What is the best practice for error handling?
+
+A) Ignore all errors  
+B) Catch specific errors, handle appropriately  
+C) Catch and hide all errors  
+D) Never use try-catch
+
+**Answer: B) Catch specific errors, handle appropriately**
+
+**Explanation:** Handle expected errors specifically, let unexpected ones bubble up.
+    </script>
+    <script>
+(() => {
+    const markdownNode = document.getElementById('assessment-markdown');
+    if (!markdownNode) {
+        return;
+    }
+
+    const markdown = markdownNode.textContent.trim();
+    const form = document.getElementById('quiz-form');
+    const titleElement = document.querySelector('.assessment-title h1');
+    const subtitleElement = document.querySelector('.assessment-title p');
+    const scoreDisplay = document.getElementById('score-display');
+
+    const assessmentData = parseAssessmentMarkdown(markdown);
+    renderAssessment(assessmentData);
+
+    function parseAssessmentMarkdown(raw) {
+        const lines = raw.replace(/\r\n/g, '\n').split('\n');
+        const titleLine = lines.find((line) => line.trim().startsWith('# ')) || '';
+        const rawTitle = titleLine.replace(/^#\s*/, '').trim();
+        const cleanedTitle = rawTitle
+            .replace(/^Assessment\s*\d*\s*:?\s*/i, '')
+            .replace(/\bMCQ\b/i, '')
+            .trim();
+
+        let topics = '';
+        const topicsLine =
+            lines.find((line) => /^\*\*Topics/i.test(line)) ||
+            lines.find((line) => /^\*\*Topics Covered/i.test(line));
+        if (topicsLine) {
+            const parts = topicsLine.split(':');
+            topics = parts.length > 1 ? parts.slice(1).join(':').replace(/\*\*/g, '').trim() : '';
+        }
+
+        if (!topics) {
+            const subtitleLine = lines.find((line) => line.trim().startsWith('## '));
+            if (subtitleLine) {
+                topics = subtitleLine.replace(/^##\s*/, '').trim();
+            }
+        }
+
+        const questionBlocks = [];
+        const hasQuestionsHeading = lines.some((line) => /^##\s*Questions/i.test(line.trim()));
+        let inQuestions = !hasQuestionsHeading;
+        let stopQuestions = false;
+        let current = null;
+
+        for (const line of lines) {
+            const trimmed = line.trim();
+
+            if (/^##\s*Questions/i.test(trimmed)) {
+                inQuestions = true;
+                continue;
+            }
+
+            if (inQuestions && /^##\s+/i.test(trimmed) && !/^##\s*Questions/i.test(trimmed)) {
+                stopQuestions = true;
+                if (current) {
+                    questionBlocks.push(current);
+                    current = null;
+                }
+                continue;
+            }
+
+            if (!inQuestions || stopQuestions) {
+                continue;
+            }
+
+            if (/^###\s*Question\s*\d+/i.test(trimmed)) {
+                if (current) {
+                    questionBlocks.push(current);
+                }
+                current = [];
+                continue;
+            }
+
+            if (current) {
+                current.push(line);
+            }
+        }
+
+        if (current) {
+            questionBlocks.push(current);
+        }
+
+        const questions = questionBlocks
+            .map((block) => parseQuestionBlock(block))
+            .filter((question) => question.options.length > 0);
+
+        return {
+            title: cleanedTitle || rawTitle || 'Assessment',
+            topics,
+            questions
+        };
+    }
+
+    function parseQuestionBlock(lines) {
+        const questionLines = [];
+        const options = [];
+        let answer = '';
+        const explanationLines = [];
+        let capturingExplanation = false;
+
+        lines.forEach((line) => {
+            const trimmed = line.trim();
+
+            if (/^\*\*Answer:/i.test(trimmed)) {
+                const match = trimmed.match(/Answer:\s*([A-D])/i);
+                if (match) {
+                    answer = match[1].toLowerCase();
+                }
+                capturingExplanation = false;
+                return;
+            }
+
+            if (/^\*\*Explanation:/i.test(trimmed)) {
+                capturingExplanation = true;
+                const explanationText = trimmed
+                    .replace(/^\*\*Explanation:\*\*\s*/i, '')
+                    .replace(/^\*\*Explanation:\s*/i, '')
+                    .trim();
+                if (explanationText) {
+                    explanationLines.push(explanationText);
+                }
+                return;
+            }
+
+            if (capturingExplanation) {
+                if (trimmed === '---') {
+                    capturingExplanation = false;
+                } else {
+                    explanationLines.push(line);
+                }
+                return;
+            }
+
+            const optionMatch = trimmed.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);
+            if (optionMatch) {
+                options.push({
+                    letter: optionMatch[1].toLowerCase(),
+                    text: optionMatch[2].trim()
+                });
+                return;
+            }
+
+            if (trimmed === '---' || /^##/.test(trimmed)) {
+                return;
+            }
+
+            questionLines.push(line);
+        });
+
+        if (!answer && options.length > 0) {
+            answer = options[0].letter;
+        }
+
+        const { promptLine, bodyLines } = splitPromptAndBody(questionLines);
+
+        return {
+            promptHtml: formatInlineCode(promptLine || 'Select the correct option.'),
+            bodyHtml: formatLinesToHtml(bodyLines),
+            options: options.map((opt) => ({
+                letter: opt.letter,
+                html: formatInlineCode(opt.text)
+            })),
+            answer,
+            explanationHtml: formatLinesToHtml(explanationLines)
+        };
+    }
+
+    function splitPromptAndBody(lines) {
+        let promptLine = '';
+        const bodyLines = [];
+        let foundPrompt = false;
+
+        lines.forEach((line) => {
+            if (!foundPrompt && line.trim() && !line.trim().startsWith('```')) {
+                promptLine = line.trim();
+                foundPrompt = true;
+            } else {
+                bodyLines.push(line);
+            }
+        });
+
+        return { promptLine, bodyLines };
+    }
+
+    function formatLinesToHtml(lines) {
+        if (!lines.length) {
+            return '';
+        }
+
+        const parts = [];
+        let inCodeBlock = false;
+        let codeLines = [];
+        let textLines = [];
+
+        const flushText = () => {
+            if (!textLines.length) {
+                return;
+            }
+            parts.push(textLines.map(formatInlineCode).join('<br>'));
+            textLines = [];
+        };
+
+        lines.forEach((line) => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('```')) {
+                if (inCodeBlock) {
+                    parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+                    codeLines = [];
+                    inCodeBlock = false;
+                } else {
+                    flushText();
+                    inCodeBlock = true;
+                }
+                return;
+            }
+
+            if (inCodeBlock) {
+                codeLines.push(line);
+            } else if (trimmed !== '') {
+                textLines.push(line);
+            }
+        });
+
+        if (codeLines.length) {
+            parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+        }
+
+        flushText();
+        return parts.join('');
+    }
+
+    function formatInlineCode(text) {
+        if (!text) {
+            return '';
+        }
+
+        const segments = text.split('`');
+        return segments
+            .map((segment, index) => {
+                if (index % 2 === 1) {
+                    return `<code>${escapeHtml(segment)}</code>`;
+                }
+                return escapeHtml(segment);
+            })
+            .join('');
+    }
+
+    function escapeHtml(value) {
+        return value
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function renderAssessment(data) {
+        const heading = data.title ? `Assessment: ${data.title}` : 'Assessment';
+        titleElement.textContent = heading;
+        subtitleElement.textContent = data.topics || data.title || 'Multiple Choice Questions';
+        document.title = `${heading} - VibeTestQ`;
+
+        form.innerHTML = '';
+
+        data.questions.forEach((question, index) => {
+            form.appendChild(buildQuestionElement(question, index));
+        });
+
+        const submitWrap = document.createElement('div');
+        submitWrap.style.textAlign = 'center';
+        submitWrap.style.marginTop = '30px';
+        submitWrap.innerHTML = `
+            <button type="button" class="btn btn-primary" onclick="submitQuiz()">
+                <i class="fas fa-paper-plane"></i> Submit Assessment
+            </button>
+        `;
+        form.appendChild(submitWrap);
+
+        scoreDisplay.textContent = `0 / ${data.questions.length}`;
+    }
+
+    function buildQuestionElement(question, index) {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.dataset.answer = question.answer;
+
+        const questionText = document.createElement('div');
+        questionText.className = 'question-text';
+
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'question-number';
+        numberSpan.textContent = `${index + 1}.`;
+
+        const textSpan = document.createElement('span');
+        textSpan.innerHTML = question.promptHtml;
+
+        questionText.appendChild(numberSpan);
+        questionText.appendChild(textSpan);
+        questionElement.appendChild(questionText);
+
+        if (question.bodyHtml) {
+            const body = document.createElement('div');
+            body.className = 'question-body';
+            body.innerHTML = question.bodyHtml;
+            questionElement.appendChild(body);
+        }
+
+        const options = document.createElement('div');
+        options.className = 'options';
+
+        question.options.forEach((option) => {
+            const label = document.createElement('label');
+            label.className = 'option';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `q${index + 1}`;
+            input.value = option.letter;
+
+            const optionText = document.createElement('span');
+            optionText.innerHTML = option.html;
+
+            label.appendChild(input);
+            label.appendChild(optionText);
+            options.appendChild(label);
+        });
+
+        questionElement.appendChild(options);
+
+        const explanation = document.createElement('p');
+        explanation.className = 'explanation';
+        explanation.innerHTML = question.explanationHtml || '';
+        questionElement.appendChild(explanation);
+
+        return questionElement;
+    }
+
+    window.submitQuiz = function submitQuiz() {
+        const questions = document.querySelectorAll('.question');
+        let score = 0;
+        const unAnsweredSet = [];
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const selected = form.querySelector(`input[name="q${qNum}"]:checked`);
+            if (!selected) {
+                unAnsweredSet.push(q);
+                q.classList.add('unanswered');
+            } else {
+                q.classList.remove('unanswered');
+            }
+        });
+
+        if (unAnsweredSet.length > 0) {
+            showToast("Please answer all questions before submitting.");
+            unAnsweredSet[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const selected = form.querySelector(`input[name="q${qNum}"]:checked`);
+            const correctAnswer = q.getAttribute('data-answer');
+            const options = q.querySelectorAll('.option');
+            const explanation = q.querySelector('.explanation');
+
+            if (explanation) {
+                explanation.style.display = 'block';
+            }
+
+            options.forEach(opt => {
+                const radio = opt.querySelector('input');
+                if (radio.value === correctAnswer) {
+                    opt.classList.add('correct');
+                }
+                if (selected && radio === selected && radio.value !== correctAnswer) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selected && selected.value === correctAnswer) {
+                score += 1;
+            }
+        });
+
+        document.getElementById('result-container').style.display = 'block';
+        document.getElementById('score-display').innerText = `${score} / ${questions.length}`;
+
+        let feedback = "";
+        const percentage = (score / questions.length) * 100;
+        if (percentage === 100) feedback = "Perfect Score! You are a JS Wizard!";
+        else if (percentage >= 80) feedback = "Excellent! You have a strong grasp of fundamentals.";
+        else if (percentage >= 60) feedback = "Good job! Keep practicing to master the concepts.";
+        else feedback = "Keep learning! Review the Docs to strengthen your basics.";
+
+        document.getElementById('feedback-text').innerText = feedback;
+
+        form.querySelectorAll('input').forEach(input => input.disabled = true);
+        const submitButton = form.querySelector('button');
+        if (submitButton) {
+            submitButton.style.display = 'none';
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.preparePrint = function preparePrint() {
+        const name = document.getElementById('student-name').value;
+        if (name) {
+            document.getElementById('printed-name').innerText = "Student: " + name;
+        } else {
+            document.getElementById('printed-name').innerText = "";
+        }
+        window.print();
+    };
+
+    function showToast(message) {
+        let toast = document.getElementById('toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.className = 'toast';
+            document.body.appendChild(toast);
+        }
+        toast.innerText = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+})();
+    </script>
+</body>
+
+</html>

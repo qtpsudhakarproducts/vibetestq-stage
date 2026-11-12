@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Generator &amp; Healer Agents - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;border:none;gap:8px;font-size:1rem;transition:all 0.2s;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background:white;padding:0;}.card{box-shadow:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}@media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Assessment</h1><p>Loading topics...</p></div>
+    </header>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: Generator & Healer Agents
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** Test Generator Agents, Self-Healing Tests, Healer Agents, Locator Resilience, Stable Attributes, data-testid
+
+---
+
+## Questions
+
+### Question 1
+What is a test generator agent?
+
+A) A CI/CD tool that schedules test runs automatically
+B) A script that generates random test data
+C) An AI system that automatically creates test cases from application context and user descriptions
+D) A tool that only generates playwright.config.ts files
+
+**Answer: C) An AI system that automatically creates test cases from application context and user descriptions**
+
+**Explanation:** Test generator agents analyze application pages, user flows, or natural language descriptions to draft test files, page objects, and test cases — dramatically accelerating test coverage.
+
+---
+
+### Question 2
+What is a "self-healing test"?
+
+A) A test that automatically fixes bugs in the application code
+B) A test that retries indefinitely until it passes
+C) A test that automatically detects and repairs broken locators when the UI changes
+D) A test that skips failing steps and reports them later
+
+**Answer: C) A test that automatically detects and repairs broken locators when the UI changes**
+
+**Explanation:** Self-healing frameworks monitor locator failures, use AI to identify the element with alternative strategies, and update the locator — keeping tests green without manual intervention.
+
+---
+
+### Question 3
+What is the primary problem that healer agents are designed to solve?
+
+A) Slow test execution times
+B) Broken locators caused by routine UI changes
+C) Flaky network responses in API tests
+D) TypeScript compilation errors in page objects
+
+**Answer: B) Broken locators caused by routine UI changes**
+
+**Explanation:** When developers rename CSS classes, restructure HTML, or change element attributes, locators in tests break. Healer agents identify the new element location and repair the locator automatically.
+
+---
+
+### Question 4
+Which locator strategy makes tests most resilient and easiest to heal?
+
+A) XPath expressions based on element position (e.g., `//div[3]/ul/li[2]`)
+B) CSS class names (e.g., `.btn-primary-v2`)
+C) Auto-generated hash-based IDs (e.g., `#ember128`)
+D) Semantic attributes like `data-testid` combined with ARIA roles
+
+**Answer: D) Semantic attributes like `data-testid` combined with ARIA roles**
+
+**Explanation:** `data-testid` is purpose-built for testing and rarely changes with styling. ARIA roles describe the element's function. Together, they provide stable locators that survive most refactoring.
+
+---
+
+### Question 5
+What is the typical input provided to a generator agent to produce Playwright tests?
+
+A) Compiled JavaScript bundles
+B) Raw Node.js logs
+C) Application screenshots, DOM snapshots, or natural language descriptions of user flows
+D) TypeScript declaration files only
+
+**Answer: C) Application screenshots, DOM snapshots, or natural language descriptions of user flows**
+
+**Explanation:** Generator agents need context about what the application looks like and how users interact with it. Screenshots, DOM inspection, or step-by-step descriptions provide this context.
+
+---
+
+### Question 6
+Why is `data-testid` superior to CSS class names for test locators?
+
+A) It renders the element faster
+B) It is required by WCAG accessibility standards
+C) Unlike CSS classes, it is not changed for styling purposes and remains stable across UI redesigns
+D) It only works with Playwright, preventing misuse
+
+**Answer: C) Unlike CSS classes, it is not changed for styling purposes and remains stable across UI redesigns**
+
+**Explanation:** CSS classes change frequently when UI is restyled, redesigned, or when component libraries are updated. `data-testid` attributes are specifically for testing and have no visual impact, so developers leave them unchanged.
+
+---
+
+### Question 7
+What does "locator resilience" mean?
+
+A) Locators that work in all major browsers without modification
+B) Locators that have built-in retry logic
+C) Locators that remain functional despite changes to the UI structure or styling
+D) Locators that auto-scroll to the element
+
+**Answer: C) Locators that remain functional despite changes to the UI structure or styling**
+
+**Explanation:** Resilient locators target semantic, stable attributes (role, label, testid) rather than positional or styling details. They survive most UI refactoring without breaking.
+
+---
+
+### Question 8
+Which attribute type is most fragile and most likely to break when a front-end team updates UX styling?
+
+A) data-testid attributes
+B) ARIA labels (aria-label)
+C) Dynamically generated CSS class names used for theming (e.g., `.sc-abc123`)
+D) HTML id attributes set by developers
+
+**Answer: C) Dynamically generated CSS class names used for theming (e.g., `.sc-abc123`)**
+
+**Explanation:** CSS-in-JS libraries (styled-components, Emotion) often generate unique class names that change with every build. Locators targeting these classes break constantly and are the most common cause of flaky tests.
+
+---
+
+### Question 9
+What should a healer agent do when a primary locator completely fails to find an element?
+
+A) Immediately fail and throw an error to the developer
+B) Skip the test step entirely
+C) Try alternative stable locators (role, aria-label, data-testid, visible text) to find the same element
+D) Reload the page and retry the same failing locator
+
+**Answer: C) Try alternative stable locators (role, aria-label, data-testid, visible text) to find the same element**
+
+**Explanation:** A healer agent maintains a priority list of fallback strategies. If the primary locator fails, it tries alternatives in order of stability/reliability, finds the element, and updates the primary locator for next time.
+
+---
+
+### Question 10
+After a generator agent creates test files, what should a QE professional do next?
+
+A) Commit and push immediately without review
+B) Delete them and write the tests manually
+C) Review the generated code for accuracy, verify locators on the live app, and make refinements
+D) Run only one test and accept all others as correct
+
+**Answer: C) Review the generated code for accuracy, verify locators on the live app, and make refinements**
+
+**Explanation:** AI-generated tests are a starting point. QE professionals must verify that locators actually find the right elements, test logic matches real user flows, and assertions are meaningful.
+
+---
+
+### Question 11
+What is "intelligent locator ranking" in advanced healer agent frameworks?
+
+A) Sorting test files alphabetically
+B) Ordering DOM elements by z-index
+C) AI scoring multiple candidate locators by predicted reliability and selecting the best one
+D) Ranking tests by execution speed
+
+**Answer: C) AI scoring multiple candidate locators by predicted reliability and selecting the best one**
+
+**Explanation:** When an element can be found by multiple strategies, a healer agent ranks them by expected stability — preferring `data-testid` over `aria-label` over position-based XPath — and selects the most reliable option.
+
+---
+
+### Question 12
+What development practice reduces the need for self-healing agents by preventing breakage in the first place?
+
+A) Adding more retries in playwright.config.ts
+B) Collaborating with developers to add stable `data-testid` attributes during feature development
+C) Using longer XPath expressions for specificity
+D) Running tests only on Fridays when code changes are minimal
+
+**Answer: B) Collaborating with developers to add stable `data-testid` attributes during feature development**
+
+**Explanation:** Shift-left on test stability: when QE works with devs to add `data-testid` to new UI components from the start, locators are permanently stable and healing is rarely needed.
+
+---
+
+### Question 13
+What is the typical output of a generator agent after analyzing a web application page?
+
+A) A compiled Docker image with tests ready to run
+B) Draft test files containing page objects (locators + methods) and test cases
+C) A requirements document listing all features
+D) A playwright.config.ts file only
+
+**Answer: B) Draft test files containing page objects (locators + methods) and test cases**
+
+**Explanation:** Generator agents output structured test code — typically a page object with located elements and interaction methods, plus test cases using those page objects. These drafts need human review before finalizing.
+
+---
+
+### Question 14
+How does a healer agent differ from Playwright's built-in `retries` feature?
+
+A) They are identical — retries and healing do the same thing
+B) Retries rerun the whole test; a healer agent repairs the broken locator itself so the test can succeed
+C) Healer agents add more retry attempts
+D) The `retries` feature calls a healer agent automatically
+
+**Answer: B) Retries rerun the whole test; a healer agent repairs the broken locator itself so the test can succeed**
+
+**Explanation:** Retries blindly re-execute a failing test — useful for network flakiness, not for broken locators. A healer agent analyzes why the locator failed, identifies the element by other means, and updates the locator so future runs succeed.
+
+---
+
+### Question 15
+What key information should you give a generator agent to produce high-quality Playwright page objects?
+
+A) The test runner version only
+B) The application URL, element descriptions (role/label/text), and expected interactions
+C) A list of all installed npm packages
+D) The CI/CD pipeline configuration
+
+**Answer: B) The application URL, element descriptions (role/label/text), and expected interactions**
+
+**Explanation:** With the URL, the agent (via MCP or screenshot) can see the actual elements. Describing key elements and interactions ensures the generated page object covers the right functionality.
+
+---
+
+### Question 16
+What is the business benefit of self-healing test automation?
+
+A) It makes the application faster
+B) It eliminates the need for a QE team entirely
+C) It significantly reduces the manual effort needed to maintain test suites when the UI changes
+D) It increases code bundle size
+
+**Answer: C) It significantly reduces the manual effort needed to maintain test suites when the UI changes**
+
+**Explanation:** Without self-healing, every UI change requires manual locator updates across potentially hundreds of tests. Self-healing automates this maintenance, freeing QE engineers for higher-value tasks.
+
+---
+
+### Question 17
+What role do QE engineers play in a team that uses generator and healer agents?
+
+A) They are replaced entirely
+B) They only write manual test cases
+C) They shift to higher-value work: reviewing AI output, defining test strategy, and ensuring quality
+D) They only manage CI/CD pipelines
+
+**Answer: C) They shift to higher-value work: reviewing AI output, defining test strategy, and ensuring quality**
+
+**Explanation:** With AI handling test generation and locator repair, QE engineers focus on test strategy, review AI-generated code for correctness, identify edge cases AI misses, and ensure overall quality standards.
+
+---
+
+### Question 18
+Which Playwright locator is a good starting point for a healer agent's fallback chain?
+
+A) `page.locator('div > ul > li:nth-child(3) > a')`
+B) `page.locator('.css-generated-class-abc123')`
+C) `page.getByRole('button', { name: 'Save' })`
+D) `page.locator('//html/body/div[2]/form/button')`
+
+**Answer: C) `page.getByRole('button', { name: 'Save' })`**
+
+**Explanation:** `getByRole` with a name targets the element's semantic role and accessible name — both of which are stable and meaningful. Positional XPath and generated CSS classes are fragile fallbacks.
+
+---
+
+### Question 19
+What is the difference between a "generator agent" and a "healer agent"?
+
+A) Generator agents fix broken tests; healer agents create new tests
+B) They are the same type of agent with different names
+C) Generator agents create tests from scratch; healer agents repair existing broken tests
+D) Generator agents run in CI; healer agents run locally only
+
+**Answer: C) Generator agents create tests from scratch; healer agents repair existing broken tests**
+
+**Explanation:** Generator agents focus on creating test coverage (new page objects, test cases). Healer agents focus on maintenance — detecting failures caused by UI changes and repairing locators automatically.
+
+---
+
+### Question 20
+What is the recommended first step when implementing a self-healing strategy for an existing test suite?
+
+A) Delete all existing locators and start fresh
+B) Immediately install a healer agent framework
+C) Audit current locators and replace fragile ones (positional XPath, dynamic CSS) with stable alternatives first
+D) Increase the test timeout to prevent failures
+
+**Answer: C) Audit current locators and replace fragile ones (positional XPath, dynamic CSS) with stable alternatives first**
+
+**Explanation:** Starting with an audit lets you prioritize the highest-risk locators. Replacing them with `data-testid` or role-based locators provides immediate stability improvements — and a better foundation for any healer framework added later.
+
+---
+
+</script>
+<script>(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'Perfect Score! Generator and healer agents fully mastered!':pct>=80?'Excellent! Strong understanding of intelligent test agents.':pct>=60?'Good job! Review locator resilience and healing strategies.':'Keep learning! Re-read Chapter 09 and practice with stable locator patterns.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Student: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();</script>
+</body>
+</html>

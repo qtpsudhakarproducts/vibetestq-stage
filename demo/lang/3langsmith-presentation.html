@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangSmith for QA Engineers | VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --violet:      #6d28d9;
+            --violet-dark: #4c1d95;
+            --violet-deep: #2e1065;
+            --violet-light:#ede9fe;
+            --violet-mid:  #8b5cf6;
+            --green:       #16a34a;
+            --amber:       #f59e0b;
+            --blue:        #1e40af;
+            --light-bg:    #f8fafc;
+        }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--violet-dark); }
+        .reveal h1 { font-size:1.6em; margin-bottom:.15em; }
+        .reveal h2 { font-size:1.2em; margin-bottom:.2em; color:var(--violet); }
+        .reveal h3 { font-size:.92em; color:var(--violet-dark); margin-bottom:.15em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.4; }
+        .reveal .slides section { padding:6px 28px; box-sizing:border-box; }
+        .logo-corner { position:absolute; top:10px; right:20px; z-index:100; }
+        .logo-corner img { width:70px; height:auto; }
+
+        /* TITLE SLIDE */
+        .title-slide h1 { font-size:1.75em; color:var(--violet-dark); margin:8px 0 6px; }
+        .title-slide .subtitle { font-size:1.05em; color:var(--violet); margin:6px 0; font-weight:700; }
+        .title-slide .tagline { font-size:.88em; color:#475569; margin:5px 0 10px; }
+
+        /* CHAPTER DIVIDERS */
+        .chapter-slide { background:var(--violet-dark) !important; }
+        .chapter-slide h1 { color:#fff; font-size:2em; margin-bottom:8px; }
+        .chapter-slide h2 { color:#ddd6fe; font-size:1.2em; }
+        .chapter-slide i { color:var(--violet-mid); }
+
+        /* BOXES */
+        .content-box   { background:var(--light-bg); border-left:4px solid var(--violet); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .highlight-box { background:var(--violet-light); border:2px solid var(--violet-mid); padding:6px 10px; margin:4px auto; border-radius:8px; max-width:92%; }
+        .success-box   { background:#f0fdf4; border-left:4px solid var(--green); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .warning-box   { background:#fff7ed; border-left:4px solid var(--amber); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .code-box { background:#1e1e2e; color:#cdd6f4; border-radius:8px; padding:10px 14px; margin:6px 0; font-family:'Fira Code','Cascadia Code',monospace; font-size:.72em; line-height:1.55; text-align:left; overflow-x:auto; }
+        .code-box .kw  { color:#cba6f7; }
+        .code-box .str { color:#a6e3a1; }
+        .code-box .cm  { color:#585b70; font-style:italic; }
+        .code-box .fn  { color:#89b4fa; }
+        .code-box .num { color:#fab387; }
+
+        /* LISTS */
+        .reveal ul { list-style:none; margin:5px 0; }
+        .reveal ul li { margin:4px 0; padding-left:28px; position:relative; text-align:left; font-size:.8em; line-height:1.35; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--violet); font-size:.95em; position:absolute; left:0; top:1px; }
+        .reveal ul li.cross:before { content:"\f057"; color:#ef4444; }
+        .reveal ul li.dot:before   { content:"\f111"; font-size:.45em; top:6px; color:#94a3b8; }
+        .reveal ul li.arr:before   { content:"\f061"; color:var(--violet); }
+
+        /* BADGES */
+        .badge { display:inline-block; color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:.73em; margin:3px; background:var(--violet); }
+        .badge.green  { background:var(--green); }
+        .badge.amber  { background:var(--amber); color:#1e1e2e; }
+        .badge.blue   { background:var(--blue); }
+        .badge.grey   { background:#64748b; }
+        .badge.red    { background:#dc2626; }
+
+        /* GRIDS */
+        .two-col   { display:grid; grid-template-columns:1fr 1fr;     gap:10px; margin:6px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;  margin:6px 0; }
+        .four-col  { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:6px 0; }
+        .compact  { font-size:.8em;  line-height:1.35; }
+        .compact2 { font-size:.74em; line-height:1.3; }
+
+        /* ICON BOX */
+        .icon-box { text-align:center; padding:10px 8px; background:var(--light-bg); border-radius:8px; }
+        .icon-box i { font-size:1.5em; margin-bottom:5px; display:block; color:var(--violet); }
+
+        /* FLOW */
+        .flow-container { background:#f1f5f9; border-radius:8px; padding:10px; margin:6px 0; }
+        .arrow-flow { display:flex; align-items:center; justify-content:center; gap:6px; margin:6px 0; flex-wrap:wrap; }
+        .arrow-flow .step { background:var(--violet); color:white; padding:5px 10px; border-radius:6px; font-weight:600; font-size:.65em; }
+        .arrow-flow .step.green  { background:var(--green); }
+        .arrow-flow .step.amber  { background:var(--amber); color:#1e1e2e; }
+        .arrow-flow .step.blue   { background:var(--blue); }
+        .arrow-flow .step.grey   { background:#64748b; }
+        .arrow-flow .arrow { color:var(--violet); font-size:1.1em; font-weight:700; }
+
+        /* TRACE BLOCK */
+        .trace-block { background:#1e1e2e; color:#cdd6f4; border-radius:8px; padding:10px 14px; margin:6px 0; font-family:monospace; font-size:.68em; line-height:1.6; text-align:left; }
+        .trace-block .trace-run { color:#cba6f7; font-weight:700; }
+        .trace-block .trace-ok  { color:#a6e3a1; }
+        .trace-block .trace-err { color:#f38ba8; }
+        .trace-block .trace-val { color:#fab387; }
+        .trace-block .trace-meta{ color:#585b70; font-style:italic; }
+
+        /* METRIC CARD */
+        .metric-card { text-align:center; padding:14px 10px; border-radius:10px; }
+        .metric-card .metric-val { font-size:1.8em; font-weight:900; line-height:1; }
+        .metric-card .metric-lbl { font-size:.65em; color:#475569; margin-top:4px; }
+
+        .text-violet { color:var(--violet); }
+        .text-green  { color:var(--green); }
+        .text-amber  { color:var(--amber); }
+        .text-blue   { color:var(--blue); }
+        .bold { font-weight:700; }
+
+        .cmp-table { width:100%; border-collapse:collapse; font-size:.7em; margin:6px 0; }
+        .cmp-table th { background:var(--violet); color:white; padding:5px 8px; text-align:left; font-weight:600; }
+        .cmp-table td { padding:5px 8px; border-bottom:1px solid #e2e8f0; color:#334155; }
+        .cmp-table tr:nth-child(even) td { background:var(--light-bg); }
+        .cmp-table .good { color:var(--green); font-weight:600; }
+        .cmp-table .bad  { color:#dc2626; font-weight:600; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================
+     SLIDE 1 — TITLE
+     ============================================================ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:560px;width:86%;margin:0 auto 10px;display:block;"
+         onerror="this.style.display='none'">
+    <div>
+        <span class="badge"><i class="fas fa-magnifying-glass-chart"></i> LangSmith</span>
+        <span class="badge green"><i class="fas fa-vial"></i> QA Engineering</span>
+        <span class="badge blue"><i class="fas fa-code"></i> TypeScript</span>
+    </div>
+    <h1 style="margin-top:16px;">LangSmith for QA Engineers</h1>
+    <p class="subtitle">Observe, Evaluate and Debug Your AI Pipelines</p>
+    <p class="tagline">Apply QA principles to AI — tracing, test datasets, automated evaluation, and CI integration</p>
+    <div class="flow-container" style="margin-top:14px;">
+        <div class="arrow-flow">
+            <div class="step grey">Black-box AI</div>
+            <div class="arrow">→</div>
+            <div class="step">Trace Every Call</div>
+            <div class="arrow">→</div>
+            <div class="step blue">Evaluate Quality</div>
+            <div class="arrow">→</div>
+            <div class="step green">Ship with Confidence</div>
+        </div>
+    </div>
+    <p class="tagline" style="margin-top:12px;">
+        <strong>Sudhakar Kakunuri (qtpsudhakar)</strong>
+        &nbsp;|&nbsp; 21+ Years &nbsp;·&nbsp; 10,000+ Engineers Trained
+    </p>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — THE AI TESTING PROBLEM
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>The Problem: AI Is a Black Box — Until Now</h2>
+    <div class="two-col">
+        <div>
+            <div class="warning-box">
+                <p class="compact bold">Without LangSmith, AI pipelines are opaque:</p>
+                <ul>
+                    <li class="cross">You can't see which prompt was used for each call</li>
+                    <li class="cross">You don't know why the AI gave a wrong answer</li>
+                    <li class="cross">You can't prove quality improved after a change</li>
+                    <li class="cross">You can't catch regressions when you update prompts</li>
+                    <li class="cross">No way to benchmark one model against another</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="success-box">
+                <p class="compact bold" style="color:var(--green);">With LangSmith, you get full visibility:</p>
+                <ul>
+                    <li>Every LLM call traced — input, output, tokens, latency</li>
+                    <li>Side-by-side comparison of prompt versions</li>
+                    <li>Automated evaluation against golden datasets</li>
+                    <li>Regression detection in CI before each deploy</li>
+                    <li>Model benchmarks: GPT-4o vs Claude vs Gemini</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact bold text-violet" style="text-align:center;">LangSmith is to AI what test reports and dashboards are to Playwright — it makes quality visible and provable.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — WHAT IS LANGSMITH?
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What Is LangSmith?</h2>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="icon-box" style="background:var(--violet-light);border:2px solid var(--violet-mid);padding:14px;">
+            <i class="fas fa-binoculars" style="color:var(--violet);"></i>
+            <h3>Observability</h3>
+            <p class="compact2" style="margin-top:4px;">Automatically traces every LangChain and LangGraph call. See the complete execution tree — every LLM call, tool use, and agent decision.</p>
+        </div>
+        <div class="icon-box" style="background:#f0fdf4;border:2px solid var(--green);padding:14px;">
+            <i class="fas fa-flask-vial" style="color:var(--green);"></i>
+            <h3>Evaluation</h3>
+            <p class="compact2" style="margin-top:4px;">Run your AI pipeline against a dataset of golden inputs/outputs. Score quality automatically. Track quality over time with every code change.</p>
+        </div>
+        <div class="icon-box" style="background:#eff6ff;border:2px solid var(--blue);padding:14px;">
+            <i class="fas fa-magnifying-glass-plus" style="color:var(--blue);"></i>
+            <h3>Debugging</h3>
+            <p class="compact2" style="margin-top:4px;">When an AI tool gives a wrong answer, open the trace to see exactly which prompt, which model call, and which step produced it.</p>
+        </div>
+    </div>
+    <div class="four-col" style="margin-top:10px;">
+        <div class="metric-card" style="background:#f0fdf4;">
+            <div class="metric-val" style="color:var(--green);">100%</div>
+            <div class="metric-lbl">of LLM calls captured automatically</div>
+        </div>
+        <div class="metric-card" style="background:var(--violet-light);">
+            <div class="metric-val" style="color:var(--violet);">ms</div>
+            <div class="metric-lbl">latency tracked per call</div>
+        </div>
+        <div class="metric-card" style="background:#fff7ed;">
+            <div class="metric-val" style="color:var(--amber);">$</div>
+            <div class="metric-lbl">token cost tracked per pipeline run</div>
+        </div>
+        <div class="metric-card" style="background:#eff6ff;">
+            <div class="metric-val" style="color:var(--blue);">CI</div>
+            <div class="metric-lbl">quality gates in every deployment</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — SETTING UP TRACING
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Setting Up Tracing — Zero Code Changes Required</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-violet" style="text-align:center;">Set three environment variables and every LangChain call is automatically traced. No instrumentation code needed.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <p class="compact bold">1. Set environment variables (.env):</p>
+            <div class="code-box" style="font-size:.7em;">
+<span class="cm"># Enable automatic tracing</span>
+LANGCHAIN_TRACING_V2=<span class="str">true</span>
+
+<span class="cm"># Your LangSmith API key</span>
+LANGSMITH_API_KEY=<span class="str">lsv2_pt_...</span>
+
+<span class="cm"># Project name (groups all runs together)</span>
+LANGCHAIN_PROJECT=<span class="str">qa-test-generator</span>
+            </div>
+            <p class="compact bold" style="margin-top:8px;">2. Run your existing code — no changes:</p>
+            <div class="code-box" style="font-size:.7em;">
+<span class="cm">// Your LangChain code is unchanged</span>
+<span class="kw">const</span> result = <span class="kw">await</span> chain.<span class="fn">invoke</span>({
+  feature: <span class="str">"password reset"</span>
+});
+<span class="cm">// ✅ Automatically traced in LangSmith</span>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold">What gets captured automatically:</p>
+                <ul>
+                    <li>Full input prompt sent to the LLM</li>
+                    <li>Full output returned from the LLM</li>
+                    <li>Model name, temperature, token count</li>
+                    <li>Latency (ms) for each step</li>
+                    <li>Token cost (USD) per call</li>
+                    <li>Tool calls made by agents</li>
+                    <li>Errors and stack traces</li>
+                </ul>
+            </div>
+            <div class="success-box">
+                <p class="compact bold" style="color:var(--green);">Works with LangGraph too</p>
+                <p class="compact2">Full execution graph is traced — every node, every edge decision, every state update. See the exact path your graph took.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — READING TRACES
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Reading Traces — What You See in LangSmith UI</h2>
+    <div class="two-col">
+        <div>
+            <div class="trace-block">
+<span class="trace-run">▶ RUN: generate-test-cases</span>  <span class="trace-meta">2024-01-15 09:14:32</span>
+<span class="trace-meta">   latency: 1,843ms  |  cost: $0.0042  |  status: ✓</span>
+
+  <span class="trace-run">├─ PromptTemplate.format</span>  <span class="trace-meta">12ms</span>
+  <span class="trace-meta">│   input: { feature: "password reset", count: 5 }</span>
+
+  <span class="trace-run">├─ ChatOpenAI.invoke</span>  <span class="trace-meta">1,791ms  |  1,240 tokens</span>
+  <span class="trace-meta">│   model: gpt-4o  |  temp: 0.2</span>
+  <span class="trace-ok">│   output: "{\\"testCases\\":[{\\"title\\":\\"Reset..."</span>
+
+  <span class="trace-run">└─ StructuredOutputParser.parse</span>  <span class="trace-meta">8ms</span>
+  <span class="trace-ok">    output: TestCase[] (5 items)</span>
+            </div>
+            <div class="success-box" style="margin-top:8px;">
+                <p class="compact bold" style="color:var(--green);">When something fails, you see exactly where:</p>
+                <div class="trace-block" style="margin-top:4px;">
+<span class="trace-run">└─ StructuredOutputParser.parse</span>  <span class="trace-meta">3ms</span>
+<span class="trace-err">    ERROR: Expected JSON, got plain text</span>
+<span class="trace-err">    Output: "Here are the test cases: ..."</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold">What every trace tells you:</p>
+                <ul>
+                    <li>The exact prompt that was sent</li>
+                    <li>The exact model response received</li>
+                    <li>Which step was slow or failed</li>
+                    <li>Total cost for that run</li>
+                    <li>Every tool call an agent made</li>
+                </ul>
+            </div>
+            <div class="highlight-box">
+                <p class="compact bold text-violet">QA Engineer superpower:</p>
+                <p class="compact2">When a user reports "the AI gave a wrong test case," open LangSmith, find that specific run, and see the exact prompt + output. Debug in minutes, not hours.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — CHAPTER BREAK: EVALUATION
+     ============================================================ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <i class="fas fa-flask-vial" style="font-size:2.5em;margin-bottom:16px;display:block;"></i>
+    <h1>Part 2</h1>
+    <h2>Datasets, Evaluation &amp; Custom Evaluators</h2>
+    <p style="color:#ddd6fe;margin-top:12px;font-size:.9em;">Systematically measure and prove the quality of your AI tools</p>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — DATASETS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Datasets — Your Golden Test Suite for AI Quality</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-violet" style="text-align:center;">A LangSmith dataset is a curated set of inputs + expected outputs. Your AI must produce the right output for each input to pass.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="code-box" style="font-size:.67em;">
+<span class="kw">import</span> { Client } <span class="kw">from</span> <span class="str">"langsmith"</span>;
+<span class="kw">const</span> client = <span class="kw">new</span> <span class="fn">Client</span>();
+
+<span class="cm">// Create a named dataset</span>
+<span class="kw">const</span> dataset = <span class="kw">await</span> client.<span class="fn">createDataset</span>(
+  <span class="str">"test-case-generator-v1"</span>
+);
+
+<span class="cm">// Add golden examples</span>
+<span class="kw">await</span> client.<span class="fn">createExamples</span>({
+  inputs: [
+    { feature: <span class="str">"user login"</span> },
+    { feature: <span class="str">"password reset"</span> },
+    { feature: <span class="str">"checkout payment"</span> }
+  ],
+  outputs: [
+    { minTests: <span class="num">5</span>, hasPriorityHigh: <span class="num">true</span> },
+    { minTests: <span class="num">4</span>, includesExpiry: <span class="num">true</span>  },
+    { minTests: <span class="num">6</span>, includesDecline: <span class="num">true</span> }
+  ],
+  datasetId: dataset.id
+});
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold">What makes a good golden dataset:</p>
+                <ul>
+                    <li>Representative inputs from your domain</li>
+                    <li>Verified correct outputs from domain experts</li>
+                    <li>Edge cases that are known to be tricky</li>
+                    <li>Examples from real past failures</li>
+                    <li>At least 20–50 examples per capability</li>
+                </ul>
+            </div>
+            <div class="highlight-box">
+                <p class="compact bold text-violet">Think of it like Playwright fixtures</p>
+                <p class="compact2">Your dataset is your test data. Your evaluator is your assertion. Running evaluation is running your test suite against the AI.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — RUNNING EVALUATIONS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Running Evaluations — Automated AI Quality Checks</h2>
+    <div class="two-col">
+        <div>
+            <div class="code-box" style="font-size:.66em;">
+<span class="cm">// The target: your AI pipeline</span>
+<span class="kw">async function</span> <span class="fn">targetPipeline</span>(input) {
+  <span class="kw">return</span> <span class="kw">await</span> testCaseChain.<span class="fn">invoke</span>(input);
+}
+
+<span class="cm">// An LLM-based evaluator</span>
+<span class="kw">const</span> evaluator = <span class="fn">LangChainStringEvaluator</span>(
+  <span class="str">"criteria"</span>,
+  { criteria: {
+    coverage: <span class="str">"Does the output cover happy path and edge cases?"</span>,
+    format: <span class="str">"Are test cases in valid JSON with title, steps, expected?"</span>
+  }}
+);
+
+<span class="cm">// Run evaluation against the golden dataset</span>
+<span class="kw">const</span> results = <span class="kw">await</span> <span class="fn">evaluate</span>(
+  targetPipeline,
+  {
+    data:       <span class="str">"test-case-generator-v1"</span>,
+    evaluators: [evaluator],
+    experimentPrefix: <span class="str">"gpt4o-v2"</span>
+  }
+);
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold">What you get back:</p>
+                <ul>
+                    <li>Score for every example in the dataset</li>
+                    <li>Aggregate pass rate across the full dataset</li>
+                    <li>Side-by-side comparison across experiments</li>
+                    <li>Breakdown: which examples failed and why</li>
+                    <li>Token cost and latency for the full eval run</li>
+                </ul>
+            </div>
+            <div class="success-box">
+                <p class="compact bold" style="color:var(--green);">Experiment comparison:</p>
+                <p class="compact2">Run the same dataset against "gpt4o-v1" and "gpt4o-v2" (different prompt). LangSmith shows you the delta in quality instantly — no manual comparison.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — CUSTOM EVALUATORS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Custom Evaluators — Write Your Own Scoring Functions</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-violet" style="text-align:center;">LLM-based evaluators are powerful but imprecise. For QA tools, write deterministic code evaluators that check exactly what matters.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="code-box" style="font-size:.66em;">
+<span class="cm">// Custom evaluator: checks test case quality</span>
+<span class="kw">function</span> <span class="fn">testCaseQualityEvaluator</span>({ prediction, reference }) {
+  <span class="kw">const</span> tests = prediction.testCases;
+
+  <span class="cm">// Must have at least N test cases</span>
+  <span class="kw">if</span> (tests.length &lt; reference.minTests) {
+    <span class="kw">return</span> { key: <span class="str">"coverage"</span>, score: <span class="num">0</span>,
+      comment: <span class="str">`Only ${tests.length} tests, need ${reference.minTests}`</span> };
+  }
+
+  <span class="cm">// Must include at least one High priority</span>
+  <span class="kw">const</span> hasHigh = tests.<span class="fn">some</span>(t => t.priority === <span class="str">"High"</span>);
+  <span class="kw">if</span> (reference.hasPriorityHigh &amp;&amp; !hasHigh) {
+    <span class="kw">return</span> { key: <span class="str">"priority"</span>, score: <span class="num">0</span>,
+      comment: <span class="str">"No High priority test case included"</span> };
+  }
+
+  <span class="kw">return</span> { key: <span class="str">"quality"</span>, score: <span class="num">1</span> };
+}
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold">Types of evaluators for QA tools:</p>
+                <ul>
+                    <li><strong>Structural:</strong> output has all required fields</li>
+                    <li><strong>Schema:</strong> output passes Zod validation</li>
+                    <li><strong>Coverage:</strong> all acceptance criteria mentioned</li>
+                    <li><strong>Semantic:</strong> AI judge: is this a good test case?</li>
+                    <li><strong>Regression:</strong> same input → same output</li>
+                    <li><strong>Boundary:</strong> edge cases are represented</li>
+                </ul>
+            </div>
+            <div class="warning-box">
+                <p class="compact bold">Combine evaluator types</p>
+                <p class="compact2">Use a structural evaluator first (fast, deterministic), then an LLM evaluator only for examples that pass the structural check.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — EVALUATING QA TOOLS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Evaluating Your QA AI Tools in Practice</h2>
+    <div class="three-col">
+        <div class="icon-box" style="background:var(--violet-light);border:2px solid var(--violet-mid);padding:14px;">
+            <i class="fas fa-list-check" style="color:var(--violet);"></i>
+            <h3>Test Case Generator</h3>
+            <div class="compact2" style="text-align:left;margin-top:6px;">
+                <p><strong>Dataset:</strong> 50 feature descriptions</p>
+                <p><strong>Golden output:</strong> expert-written test cases</p>
+                <p><strong>Evaluators:</strong></p>
+                <ul style="margin:2px 0;">
+                    <li class="dot">Correct count of test cases</li>
+                    <li class="dot">All required fields present</li>
+                    <li class="dot">Covers happy + sad paths</li>
+                    <li class="dot">At least one High priority</li>
+                </ul>
+            </div>
+        </div>
+        <div class="icon-box" style="background:#fff7ed;border:2px solid var(--amber);padding:14px;">
+            <i class="fas fa-bug" style="color:var(--amber);"></i>
+            <h3>Bug Classifier</h3>
+            <div class="compact2" style="text-align:left;margin-top:6px;">
+                <p><strong>Dataset:</strong> 100 bug reports</p>
+                <p><strong>Golden output:</strong> human-assigned severity</p>
+                <p><strong>Evaluators:</strong></p>
+                <ul style="margin:2px 0;">
+                    <li class="dot">Exact match: severity classification</li>
+                    <li class="dot">Module identified correctly</li>
+                    <li class="dot">Root cause in valid categories</li>
+                    <li class="dot">No hallucinated details</li>
+                </ul>
+            </div>
+        </div>
+        <div class="icon-box" style="background:#f0fdf4;border:2px solid var(--green);padding:14px;">
+            <i class="fas fa-theater-masks" style="color:var(--green);"></i>
+            <h3>Playwright Generator</h3>
+            <div class="compact2" style="text-align:left;margin-top:6px;">
+                <p><strong>Dataset:</strong> 30 test scenarios</p>
+                <p><strong>Golden output:</strong> valid Playwright scripts</p>
+                <p><strong>Evaluators:</strong></p>
+                <ul style="margin:2px 0;">
+                    <li class="dot">Code parses without error</li>
+                    <li class="dot">Uses correct locator strategy</li>
+                    <li class="dot">Has assertions (not just actions)</li>
+                    <li class="dot">Follows Page Object pattern</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — CI INTEGRATION
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>CI Integration — Quality Gates for Every Deployment</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-violet" style="text-align:center;">Run your evaluation suite in GitHub Actions on every PR. Block the merge if AI quality drops below your threshold.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <div class="code-box" style="font-size:.66em;">
+<span class="cm"># .github/workflows/ai-eval.yml</span>
+name: AI Quality Evaluation
+
+on: [push, pull_request]
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: <span class="str">'20'</span> }
+      - run: npm ci
+
+      - name: Run AI Evaluations
+        env:
+          OPENAI_API_KEY:     ${{ secrets.OPENAI_API_KEY }}
+          LANGSMITH_API_KEY:  ${{ secrets.LANGSMITH_API_KEY }}
+          LANGCHAIN_PROJECT:  ci-eval-${{ github.sha }}
+        run: npm run eval
+
+      - name: Assert Quality Threshold
+        run: |
+          SCORE=$(node scripts/get-eval-score.js)
+          if (( $(echo "$SCORE < 0.85" | bc -l) )); then
+            echo "❌ AI quality below 85% threshold"
+            exit 1
+          fi
+          echo "✅ AI quality: $SCORE"
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold">What to gate on:</p>
+                <ul>
+                    <li>Overall pass rate &gt; 85% on golden dataset</li>
+                    <li>No regression vs. previous experiment</li>
+                    <li>P95 latency &lt; 3 seconds per call</li>
+                    <li>Cost per run within budget threshold</li>
+                </ul>
+            </div>
+            <div class="success-box">
+                <p class="compact bold" style="color:var(--green);">Prompt change review workflow:</p>
+                <div class="arrow-flow" style="flex-direction:column;gap:4px;margin-top:4px;">
+                    <div class="step" style="width:90%;text-align:center;">Engineer updates prompt</div>
+                    <div class="arrow">↓</div>
+                    <div class="step" style="width:90%;text-align:center;background:var(--blue);">GitHub Actions runs eval suite</div>
+                    <div class="arrow">↓</div>
+                    <div class="step green" style="width:90%;text-align:center;">Score diff shown in PR — approve or block</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — LANGCHAIN + LANGGRAPH + LANGSMITH TOGETHER
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>All Three Together — The Complete AI QA Platform</h2>
+    <table class="cmp-table" style="margin-top:10px;">
+        <tr><th>Layer</th><th>Library</th><th>Responsibility</th><th>QA Analogy</th></tr>
+        <tr>
+            <td><span class="badge amber" style="color:#1e1e2e;font-size:.7em;">Build</span></td>
+            <td><strong>LangChain</strong></td>
+            <td>Models, prompts, chains, agents, RAG</td>
+            <td>Playwright — your test framework</td>
+        </tr>
+        <tr>
+            <td><span class="badge" style="background:#047857;font-size:.7em;">Orchestrate</span></td>
+            <td><strong>LangGraph</strong></td>
+            <td>Stateful workflows, loops, multi-agent</td>
+            <td>CI pipeline — orchestrate steps</td>
+        </tr>
+        <tr>
+            <td><span class="badge" style="font-size:.7em;">Observe</span></td>
+            <td><strong>LangSmith</strong></td>
+            <td>Trace, evaluate, debug, CI quality gates</td>
+            <td>Allure/ReportPortal — test reports</td>
+        </tr>
+    </table>
+    <div class="flow-container" style="margin-top:12px;">
+        <p class="compact bold" style="text-align:center;margin-bottom:8px;">End-to-end AI QA workflow:</p>
+        <div class="arrow-flow">
+            <div class="step amber" style="color:#1e1e2e;">LangChain builds</div>
+            <div class="arrow">+</div>
+            <div class="step" style="background:#047857;">LangGraph orchestrates</div>
+            <div class="arrow">→</div>
+            <div class="step">AI tool runs</div>
+            <div class="arrow">→</div>
+            <div class="step" style="background:var(--violet);">LangSmith traces</div>
+            <div class="arrow">→</div>
+            <div class="step green">Eval passes CI</div>
+        </div>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="content-box">
+            <p class="compact bold text-amber" style="color:#d97706;">Step 1 — Build</p>
+            <p class="compact2">Create test case generator, bug analyser, selector healer using LangChain chains and agents.</p>
+        </div>
+        <div class="content-box">
+            <p class="compact bold" style="color:#047857;">Step 2 — Orchestrate</p>
+            <p class="compact2">Wire them into a LangGraph workflow with retry loops, human checkpoints, and parallel execution.</p>
+        </div>
+        <div class="content-box">
+            <p class="compact bold text-violet">Step 3 — Observe</p>
+            <p class="compact2">Trace every call in LangSmith. Build a golden dataset. Run evaluations in CI. Block regressions before deploy.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 — KEY TAKEAWAYS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Key Takeaways — LangSmith for QA</h2>
+    <div class="two-col">
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold text-violet">What LangSmith gives QA engineers:</p>
+                <ul>
+                    <li>Full observability — no more black-box AI</li>
+                    <li>Trace every LLM call automatically (zero code change)</li>
+                    <li>Debug failures: see exact prompt + output</li>
+                    <li>Golden datasets — your AI test suite</li>
+                    <li>Automated evaluations — AI quality assertions</li>
+                    <li>Custom evaluators — domain-specific scoring</li>
+                    <li>CI integration — quality gates on every PR</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="success-box" style="margin-bottom:8px;">
+                <p class="compact bold" style="color:var(--green);">Start with these 3 actions:</p>
+                <ul>
+                    <li class="arr">Add 3 env vars → get instant tracing</li>
+                    <li class="arr">Create a dataset with 20 golden examples</li>
+                    <li class="arr">Write one custom evaluator and run it in CI</li>
+                </ul>
+            </div>
+            <div class="warning-box">
+                <p class="compact bold">Quality principle:</p>
+                <p class="compact2">An AI tool without LangSmith is like Playwright tests without assertions — you're just hoping for the best. Observe. Evaluate. Prove quality.</p>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact bold text-violet" style="text-align:center;">📖 Full book: <strong>docs/lang/langsmith/</strong> &nbsp;·&nbsp; 10 chapters + appendix &nbsp;·&nbsp; All code in TypeScript</p>
+    </div>
+</section>
+
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+    hash: true, slideNumber: 'c/t', transition: 'slide',
+    transitionSpeed: 'fast', controls: true, progress: true,
+    center: false, width: 1280, height: 720,
+    margin: 0.04, minScale: 0.2, maxScale: 2.0
+});
+</script>
+</body>
+</html>

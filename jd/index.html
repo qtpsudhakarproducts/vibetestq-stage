@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Future QA Roles — AI Era Job Descriptions | VibetestQ</title>
+  <meta name="description" content="Explore the future of QA and testing roles in the AI era. Job descriptions for roles that Leverage AI, Test AI systems, and govern the AI SDLC." />
+  <style>
+    /* ── Dark theme (default) ── */
+    :root, [data-theme="dark"] {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-alt: #1c2128;
+      --border: #30363d;
+      --header-bg: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a1040 100%);
+      --accent-blue: #388bfd;
+      --accent-purple: #a371f7;
+      --accent-green: #3fb950;
+      --accent-orange: #f0883e;
+      --accent-red: #f85149;
+      --accent-cyan: #39d0d8;
+      --text-primary: #e6edf3;
+      --text-secondary: #8b949e;
+      --text-muted: #6e7681;
+      --leverages-ai: #1a4a2e;
+      --leverages-ai-border: #3fb950;
+      --tests-ai: #1a2a4e;
+      --tests-ai-border: #388bfd;
+      --ai-sdlc: #3a1a4e;
+      --ai-sdlc-border: #a371f7;
+      --updated: #2a2a1a;
+      --updated-border: #f0883e;
+      --hero-grad: linear-gradient(90deg, #e6edf3 30%, #a371f7);
+      --logo-src: url('../assets/White-Logo.png');
+      --logo-filter: none;
+      --shadow-card: rgba(0,0,0,0.4);
+      --toggle-bg: #30363d;
+      --toggle-icon: '☀️';
+    }
+
+    /* ── Light theme ── */
+    [data-theme="light"] {
+      --bg: #f6f8fa;
+      --surface: #ffffff;
+      --surface-alt: #f0f2f5;
+      --border: #d0d7de;
+      --header-bg: linear-gradient(135deg, #ffffff 0%, #f0f4ff 50%, #e8ecff 100%);
+      --accent-blue: #0969da;
+      --accent-purple: #7c3aed;
+      --accent-green: #1a7f37;
+      --accent-orange: #bc4c00;
+      --accent-red: #cf222e;
+      --accent-cyan: #0969da;
+      --text-primary: #1f2328;
+      --text-secondary: #57606a;
+      --text-muted: #8c959f;
+      --leverages-ai: #dafbe1;
+      --leverages-ai-border: #1a7f37;
+      --tests-ai: #ddf4ff;
+      --tests-ai-border: #0969da;
+      --ai-sdlc: #fbefff;
+      --ai-sdlc-border: #7c3aed;
+      --updated: #fff8c5;
+      --updated-border: #bc4c00;
+      --hero-grad: linear-gradient(90deg, #1f2328 30%, #7c3aed);
+      --logo-src: url('../assets/Logo.jpg');
+      --logo-filter: none;
+      --shadow-card: rgba(0,0,0,0.12);
+      --toggle-bg: #e8ecf0;
+      --toggle-icon: '🌙';
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Smooth transitions on theme switch */
+    *, *::before, *::after {
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* =========================================================
+       HEADER
+    ========================================================= */
+    .site-header {
+      background: var(--header-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 0 1.5rem;
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+    .brand-logo {
+      height: 38px;
+      width: auto;
+      max-width: 160px;
+      object-fit: contain;
+      border-radius: 6px;
+      display: block;
+      filter: var(--logo-filter);
+    }
+    .brand-name { font-size: 1.15rem; font-weight: 700; color: var(--text-primary); }
+    .brand-name span { color: var(--accent-blue); }
+
+    /* ── Theme Toggle Button ── */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--toggle-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.35rem 0.9rem;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-blue);
+    }
+    .theme-toggle .toggle-icon { font-size: 1rem; transition: transform 0.3s; }
+    .theme-toggle:hover .toggle-icon { transform: rotate(20deg); }
+
+    .hero-title {
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      background: var(--hero-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-pill {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+    .stat-pill strong { color: var(--text-primary); }
+
+    /* =========================================================
+       NAVIGATION TABS
+    ========================================================= */
+    .tabs-bar {
+      display: flex;
+      gap: 0.25rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 0;
+    }
+    .tabs-bar::-webkit-scrollbar { display: none; }
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.9rem;
+      padding: 0.6rem 1rem;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { color: var(--text-primary); }
+    .tab-btn.active {
+      color: var(--accent-blue);
+      border-bottom-color: var(--accent-blue);
+    }
+
+    /* =========================================================
+       MAIN CONTENT
+    ========================================================= */
+    .main { max-width: 1200px; margin: 0 auto; padding: 2.5rem 2rem; }
+
+    /* =========================================================
+       CATEGORY LEGEND
+    ========================================================= */
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .legend-card {
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      border: 1px solid;
+    }
+    .legend-card.leverages { background: var(--leverages-ai); border-color: var(--leverages-ai-border); }
+    .legend-card.tests { background: var(--tests-ai); border-color: var(--tests-ai-border); }
+    .legend-card.sdlc { background: var(--ai-sdlc); border-color: var(--ai-sdlc-border); }
+    .legend-card.updated { background: var(--updated); border-color: var(--updated-border); }
+    .legend-label {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.8rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      margin-bottom: 0.35rem;
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .dot-green { background: var(--leverages-ai-border); }
+    .dot-blue { background: var(--tests-ai-border); }
+    .dot-purple { background: var(--ai-sdlc-border); }
+    .dot-orange { background: var(--updated-border); }
+    .legend-desc { font-size: 0.82rem; color: var(--text-secondary); }
+
+    /* =========================================================
+       SECTION HEADERS
+    ========================================================= */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin: 2.5rem 0 1.25rem;
+    }
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    /* =========================================================
+       LEVEL SECTION
+    ========================================================= */
+    .level-block { margin-bottom: 2rem; }
+    .level-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.3rem 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+      margin-bottom: 0.75rem;
+    }
+    .level-badge .exp { color: var(--accent-cyan); }
+
+    /* =========================================================
+       JD GRID
+    ========================================================= */
+    .jd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    /* =========================================================
+       JD CARD
+    ========================================================= */
+    .jd-card {
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      background: var(--surface);
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: border-color 0.2s, transform 0.1s, box-shadow 0.2s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .jd-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 10px 10px 0 0;
+    }
+    .jd-card.leverages::before { background: var(--leverages-ai-border); }
+    .jd-card.tests::before { background: var(--tests-ai-border); }
+    .jd-card.sdlc::before { background: var(--ai-sdlc-border); }
+    .jd-card.updated::before { background: var(--updated-border); }
+
+    .jd-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--shadow-card);
+    }
+    .jd-card.leverages:hover { border-color: var(--leverages-ai-border); }
+    .jd-card.tests:hover { border-color: var(--tests-ai-border); }
+    .jd-card.sdlc:hover { border-color: var(--ai-sdlc-border); }
+    .jd-card.updated:hover { border-color: var(--updated-border); }
+
+    .jd-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .jd-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.1rem;
+    }
+    .jd-tag {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+    .tag-leverages { background: var(--leverages-ai); color: var(--leverages-ai-border); }
+    .tag-tests { background: var(--tests-ai); color: var(--tests-ai-border); }
+    .tag-sdlc { background: var(--ai-sdlc); color: var(--ai-sdlc-border); }
+    .tag-updated { background: var(--updated); color: var(--updated-border); }
+    .tag-exp { background: rgba(57,208,216,0.1); color: var(--accent-cyan); }
+
+    .jd-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .jd-view-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-top: auto;
+      padding-top: 0.25rem;
+      text-decoration: none;
+    }
+    .jd-view-btn:hover { text-decoration: underline; }
+
+    /* =========================================================
+       CAREER LADDER
+    ========================================================= */
+    .ladder-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2.5rem 0;
+    }
+    .ladder-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+    .ladder-paths {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .ladder-path {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .ladder-path-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.75rem;
+    }
+    .path-leverages { color: var(--leverages-ai-border); }
+    .path-tests { color: var(--tests-ai-border); }
+    .path-sdlc { color: var(--ai-sdlc-border); }
+    .ladder-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .step-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 20px;
+    }
+    .step-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-top: 0.3rem;
+      flex-shrink: 0;
+    }
+    .step-line {
+      width: 2px;
+      flex: 1;
+      min-height: 18px;
+      margin: 2px 0;
+    }
+    .sd-leverages { background: var(--leverages-ai-border); }
+    .sd-tests { background: var(--tests-ai-border); }
+    .sd-sdlc { background: var(--ai-sdlc-border); }
+    .sl-leverages { background: rgba(63,185,80,0.3); }
+    .sl-tests { background: rgba(56,139,253,0.3); }
+    .sl-sdlc { background: rgba(163,113,247,0.3); }
+    .step-info { flex: 1; padding-bottom: 0.5rem; }
+    .step-role { font-size: 0.82rem; font-weight: 600; color: var(--text-primary); }
+    .step-exp { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+    .site-footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+    .site-footer a { color: var(--accent-blue); text-decoration: none; }
+    .site-footer a:hover { text-decoration: underline; }
+
+    /* =========================================================
+       RESPONSIVE
+    ========================================================= */
+    @media (max-width: 640px) {
+      .main { padding: 1.5rem 1rem; }
+      .site-header { padding: 0 1rem; }
+      .jd-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+
+<!-- ============================================================
+     HEADER
+============================================================ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand-row">
+      <a href="../index.html" class="brand">
+        <img class="brand-logo" id="brandLogo" src="../assets/White-Logo.png" alt="VibetestQ Logo" />
+      </a>
+      <button class="theme-toggle" onclick="toggleTheme()" id="themeToggleBtn" aria-label="Toggle theme">
+        <span class="toggle-icon" id="themeIcon">☀️</span>
+        <span id="themeLabel">Light Mode</span>
+      </button>
+    </div>
+    <h1 class="hero-title">Future QA Roles — AI Era</h1>
+    <p class="hero-subtitle">
+      Job descriptions for the next generation of quality engineers: roles that <strong>Leverage AI</strong> for testing, roles that <strong>Test AI systems</strong>, and roles governing the <strong>AI SDLC</strong>. Updated for 2025–2026 and beyond.
+    </p>
+    <div class="stat-row">
+      <div class="stat-pill"><strong>26</strong> Total Role Definitions</div>
+      <div class="stat-pill"><strong>5</strong> Career Levels</div>
+      <div class="stat-pill"><strong>2</strong> New AI Role Streams</div>
+      <div class="stat-pill"><strong>14</strong> Classic Roles AI-Updated</div>
+      <div class="stat-pill"><strong>12</strong> New AI-Native JDs</div>
+    </div>
+    <nav class="tabs-bar">
+      <button class="tab-btn active" onclick="showSection('all')">All Roles</button>
+      <button class="tab-btn" onclick="showSection('new')">New AI Roles</button>
+      <button class="tab-btn" onclick="showSection('updated')">AI-Updated Classics</button>
+      <button class="tab-btn" onclick="showSection('leverages')">Leverage AI</button>
+      <button class="tab-btn" onclick="showSection('tests')">Test AI</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============================================================
+     MAIN
+============================================================ -->
+<main class="main">
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-card leverages">
+      <div class="legend-label"><span class="legend-dot dot-green"></span> Leverages AI</div>
+      <div class="legend-desc">Uses AI tools — GitHub Copilot, LLMs, self-healing platforms — to make testing faster, smarter, and more productive.</div>
+    </div>
+    <div class="legend-card tests">
+      <div class="legend-label"><span class="legend-dot dot-blue"></span> Tests AI</div>
+      <div class="legend-desc">Validates AI/ML models, LLMs, AI agents, and GenAI features for accuracy, safety, fairness, and reliability.</div>
+    </div>
+    <div class="legend-card sdlc">
+      <div class="legend-label"><span class="legend-dot dot-purple"></span> AI SDLC</div>
+      <div class="legend-desc">Embeds quality gates across the entire AI development lifecycle — data, training, deployment, and monitoring.</div>
+    </div>
+    <div class="legend-card updated">
+      <div class="legend-label"><span class="legend-dot dot-orange"></span> AI-Updated</div>
+      <div class="legend-desc">Classic QA roles refreshed with AI tools, AI feature testing skills, and modern AI era responsibilities.</div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       NEW AI ROLES
+  ======================================================== -->
+  <div id="section-new">
+    <div class="section-header">
+      <span class="section-title">✦ New AI-Native Roles</span>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Junior -->
+    <div class="level-block" data-level="junior">
+      <div class="level-badge">Junior <span class="exp">· 0–2 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card leverages" href="junior-ai-augmented-qa-jd.md">
+          <div class="jd-title">Junior AI-Augmented QA Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">0–2 yrs · 4–8 LPA</span>
+          </div>
+          <div class="jd-desc">Entry-level QA engineer who uses GitHub Copilot, ChatGPT, and AI testing platforms as core tools in daily testing workflows.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card tests" href="junior-ai-ml-tester-jd.md">
+          <div class="jd-title">Junior AI/ML Systems Tester</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-tests">Tests AI</span>
+            <span class="jd-tag tag-exp">0–2 yrs · 4–8 LPA</span>
+          </div>
+          <div class="jd-desc">Validates AI model outputs, LLM responses, and AI-powered features for accuracy, hallucination, and safety at the entry level.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mid-Level -->
+    <div class="level-block" data-level="mid">
+      <div class="level-badge">Mid-Level <span class="exp">· 3–6 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card leverages" href="mid-level-ai-augmented-sdet-jd.md">
+          <div class="jd-title">Mid-Level AI-Augmented SDET</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">3–5 yrs · 10–18 LPA</span>
+          </div>
+          <div class="jd-desc">Designs and builds AI-first test automation frameworks with self-healing tests, LLM-generated scripts, and intelligent CI/CD quality gates.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card tests" href="mid-level-llm-quality-engineer-jd.md">
+          <div class="jd-title">Mid-Level LLM Quality Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-tests">Tests AI</span>
+            <span class="jd-tag tag-exp">3–6 yrs · 12–20 LPA</span>
+          </div>
+          <div class="jd-desc">Evaluates LLMs and RAG pipelines using RAGAS, DeepEval and LangSmith. Tests for hallucination, safety, bias, and adversarial prompt injection.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card sdlc" href="mid-level-mlops-qa-engineer-jd.md">
+          <div class="jd-title">Mid-Level MLOps QA Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-sdlc">AI SDLC</span>
+            <span class="jd-tag tag-exp">3–6 yrs · 12–20 LPA</span>
+          </div>
+          <div class="jd-desc">Embeds quality gates across ML pipelines — data validation, model training quality, deployment testing, and production drift monitoring.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Senior -->
+    <div class="level-block" data-level="senior">
+      <div class="level-badge">Senior <span class="exp">· 6–10 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card leverages" href="senior-ai-quality-engineer-jd.md">
+          <div class="jd-title">Senior AI Quality Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">6–10 yrs · 18–30 LPA</span>
+          </div>
+          <div class="jd-desc">Owns organization-wide AI quality strategy. Architects intelligent automation ecosystems, GenAI test pipelines, and AI-native CI/CD quality gates.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card tests" href="senior-llm-testing-specialist-jd.md">
+          <div class="jd-title">Senior LLM Testing Specialist</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-tests">Tests AI</span>
+            <span class="jd-tag tag-exp">6–10 yrs · 22–40 LPA</span>
+          </div>
+          <div class="jd-desc">Expert in LLM evaluation at scale: golden datasets, red teaming, RAG testing, LLM-as-Judge systems, and production quality SLA monitoring.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card tests" href="senior-agentic-ai-tester-jd.md">
+          <div class="jd-title">Senior Agentic AI Tester</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-tests">Tests AI</span>
+            <span class="jd-tag tag-exp">6–10 yrs · 22–38 LPA</span>
+          </div>
+          <div class="jd-desc">Pioneers testing methodologies for autonomous AI agents: tool-use validation, multi-agent orchestration testing, memory integrity, and agent safety containment.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card tests" href="senior-responsible-ai-tester-jd.md">
+          <div class="jd-title">Senior Responsible AI Tester</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-tests">Tests AI</span>
+            <span class="jd-tag tag-exp">6–10 yrs · 22–40 LPA</span>
+          </div>
+          <div class="jd-desc">Owns AI safety, bias, fairness, privacy, and transparency testing. Leads EU AI Act compliance testing programs and AI red teaming.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Lead -->
+    <div class="level-block" data-level="lead">
+      <div class="level-badge">Lead / Principal <span class="exp">· 10–14 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card leverages" href="lead-ai-testing-lead-jd.md">
+          <div class="jd-title">Lead AI Testing Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-tests">Tests AI</span>
+            <span class="jd-tag tag-exp">10–14 yrs · 28–50 LPA</span>
+          </div>
+          <div class="jd-desc">Leads AI quality engineering teams, owns AI product quality programs, and drives AI tool adoption across engineering organizations.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card sdlc" href="lead-ai-sdlc-qa-lead-jd.md">
+          <div class="jd-title">Lead AI SDLC Quality Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-sdlc">AI SDLC</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">10–14 yrs · 28–50 LPA</span>
+          </div>
+          <div class="jd-desc">Designs quality gates across the full AI SDLC: from AI-assisted requirements through model training, deployment, and production monitoring.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Architect -->
+    <div class="level-block" data-level="architect">
+      <div class="level-badge">Architect / Principal <span class="exp">· 14–20 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card sdlc" href="architect-ai-quality-architect-jd.md">
+          <div class="jd-title">AI Quality Architect</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-sdlc">AI SDLC</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-tests">Tests AI</span>
+            <span class="jd-tag tag-exp">14–20 yrs · 50–100+ LPA</span>
+          </div>
+          <div class="jd-desc">Visionary technical leader who designs enterprise AI quality architecture, AI compliance systems, responsible AI governance, and QE centers of excellence.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       UPDATED CLASSIC ROLES
+  ======================================================== -->
+  <div id="section-updated">
+    <div class="section-header">
+      <span class="section-title">✦ Classic Roles — Updated for the AI Era</span>
+      <div class="section-line"></div>
+    </div>
+
+    <!-- Junior Classic -->
+    <div class="level-block" data-level="junior">
+      <div class="level-badge">Junior <span class="exp">· 0–2 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card updated" href="junior-manual-tester-jd.md">
+          <div class="jd-title">Junior Manual Tester</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">0–2 yrs</span>
+          </div>
+          <div class="jd-desc">Classic manual testing role updated with AI co-pilot test generation, AI-assisted exploratory testing, and AI feature validation skills.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="junior-sdet-jd.md">
+          <div class="jd-title">Junior SDET</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">0–2 yrs</span>
+          </div>
+          <div class="jd-desc">Entry-level SDET with GitHub Copilot and AI test generation capabilities alongside core automation skills.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Mid Classic -->
+    <div class="level-block" data-level="mid">
+      <div class="level-badge">Mid-Level <span class="exp">· 3–6 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card updated" href="mid-level-manual-tester-jd.md">
+          <div class="jd-title">Mid-Level Manual Tester</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">3–5 yrs</span>
+          </div>
+          <div class="jd-desc">Manual testing expertise enhanced with AI tools for test design, LLM feature validation, and AI-powered defect analysis.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="mid-level-automation-engineer-jd.md">
+          <div class="jd-title">Mid-Level Automation Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">3–6 yrs</span>
+          </div>
+          <div class="jd-desc">Automation engineering with AI-powered code generation, self-healing tests, and AI feature testing capabilities.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="mid-level-sdet-jd.md">
+          <div class="jd-title">Mid-Level SDET</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">3–6 yrs</span>
+          </div>
+          <div class="jd-desc">SDET with AI-first automation skills, LLM feature testing, and intelligent CI/CD quality gate integration.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Senior Classic -->
+    <div class="level-block" data-level="senior">
+      <div class="level-badge">Senior <span class="exp">· 5–10 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card updated" href="senior-manual-tester-jd.md">
+          <div class="jd-title">Senior Manual Tester</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-tests">Tests AI</span>
+            <span class="jd-tag tag-exp">5–8 yrs</span>
+          </div>
+          <div class="jd-desc">Senior manual QA with AI tool mastery, AI feature quality ownership, and adversarial prompt testing capabilities.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="senior-automation-engineer-jd.md">
+          <div class="jd-title">Senior Automation Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">5–10 yrs</span>
+          </div>
+          <div class="jd-desc">Architects AI-native automation systems, owns AI feature quality validation, and drives intelligent testing practices.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="senior-sdet-jd.md">
+          <div class="jd-title">Senior SDET</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">5–10 yrs</span>
+          </div>
+          <div class="jd-desc">Expert SDET with AI-augmented framework design, GenAI test pipelines, and AI product feature quality ownership.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="senior-qa-engineer-jd.md">
+          <div class="jd-title">Senior QA Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">5–10 yrs</span>
+          </div>
+          <div class="jd-desc">Comprehensive QA role with AI automation tools, LLM feature testing, and responsible AI testing practices.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="senior-test-lead-jd.md">
+          <div class="jd-title">Senior Test Lead</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">7–12 yrs</span>
+          </div>
+          <div class="jd-desc">Senior test leadership updated with GitHub Copilot, AI test generation, LLM feature quality ownership, and responsible AI testing.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Lead Classic -->
+    <div class="level-block" data-level="lead">
+      <div class="level-badge">Lead <span class="exp">· 7–14 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card updated" href="lead-qa-engineer-jd.md">
+          <div class="jd-title">Lead QA Engineer</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">6–12 yrs</span>
+          </div>
+          <div class="jd-desc">QA leadership with AI tool adoption strategy, AI product quality ownership, and responsible AI testing program leadership.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="lead-sdet-jd.md">
+          <div class="jd-title">Lead SDET</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">7–12 yrs</span>
+          </div>
+          <div class="jd-desc">Leads AI-native SDET teams with GenAI automation pipelines, AI feature quality ownership, and intelligent test infrastructure.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+
+        <a class="jd-card updated" href="lead-test-lead-jd.md">
+          <div class="jd-title">Lead Test Lead</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-leverages">Leverages AI</span>
+            <span class="jd-tag tag-exp">8–12 yrs</span>
+          </div>
+          <div class="jd-desc">Test leadership updated for the AI era with AI tool adoption, AI SDLC quality governance, and responsible AI testing accountability.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Architect Classic -->
+    <div class="level-block" data-level="architect">
+      <div class="level-badge">Architect <span class="exp">· 10–15 years</span></div>
+      <div class="jd-grid">
+        <a class="jd-card updated" href="architect-test-architect-jd.md">
+          <div class="jd-title">Test Architect</div>
+          <div class="jd-meta">
+            <span class="jd-tag tag-updated">AI-Updated</span>
+            <span class="jd-tag tag-sdlc">AI SDLC</span>
+            <span class="jd-tag tag-exp">10–15 yrs</span>
+          </div>
+          <div class="jd-desc">Enterprise test architecture role upgraded with AI quality architecture design, LLM evaluation infrastructure, and AI compliance quality frameworks.</div>
+          <span class="jd-view-btn">View JD →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       CAREER LADDERS
+  ======================================================== -->
+  <div class="ladder-section">
+    <div class="ladder-title">🪜 AI Era Career Ladders</div>
+    <div class="ladder-paths">
+      <div class="ladder-path">
+        <div class="ladder-path-title path-leverages">Leverage AI Stream</div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-leverages"></span><span class="step-line sl-leverages"></span></div>
+          <div class="step-info"><div class="step-role">Junior AI-Augmented QA</div><div class="step-exp">0–2 yrs · 4–8 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-leverages"></span><span class="step-line sl-leverages"></span></div>
+          <div class="step-info"><div class="step-role">Mid AI-Augmented SDET</div><div class="step-exp">3–5 yrs · 10–18 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-leverages"></span><span class="step-line sl-leverages"></span></div>
+          <div class="step-info"><div class="step-role">Senior AI Quality Engineer</div><div class="step-exp">6–10 yrs · 18–30 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-leverages"></span><span class="step-line sl-leverages"></span></div>
+          <div class="step-info"><div class="step-role">Lead AI Testing Engineer</div><div class="step-exp">10–14 yrs · 28–50 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-leverages"></span></div>
+          <div class="step-info"><div class="step-role">AI Quality Architect</div><div class="step-exp">14–20 yrs · 50–100+ LPA</div></div>
+        </div>
+      </div>
+
+      <div class="ladder-path">
+        <div class="ladder-path-title path-tests">Test AI Stream</div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-tests"></span><span class="step-line sl-tests"></span></div>
+          <div class="step-info"><div class="step-role">Junior AI/ML Systems Tester</div><div class="step-exp">0–2 yrs · 4–8 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-tests"></span><span class="step-line sl-tests"></span></div>
+          <div class="step-info"><div class="step-role">Mid LLM Quality Engineer</div><div class="step-exp">3–6 yrs · 12–20 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-tests"></span><span class="step-line sl-tests"></span></div>
+          <div class="step-info"><div class="step-role">Senior LLM Testing Specialist / Agentic AI Tester / Responsible AI Tester</div><div class="step-exp">6–10 yrs · 22–40 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-tests"></span><span class="step-line sl-tests"></span></div>
+          <div class="step-info"><div class="step-role">Lead AI Testing Engineer</div><div class="step-exp">10–14 yrs · 28–50 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-tests"></span></div>
+          <div class="step-info"><div class="step-role">AI Quality Architect → Chief AI Quality Officer</div><div class="step-exp">14+ yrs</div></div>
+        </div>
+      </div>
+
+      <div class="ladder-path">
+        <div class="ladder-path-title path-sdlc">AI SDLC Stream</div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-sdlc"></span><span class="step-line sl-sdlc"></span></div>
+          <div class="step-info"><div class="step-role">Junior AI/ML Tester (entry)</div><div class="step-exp">0–2 yrs · 4–8 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-sdlc"></span><span class="step-line sl-sdlc"></span></div>
+          <div class="step-info"><div class="step-role">Mid MLOps QA Engineer</div><div class="step-exp">3–6 yrs · 12–20 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-sdlc"></span><span class="step-line sl-sdlc"></span></div>
+          <div class="step-info"><div class="step-role">Senior AI Quality Engineer</div><div class="step-exp">6–10 yrs · 18–30 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-sdlc"></span><span class="step-line sl-sdlc"></span></div>
+          <div class="step-info"><div class="step-role">Lead AI SDLC QA Engineer</div><div class="step-exp">10–14 yrs · 28–50 LPA</div></div>
+        </div>
+        <div class="ladder-step">
+          <div class="step-connector"><span class="step-dot sd-sdlc"></span></div>
+          <div class="step-info"><div class="step-role">AI Quality Architect → VP Engineering Quality</div><div class="step-exp">14+ yrs</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="site-footer">
+  <p>© 2026 <a href="../index.html">VibetestQ.com</a> · Future QA Roles in the AI Era · Updated February 2026</p>
+  <p style="margin-top:0.5rem">Roles cover both <strong>Leverage AI</strong> and <strong>Test AI</strong> career streams across Junior → Mid → Senior → Lead → Architect levels.</p>
+</footer>
+
+<script>
+  /* ── Theme Management ── */
+  const LOGO_DARK  = '../assets/White-Logo.png';
+  const LOGO_LIGHT = '../assets/Logo.jpg';
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const isDark = theme === 'dark';
+    document.getElementById('brandLogo').src = isDark ? LOGO_DARK : LOGO_LIGHT;
+    document.getElementById('themeIcon').textContent  = isDark ? '☀️' : '🌙';
+    document.getElementById('themeLabel').textContent = isDark ? 'Light Mode' : 'Dark Mode';
+    localStorage.setItem('vtq-theme', theme);
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  }
+
+  /* Apply saved preference immediately (before paint) */
+  (function() {
+    const saved = localStorage.getItem('vtq-theme');
+    if (saved) applyTheme(saved);
+  })();
+
+  /* ── Section / Filter ── */
+  function showSection(filter) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const newSection     = document.getElementById('section-new');
+    const updatedSection = document.getElementById('section-updated');
+    const allCards       = document.querySelectorAll('.jd-card');
+
+    if (filter === 'all') {
+      newSection.style.display = '';
+      updatedSection.style.display = '';
+      allCards.forEach(c => c.style.display = '');
+    } else if (filter === 'new') {
+      newSection.style.display = '';
+      updatedSection.style.display = 'none';
+      document.querySelectorAll('#section-new .jd-card').forEach(c => c.style.display = '');
+    } else if (filter === 'updated') {
+      newSection.style.display = 'none';
+      updatedSection.style.display = '';
+      document.querySelectorAll('#section-updated .jd-card').forEach(c => c.style.display = '');
+    } else if (filter === 'leverages') {
+      newSection.style.display = '';
+      updatedSection.style.display = '';
+      allCards.forEach(c => {
+        c.style.display = c.classList.contains('leverages') ? '' : 'none';
+      });
+    } else if (filter === 'tests') {
+      newSection.style.display = '';
+      updatedSection.style.display = '';
+      allCards.forEach(c => {
+        c.style.display = c.classList.contains('tests') ? '' : 'none';
+      });
+    }
+  }
+</script>
+</body>
+</html>

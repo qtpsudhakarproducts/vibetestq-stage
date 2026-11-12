@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight App Testing Guide | SkyHook</title>
+    <meta name="description"
+        content="Playwright test automation practice guide for SkyHook flight reservation application">
+    <link rel="stylesheet" href="../shared/css/portal.css">
+    <link rel="stylesheet" href="flight.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .guide-hero {
+            background: linear-gradient(135deg, #1e1b4b, #312e81, #4338ca);
+            padding: 3rem 2rem;
+        }
+
+        .guide-hero h1 {
+            color: white;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem;
+        }
+
+        .guide-hero p {
+            color: #c7d2fe;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .guide-content {
+            padding: 2rem;
+            max-width: 960px;
+        }
+
+        .feature-section {
+            background: white;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .feature-section-header {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .feature-section-header h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+            flex: 1;
+        }
+
+        .feature-section-header .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .feature-section-body {
+            padding: 1.5rem;
+        }
+
+        .step-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .step-list li {
+            display: flex;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.88rem;
+            color: #475569;
+        }
+
+        .step-list li:last-child {
+            border-bottom: none;
+        }
+
+        .step-num {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #0284c7;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .locator-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            margin-top: 0.75rem;
+        }
+
+        .locator-table th {
+            background: #f8fafc;
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            font-weight: 700;
+            color: #64748b;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .locator-table td {
+            padding: 0.5rem 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #475569;
+            vertical-align: top;
+        }
+
+        .locator-table tr:hover td {
+            background: #f8fafc;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: #0284c7;
+        }
+
+        .code-block {
+            background: #0f172a;
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            margin: 0;
+            color: #e2e8f0;
+            font-family: monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            white-space: pre;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .tag-green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .tag-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .tag-orange {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .tag-purple {
+            background: #ede9fe;
+            color: #4c1d95;
+        }
+
+        .scenario-card {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border-left: 3px solid #0284c7;
+        }
+
+        .scenario-card h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.5rem;
+        }
+
+        .scenario-card p {
+            font-size: 0.82rem;
+            color: #64748b;
+            margin: 0;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0284c7;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .toc {
+            background: white;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toc h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.75rem;
+        }
+
+        .toc-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.35rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list a {
+            font-size: 0.82rem;
+            color: #0284c7;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .toc-list a:hover {
+            text-decoration: underline;
+        }
+
+        .chevron {
+            transition: transform 0.2s;
+        }
+
+        .collapsed .chevron {
+            transform: rotate(-90deg);
+        }
+
+        .collapsed .feature-section-body {
+            display: none;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div style="background:#0f172a;min-height:100vh;">
+
+        <div class="guide-hero">
+            <div style="max-width:960px;margin:0 auto;">
+                <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;">
+                    <a href="index.html" style="color:#c7d2fe;font-size:0.85rem;text-decoration:none;"><i
+                            class="fas fa-arrow-left"></i> Back to App</a>
+                </div>
+                <h1><i class="fas fa-book-open" style="margin-right:0.5rem;"></i>Flight App — Automation Testing Guide
+                </h1>
+                <p>Complete reference for practicing Playwright test automation on the SkyHook flight reservation
+                    application.</p>
+                <div style="display:flex;gap:0.75rem;margin-top:1.25rem;flex-wrap:wrap;">
+                    <span class="tag tag-green">Playwright</span>
+                    <span class="tag tag-blue">End-to-End</span>
+                    <span class="tag tag-orange">30+ Scenarios</span>
+                    <span class="tag tag-purple">Real-like App</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-content" style="margin:0 auto;">
+
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3><i class="fas fa-list" style="color:#0284c7;margin-right:0.5rem;"></i>Table of Contents</h3>
+                <ul class="toc-list">
+                    <li><a href="#app-overview"><i class="fas fa-info-circle"></i> App Overview</a></li>
+                    <li><a href="#search"><i class="fas fa-search"></i> Search Flights</a></li>
+                    <li><a href="#seat"><i class="fas fa-chair"></i> Seat Selection</a></li>
+                    <li><a href="#passenger"><i class="fas fa-user"></i> Passenger Details</a></li>
+                    <li><a href="#payment"><i class="fas fa-credit-card"></i> Payment</a></li>
+                    <li><a href="#bookings"><i class="fas fa-ticket-alt"></i> My Bookings</a></li>
+                    <li><a href="#checkin"><i class="fas fa-clipboard-check"></i> Check-In</a></li>
+                    <li><a href="#status"><i class="fas fa-satellite-dish"></i> Flight Status</a></li>
+                    <li><a href="#scenarios"><i class="fas fa-vial"></i> Test Scenarios</a></li>
+                </ul>
+            </div>
+
+            <!-- App Overview -->
+            <div class="feature-section" id="app-overview">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#6366f1;"><i class="fas fa-info-circle"></i></div>
+                    <h3>App Overview & Architecture</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">SkyHook is a fully functional flight
+                        reservation application with 5 main sections and a multi-step booking flow.
+                        The app simulates real network behavior with loading states and delays, perfect for practicing automation waits.</p>
+                    <table class="locator-table">
+                        <tr>
+                            <th>Section</th>
+                            <th>URL / Navigation</th>
+                            <th>Key Functionality</th>
+                        </tr>
+                        <tr>
+                            <td>Search Flights</td>
+                            <td>Default tab on load</td>
+                            <td>Search, filter, sort flights</td>
+                        </tr>
+                        <tr>
+                            <td>My Bookings</td>
+                            <td>Sidebar → My Bookings</td>
+                            <td>View, cancel, check-in bookings</td>
+                        </tr>
+                        <tr>
+                            <td>Check-In</td>
+                            <td>Sidebar → Check-In</td>
+                            <td>Online check-in by PNR</td>
+                        </tr>
+                        <tr>
+                            <td>Flight Status</td>
+                            <td>Sidebar → Flight Status</td>
+                            <td>Live status by flight number</td>
+                        </tr>
+                        <tr>
+                            <td>My Profile</td>
+                            <td>Sidebar → My Profile</td>
+                            <td>Save traveler info</td>
+                        </tr>
+                    </table>
+                    <div
+                        style="margin-top:1rem;background:#fef3c7;border-radius:8px;padding:0.75rem 1rem;font-size:0.82rem;color:#92400e;">
+                        <i class="fas fa-exclamation-triangle"></i> <strong>Important for automation:</strong> The app
+                        uses simulated delays. Always wait for elements to be visible and ready before interacting with them.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search Flights -->
+            <div class="feature-section" id="search">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#0284c7;"><i class="fas fa-search"></i></div>
+                    <h3>1. Search Flights</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">The search form supports One Way, Round
+                        Trip, and Multi-City trip types. Results appear after a brief loading delay.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the trip type selector buttons at the top of the search form — choose One Way, Round Trip, or Multi-City</li>
+                        <li><span class="step-num">2</span>Find the origin and destination city input fields — they support autocomplete suggestions as you type</li>
+                        <li><span class="step-num">3</span>Locate the swap button between the city fields to exchange From and To cities with a single click</li>
+                        <li><span class="step-num">4</span>Find the departure date picker and select your travel date</li>
+                        <li><span class="step-num">5</span>Locate the passengers dropdown and select the number of travelers</li>
+                        <li><span class="step-num">6</span>Find the cabin class dropdown and choose Economy, Business, or First Class</li>
+                        <li><span class="step-num">7</span>Locate the Search button and click to initiate the flight search</li>
+                        <li><span class="step-num">8</span>Wait for the flight results to load — a loading spinner appears while fetching data</li>
+                        <li><span class="step-num">9</span>Find the filter chips above the results to filter by All, Non-stop, or 1 Stop flights</li>
+                        <li><span class="step-num">10</span>Locate the sort dropdown to sort results by Price, Duration, or Departure time</li>
+                    </ul>
+                    <div style="margin-top:1rem;">
+                        <strong style="font-size:0.85rem;">Popular Route Cards:</strong>
+                        <p style="font-size:0.82rem;color:#64748b;margin:0.25rem 0 0;">Look for the popular routes displayed as clickable cards — clicking one will auto-fill the search form and trigger a search.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seat Selection -->
+            <div class="feature-section" id="seat">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#8b5cf6;"><i class="fas fa-chair"></i></div>
+                    <h3>2. Seat Selection Modal</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">After clicking Select on a flight card,
+                        a seat map modal opens. The map has 20 rows × 6 seats (A–F) with some pre-occupied seats.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the Select button on any flight card in the results and click it</li>
+                        <li><span class="step-num">2</span>A modal dialog opens displaying the airplane seat map</li>
+                        <li><span class="step-num">3</span>Observe the seat grid layout — seats are arranged in rows with columns A through F</li>
+                        <li><span class="step-num">4</span>Notice that occupied seats appear in a different color and cannot be selected</li>
+                        <li><span class="step-num">5</span>Look for extra legroom seats highlighted in the exit rows (typically rows 1, 2, 10, 11)</li>
+                        <li><span class="step-num">6</span>Click an available seat to select it — the seat will change color to indicate selection</li>
+                        <li><span class="step-num">7</span>Observe that the Continue button becomes enabled only after selecting a seat</li>
+                        <li><span class="step-num">8</span>Click the Continue button to proceed to passenger details</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Passenger Details -->
+            <div class="feature-section" id="passenger">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#10b981;"><i class="fas fa-user"></i></div>
+                    <h3>3. Passenger Details Modal</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">One form block per passenger. The number
+                        of blocks matches the passenger count selected in search.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>A modal dialog opens with a form for entering passenger information</li>
+                        <li><span class="step-num">2</span>Locate the First Name and Last Name input fields and enter the traveler's name</li>
+                        <li><span class="step-num">3</span>Find the Date of Birth date picker and select the passenger's birthdate</li>
+                        <li><span class="step-num">4</span>Locate the Gender dropdown and select the appropriate option</li>
+                        <li><span class="step-num">5</span>Find the Passport Number field and enter a valid passport number (required)</li>
+                        <li><span class="step-num">6</span>Locate the Nationality dropdown and select the passenger's country</li>
+                        <li><span class="step-num">7</span>Find the Email field and enter a contact email address (required for primary passenger)</li>
+                        <li><span class="step-num">8</span>Locate the Phone Number field and enter a contact number (primary passenger only)</li>
+                        <li><span class="step-num">9</span>For multiple passengers, scroll down to find additional passenger forms and repeat the above steps</li>
+                        <li><span class="step-num">10</span>Locate and click the Continue to Payment button — form validation runs before proceeding</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Payment -->
+            <div class="feature-section" id="payment">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#f59e0b;"><i class="fas fa-credit-card"></i></div>
+                    <h3>4. Payment Modal</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <p style="font-size:0.88rem;color:#475569;margin:0 0 1rem;">Supports 3 payment methods. Card form
+                        validates 16-digit number, MM/YY expiry, and 3-digit CVV. Promo codes give discounts.</p>
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>A payment modal dialog opens showing the order summary and payment options</li>
+                        <li><span class="step-num">2</span>Locate the payment method options — choose between Credit/Debit Card, UPI, or Net Banking</li>
+                        <li><span class="step-num">3</span><strong>Card:</strong> Find and fill in the cardholder name, card number (auto-formats with spaces), expiry date (MM/YY format), and CVV fields</li>
+                        <li><span class="step-num">4</span><strong>UPI:</strong> Locate the UPI ID field and enter your UPI address (e.g., name@upi)</li>
+                        <li><span class="step-num">5</span><strong>Net Banking:</strong> Find the bank selection dropdown and choose your bank</li>
+                        <li><span class="step-num">6</span>Locate the promo code input field and Apply button to add a discount code</li>
+                        <li><span class="step-num">7</span>Try these promo codes: SAVE10 (10% off), SKYHOOK20 (20% off), FIRST15 (15% off), SUMMER5 (5% off)</li>
+                        <li><span class="step-num">8</span>Observe the promo result message that appears after applying a code</li>
+                        <li><span class="step-num">9</span>Find and click the Confirm Payment button — a loading spinner appears while processing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- My Bookings -->
+            <div class="feature-section" id="bookings">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#0284c7;"><i class="fas fa-ticket-alt"></i></div>
+                    <h3>5. My Bookings</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the My Bookings link in the sidebar and click to navigate</li>
+                        <li><span class="step-num">2</span>Wait for your bookings to load — a brief loading state appears while fetching data</li>
+                        <li><span class="step-num">3</span>Observe your booking cards displayed with flight details and status</li>
+                        <li><span class="step-num">4</span>Notice the status badge on each card — showing Confirmed, Cancelled, or Checked-In</li>
+                        <li><span class="step-num">5</span>Find the Check-In button on confirmed bookings to complete online check-in</li>
+                        <li><span class="step-num">6</span>Locate the Cancel button to cancel a booking — a confirmation dialog will appear</li>
+                        <li><span class="step-num">7</span>In the cancel dialog, find and click the Confirm button to complete cancellation</li>
+                        <li><span class="step-num">8</span>Look for the Download E-Ticket button to download your ticket — a notification appears on success</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Check-In -->
+            <div class="feature-section" id="checkin">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#10b981;"><i class="fas fa-clipboard-check"></i></div>
+                    <h3>6. Online Check-In</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the Check-In link in the sidebar and click to navigate</li>
+                        <li><span class="step-num">2</span>Find the Booking Reference (PNR) input field and enter your booking code</li>
+                        <li><span class="step-num">3</span>Locate the Last Name input field and enter the passenger's surname</li>
+                        <li><span class="step-num">4</span>Find and click the Retrieve Booking button — wait for the search to complete</li>
+                        <li><span class="step-num">5</span>If the booking is found, your flight details appear with a Complete Check-In button</li>
+                        <li><span class="step-num">6</span>If not found, an error message is displayed — verify the PNR and last name are correct</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Flight Status -->
+            <div class="feature-section" id="status">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#8b5cf6;"><i class="fas fa-satellite-dish"></i></div>
+                    <h3>7. Flight Status</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <ul class="step-list">
+                        <li><span class="step-num">1</span>Locate the Flight Status link in the sidebar and click to navigate</li>
+                        <li><span class="step-num">2</span>Find the flight number input field and enter a flight number (e.g., SK-101, PA-201, EJ-301)</li>
+                        <li><span class="step-num">3</span>Locate the date picker and select the travel date</li>
+                        <li><span class="step-num">4</span>Find and click the Check Status button — wait for the result to load</li>
+                        <li><span class="step-num">5</span>Observe the status badge showing On Time, Delayed, Boarding, or Cancelled</li>
+                        <li><span class="step-num">6</span>Note that the gate number is assigned dynamically and may change between checks</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Test Scenarios -->
+            <div class="feature-section" id="scenarios">
+                <div class="feature-section-header" onclick="toggleSection(this)">
+                    <div class="icon" style="background:#10b981;"><i class="fas fa-vial"></i></div>
+                    <h3>Test Scenarios</h3>
+                    <i class="fas fa-chevron-down chevron"></i>
+                </div>
+                <div class="feature-section-body">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div>
+                            <p
+                                style="font-size:0.82rem;font-weight:700;color:#0284c7;margin:0 0 0.5rem;text-transform:uppercase;">
+                                Happy Path</p>
+                            <div class="scenario-card">
+                                <h4>TC-001: Complete Booking Flow</h4>
+                                <p>Search → Select → Seat → Passenger → Pay → Confirm</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-002: Round Trip Booking</h4>
+                                <p>Enable round trip, set return date, complete booking</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-003: Multi-Passenger Booking</h4>
+                                <p>Select 3 passengers, fill all forms, verify total price</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-004: Promo Code Applied</h4>
+                                <p>Apply SAVE10, verify 10% discount on total</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-005: UPI Payment</h4>
+                                <p>Select UPI method, fill UPI ID, confirm payment</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-006: Check-In by PNR</h4>
+                                <p>Book flight, go to Check-In tab, enter PNR + last name</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-007: Flight Status Check</h4>
+                                <p>Enter SK-101, verify status badge is visible</p>
+                            </div>
+                            <div class="scenario-card">
+                                <h4>TC-008: Save Profile</h4>
+                                <p>Fill profile form, save, verify sidebar name updates</p>
+                            </div>
+                        </div>
+                        <div>
+                            <p
+                                style="font-size:0.82rem;font-weight:700;color:#ef4444;margin:0 0 0.5rem;text-transform:uppercase;">
+                                Negative / Edge Cases</p>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-009: Same City Search</h4>
+                                <p>Enter same city in From/To, verify error toast</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-010: Empty Search</h4>
+                                <p>Click Search with empty fields, verify validation</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-011: Invalid Promo Code</h4>
+                                <p>Enter INVALID123, verify error message appears below the promo field</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-012: Incomplete Card Details</h4>
+                                <p>Leave CVV empty, click Pay, verify validation</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-013: Missing Passenger Fields</h4>
+                                <p>Leave passport empty, click Proceed, verify error</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-014: Invalid PNR Check-In</h4>
+                                <p>Enter wrong PNR, verify "not found" error message</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#ef4444;">
+                                <h4>TC-015: Cancel Booking</h4>
+                                <p>Cancel a booking, verify status changes to Cancelled</p>
+                            </div>
+                            <div class="scenario-card" style="border-color:#f59e0b;">
+                                <h4>TC-016: No Flights Found</h4>
+                                <p>Search obscure route, verify empty state message</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center;padding:2rem 0;color:#64748b;font-size:0.82rem;">
+                <p>SkyHook Airlines — Playwright Practice App | <a href="index.html" style="color:#0284c7;">Open App</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            const section = header.closest('.feature-section');
+            section.classList.toggle('collapsed');
+        }
+    </script>
+</body>
+
+</html>

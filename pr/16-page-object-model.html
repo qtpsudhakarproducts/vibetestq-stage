@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Object Model - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; } .reveal h2 { font-size:1.4em; color:var(--vibe-blue); } .reveal h3 { font-size:1.1em; color:var(--vibe-green); }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; } .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Page Object Model</h1>
+    <p class="subtitle">BasePage · Component Objects · No Locators in Tests</p>
+    <p class="tagline">Design a maintainable, scalable POM architecture using Playwright — Session 16</p>
+    <div style="margin-top:15px;">
+        <span class="badge">BasePage</span>
+        <span class="badge" style="background:var(--vibe-blue);">Action Methods</span>
+        <span class="badge" style="background:var(--vibe-green);">Components</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>POM: The Core Principle</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>Without POM (Anti-Pattern)</h3>
+            <div class="code-snippet" style="margin-top:4px; font-size:0.6em;">// test has locators + logic — FRAGILE
+test('add to cart', async ({ page }) => {
+  await page.goto('/shop/widget-pro');
+  await page.locator('.product-qty').fill('3');
+  await page.locator('#add-cart-btn').click();
+  await expect(page.locator('.cart-count')).toHaveText('3');
+});
+// If div.product-qty changes → update ALL tests</div>
+        </div>
+        <div class="content-box">
+            <h3>With POM (Correct)</h3>
+            <div class="code-snippet" style="margin-top:4px; font-size:0.6em;">// test reads like plain English
+test('add to cart', async ({ productPage, cartBadge }) => {
+  await productPage.openProduct('widget-pro');
+  await productPage.setQuantity(3);
+  await productPage.addToCart();
+  await expect(cartBadge.count).toHaveText('3');
+});
+// Locator change → fix ONE page object method</div>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Rule: Tests call page methods. Page objects own locators and actions. Never let a locator appear in a test file.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>BasePage — Shared Foundation</h2>
+    <div class="code-snippet">// pages/BasePage.ts
+import { Page, Locator, expect } from '@playwright/test';
+
+export abstract class BasePage {
+  constructor(protected readonly page: Page) {}
+
+  // Common navigation helpers
+  async navigate(path: string): Promise&lt;void&gt; {
+    await this.page.goto(path);
+  }
+
+  async waitForPageLoad(): Promise&lt;void&gt; {
+    await this.page.waitForLoadState('networkidle');
+  }
+
+  // Get page title for verification
+  async getTitle(): Promise&lt;string&gt; {
+    return this.page.title();
+  }
+
+  // Scroll to an element
+  async scrollTo(locator: Locator): Promise&lt;void&gt; {
+    await locator.scrollIntoViewIfNeeded();
+  }
+
+  // Wait for toast/notification
+  async waitForSuccessToast(message: string): Promise&lt;void&gt; {
+    await expect(this.page.getByRole('alert').filter({ hasText: message }))
+      .toBeVisible({ timeout: 5000 });
+  }
+}</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>A Complete Page Object</h2>
+    <div class="code-snippet">// pages/LoginPage.ts
+import { Page, Locator, expect } from '@playwright/test';
+import { BasePage } from './BasePage';
+
+export class LoginPage extends BasePage {
+  // All locators as readonly properties
+  private readonly emailInput: Locator;
+  private readonly passwordInput: Locator;
+  private readonly submitButton: Locator;
+  readonly errorMessage: Locator;
+
+  constructor(page: Page) {
+    super(page);
+    this.emailInput = page.getByLabel('Email');
+    this.passwordInput = page.getByLabel('Password');
+    this.submitButton = page.getByRole('button', { name: 'Sign in' });
+    this.errorMessage = page.getByRole('alert');
+  }
+
+  async navigate(): Promise&lt;void&gt; {
+    await this.page.goto('/login');
+    await expect(this.submitButton).toBeVisible();
+  }
+
+  async login(email: string, password: string): Promise&lt;void&gt; {
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
+    await this.submitButton.click();
+  }
+
+  async verifyErrorShown(message: string): Promise&lt;void&gt; {
+    await expect(this.errorMessage).toContainText(message);
+  }
+}</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Component Objects: Reusable UI Pieces</h2>
+    <div class="code-snippet">// components/NavBar.ts — reused across all page objects
+import { Page, Locator } from '@playwright/test';
+
+export class NavBar {
+  private readonly cartIcon: Locator;
+  private readonly userMenu: Locator;
+  private readonly searchBox: Locator;
+
+  constructor(private page: Page) {
+    this.cartIcon = page.getByTestId('nav-cart');
+    this.userMenu = page.getByTestId('nav-user-menu');
+    this.searchBox = page.getByRole('searchbox');
+  }
+
+  async openCart() { await this.cartIcon.click(); }
+  async openUserMenu() { await this.userMenu.click(); }
+  async search(query: string) {
+    await this.searchBox.fill(query);
+    await this.searchBox.press('Enter');
+  }
+}
+
+// pages/ShopPage.ts — composing with components
+export class ShopPage extends BasePage {
+  readonly nav = new NavBar(this.page); // composed component
+
+  async searchForProduct(term: string): Promise&lt;void&gt; {
+    await this.nav.search(term);
+  }
+}</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>POM Folder Structure and Rules</h2>
+    <div class="two-col">
+        <div class="code-snippet" style="margin-top:0; font-size:0.62em;">pages/
+  BasePage.ts         # abstract base
+  LoginPage.ts
+  DashboardPage.ts
+  ProductPage.ts
+  CartPage.ts
+  CheckoutPage.ts
+  AdminPage.ts
+
+components/
+  NavBar.ts           # header navigation
+  DataTable.ts        # reusable table
+  DatePicker.ts       # reusable form widget
+  Modal.ts            # dialog/modal wrapper
+  Toast.ts            # notification component
+
+fixtures/
+  pages.fixtures.ts   # injects pages into tests</div>
+        <div>
+            <div class="content-box">
+                <h3>POM Rules</h3>
+                <ul>
+                    <li>No locators in test files — ever</li>
+                    <li>Private locators, public methods</li>
+                    <li>Methods do one thing clearly</li>
+                    <li>Method names = user actions</li>
+                    <li>Assertions can live in page objects</li>
+                    <li>Extend BasePage for all pages</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 16 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Architecture</h3>
+            <ul>
+                <li>BasePage — shared navigation helpers</li>
+                <li>Page class per feature/page/module</li>
+                <li>Component classes for reusable UI</li>
+                <li>Fixtures inject page objects into tests</li>
+                <li>TypeScript gives IDE autocomplete + type safety</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Design Rules</h3>
+            <ul>
+                <li>Private locators, public action methods</li>
+                <li>Tests read as plain English scenarios</li>
+                <li>One locator change = one fix location</li>
+                <li>Compose components inside page objects</li>
+                <li>Action methods verify their own success</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 17 — Parameterization and Data-Driven Testing</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

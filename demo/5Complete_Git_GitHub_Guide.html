@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Git & GitHub Guide - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+
+        .reveal h1 {
+            font-size: 1.8em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+            color: var(--vibe-blue);
+        }
+
+        .reveal h3 {
+            font-size: 0.95em;
+            color: var(--vibe-green);
+            margin-bottom: 0.2em;
+        }
+
+        .reveal p,
+        .reveal li {
+            color: #334155;
+            line-height: 1.4;
+        }
+
+        .logo-corner {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            z-index: 100;
+        }
+
+        .logo-corner img {
+            width: 80px;
+            height: auto;
+        }
+
+        .title-slide {
+            background: #ffffff !important;
+        }
+
+        .title-slide .company-header {
+            max-width: 800px;
+            margin: 0 auto 15px;
+        }
+
+        .title-slide h1 {
+            font-size: 2em;
+            color: var(--vibe-dark-blue);
+            margin: 10px 0 8px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.2em;
+            color: var(--vibe-orange);
+            margin: 10px 0;
+        }
+
+        .title-slide .tagline {
+            font-size: 1em;
+            color: var(--vibe-blue);
+            margin: 8px 0 15px;
+        }
+
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 10px 15px;
+            margin: 6px 0;
+            border-radius: 6px;
+            text-align: left;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border: 2px solid var(--vibe-yellow);
+            padding: 10px;
+            margin: 8px auto;
+            border-radius: 8px;
+            max-width: 95%;
+        }
+
+        .reveal ul {
+            list-style: none;
+            margin: 6px 0;
+        }
+
+        .reveal ul li {
+            margin: 5px 0;
+            padding-left: 32px;
+            position: relative;
+            text-align: left;
+            font-size: 0.75em;
+        }
+
+        .reveal ul li:before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--vibe-green);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            margin-right: 8px;
+        }
+
+        .text-blue {
+            color: var(--vibe-blue);
+        }
+
+        .text-green {
+            color: var(--vibe-green);
+        }
+
+        .text-orange {
+            color: var(--vibe-orange);
+        }
+
+        .bold {
+            font-weight: 700;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--vibe-orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+            margin: 4px;
+        }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 8px 0;
+        }
+
+        .three-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .reveal .slides section {
+            height: 100%;
+            padding: 12px 30px;
+        }
+
+        .compact {
+            font-size: 0.75em;
+        }
+
+        .code-block {
+            background: #1e293b;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.7em;
+            text-align: left;
+            color: #e2e8f0;
+            margin: 6px 0;
+        }
+
+        .code-block .comment {
+            color: #94a3b8;
+        }
+
+        .code-block .command {
+            color: #22c55e;
+        }
+
+        .icon-box {
+            text-align: center;
+            padding: 12px;
+            background: var(--vibe-light-bg);
+            border-radius: 10px;
+            margin: 5px;
+        }
+
+        .icon-box i {
+            font-size: 1.8em;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .icon-box.blue i {
+            color: var(--vibe-blue);
+        }
+
+        .icon-box.green i {
+            color: var(--vibe-green);
+        }
+
+        .icon-box.orange i {
+            color: var(--vibe-orange);
+        }
+
+        .flow-container {
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        .arrow-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .arrow-flow .step {
+            background: var(--vibe-blue);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.7em;
+        }
+
+        .arrow-flow .step.green {
+            background: var(--vibe-green);
+        }
+
+        .arrow-flow .step.orange {
+            background: var(--vibe-orange);
+        }
+
+        .arrow-flow .arrow {
+            color: var(--vibe-orange);
+            font-size: 1.3em;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--vibe-orange);
+            color: #ffffff !important;
+            width: 1.2em;
+            height: 1.2em;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 0.8em;
+            margin-right: 12px;
+            vertical-align: middle;
+            transform: translateY(-2px);
+            /* Subtle lift to align with capital letters */
+            flex-shrink: 0;
+        }
+
+        /* VSCode style */
+        .vscode-panel {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: #d4d4d4;
+            font-size: 0.75em;
+            text-align: left;
+        }
+
+        .vscode-panel .title {
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .vscode-panel .file-item {
+            margin: 4px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .vscode-panel .staged {
+            color: #89d185;
+        }
+
+        .vscode-panel .modified {
+            color: #e2c08d;
+        }
+
+        .vscode-panel .untracked {
+            color: #73c991;
+        }
+
+        .vscode-panel .btn {
+            background: #0e639c;
+            padding: 5px 12px;
+            text-align: center;
+            border-radius: 3px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+
+        .vscode-panel .input-box {
+            background: #3c3c3c;
+            border: 1px solid #555;
+            padding: 5px 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            color: #ccc;
+        }
+
+        .workflow-box {
+            text-align: center;
+            padding: 12px 8px;
+            border-radius: 8px;
+            min-width: 80px;
+        }
+
+        .workflow-box.blue {
+            background: var(--vibe-blue);
+            color: white;
+        }
+
+        .workflow-box.orange {
+            background: var(--vibe-orange);
+            color: white;
+        }
+
+        .workflow-box.green {
+            background: var(--vibe-green);
+            color: white;
+        }
+
+        .workflow-box h4 {
+            margin: 0 0 5px;
+            font-size: 1.2em;
+            color: white;
+        }
+
+        .workflow-box p {
+            margin: 0;
+            font-size: 0.65em;
+            color: white;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>Git & GitHub with VSCode</h1>
+                <p class="subtitle">By QtpSudhakar</p>
+                <p class="tagline">Source Control Made Easy for Test Automation</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge"><i class="fab fa-git-alt"></i> Git</span>
+                    <span class="badge"><i class="fab fa-github"></i> GitHub</span>
+                    <span class="badge"><i class="fas fa-code"></i> VSCode</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: Our Workflow -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Our Workflow Today</h2>
+                <div class="flow-container">
+                    <div class="arrow-flow">
+                        <div class="step"><i class="fab fa-github"></i> Create Repo on GitHub</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green"><i class="fas fa-clone"></i> Clone to VSCode</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step orange"><i class="fas fa-code"></i> Work with Source Control</div>
+                    </div>
+                </div>
+                <div class="three-col">
+                    <div class="icon-box blue">
+                        <i class="fab fa-github"></i>
+                        <h3>Step 1</h3>
+                        <p class="compact">Create repository</p>
+                    </div>
+                    <div class="icon-box green">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>Step 2</h3>
+                        <p class="compact">Clone & Open in VSCode</p>
+                    </div>
+                    <div class="icon-box orange">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>Step 3</h3>
+                        <p class="compact">Use Source Control UI</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">No command line needed - everything through VSCode!</span>
+                </div>
+            </section>
+
+            <!-- Slide 3: What is Git & GitHub? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Git vs GitHub</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fab fa-git-alt"></i> Git</h3>
+                        <ul>
+                            <li>Version control system</li>
+                            <li>Tracks changes locally</li>
+                            <li>Creates snapshots (commits)</li>
+                            <li>Built into VSCode!</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fab fa-github"></i> GitHub</h3>
+                        <ul>
+                            <li>Cloud storage for code</li>
+                            <li>Share with team</li>
+                            <li>Backup your work</li>
+                            <li>GitHub Classroom!</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-blue bold">Git = Tool on your PC</span> |
+                    <span class="text-green bold">GitHub = Cloud service</span> |
+                    <span class="text-orange bold">VSCode = Your interface</span>
+                </div>
+            </section>
+
+            <!-- Slide 4: Step 1 - Create Repo on GitHub -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">1</span> Create Repository on GitHub</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-plus-circle"></i> Steps to Create</h3>
+                        <ul>
+                            <li>Go to github.com → Sign in</li>
+                            <li>Click <span class="text-green bold">New</span> button</li>
+                            <li>Enter repository name</li>
+                            <li>Add description (optional)</li>
+                            <li>Select <span class="text-blue bold">Public</span> or <span
+                                    class="text-orange bold">Private</span></li>
+                            <li>Check "Add a README file"</li>
+                            <li>Click <span class="text-green bold">Create repository</span></li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-lightbulb"></i> Naming Tips</h3>
+                        <ul>
+                            <li>Use lowercase letters</li>
+                            <li>Use hyphens for spaces</li>
+                            <li>Be descriptive</li>
+                        </ul>
+                        <p class="compact" style="margin-top: 10px;"><strong>Examples:</strong></p>
+                        <div class="code-block">
+                            playwright-tests<br>
+                            automation-framework<br>
+                            cypress-demo
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: Step 2 - Clone to VSCode -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">2</span> Clone Repository to VSCode</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-copy"></i> Get the Clone URL</h3>
+                        <ul>
+                            <li>On GitHub repo page</li>
+                            <li>Click green <span class="text-green bold">Code</span> button</li>
+                            <li>Copy the HTTPS URL</li>
+                        </ul>
+                        <div class="code-block" style="margin-top: 8px;">
+                            https://github.com/username/repo-name.git
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-laptop-code"></i> In VSCode</h3>
+                        <ul>
+                            <li>Open VSCode</li>
+                            <li>Press <span class="text-orange bold">Ctrl+Shift+P</span></li>
+                            <li>Type "Git: Clone"</li>
+                            <li>Paste the URL</li>
+                            <li>Choose folder location</li>
+                            <li>Click "Open" when prompted</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">Now your GitHub repo is connected to VSCode!</span>
+                </div>
+            </section>
+
+            <!-- Slide 6: VSCode Source Control Overview -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2><span class="step-number">3</span> VSCode Source Control Panel</h2>
+                <p class="text-blue bold" style="margin-bottom: 8px;">Open with: <span
+                        class="text-orange">Ctrl+Shift+G</span> or click the branch icon</p>
+                <div class="two-col">
+                    <div class="vscode-panel">
+                        <div class="title"><i class="fas fa-code-branch"></i> SOURCE CONTROL</div>
+                        <div class="input-box">💬 Your commit message here...</div>
+                        <div class="btn">✓ Commit</div>
+                        <hr style="border-color: #444; margin: 10px 0;">
+                        <p style="color: #888; font-size: 0.85em;">Changes</p>
+                        <div class="file-item"><span class="modified">M</span>&nbsp; 📄 login.spec.ts</div>
+                        <div class="file-item"><span class="untracked">U</span>&nbsp; 📄 dashboard.spec.ts</div>
+                        <div class="file-item"><span class="staged">A</span>&nbsp; 📄 config.ts</div>
+                    </div>
+                    <div>
+                        <div class="content-box">
+                            <h3><i class="fas fa-info-circle"></i> Status Icons</h3>
+                            <ul>
+                                <li><span class="text-orange bold">M</span> = Modified (changed)</li>
+                                <li><span class="text-green bold">U</span> = Untracked (new file)</li>
+                                <li><span class="text-green bold">A</span> = Added (staged)</li>
+                                <li><span class="text-orange bold">D</span> = Deleted</li>
+                            </ul>
+                        </div>
+                        <div class="content-box" style="border-left-color: var(--vibe-green);">
+                            <h3><i class="fas fa-mouse-pointer"></i> Actions</h3>
+                            <p class="compact">Click <span class="text-green bold">+</span> to stage files<br>
+                                Click <span class="text-orange bold">−</span> to unstage</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 7: Daily Workflow with VSCode -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Daily Workflow with VSCode UI</h2>
+                <div class="flow-container">
+                    <div class="arrow-flow">
+                        <div class="step"><i class="fas fa-edit"></i> Edit Files</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green"><i class="fas fa-plus"></i> Stage (+)</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step orange"><i class="fas fa-check"></i> Commit</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step"><i class="fas fa-cloud-upload-alt"></i> Sync</div>
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><span class="step-number">1</span> Make Changes</h3>
+                        <p class="compact">Edit your test files normally. VSCode auto-detects changes.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3><span class="step-number">2</span> Stage Files</h3>
+                        <p class="compact">Click <span class="text-green bold">+</span> next to each file or "Stage All
+                            Changes".</p>
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><span class="step-number">3</span> Write Message & Commit</h3>
+                        <p class="compact">Type message → Click ✓ Commit (or <span
+                                class="text-orange bold">Ctrl+Enter</span>)</p>
+                    </div>
+                    <div class="content-box">
+                        <h3><span class="step-number">4</span> Sync Changes</h3>
+                        <p class="compact">Click <span class="text-blue bold">Sync</span> button or 🔄 in status bar to
+                            push.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Staging Files -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Staging Files in VSCode</h2>
+                <div class="two-col">
+                    <div>
+                        <div class="vscode-panel">
+                            <div class="title">Changes (3)</div>
+                            <div class="file-item" style="justify-content: space-between;">
+                                <span><span class="modified">M</span> login.spec.ts</span>
+                                <span style="color: #0e639c; cursor: pointer;">➕</span>
+                            </div>
+                            <div class="file-item" style="justify-content: space-between;">
+                                <span><span class="untracked">U</span> new-test.spec.ts</span>
+                                <span style="color: #0e639c; cursor: pointer;">➕</span>
+                            </div>
+                            <hr style="border-color: #444; margin: 8px 0;">
+                            <div class="title" style="color: #89d185;">Staged Changes (1)</div>
+                            <div class="file-item" style="justify-content: space-between;">
+                                <span><span class="staged">A</span> config.ts</span>
+                                <span style="color: #f97316; cursor: pointer;">➖</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-hand-pointer"></i> How to Stage</h3>
+                        <ul>
+                            <li>Hover over file → Click <span class="text-green bold">+</span></li>
+                            <li>Right-click → "Stage Changes"</li>
+                            <li>Click <span class="text-blue bold">+</span> on "Changes" header for all</li>
+                        </ul>
+                        <h3 style="margin-top: 10px;"><i class="fas fa-undo"></i> To Unstage</h3>
+                        <ul>
+                            <li>Click <span class="text-orange bold">−</span> next to staged file</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">Only staged files will be included in your commit!</span>
+                </div>
+            </section>
+
+            <!-- Slide 9: Committing Changes -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Committing Changes</h2>
+                <div class="two-col">
+                    <div>
+                        <div class="vscode-panel">
+                            <div class="title">SOURCE CONTROL</div>
+                            <div class="input-box" style="background: #264f78; border-color: #0e639c;">
+                                Add login page tests
+                            </div>
+                            <div class="btn">✓ Commit</div>
+                            <p style="color: #888; font-size: 0.8em; margin-top: 8px;">
+                                Shortcut: <span style="color: #fbbf24;">Ctrl+Enter</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-comment-alt"></i> Good Commit Messages</h3>
+                        <ul>
+                            <li>Be specific and descriptive</li>
+                            <li>Start with action verb</li>
+                            <li>Keep under 50 characters</li>
+                        </ul>
+                        <p class="compact" style="margin-top: 8px;"><strong>Good Examples:</strong></p>
+                        <div class="code-block">
+                            Add login page tests<br>
+                            Fix selector for submit button<br>
+                            Update test configuration<br>
+                            Refactor page object model
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 10: Push & Sync -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Push & Sync to GitHub</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-cloud-upload-alt"></i> After Committing</h3>
+                        <p class="compact">Your changes are saved locally. Now push to GitHub:</p>
+                        <ul>
+                            <li>Click <span class="text-blue bold">Sync Changes</span> button</li>
+                            <li>Or click 🔄 in the bottom status bar</li>
+                            <li>Or use <span class="text-orange bold">...</span> menu → Push</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-download"></i> Getting Team Changes</h3>
+                        <p class="compact">To get others' changes:</p>
+                        <ul>
+                            <li>Click 🔄 <span class="text-blue bold">Sync</span> (pulls + pushes)</li>
+                            <li>Or <span class="text-orange bold">...</span> menu → Pull</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="flow-container">
+                    <div class="arrow-flow">
+                        <div class="step"><i class="fas fa-laptop"></i> Your PC</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green"><i class="fas fa-cloud-upload-alt"></i> Push</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step orange"><i class="fab fa-github"></i> GitHub</div>
+                        <div class="arrow"><i class="fas fa-arrow-left"></i></div>
+                        <div class="step green"><i class="fas fa-cloud-download-alt"></i> Pull</div>
+                        <div class="arrow"><i class="fas fa-arrow-left"></i></div>
+                        <div class="step"><i class="fas fa-laptop"></i> Your PC</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: Status Bar Features -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>VSCode Status Bar</h2>
+                <p class="text-blue bold">Bottom left corner shows Git status</p>
+                <div class="content-box"
+                    style="background: #1e1e1e; color: #d4d4d4; padding: 15px; text-align: center;">
+                    <span style="color: #0e639c;"><i class="fas fa-code-branch"></i> main</span> &nbsp;|&nbsp;
+                    <span style="color: #89d185;">🔄 0↓ 2↑</span> &nbsp;|&nbsp;
+                    <span style="color: #e2c08d;">⚠ 1</span>
+                </div>
+                <div class="three-col" style="margin-top: 10px;">
+                    <div class="content-box">
+                        <h3><i class="fas fa-code-branch"></i> Branch Name</h3>
+                        <p class="compact">Shows current branch. Click to switch branches.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-sync"></i> Sync Status</h3>
+                        <p class="compact">↓ = commits to pull<br>↑ = commits to push</p>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Problems</h3>
+                        <p class="compact">Conflicts or issues that need attention.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 12: GitHub Classroom Workflow -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>GitHub Classroom Workflow</h2>
+                <div class="flow-container">
+                    <div class="arrow-flow">
+                        <div class="step"><i class="fas fa-link"></i> Accept Assignment</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green"><i class="fas fa-clone"></i> Clone in VSCode</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step orange"><i class="fas fa-code"></i> Work & Commit</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step"><i class="fas fa-upload"></i> Sync = Submit!</div>
+                    </div>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3><i class="fas fa-graduation-cap"></i> For Assignments</h3>
+                        <ul>
+                            <li>Click assignment link from instructor</li>
+                            <li>Accept the assignment</li>
+                            <li>Copy your personal repo URL</li>
+                            <li>Clone in VSCode (Ctrl+Shift+P → Git: Clone)</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-check-circle"></i> To Submit</h3>
+                        <ul>
+                            <li>Make your changes</li>
+                            <li>Stage files (+)</li>
+                            <li>Commit with message</li>
+                            <li>Sync/Push to GitHub</li>
+                            <li><span class="text-green bold">That's it - submitted!</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13: Common Commands Reference -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>VSCode Git Shortcuts</h2>
+                <div class="three-col" style="font-size: 0.85em;">
+                    <div class="content-box">
+                        <h3>🖥️ Panels</h3>
+                        <p class="compact"><span class="text-orange bold">Ctrl+Shift+G</span> Source Control</p>
+                        <p class="compact"><span class="text-orange bold">Ctrl+Shift+P</span> Command Palette</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>📝 Actions</h3>
+                        <p class="compact"><span class="text-orange bold">Ctrl+Enter</span> Commit</p>
+                        <p class="compact"><span class="text-orange bold">Ctrl+Shift+K</span> Delete line</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>🔍 Commands</h3>
+                        <p class="compact">Git: Clone</p>
+                        <p class="compact">Git: Pull / Push</p>
+                        <p class="compact">Git: Commit All</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-orange bold">Command Palette (Ctrl+Shift+P) → Type "Git" to see all
+                        options!</span>
+                </div>
+            </section>
+
+            <!-- Slide 14: Best Practices -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Best Practices</h2>
+                <div class="two-col">
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3><i class="fas fa-check-circle" style="color: var(--vibe-green);"></i> Do This</h3>
+                        <ul>
+                            <li>Commit often (small chunks)</li>
+                            <li>Write clear commit messages</li>
+                            <li>Sync before starting work</li>
+                            <li>Review changes before committing</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3><i class="fas fa-times-circle" style="color: var(--vibe-orange);"></i> Avoid</h3>
+                        <ul>
+                            <li>One huge commit at the end</li>
+                            <li>"Fixed stuff" as message</li>
+                            <li>Forgetting to sync/push</li>
+                            <li>Committing node_modules</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <span class="text-blue bold">Commit small, commit often, sync regularly!</span>
+                </div>
+            </section>
+
+            <!-- Slide 15: Summary -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Summary - Your Daily Routine</h2>
+                <div class="flow-container">
+                    <div class="arrow-flow">
+                        <div class="step"><i class="fas fa-sync"></i> Sync First</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green"><i class="fas fa-code"></i> Write Code</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step orange"><i class="fas fa-plus"></i> Stage</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step"><i class="fas fa-check"></i> Commit</div>
+                        <div class="arrow"><i class="fas fa-arrow-right"></i></div>
+                        <div class="step green"><i class="fas fa-cloud-upload-alt"></i> Sync</div>
+                    </div>
+                </div>
+                <div class="three-col">
+                    <div class="icon-box blue">
+                        <i class="fab fa-github"></i>
+                        <h3>GitHub</h3>
+                        <p class="compact">Create & host repos</p>
+                    </div>
+                    <div class="icon-box green">
+                        <i class="fas fa-laptop-code"></i>
+                        <h3>VSCode</h3>
+                        <p class="compact">Clone, edit, commit</p>
+                    </div>
+                    <div class="icon-box orange">
+                        <i class="fas fa-sync-alt"></i>
+                        <h3>Source Control</h3>
+                        <p class="compact">Manage everything visually</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 16: Thank You -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>Let's Practice!</h1>
+                <p class="subtitle">Questions?</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge"><i class="fas fa-hands-helping"></i> Hands-On Time</span>
+                </div>
+                <p class="tagline" style="margin-top: 20px;">
+                    <i class="fas fa-code"></i> Happy Coding & Version Control!
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            if (typeof Reveal !== 'undefined') {
+                Reveal.initialize({
+                    hash: true,
+                    transition: 'slide',
+                    transitionSpeed: 'default',
+                    slideNumber: true,
+                    controls: true,
+                    progress: true,
+                    center: true,
+                    width: 1280,
+                    height: 720,
+                    margin: 0.04
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Locators & Element Selection - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;transition:all 0.2s ease;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s ease;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;margin-bottom:25px;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;transition:all 0.2s ease;border:none;gap:8px;font-size:1rem;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background-color:white;padding:0;}.card{box-shadow:none;border:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}
+    @media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Assessment</h1><p>Loading topics...</p></div>
+    </header>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: Locators & Element Selection
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** getByRole, getByText, getByLabel, CSS Selectors, XPath, Chaining, Filtering, Inspector, Codegen
+
+---
+
+## Questions
+
+### Question 1
+Which Playwright locator type is most resilient to UI structure and styling changes?
+
+A) page.locator('.btn-primary')
+B) page.locator('//button[1]')
+C) page.getByRole('button', { name: 'Login' })
+D) page.locator('button:nth-child(2)')
+
+**Answer: C) page.getByRole('button', { name: 'Login' })**
+
+**Explanation:** Role-based locators use ARIA semantics which remain stable across CSS and layout changes. CSS classes and XPath indexes break easily when the UI changes.
+
+---
+
+### Question 2
+What does `page.getByLabel('Username')` target?
+
+A) Any element with the text "Username"
+B) An element with `id="Username"`
+C) A form input associated with a label whose text is "Username"
+D) A button with `aria-label="Username"`
+
+**Answer: C) A form input associated with a label whose text is "Username"**
+
+**Explanation:** `getByLabel()` finds the form control (input, textarea, select) associated with a `<label>` element. It uses the `for` attribute or wrapping relationship.
+
+---
+
+### Question 3
+What is the correct CSS selector for an element with the class `submit-btn`?
+
+A) #submit-btn
+B) [submit-btn]
+C) .submit-btn
+D) submit-btn
+
+**Answer: C) .submit-btn**
+
+**Explanation:** In CSS selectors, `.` prefix denotes a class selector, `#` denotes an ID selector, and `[attr]` is an attribute selector.
+
+---
+
+### Question 4
+Which XPath selects all `<li>` elements that are DIRECT children of `<ul>`?
+
+A) //ul//li
+B) //ul/li
+C) /ul/li
+D) ul > li
+
+**Answer: B) //ul/li**
+
+**Explanation:** In XPath, a single `/` between elements selects direct children only. `//ul//li` would select all `li` descendants, including nested ones. `ul > li` is CSS syntax.
+
+---
+
+### Question 5
+What does the `filter()` method on a locator do?
+
+A) Removes matching elements from the DOM
+B) Returns a subset of matched elements based on additional criteria like text or child elements
+C) Limits the locator to the first match only
+D) Applies CSS filtering to the element
+
+**Answer: B) Returns a subset of matched elements based on additional criteria like text or child elements**
+
+**Explanation:** `locator.filter({ hasText: '...' })` or `locator.filter({ has: childLocator })` narrows down a set of matched elements to those meeting additional conditions.
+
+---
+
+### Question 6
+What does `page.locator('table').getByRole('row')` do?
+
+A) Returns all rows on the entire page
+B) Returns only the table header row
+C) Returns all rows scoped WITHIN the table locator
+D) Returns only rows that have the ARIA role "row" globally
+
+**Answer: C) Returns all rows scoped WITHIN the table locator**
+
+**Explanation:** Chaining a locator narrows the search scope. `getByRole('row')` is scoped to descendants of the `<table>` element found by the first locator.
+
+---
+
+### Question 7
+What does `page.locator('button').nth(0)` return?
+
+A) The last button
+B) All buttons
+C) The first button (zero-indexed)
+D) A random button
+
+**Answer: C) The first button (zero-indexed)**
+
+**Explanation:** `.nth(index)` selects a specific item from a locator's matching set using zero-based indexing. `.nth(0)` is the first match.
+
+---
+
+### Question 8
+What command launches Playwright's interactive test code recorder?
+
+A) npx playwright inspector
+B) npx playwright record
+C) npx playwright create
+D) npx playwright codegen
+
+**Answer: D) npx playwright codegen**
+
+**Explanation:** `npx playwright codegen <url>` opens a browser where your interactions are recorded and converted into Playwright test code in real time.
+
+---
+
+### Question 9
+What is the purpose of adding `data-testid` attributes to HTML elements?
+
+A) They improve CSS loading speed
+B) They provide stable, test-specific identifiers that won't change with styling or layout updates
+C) They are required for all ARIA compliance
+D) They enable server-side rendering
+
+**Answer: B) They provide stable, test-specific identifiers that won't change with styling or layout updates**
+
+**Explanation:** `data-testid` is a convention for adding test hooks to the application. They are ignored by end users and browsers but give testers stable locator targets.
+
+---
+
+### Question 10
+What does `page.getByRole('heading', { level: 1 })` select?
+
+A) Any heading element
+B) Only `<h1>` elements
+C) `<h1>` through `<h6>` elements
+D) Elements with `role="heading"` regardless of level
+
+**Answer: B) Only `<h1>` elements**
+
+**Explanation:** The `level` option in `getByRole('heading', { level: N })` restricts the match to headings of that specific level (`<h1>` for level 1, `<h2>` for level 2, etc.).
+
+---
+
+### Question 11
+What does `expect(locator).toBeVisible()` verify?
+
+A) The element exists anywhere in the DOM
+B) The element is visible on the screen (not hidden via CSS)
+C) The element has a non-empty text value
+D) The element is enabled and interactive
+
+**Answer: B) The element is visible on the screen (not hidden via CSS)**
+
+**Explanation:** `toBeVisible()` checks that the element is not hidden by `display:none`, `visibility:hidden`, `opacity:0`, or similar CSS properties.
+
+---
+
+### Question 12
+What does `locator.count()` return?
+
+A) The length of the element's text content
+B) The number of elements currently matching the locator
+C) The element's DOM position index
+D) The number of child elements
+
+**Answer: B) The number of elements currently matching the locator**
+
+**Explanation:** `locator.count()` is useful when you need to assert the exact number of matching elements in the DOM.
+
+---
+
+### Question 13
+What does `page.getByText('Submit', { exact: true })` do differently from `page.getByText('Submit')`?
+
+A) No difference
+B) `exact: true` matches only elements with EXACTLY the text "Submit", not "Submit Form"
+C) `exact: true` performs a case-insensitive match
+D) `exact: true` matches only button elements
+
+**Answer: B) `exact: true` matches only elements with EXACTLY the text "Submit", not "Submit Form"**
+
+**Explanation:** By default, `getByText()` performs a substring match. `{ exact: true }` requires the full text to match exactly, preventing over-selection.
+
+---
+
+### Question 14
+Which selector strategy is MOST brittle and most likely to break on routine UI changes?
+
+A) page.getByRole('button', { name: 'Save' })
+B) page.getByTestId('save-button')
+C) page.locator('//div[3]/form/button[2]')
+D) page.getByLabel('Save employee')
+
+**Answer: C) page.locator('//div[3]/form/button[2]')**
+
+**Explanation:** Long positional XPath chains rely on exact DOM structure and ordering. Any layout change—adding a div, reordering buttons—will break these selectors immediately.
+
+---
+
+### Question 15
+What does the Playwright Inspector (`npx playwright inspect`) allow you to do?
+
+A) Deploy a test run to CI
+B) Debug running tests step-by-step and explore element locators on a live page
+C) Edit `playwright.config.ts` visually
+D) View past test run histories
+
+**Answer: B) Debug running tests step-by-step and explore element locators on a live page**
+
+**Explanation:** The Playwright Inspector pauses test execution and shows you the current page state, highlights elements, and lets you explore locators interactively — perfect for debugging.
+
+---
+
+### Question 16
+What does `page.getByPlaceholder('Search employees')` use to find an element?
+
+A) The element's `name` attribute
+B) The element's `placeholder` attribute value
+C) The element's `aria-label`
+D) The element's CSS class
+
+**Answer: B) The element's `placeholder` attribute value**
+
+**Explanation:** `getByPlaceholder()` looks for input or textarea elements whose `placeholder` attribute matches the given string.
+
+---
+
+### Question 17
+How do you select an option from a Playwright locator that matches multiple elements?
+
+A) Use locator.first() or locator.nth(n)
+B) Use locator.only() to get the single result
+C) Use locator.one() to target the unique element
+D) Use locator.select() to specify the index
+
+**Answer: A) Use locator.first() or locator.nth(n)**
+
+**Explanation:** When a locator matches multiple elements, use `.first()`, `.last()`, or `.nth(index)` to narrow it to a single element for interaction.
+
+---
+
+### Question 18
+What does `page.getByRole('row').filter({ hasText: 'John Smith' })` return?
+
+A) All rows on the page
+B) Rows that do NOT contain "John Smith"
+C) Only the rows whose content includes "John Smith"
+D) The row header containing column labels
+
+**Answer: C) Only the rows whose content includes "John Smith"**
+
+**Explanation:** `.filter({ hasText: '...' })` narrows the matched set to only elements containing the specified text, making table row lookups clean and readable.
+
+---
+
+### Question 19
+What does `page.locator('input[name="username"]')` use as its selector?
+
+A) CSS role selector
+B) XPath selector
+C) CSS attribute selector
+D) Text content selector
+
+**Answer: C) CSS attribute selector**
+
+**Explanation:** `[name="username"]` is a CSS attribute selector that matches input elements with a `name` attribute equal to `"username"`. This is standard CSS syntax.
+
+---
+
+### Question 20
+Which recommended attribute should you ask developers to add to application elements for the most stable test locators?
+
+A) class
+B) id
+C) name
+D) data-testid
+
+**Answer: D) data-testid**
+
+**Explanation:** While `id` can work, `data-testid` (or similar `data-*` attributes) is specifically intended for testing. Developers understand not to change these attributes during refactoring, and they don't affect functionality.
+
+---
+
+</script>
+<script>
+(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'Perfect Score! Locator mastery achieved!':pct>=80?'Excellent! Strong locator selection skills.':pct>=60?'Good job! Focus on role-based locators and chaining.':'Keep learning! Re-read Chapter 05 and practice with Codegen.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Student: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();
+</script>
+</body>
+</html>

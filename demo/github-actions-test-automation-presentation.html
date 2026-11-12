@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Actions for Test Automation - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+        .reveal { background: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 700; color: var(--vibe-dark-blue); }
+        .reveal h1 { font-size: 1.8em; margin-bottom: 0.2em; }
+        .reveal h2 { font-size: 1.4em; margin-bottom: 0.3em; color: var(--vibe-blue); }
+        .reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.2em; }
+        .reveal p, .reveal li { color: #334155; line-height: 1.4; font-size: 0.8em; }
+        .logo-corner { position: absolute; top: 15px; right: 25px; z-index: 100; }
+        .logo-corner img { width: 80px; height: auto; }
+        .title-slide { background: #ffffff !important; }
+        .title-slide .company-header { max-width: 800px; margin: 0 auto 15px; }
+        .title-slide h1 { font-size: 2em; color: var(--vibe-dark-blue); margin: 10px 0 8px; }
+        .title-slide .subtitle { font-size: 1.2em; color: var(--vibe-orange); margin: 10px 0; }
+        .title-slide .tagline { font-size: 1em; color: var(--vibe-blue); margin: 8px 0 15px; }
+        .content-box { background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); padding: 10px 15px; margin: 6px 0; border-radius: 6px; text-align: left; }
+        .highlight-box { background: #fef3c7; border: 2px solid var(--vibe-yellow); padding: 10px; margin: 8px auto; border-radius: 8px; max-width: 95%; }
+        .reveal ul { list-style: none; margin: 6px 0; }
+        .reveal ul li { margin: 5px 0; padding-left: 32px; position: relative; text-align: left; }
+        .reveal ul li:before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--vibe-green); position: absolute; left: 0; top: 2px; }
+        .code-block { background: #1e293b; border-radius: 6px; padding: 15px 20px; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.6em; text-align: left; color: #e2e8f0; margin: 10px 0; line-height: 1.5; white-space: pre; overflow-x: auto; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .visual-flow { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 20px 0; }
+        .flow-step { background: var(--vibe-blue); color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.7em; min-width: 100px; text-align: center; box-shadow: 3px 3px 5px rgba(0,0,0,0.1); }
+        .flow-arrow { color: var(--vibe-orange); font-size: 1.5em; }
+        .analogy-card { background: white; border: 3px solid var(--vibe-blue); border-radius: 12px; padding: 15px; margin: 10px 0; }
+        .comparison-table { font-size: 0.7em; width: 100%; border-collapse: collapse; margin: 10px 0; }
+        .comparison-table th { background: var(--vibe-blue); color: white; padding: 8px; text-align: left; }
+        .comparison-table td { background: var(--vibe-light-bg); padding: 8px; border: 1px solid #cbd5e1; }
+        .step-number { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; background: var(--vibe-orange); color: white; border-radius: 50%; font-weight: bold; font-size: 0.85em; margin-right: 8px; }
+        .badge { display: inline-block; background: var(--vibe-orange); color: white; padding: 5px 12px; border-radius: 20px; font-weight: 600; font-size: 0.8em; margin: 4px; }
+        .cost-box { background: #dcfce7; border-left: 4px solid var(--vibe-green); padding: 10px 15px; margin: 8px 0; border-radius: 6px; }
+        .warning-box { background: #fee2e2; border-left: 4px solid #dc2626; padding: 10px 15px; margin: 8px 0; border-radius: 6px; }
+        .benefit-card { background: var(--vibe-light-bg); border: 2px solid var(--vibe-green); border-radius: 8px; padding: 12px; text-align: center; }
+        .metric-card { background: linear-gradient(135deg, var(--vibe-blue), var(--vibe-dark-blue)); color: white; border-radius: 8px; padding: 15px; text-align: center; }
+        .metric-card .value { font-size: 2em; font-weight: bold; margin: 5px 0; }
+        .metric-card .label { font-size: 0.8em; opacity: 0.9; }
+        .service-card { background: var(--vibe-light-bg); border: 2px solid var(--vibe-blue); border-radius: 8px; padding: 10px; text-align: center; }
+        .service-card i { font-size: 2em; color: var(--vibe-orange); margin-bottom: 5px; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Slide 1: Title -->
+            <section class="title-slide">
+                <div class="company-header">
+                    <img src="../assets/White-Logo.png" alt="VibeTestQ" style="width: 200px; margin: 0 auto; display: block;">
+                </div>
+                <h1><i class="fab fa-github" style="color: var(--vibe-orange);"></i> GitHub Actions</h1>
+                <div class="subtitle">Master CI/CD for Test Automation</div>
+                <div class="tagline">Automate Everything, Save Costs, Ship Faster</div>
+                <p style="text-align: center; margin-top: 30px; font-size: 0.9em;">
+                    <strong>QtpSudhakar</strong><br>
+                    VibeTestQ - February 2026
+                </p>
+            </section>
+
+            <!-- Slide 2: What is GitHub Actions? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What is GitHub Actions?</h2>
+                <div class="content-box">
+                    <h3>Definition</h3>
+                    <p><strong>GitHub Actions</strong> is GitHub's built-in automation platform that runs workflows triggered by events (push, PR, schedule)</p>
+                </div>
+                <div class="analogy-card">
+                    <h3 style="margin-bottom: 10px;"><i class="fas fa-robot" style="color: var(--vibe-orange);"></i> The Smart Home Analogy</h3>
+                    <div style="font-size: 0.75em;">
+                        <p><strong>Without Automation:</strong> You manually turn on lights, lock doors, adjust thermostat → 4-5 hours wasted daily</p>
+                        <p><strong>With GitHub Actions:</strong> Motion sensor triggers lights, schedule locks doors, temp triggers heat → 70% time saved!</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p style="margin:0"><strong>Key Point:</strong> GitHub Actions = Your robot assistant that runs tests automatically when code changes</p>
+                </div>
+            </section>
+
+            <!-- Slide 3: Why Use GitHub Actions? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Why Use GitHub Actions?</h2>
+                <div class="three-col">
+                    <div class="benefit-card">
+                        <i class="fas fa-gift" style="color: var(--vibe-green); font-size: 2em;"></i>
+                        <h3>Free Tier</h3>
+                        <p style="font-size: 0.75em;">Unlimited for public repos<br>2000 min/month for private</p>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-plug" style="color: var(--vibe-orange); font-size: 2em;"></i>
+                        <h3>Integrated</h3>
+                        <p style="font-size: 0.75em;">Lives with your code<br>Built-in permissions</p>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-store" style="color: var(--vibe-blue); font-size: 2em;"></i>
+                        <h3>Marketplace</h3>
+                        <p style="font-size: 0.75em;">20,000+ ready actions<br>No reinventing wheels</p>
+                    </div>
+                </div>
+                <table class="comparison-table" style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>GitHub Actions</th>
+                            <th>Jenkins</th>
+                            <th>CircleCI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Setup Time</td>
+                            <td>5 minutes ✅</td>
+                            <td>2 hours</td>
+                            <td>15 minutes</td>
+                        </tr>
+                        <tr>
+                            <td>Maintenance</td>
+                            <td>Zero ✅</td>
+                            <td>High (server)</td>
+                            <td>Low</td>
+                        </tr>
+                        <tr>
+                            <td>Free Tier</td>
+                            <td>2000 min ✅</td>
+                            <td>Self-host cost</td>
+                            <td>6000 min</td>
+                        </tr>
+                        <tr>
+                            <td>Matrix Builds</td>
+                            <td>Native ✅</td>
+                            <td>Plugins needed</td>
+                            <td>Native</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Slide 4: Architecture -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>GitHub Actions Architecture</h2>
+                <div class="visual-flow" style="flex-direction: column; gap: 15px; font-size: 0.7em;">
+                    <div class="flow-step" style="min-width: 300px;"><i class="fas fa-code-branch"></i> Event: Push/PR/Schedule</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 300px; background: var(--vibe-orange);"><i class="fas fa-file-code"></i> Workflow: .github/workflows/test.yml</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 300px; background: var(--vibe-green);"><i class="fas fa-tasks"></i> Job: Runs on Ubuntu/Windows/macOS</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 300px;"><i class="fas fa-server"></i> Runner: VM provisions (30-60s)</div>
+                    <div class="flow-arrow"><i class="fas fa-arrow-down"></i></div>
+                    <div class="flow-step" style="min-width: 300px; background: var(--vibe-orange);"><i class="fas fa-check-circle"></i> Result: Pass/Fail + Artifacts</div>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="content-box">
+                        <h3>Core Concepts</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li><strong>Workflow:</strong> YAML recipe</li>
+                            <li><strong>Event:</strong> Trigger alarm</li>
+                            <li><strong>Job:</strong> One cook/dish</li>
+                            <li><strong>Step:</strong> Cooking step</li>
+                            <li><strong>Runner:</strong> Kitchen (VM)</li>
+                            <li><strong>Action:</strong> Pre-made spice mix</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Runner Specs</h3>
+                        <table style="font-size: 0.65em; width: 100%;">
+                            <tr>
+                                <th>OS</th>
+                                <th>CPU</th>
+                                <th>RAM</th>
+                                <th>Cost</th>
+                            </tr>
+                            <tr>
+                                <td>Ubuntu</td>
+                                <td>2 cores</td>
+                                <td>7 GB</td>
+                                <td>1× ✅</td>
+                            </tr>
+                            <tr>
+                                <td>Windows</td>
+                                <td>2 cores</td>
+                                <td>7 GB</td>
+                                <td>2×</td>
+                            </tr>
+                            <tr>
+                                <td>macOS</td>
+                                <td>3 cores</td>
+                                <td>14 GB</td>
+                                <td>10×</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="warning-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-weight: bold;"><i class="fas fa-exclamation-triangle"></i> macOS is 10× more expensive! Use only for Safari-specific tests</p>
+                </div>
+            </section>
+
+            <!-- Slide 5: Your First Workflow -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Your First Workflow</h2>
+                <div class="code-block" style="font-size: 0.55em; padding: 12px 18px; line-height: 1.4;"># .github/workflows/test.yml
+name: Run Tests
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run tests
+        run: npm test</div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <h3>What Happens:</h3>
+                    <p style="font-size: 0.75em; margin: 5px 0;">1. You <code>git push</code> → 2. GitHub detects → 3. Provisions Ubuntu VM → 4. Clones repo → 5. Runs steps → 6. Shows results</p>
+                </div>
+            </section>
+
+            <!-- Slide 6: Playwright Integration -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Playwright Workflow</h2>
+                <div class="code-block" style="font-size: 0.5em; padding: 10px 15px; line-height: 1.3;"># .github/workflows/playwright.yml
+name: Playwright Tests
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      
+      - name: Run Playwright tests
+        run: npx playwright test
+        env:
+          CI: true
+      
+      - name: Upload test report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30</div>
+                <div class="content-box" style="margin-top: 8px;">
+                    <h3>Key Features</h3>
+                    <ul style="font-size: 0.7em;">
+                        <li><strong>npm caching:</strong> Speeds up installs (cache: 'npm')</li>
+                        <li><strong>Browser auto-install:</strong> --with-deps installs system dependencies</li>
+                        <li><strong>Artifacts:</strong> HTML report saved 30 days, always() runs even on failure</li>
+                    </ul>
+                </div>
+                <div class="highlight-box" style="margin-top: 8px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Result:</strong> Tests run on every push, HTML report downloadable, screenshots on failure</p>
+                </div>
+            </section>
+
+            <!-- Slide 7: Multi-Browser Matrix -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Multi-Browser Testing</h2>
+                <div class="code-block" style="font-size: 0.52em; padding: 10px 15px; line-height: 1.3;">name: Multi-Browser Tests
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - run: npx playwright test --project=${{ matrix.browser }}
+      
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-${{ matrix.browser }}
+          path: playwright-report/</div>
+                <div class="metric-card" style="margin-top: 10px;">
+                    <div class="value">3 Parallel Jobs</div>
+                    <div class="label">Chrome + Firefox + Safari</div>
+                </div>
+            </section>
+
+            <!-- Slide 8: Multi-OS Matrix -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Multi-OS Testing</h2>
+                <div class="code-block" style="font-size: 0.48em; padding: 10px 15px; line-height: 1.3;">strategy:
+  matrix:
+    os: [ubuntu-latest, windows-latest, macos-latest]
+    browser: [chromium, firefox, webkit]
+    exclude:
+      # WebKit doesn't work on Windows
+      - os: windows-latest
+        browser: webkit
+    include:
+      # Safari only on macOS
+      - os: macos-latest
+        browser: safari
+
+runs-on: ${{ matrix.os }}</div>
+                <div class="warning-box" style="margin-top: 10px;">
+                    <h3 style="margin-bottom: 5px;">Cost Warning!</h3>
+                    <p style="font-size: 0.7em; margin: 3px 0;"><strong>10 min Ubuntu</strong> = 10 min billed ($0.08)</p>
+                    <p style="font-size: 0.7em; margin: 3px 0;"><strong>10 min macOS</strong> = 100 min billed ($0.80)</p>
+                    <p style="font-size: 0.7em; margin: 3px 0;"><strong>Strategy:</strong> Run most tests on Ubuntu, only Safari tests on macOS</p>
+                </div>
+                <div class="highlight-box" style="margin-top: 8px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Result:</strong> 3 OS × 3 browsers = 9 parallel jobs!</p>
+                </div>
+            </section>
+
+            <!-- Slide 9: Scheduled Tests - Part 1 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Scheduled Tests (Cron)</h2>
+                <div class="content-box">
+                    <h3>Cron Syntax Primer</h3>
+                    <div style="font-size: 0.65em; font-family: monospace; margin: 8px 0;">
+                        <strong>* * * * *</strong><br>
+                        <span style="color: var(--vibe-orange);">│ │ │ │ │</span><br>
+                        <span style="color: var(--vibe-orange);">│ │ │ │ └─</span> Day of week (0-7, Sun=0 or 7)<br>
+                        <span style="color: var(--vibe-orange);">│ │ │ └───</span> Month (1-12)<br>
+                        <span style="color: var(--vibe-orange);">│ │ └─────</span> Day of month (1-31)<br>
+                        <span style="color: var(--vibe-orange);">│ └───────</span> Hour (0-23)<br>
+                        <span style="color: var(--vibe-orange);">└─────────</span> Minute (0-59)
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Common Examples</h3>
+                    <ul style="font-size: 0.7em;">
+                        <li><code>0 2 * * *</code> → Daily at 2:00 AM</li>
+                        <li><code>0 9 * * 1</code> → Every Monday at 9:00 AM</li>
+                        <li><code>0 6,18 * * *</code> → Twice daily (6 AM & 6 PM)</li>
+                        <li><code>0 8 * * 1-5</code> → Weekdays at 8 AM</li>
+                    </ul>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Use Case:</strong> Run regression tests nightly when traffic is low</p>
+                </div>
+            </section>
+
+            <!-- Slide 10: Scheduled Tests - Part 2 (Workflow) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Nightly Test Workflow</h2>
+                <div class="code-block" style="font-size: 0.48em; padding: 10px 15px; line-height: 1.3;">on:
+  schedule:
+    - cron: '0 2 * * *'  # 2 AM daily
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  nightly-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - run: npm ci
+      - run: npx playwright test
+      
+      - name: Notify on failure
+        if: failure()
+        run: |
+          curl -X POST ${{ secrets.SLACK_WEBHOOK }} \
+          -d '{"text":"❌ Nightly tests failed!"}'</div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Result:</strong> Tests run automatically every night at 2 AM + Slack alert on failure</p>
+                </div>
+            </section>
+
+            <!-- Slide 11: Manual Triggers -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Manual Triggers (workflow_dispatch)</h2>
+                <div class="code-block" style="font-size: 0.48em; padding: 10px 15px; line-height: 1.3;">on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to test'
+        required: true
+        type: choice
+        options:
+          - staging
+          - production
+          - qa
+      browser:
+        description: 'Browser'
+        type: choice
+        options: [chromium, firefox, webkit, all]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx playwright test --project=${{ inputs.browser }}</div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>How to Trigger</h3>
+                    <ul style="font-size: 0.7em;">
+                        <li><strong>UI:</strong> Actions tab → Select workflow → "Run workflow"</li>
+                        <li><strong>CLI:</strong> <code>gh workflow run test.yml -f environment=staging</code></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 12: Parallel Execution -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Parallel Execution Strategy</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>❌ Sequential (Slow)</h3>
+                        <div style="font-size: 0.7em;">
+                            <p>Suite A: 10 min <span style="color: var(--vibe-orange);">⏱️</span></p>
+                            <p>Suite B: 10 min <span style="color: var(--vibe-orange);">⏱️</span></p>
+                            <p>Suite C: 10 min <span style="color: var(--vibe-orange);">⏱️</span></p>
+                            <p><strong>Total: 30 minutes</strong></p>
+                        </div>
+                    </div>
+                    <div class="cost-box">
+                        <h3>✅ Parallel (Fast)</h3>
+                        <div style="font-size: 0.7em;">
+                            <p>Suite A: 10 min <span style="color: var(--vibe-green);">⚡</span></p>
+                            <p>Suite B: 10 min <span style="color: var(--vibe-green);">⚡</span></p>
+                            <p>Suite C: 10 min <span style="color: var(--vibe-green);">⚡</span></p>
+                            <p><strong>Total: 10 minutes (66% faster!)</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block" style="font-size: 0.5em; padding: 8px 12px; line-height: 1.3; margin-top: 10px;"># Playwright Sharding
+strategy:
+  matrix:
+    shard: [1, 2, 3, 4, 5, 6, 7, 8]
+steps:
+  - run: npx playwright test --shard=${{ matrix.shard }}/8</div>
+                <div class="metric-card" style="margin-top: 10px;">
+                    <div class="value">8× Faster</div>
+                    <div class="label">With 8 Shards</div>
+                </div>
+            </section>
+
+            <!-- Slide 13: Caching Dependencies -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Caching for Speed & Cost</h2>
+                <div class="two-col">
+                    <div class="warning-box">
+                        <h3>❌ Without Cache</h3>
+                        <div style="font-size: 0.7em;">
+                            <p>Job 1: npm install (2 min)</p>
+                            <p>Job 2: npm install (2 min)</p>
+                            <p>Job 3: npm install (2 min)</p>
+                            <p><strong>6 min = $0.60</strong></p>
+                        </div>
+                    </div>
+                    <div class="cost-box">
+                        <h3>✅ With Cache</h3>
+                        <div style="font-size: 0.7em;">
+                            <p>Job 1: npm install (2 min)</p>
+                            <p>Job 2: cache restore (10s)</p>
+                            <p>Job 3: cache restore (10s)</p>
+                            <p><strong>2.5 min = $0.25 (58% savings!)</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-block" style="font-size: 0.52em; padding: 8px 12px; line-height: 1.3; margin-top: 8px;"># Automatic npm caching
+- uses: actions/setup-node@v4
+  with:
+    node-version: '20'
+    cache: 'npm'  # ← Auto-caches node_modules</div>
+                <div class="highlight-box" style="margin-top: 8px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Bonus:</strong> Cache expires after 7 days, 10 GB max per repo</p>
+                </div>
+            </section>
+
+            <!-- Slide 14: Managing Secrets -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Secrets & Environment Variables</h2>
+                <div class="two-col">
+                    <div class="warning-box">
+                        <h3>❌ Bad: Hardcoded</h3>
+                        <div class="code-block" style="font-size: 0.5em; padding: 8px; margin: 5px 0;">env:
+  API_KEY: sk_live_1234567890
+  DB_PASSWORD: mypassword123</div>
+                        <p style="font-size: 0.7em; margin: 5px 0; color: #dc2626;">🚨 <strong>Security risk!</strong></p>
+                    </div>
+                    <div class="cost-box">
+                        <h3>✅ Good: Use Secrets</h3>
+                        <div class="code-block" style="font-size: 0.5em; padding: 8px; margin: 5px 0;">env:
+  API_KEY: ${{ secrets.API_KEY }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}</div>
+                        <p style="font-size: 0.7em; margin: 5px 0; color: var(--vibe-green);">✅ <strong>Secure!</strong></p>
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 8px;">
+                    <h3>Adding Secrets</h3>
+                    <div style="font-size: 0.7em;">
+                        <p><span class="step-number">1</span> Repo → Settings → Secrets → Actions</p>
+                        <p><span class="step-number">2</span> "New repository secret" → Name & Value</p>
+                        <p><span class="step-number">3</span> Use: <code>${{ secrets.API_KEY }}</code></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 15: ReportPortal Integration -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>ReportPortal Integration</h2>
+                <div class="code-block" style="font-size: 0.46em; padding: 8px 12px; line-height: 1.3;">- name: Run tests and send to ReportPortal
+  run: npx playwright test
+  env:
+    RP_TOKEN: ${{ secrets.RP_TOKEN }}
+    RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
+    RP_PROJECT: ${{ secrets.RP_PROJECT }}
+    RP_LAUNCH: "GH-${{ github.ref }}-#${{ github.run_number }}"
+    RP_ATTRIBUTES: "ci:gh;branch:${{ github.ref_name }}"</div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Benefits</h3>
+                    <ul style="font-size: 0.7em;">
+                        <li>Centralized results across branches</li>
+                        <li>Historical trends & flaky detection</li>
+                        <li>Screenshots/videos auto-uploaded</li>
+                        <li>AI-powered failure analysis</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 16: Slack Notifications -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Slack Notifications</h2>
+                <div class="code-block" style="font-size: 0.45em; padding: 8px 12px; line-height: 1.3;">- name: Send Slack notification
+  if: always()
+  uses: slackapi/slack-github-action@v1
+  with:
+    payload: |
+      {
+        "text": "${{ job.status == 'success' && '✅' || '🚨' }} Tests ${{ job.status }}",
+        "blocks": [
+          {
+            "type": "section",
+            "text": {
+              "type": "mrkdwn",
+              "text": "*Repo:* ${{ github.repository }}\n*Status:* ${{ job.status }}"
+            }
+          }
+        ]
+      }
+  env:
+    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}</div>
+                <div class="content-box" style="margin-top: 8px;">
+                    <h3>Setup</h3>
+                    <p style="font-size: 0.75em;"><span class="step-number">1</span> Slack App → Incoming Webhooks → Copy URL</p>
+                    <p style="font-size: 0.75em;"><span class="step-number">2</span> GitHub Secrets → Add <code>SLACK_WEBHOOK_URL</code></p>
+                </div>
+            </section>
+
+            <!-- Slide 17: Self-Hosted Runners -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Self-Hosted Runners</h2>
+                <div class="content-box">
+                    <h3>Why Self-Host?</h3>
+                    <ul style="font-size: 0.7em;">
+                        <li><strong>Cost savings:</strong> Free compute</li>
+                        <li><strong>Access private:</strong> Internal APIs/DBs</li>
+                        <li><strong>Custom hardware:</strong> GPU, high RAM</li>
+                        <li><strong>Unlimited minutes:</strong> No quota</li>
+                    </ul>
+                </div>
+                <div class="code-block" style="font-size: 0.48em; padding: 8px 12px; line-height: 1.3; margin-top: 8px;"># Setup on Linux
+mkdir actions-runner && cd actions-runner
+curl -o actions-runner-linux.tar.gz -L https://github.com/...
+tar xzf actions-runner-linux.tar.gz
+
+./config.sh --url https://github.com/... --token ABCD...
+sudo ./svc.sh install && sudo ./svc.sh start</div>
+                <div class="metric-card" style="margin-top: 10px;">
+                    <div class="value">55% Cost Reduction</div>
+                    <div class="label">vs GitHub-Hosted Runners</div>
+                </div>
+            </section>
+
+            <!-- Slide 17: Cost Optimization -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Cost Optimization Strategies</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>Savings</th>
+                            <th>Implementation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>✅ Use Caching</td>
+                            <td>58-83%</td>
+                            <td><code>cache: 'npm'</code></td>
+                        </tr>
+                        <tr>
+                            <td>✅ Avoid macOS</td>
+                            <td>90%</td>
+                            <td>Use Ubuntu, only Safari on macOS</td>
+                        </tr>
+                        <tr>
+                            <td>✅ Self-Hosted Runners</td>
+                            <td>55%</td>
+                            <td>AWS t3.medium $30/month</td>
+                        </tr>
+                        <tr>
+                            <td>✅ Cancel Redundant Runs</td>
+                            <td>66%</td>
+                            <td><code>cancel-in-progress: true</code></td>
+                        </tr>
+                        <tr>
+                            <td>✅ Conditional Workflows</td>
+                            <td>30-50%</td>
+                            <td><code>paths: ['src/**']</code></td>
+                        </tr>
+                        <tr>
+                            <td>✅ Reduce Retention</td>
+                            <td>20-30%</td>
+                            <td><code>retention-days: 7</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="code-block" style="font-size: 0.52em; padding: 10px 15px; line-height: 1.3; margin-top: 10px;"># Cancel older runs when pushing new commits
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# Example: Push 3 commits rapidly → First 2 runs cancelled → 66% savings!</div>
+            </section>
+
+            <!-- Slide 18: Pricing Breakdown -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>GitHub Actions Pricing</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Plan</th>
+                            <th>Storage</th>
+                            <th>Minutes/Month</th>
+                            <th>Jobs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Free (Public)</strong></td>
+                            <td>500 MB</td>
+                            <td>Unlimited ✅</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Free (Private)</strong></td>
+                            <td>500 MB</td>
+                            <td>2,000</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>GitHub Pro</td>
+                            <td>1 GB</td>
+                            <td>3,000</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>GitHub Team</td>
+                            <td>2 GB</td>
+                            <td>10,000</td>
+                            <td>60</td>
+                        </tr>
+                        <tr>
+                            <td>GitHub Enterprise</td>
+                            <td>50 GB</td>
+                            <td>50,000</td>
+                            <td>500</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="content-box">
+                        <h3>Cost Example</h3>
+                        <div style="font-size: 0.7em;">
+                            <p>Scenario: 15 min tests, 20 runs/day, Ubuntu</p>
+                            <p><strong>Daily:</strong> 15 × 20 = 300 min</p>
+                            <p><strong>Monthly:</strong> 300 × 30 = 9,000 min</p>
+                            <p><strong>Free tier:</strong> 2,000 min</p>
+                            <p><strong>Billable:</strong> 7,000 min</p>
+                            <p><strong>Cost:</strong> 7,000 × $0.008 = <strong>$56/month</strong></p>
+                        </div>
+                    </div>
+                    <div class="cost-box">
+                        <h3>Optimized</h3>
+                        <div style="font-size: 0.7em;">
+                            <p><strong>With caching:</strong> $32/month (43% savings)</p>
+                            <p><strong>With self-hosted:</strong> $30/month flat (AWS t3.medium)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 20: Common Issues - Part 1 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Troubleshooting Common Issues</h2>
+                <div class="warning-box" style="margin: 6px 0; padding: 8px 12px;">
+                    <h3 style="font-size: 0.9em; margin-bottom: 5px;">❌ Issue 1: Workflow Not Triggering</h3>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Cause:</strong> YAML syntax error or wrong branch</p>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Fix:</strong> Validate YAML, check branch filter</p>
+                </div>
+                <div class="warning-box" style="margin: 6px 0; padding: 8px 12px;">
+                    <h3 style="font-size: 0.9em; margin-bottom: 5px;">❌ Issue 2: Tests Pass Locally, Fail in CI</h3>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Cause:</strong> Missing .env or headless issues</p>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Fix:</strong> Create .env from secrets, use <code>--with-deps</code></p>
+                </div>
+                <div class="warning-box" style="margin: 6px 0; padding: 8px 12px;">
+                    <h3 style="font-size: 0.9em; margin-bottom: 5px;">❌ Issue 3: Browser Not Found</h3>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Cause:</strong> Browsers not installed</p>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Fix:</strong> <code>npx playwright install --with-deps chromium</code></p>
+                </div>
+            </section>
+
+            <!-- Slide 21: Common Issues - Part 2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Troubleshooting (Continued)</h2>
+                <div class="warning-box" style="margin: 8px 0; padding: 8px 12px;">
+                    <h3 style="font-size: 0.9em; margin-bottom: 5px;">❌ Issue 4: Test Timeout</h3>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Cause:</strong> CI slower than local machine</p>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Fix:</strong> Increase timeout: <code>timeout: 60000</code></p>
+                </div>
+                <div class="warning-box" style="margin: 8px 0; padding: 8px 12px;">
+                    <h3 style="font-size: 0.9em; margin-bottom: 5px;">❌ Issue 5: Out of Disk Space</h3>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Cause:</strong> Test artifacts filling disk (14 GB limit)</p>
+                    <p style="margin: 3px 0; font-size: 0.7em;"><strong>Fix:</strong> Cleanup or use <code>jlumbroso/free-disk-space</code> action</p>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Debugging:</strong> Check Actions tab, enable debug with <code>ACTIONS_STEP_DEBUG=true</code>, use <code>if: always()</code> for artifacts</p>
+                </div>
+            </section>
+
+            <!-- Slide 22: Security Best Practices -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Security Best Practices</h2>
+                <div class="two-col">
+                    <div class="cost-box">
+                        <h3>✅ Do This</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Use GitHub Secrets</li>
+                            <li>Pin actions to SHA</li>
+                            <li>Minimum permissions</li>
+                            <li>Validate actions</li>
+                            <li>Branch protection</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box">
+                        <h3>❌ Don't Do This</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Hardcode secrets</li>
+                            <li>Use <code>@latest</code></li>
+                            <li>Excessive permissions</li>
+                            <li>Allow untrusted forks</li>
+                            <li>Ignore advisories</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="code-block" style="font-size: 0.52em; padding: 8px 12px; line-height: 1.3; margin-top: 8px;"># ✅ Good: Pin to SHA
+- uses: actions/checkout@b4ffde65f46336ab88eb53...
+
+permissions:
+  contents: read
+  checks: write</div>
+                <div class="highlight-box" style="margin-top: 8px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Critical:</strong> Enable branch protection → Require status checks</p>
+                </div>
+            </section>
+
+            <!-- Slide 23: Advanced Patterns - Part 1 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Advanced Workflow Patterns</h2>
+                <div class="content-box">
+                    <h3>Pattern 1: Dependent Jobs</h3>
+                    <div class="code-block" style="font-size: 0.5em; padding: 8px; margin: 5px 0;">jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: npm run build
+  
+  test:
+    needs: build  # Waits for build
+    steps:
+      - run: npm test
+  
+  deploy:
+    needs: [build, test]  # Waits for both
+    steps:
+      - run: npm run deploy</div>
+                </div>
+                <div class="content-box" style="margin-top: 8px;">
+                    <h3>Pattern 2: Conditional Jobs</h3>
+                    <div class="code-block" style="font-size: 0.5em; padding: 8px; margin: 5px 0;">deploy-staging:
+  if: github.ref == 'refs/heads/develop'
+  steps:
+    - run: deploy staging
+
+deploy-production:
+  if: github.ref == 'refs/heads/main'
+  steps:
+    - run: deploy production</div>
+                </div>
+            </section>
+
+            <!-- Slide 24: Advanced Patterns - Part 2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>More Advanced Patterns</h2>
+                <div class="content-box">
+                    <h3>Reusable Workflows</h3>
+                    <div class="code-block" style="font-size: 0.5em; padding: 8px; margin: 5px 0;"># Caller workflow
+jobs:
+  test-node-18:
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      node-version: '18'</div>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Flaky Test Handling</h3>
+                    <div class="code-block" style="font-size: 0.48em; padding: 8px; margin: 5px 0;">// playwright.config.ts
+export default defineConfig({
+  retries: process.env.CI ? 2 : 0,  // 2 retries in CI
+});
+
+// Mark as flaky
+test.fixme(true, 'Known flaky - quarantined');
+
+// Separate flaky job
+flaky-tests:
+  continue-on-error: true
+  steps:
+    - run: npx playwright test --grep "@flaky"</div>
+                </div>
+            </section>
+
+            <!-- Slide 25: Real-World Example - Part 1 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Real-World Success Story</h2>
+                <div class="content-box">
+                    <h3>ShopFast E-Commerce</h3>
+                    <p style="font-size: 0.75em;"><strong>Company:</strong> ShopFast | <strong>Team:</strong> 8 QA Engineers | <strong>Tests:</strong> 450 Playwright tests</p>
+                </div>
+                <div class="two-col" style="margin-top: 10px;">
+                    <div class="warning-box">
+                        <h3>❌ Before GitHub Actions</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Manual execution</li>
+                            <li>90 min per deployment</li>
+                            <li>3 deployments per day</li>
+                            <li>270 min/day wasted</li>
+                            <li>Inconsistent execution</li>
+                        </ul>
+                    </div>
+                    <div class="cost-box">
+                        <h3>✅ After GitHub Actions</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li>Fully automated</li>
+                            <li>12 min (4-shard parallel)</li>
+                            <li>20 deployments possible</li>
+                            <li>4.5 hours saved daily</li>
+                            <li>100% consistent</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 26: Real-World Example - Part 2 (Metrics) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>ShopFast: Metrics After 3 Months</h2>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Before</th>
+                        <th>After</th>
+                        <th>Impact</th>
+                    </tr>
+                    <tr>
+                        <td>Feedback Time</td>
+                        <td>90 min</td>
+                        <td>12 min</td>
+                        <td>86% faster ✅</td>
+                    </tr>
+                    <tr>
+                        <td>Tests Run/Day</td>
+                        <td>1,350</td>
+                        <td>9,000</td>
+                        <td>566% more ✅</td>
+                    </tr>
+                    <tr>
+                        <td>QA Time Saved</td>
+                        <td>0 hrs</td>
+                        <td>36 hrs/day</td>
+                        <td>$144K/year ✅</td>
+                    </tr>
+                    <tr>
+                        <td>Bugs Caught</td>
+                        <td>15/month</td>
+                        <td>47/month</td>
+                        <td>213% more ✅</td>
+                    </tr>
+                </table>
+            </section>
+
+            <!-- Slide 27: ROI Calculation -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Return on Investment (ROI)</h2>
+                <div class="two-col">
+                    <div class="warning-box">
+                        <h3>GitHub Actions Cost</h3>
+                        <div style="font-size: 0.7em;">
+                            <p>450 tests ÷ 4 shards = 112/shard</p>
+                            <p>12 min per shard</p>
+                            <p>20 runs per day</p>
+                            <p><strong>Monthly: 28,800 min</strong></p>
+                            <p><strong>Cost: $214/month</strong></p>
+                        </div>
+                    </div>
+                    <div class="cost-box">
+                        <h3>Value Generated</h3>
+                        <div style="font-size: 0.7em;">
+                            <p>8 QA × 4.5 hrs saved daily</p>
+                            <p><strong>Daily: 36 hours saved</strong></p>
+                            <p><strong>Monthly: 720 hours</strong></p>
+                            <p><strong>@$50/hr = $36,000</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="metric-card" style="margin-top: 15px;">
+                    <h3 style="color: white;">ROI Calculation</h3>
+                    <div class="value">16,714%</div>
+                    <div class="label">Payback: Less than 1 day!</div>
+                </div>
+            </section>
+
+            <!-- Slide 28: Best Practices - Part 1 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Best Practices Summary</h2>
+                <div class="two-col" style="font-size: 0.72em;">
+                    <div class="content-box">
+                        <h3>Testing</h3>
+                        <ul style="font-size: 0.9em;">
+                            <li>Run on every push/PR</li>
+                            <li>Multi-browser matrix</li>
+                            <li>Automatic retries (2×)</li>
+                            <li>Upload artifacts on failure</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Performance</h3>
+                        <ul style="font-size: 0.9em;">
+                            <li>Cache dependencies</li>
+                            <li>Parallel execution</li>
+                            <li>Prefer Ubuntu</li>
+                            <li>Cancel redundant runs</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Cost</h3>
+                        <ul style="font-size: 0.9em;">
+                            <li>Monitor usage monthly</li>
+                            <li>Self-hosted runners</li>
+                            <li>Reduce retention</li>
+                            <li>Optimize duration</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Security</h3>
+                        <ul style="font-size: 0.9em;">
+                            <li>Never hardcode secrets</li>
+                            <li>Pin actions to SHA</li>
+                            <li>Minimum permissions</li>
+                            <li>Branch protection</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 29: Best Practices - Part 2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Best Practices (Continued)</h2>
+                <div class="two-col" style="font-size: 0.72em;">
+                    <div class="content-box">
+                        <h3>Monitoring</h3>
+                        <ul style="font-size: 0.9em;">
+                            <li>Slack notifications</li>
+                            <li>Send to ReportPortal</li>
+                            <li>Track flaky rate</li>
+                            <li>Review logs</li>
+                            <li>Status badges</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Code Quality</h3>
+                        <ul style="font-size: 0.9em;">
+                            <li>Meaningful names</li>
+                            <li>Comment complex logic</li>
+                            <li>Reusable workflows</li>
+                            <li>Version control</li>
+                            <li>Document in README</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 30: Complete Production Workflow -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Complete Production Workflow</h2>
+                <div class="code-block" style="font-size: 0.38em; padding: 8px 12px; line-height: 1.3;">name: Production Test Suite
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps ${{ matrix.browser }}
+      - run: npx playwright test --project=${{ matrix.browser }} --shard=${{ matrix.shard }}/4
+        env:
+          RP_TOKEN: ${{ secrets.RP_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-${{ matrix.browser }}-${{ matrix.shard }}
+          retention-days: 7
+  
+  notify:
+    needs: test
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: slackapi/slack-github-action@v1
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}</div>
+            </section>
+
+            <!-- Slide 31: Getting Started - Part 1 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Getting Started: Your Action Plan</h2>
+                <div class="content-box">
+                    <h3><span class="step-number">1</span> Create Workflow File</h3>
+                    <p style="font-size: 0.75em; margin-left: 40px;">Create <code>.github/workflows/test.yml</code></p>
+                </div>
+                <div class="content-box">
+                    <h3><span class="step-number">2</span> Choose Trigger</h3>
+                    <p style="font-size: 0.75em; margin-left: 40px;"><code>on: [push, pull_request]</code></p>
+                </div>
+                <div class="content-box">
+                    <h3><span class="step-number">3</span> Define Job</h3>
+                    <p style="font-size: 0.75em; margin-left: 40px;"><code>runs-on: ubuntu-latest</code></p>
+                </div>
+                <div class="content-box">
+                    <h3><span class="step-number">4</span> Add Steps</h3>
+                    <p style="font-size: 0.75em; margin-left: 40px;">Checkout → Setup → Install → Test → Upload</p>
+                </div>
+            </section>
+
+            <!-- Slide 32: Getting Started - Part 2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Getting Started (Continued)</h2>
+                <div class="content-box">
+                    <h3><span class="step-number">5</span> Commit & Push</h3>
+                    <p style="font-size: 0.75em; margin-left: 40px;"><code>git add .github/workflows/test.yml</code></p>
+                    <p style="font-size: 0.75em; margin-left: 40px;"><code>git commit && git push</code></p>
+                </div>
+                <div class="content-box">
+                    <h3><span class="step-number">6</span> Monitor</h3>
+                    <p style="font-size: 0.75em; margin-left: 40px;">GitHub → Actions tab → See workflow running</p>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <h3>Next Steps</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li>Add matrix for multi-browser</li>
+                        <li>Enable caching for speed</li>
+                        <li>Integrate ReportPortal</li>
+                        <li>Set up Slack notifications</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 33: Resources - Part 1 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Resources & Learning</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Official Documentation</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li><a href="https://docs.github.com/en/actions">GitHub Actions Docs</a></li>
+                            <li><a href="https://playwright.dev/docs/ci">Playwright CI Guide</a></li>
+                            <li><a href="https://reportportal.io/docs/">ReportPortal Docs</a></li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3>Community</h3>
+                        <ul style="font-size: 0.7em;">
+                            <li><a href="https://github.community/c/actions">GitHub Community</a></li>
+                            <li><a href="https://aka.ms/playwright/discord">Playwright Discord</a></li>
+                            <li><a href="https://reportportal.io/community">ReportPortal Slack</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Example Repositories</h3>
+                    <ul style="font-size: 0.7em;">
+                        <li><a href="https://github.com/actions/starter-workflows">actions/starter-workflows</a></li>
+                        <li><a href="https://github.com/microsoft/playwright">microsoft/playwright</a></li>
+                        <li><a href="https://github.com/reportportal/examples">reportportal/examples</a></li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 34: Resources - Part 2 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>More Resources</h2>
+                <div class="content-box">
+                    <h3>Useful Actions Marketplace</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li>actions/checkout, actions/setup-node, actions/cache</li>
+                        <li>actions/upload-artifact, slackapi/slash-github-action</li>
+                        <li>codecov/codecov-action, github/super-linter</li>
+                    </ul>
+                </div>
+                <div class="content-box" style="margin-top: 10px;">
+                    <h3>Video Tutorials</h3>
+                    <ul style="font-size: 0.75em;">
+                        <li>GitHub Actions Crash Course (freeCodeCamp)</li>
+                        <li>Playwright GitHub Actions Integration</li>
+                        <li>CI/CD Best Practices (DevOps Toolkit)</li>
+                    </ul>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <p style="margin:0; font-size: 0.75em;"><strong>Complete Guide:</strong> See <code>demo/github-actions-test-automation-guide.md</code></p>
+                </div>
+            </section>
+
+            <!-- Slide 35: Key Takeaways -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Key Takeaways</h2>
+                <div class="three-col">
+                    <div class="metric-card">
+                        <i class="fab fa-github" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        <div class="label">GitHub Actions</div>
+                        <p style="font-size: 0.7em; margin-top: 10px;">Built-in automation platform</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-gift" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        <div class="label">Free Tier</div>
+                        <div class="value">2000 min/month</div>
+                        <p style="font-size: 0.7em;">Unlimited for public repos</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-th" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        <div class="label">Matrix Builds</div>
+                        <p style="font-size: 0.7em; margin-top: 10px;">Test multiple browsers/OS in parallel</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-rocket" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        <div class="label">Caching</div>
+                        <div class="value">58-83%</div>
+                        <p style="font-size: 0.7em;">Time & cost savings</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-chart-line" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        <div class="label">ROI</div>
+                        <div class="value">16,714%</div>
+                        <p style="font-size: 0.7em;">For typical project</p>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fas fa-shield-alt" style="font-size: 2em; margin-bottom: 10px;"></i>
+                        <div class="label">Security</div>
+                        <p style="font-size: 0.7em; margin-top: 10px;">Never hardcode secrets, pin action SHAs</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 36: Thank You -->
+            <section class="title-slide">
+                <div class="company-header">
+                    <img src="../assets/White-Logo.png" alt="VibeTestQ" style="width: 200px; margin: 0 auto; display: block;">
+                </div>
+                <h1>Thank You!</h1>
+                <div class="subtitle">Questions?</div>
+                <p style="text-align: center; margin-top: 30px; font-size: 1em;">
+                    <strong>Website:</strong> <a href="https://vibetestq.com">vibetestq.com</a><br>
+                    <strong>GitHub:</strong> <a href="https://github.com/QtpSudhakarOrg">github.com/QtpSudhakarOrg</a><br>
+                    <strong>Email:</strong> contact@vibetestq.com
+                </p>
+                <div class="highlight-box" style="max-width: 600px; margin: 30px auto;">
+                    <p style="text-align: center; margin:0; font-size: 1.1em;"><strong>Start automating today! 🚀</strong></p>
+                </div>
+                <p style="text-align: center; margin-top: 30px; font-size: 0.8em; color: #64748b;">
+                    Presentation created with ❤️ by QtpSudhakar<br>
+                    February 2026
+                </p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide',
+            controls: true,
+            progress: true,
+            center: false,
+            slideNumber: 'c/t',
+            width: 1280,
+            height: 720,
+            margin: 0.05
+        });
+    </script>
+</body>
+</html>

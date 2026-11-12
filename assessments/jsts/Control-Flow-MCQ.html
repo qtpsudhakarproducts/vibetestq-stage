@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #1e40af;
+    --primary-dark: #1e3a8a;
+    --secondary: #22c55e;
+    --accent: #f97316;
+    --warning: #fbbf24;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid var(--border);
+}
+
+.logo img {
+    height: 50px;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--primary-dark);
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.back-link:hover {
+    background: #eff6ff;
+    color: var(--primary);
+}
+
+.assessment-title {
+    text-align: right;
+}
+
+.assessment-title h1 {
+    font-size: 1.5rem;
+    color: var(--primary-dark);
+}
+
+.assessment-title p {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 20px;
+}
+
+.question {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.question:last-child {
+    border-bottom: none;
+}
+
+.question-text {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+}
+
+.question-number {
+    color: var(--primary);
+    min-width: 25px;
+}
+
+.options {
+    display: grid;
+    gap: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option:hover {
+    background-color: #f1f5f9;
+    border-color: var(--primary);
+}
+
+.option input {
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.option.correct {
+    border-color: var(--secondary);
+    background-color: #ecfdf5;
+}
+
+.option.incorrect {
+    border-color: var(--danger);
+    background-color: #fef2f2;
+}
+
+.question.unanswered {
+    border: 2px solid var(--danger) !important;
+    background-color: #fef2f2 !important;
+    border-radius: 8px;
+    padding: 15px !important;
+    margin-bottom: 25px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    gap: 8px;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-success {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.result-section {
+    display: none;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.score-display {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+.feedback-text {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+
+.name-input-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+}
+
+.name-input-section label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.name-input-section input {
+    padding: 10px 15px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 15px;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background: #ef4444;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: none;
+    z-index: 1000;
+    font-weight: 500;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.explanation {
+    margin-top: 10px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    display: none;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 4px;
+    border-left: 3px solid var(--primary);
+}
+
+@media print {
+
+    .btn,
+    .name-input-section {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+        padding: 0;
+    }
+
+    .card {
+        box-shadow: none;
+        border: none;
+    }
+
+    .explanation,
+    .result-section {
+        display: block !important;
+    }
+
+    #printed-name {
+        display: block !important;
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary-dark);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 10px;
+    }
+}
+
+#printed-name {
+    display: none;
+}
+
+code {
+    background: #f1f5f9;
+    padding: 2px 4px;
+    border-radius: 4px;
+    color: #e11d48;
+    font-family: monospace;
+}
+
+pre {
+    background: #1e293b;
+    color: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 10px 0;
+    font-size: 0.85rem;
+}
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo"><img src="../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+            <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+            <div class="assessment-title">
+                <h1>Assessment</h1>
+                <p>Loading topics...</p>
+            </div>
+        </header>
+
+        <div id="result-container" class="card result-section">
+            <div id="printed-name"></div>
+            <h2>Assessment Completed!</h2>
+            <div id="score-display" class="score-display">0 / 0</div>
+            <p id="feedback-text" class="feedback-text"></p>
+            <div class="name-input-section">
+                <label for="student-name">Enter your name for the report:</label>
+                <input type="text" id="student-name" placeholder="Your Full Name"><br>
+                <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print
+                    Result</button>
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <div class="card">
+                <form id="quiz-form"></form>
+            </div>
+        </div>
+
+        <footer style="text-align: center; margin-top: 40px; color: var(--text-light); font-size: 0.8rem;">
+            &copy; 2026 VibeTestQ. All rights reserved.
+        </footer>
+    </div>
+
+    <script type="text/plain" id="assessment-markdown">
+# Assessment 03: Control Flow MCQ
+
+**Total Questions:** 30  
+**Time:** 30 minutes  
+**Pass Mark:** 60%  
+**Topics:** if-else, switch, for loops, while loops
+
+---
+
+## Questions
+
+### Question 1
+What will be the output?
+```javascript
+if (5 > 3) {
+    console.log("A");
+} else {
+    console.log("B");
+}
+```
+
+A) A  
+B) B  
+C) AB  
+D) Nothing
+
+**Answer: A) A**
+
+**Explanation:** Since 5 > 3 is true, the if block executes and prints "A".
+
+---
+
+### Question 2
+What is the purpose of the `else if` statement?
+
+A) To execute code when the if condition is false  
+B) To check multiple conditions sequentially  
+C) To create a loop  
+D) To define a function
+
+**Answer: B) To check multiple conditions sequentially**
+
+**Explanation:** else if allows you to test multiple conditions in order. Only the first true condition's block executes.
+
+---
+
+### Question 3
+What will this switch statement output?
+```javascript
+let day = 2;
+switch(day) {
+    case 1:
+        console.log("Monday");
+    case 2:
+        console.log("Tuesday");
+    case 3:
+        console.log("Wednesday");
+}
+```
+
+A) Tuesday  
+B) Monday Tuesday Wednesday  
+C) Tuesday Wednesday  
+D) Nothing
+
+**Answer: C) Tuesday Wednesday**
+
+**Explanation:** Without break statements, execution "falls through" to subsequent cases. Case 2 executes, then case 3 also executes.
+
+---
+
+### Question 4
+How do you prevent fall-through in a switch statement?
+
+A) Use return  
+B) Use break  
+C) Use continue  
+D) Use exit
+
+**Answer: B) Use break**
+
+**Explanation:** The break statement stops execution and exits the switch block, preventing fall-through.
+
+---
+
+### Question 5
+How many times will this loop execute?
+```javascript
+for (let i = 0; i < 5; i++) {
+    console.log(i);
+}
+```
+
+A) 4  
+B) 5  
+C) 6  
+D) Infinite
+
+**Answer: B) 5**
+
+**Explanation:** Loop runs with i values 0, 1, 2, 3, 4. When i becomes 5, the condition i < 5 is false, so it stops.
+
+---
+
+### Question 6
+What is the difference between `for...of` and `for...in`?
+
+A) No difference  
+B) for...of iterates values, for...in iterates keys/indices  
+C) for...of is faster  
+D) for...in is deprecated
+
+**Answer: B) for...of iterates values, for...in iterates keys/indices**
+
+**Explanation:** for...of loops through array values, for...in loops through object keys or array indices.
+
+---
+
+### Question 7
+What will be the output?
+```javascript
+let i = 0;
+while (i < 3) {
+    console.log(i);
+    i++;
+}
+```
+
+A) 0 1 2  
+B) 0 1 2 3  
+C) 1 2 3  
+D) Infinite loop
+
+**Answer: A) 0 1 2**
+
+**Explanation:** Loop executes with i = 0, 1, 2. When i becomes 3, condition i < 3 is false.
+
+---
+
+### Question 8
+What is the difference between `while` and `do...while`?
+
+A) No difference  
+B) do...while executes at least once  
+C) while is faster  
+D) do...while is deprecated
+
+**Answer: B) do...while executes at least once**
+
+**Explanation:** do...while checks the condition after execution, so the code block runs at least once even if the condition is initially false.
+
+---
+
+### Question 9
+What does the `break` statement do in a loop?
+
+A) Skips current iteration  
+B) Exits the loop entirely  
+C) Restarts the loop  
+D) Nothing
+
+**Answer: B) Exits the loop entirely**
+
+**Explanation:** break terminates the loop immediately and continues with code after the loop.
+
+---
+
+### Question 10
+What does the `continue` statement do in a loop?
+
+A) Exits the loop  
+B) Skips to the next iteration  
+C) Restarts the loop from beginning  
+D) Pauses the loop
+
+**Answer: B) Skips to the next iteration**
+
+**Explanation:** continue skips the rest of the current iteration and proceeds to the next iteration.
+
+---
+
+### Question 11
+What will be the output?
+```javascript
+for (let i = 0; i < 5; i++) {
+    if (i === 3) break;
+    console.log(i);
+}
+```
+
+A) 0 1 2 3 4  
+B) 0 1 2 3  
+C) 0 1 2  
+D) 0 1 2 4
+
+**Answer: C) 0 1 2**
+
+**Explanation:** When i equals 3, break exits the loop. So only 0, 1, 2 are printed.
+
+---
+
+### Question 12
+What will be the output?
+```javascript
+for (let i = 0; i < 5; i++) {
+    if (i === 3) continue;
+    console.log(i);
+}
+```
+
+A) 0 1 2 3 4  
+B) 0 1 2 4  
+C) 0 1 2  
+D) 3 4
+
+**Answer: B) 0 1 2 4**
+
+**Explanation:** When i equals 3, continue skips that iteration. So 3 is not printed, but the loop continues with 4.
+
+---
+
+### Question 13
+Which loop is best when you don't know how many iterations are needed?
+
+A) for loop  
+B) while loop  
+C) for...of loop  
+D) do...while loop
+
+**Answer: B) while loop**
+
+**Explanation:** while loops are ideal when the number of iterations depends on a condition rather than a fixed count.
+
+---
+
+### Question 14
+What is the purpose of the `default` case in a switch statement?
+
+A) To execute first  
+B) To execute when no other case matches  
+C) To exit the switch  
+D) To loop through cases
+
+**Answer: B) To execute when no other case matches**
+
+**Explanation:** The default case executes when none of the case values match the expression.
+
+---
+
+### Question 15
+How do you create an infinite loop?
+
+A) `while (true) { }`  
+B) `for (;;) { }`  
+C) `do { } while (true);`  
+D) All of the above
+
+**Answer: D) All of the above**
+
+**Explanation:** All three create infinite loops. Always ensure you have a break condition to prevent hanging!
+
+---
+
+### Question 16
+What will be the output?
+```javascript
+let arr = [1, 2, 3];
+for (let num of arr) {
+    console.log(num);
+}
+```
+
+A) 0 1 2  
+B) 1 2 3  
+C) [1, 2, 3]  
+D) Error
+
+**Answer: B) 1 2 3**
+
+**Explanation:** for...of iterates through array values, printing 1, 2, then 3.
+
+---
+
+### Question 17
+What will be the output?
+```javascript
+let obj = {a: 1, b: 2};
+for (let key in obj) {
+    console.log(key);
+}
+```
+
+A) 1 2  
+B) a b  
+C) [a, b]  
+D) {a: 1, b: 2}
+
+**Answer: B) a b**
+
+**Explanation:** for...in iterates through object keys, printing "a" then "b".
+
+---
+
+### Question 18
+Which statement about nested loops is TRUE?
+
+A) JavaScript doesn't support nested loops  
+B) The inner loop completes fully for each outer loop iteration  
+C) Nested loops are deprecated  
+D) break in inner loop exits both loops
+
+**Answer: B) The inner loop completes fully for each outer loop iteration**
+
+**Explanation:** For each iteration of the outer loop, the inner loop runs completely from start to finish.
+
+---
+
+### Question 19
+What will this code output?
+```javascript
+let result = (10 > 5) ? "Yes" : "No";
+console.log(result);
+```
+
+A) true  
+B) "Yes"  
+C) "No"  
+D) 10
+
+**Answer: B) "Yes"**
+
+**Explanation:** The ternary operator returns "Yes" because 10 > 5 is true.
+
+---
+
+### Question 20
+How many times will this loop execute?
+```javascript
+let i = 0;
+do {
+    console.log(i);
+    i++;
+} while (i < 0);
+```
+
+A) 0 times  
+B) 1 time  
+C) 2 times  
+D) Infinite
+
+**Answer: B) 1 time**
+
+**Explanation:** do...while executes the block once before checking the condition, so it prints 0 once.
+
+---
+
+### Question 21
+What happens if you omit the increment in a for loop?
+```javascript
+for (let i = 0; i < 5; ) {
+    console.log(i);
+}
+```
+
+A) Syntax error  
+B) Infinite loop  
+C) Loops once  
+D) Doesn't execute
+
+**Answer: B) Infinite loop**
+
+**Explanation:** Without incrementing i, the condition i < 5 remains true forever, creating an infinite loop.
+
+---
+
+### Question 22
+Which is the correct syntax for a for loop?
+
+A) `for (let i = 0; i < 10; i++)`  
+B) `for let i = 0; i < 10; i++`  
+C) `for (i = 0; i < 10; i++)`  
+D) Both A and C
+
+**Answer: D) Both A and C**
+
+**Explanation:** Both are valid. A declares i with let (recommended), C assumes i is already declared.
+
+---
+
+### Question 23
+What will be the output?
+```javascript
+let x = 5;
+if (x > 3)
+    console.log("A");
+    console.log("B");
+```
+
+A) A  
+B) B  
+C) A B  
+D) Nothing
+
+**Answer: C) A B**
+
+**Explanation:** Without curly braces, only the first statement belongs to if. "B" always prints. This is why braces are recommended!
+
+---
+
+### Question 24
+What is the best way to loop through an array?
+
+A) for loop  
+B) for...of loop  
+C) forEach method  
+D) All are valid options
+
+**Answer: D) All are valid options**
+
+**Explanation:** All methods work. Choose based on your needs: for (need index), for...of (cleaner), forEach (functional style).
+
+---
+
+### Question 25
+What will be logged?
+```javascript
+switch(2) {
+    case 1:
+    case 2:
+    case 3:
+        console.log("1-3");
+        break;
+    default:
+        console.log("Other");
+}
+```
+
+A) 2  
+B) 1-3  
+C) Other  
+D) Nothing
+
+**Answer: B) 1-3**
+
+**Explanation:** Cases 1, 2, and 3 all fall through to the same code block. Case 2 matches, so "1-3" is logged.
+
+---
+
+### Question 26
+Can you use a string in a switch statement?
+
+A) No, only numbers  
+B) Yes, strings are allowed  
+C) Only in strict mode  
+D) Only single characters
+
+**Answer: B) Yes, strings are allowed**
+
+**Explanation:** Switch statements work with strings, numbers, and any value that can be compared with ===.
+
+---
+
+### Question 27
+What will happen?
+```javascript
+for (let i = 10; i > 0; i--) {
+    if (i === 5) break;
+}
+console.log(i);
+```
+
+A) 5  
+B) 0  
+C) Error  
+D) undefined
+
+**Answer: C) Error**
+
+**Explanation:** i is declared with let inside the for loop, so it's not accessible outside the loop (block scope).
+
+---
+
+### Question 28
+What is a labeled statement used for?
+
+A) To name variables  
+B) To break out of nested loops  
+C) To label functions  
+D) To create comments
+
+**Answer: B) To break out of nested loops**
+
+**Explanation:** Labels allow you to break or continue specific outer loops from within nested loops.
+
+---
+
+### Question 29
+How many iterations will this nested loop perform?
+```javascript
+for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 2; j++) {
+        console.log(i, j);
+    }
+}
+```
+
+A) 3  
+B) 5  
+C) 6  
+D) 9
+
+**Answer: C) 6**
+
+**Explanation:** Outer loop runs 3 times, inner loop runs 2 times for each outer iteration. 3 × 2 = 6 total iterations.
+
+---
+
+### Question 30
+What is the output?
+```javascript
+let age = 25;
+let category = age < 18 ? "Minor" : age < 65 ? "Adult" : "Senior";
+console.log(category);
+```
+
+A) Minor  
+B) Adult  
+C) Senior  
+D) undefined
+
+**Answer: B) Adult**
+
+**Explanation:** Nested ternary: 25 < 18 is false, so check second ternary. 25 < 65 is true, so "Adult" is returned.
+
+---
+
+## Answer Key
+
+| Q# | Answer | Q# | Answer | Q# | Answer |
+|----|--------|----|--------|----|--------|
+| 1  | A      | 11 | C      | 21 | B      |
+| 2  | B      | 12 | B      | 22 | D      |
+| 3  | C      | 13 | B      | 23 | C      |
+| 4  | B      | 14 | B      | 24 | D      |
+| 5  | B      | 15 | D      | 25 | B      |
+| 6  | B      | 16 | B      | 26 | B      |
+| 7  | A      | 17 | B      | 27 | C      |
+| 8  | B      | 18 | B      | 28 | B      |
+| 9  | B      | 19 | B      | 29 | C      |
+| 10 | B      | 20 | B      | 30 | B      |
+
+---
+
+## Scoring Guide
+
+- **27-30 correct (90-100%)**: Excellent! Control flow mastery
+- **24-26 correct (80-87%)**: Very Good!
+- **21-23 correct (70-77%)**: Good. Minor review needed
+- **18-20 correct (60-67%)**: Pass. Practice more
+- **Below 18 (< 60%)**: Review control flow concepts
+
+---
+
+**Reference:** Documentation Files 04, 05
+    </script>
+    <script>
+(() => {
+    const markdownNode = document.getElementById('assessment-markdown');
+    if (!markdownNode) {
+        return;
+    }
+
+    const markdown = markdownNode.textContent.trim();
+    const form = document.getElementById('quiz-form');
+    const titleElement = document.querySelector('.assessment-title h1');
+    const subtitleElement = document.querySelector('.assessment-title p');
+    const scoreDisplay = document.getElementById('score-display');
+
+    const assessmentData = parseAssessmentMarkdown(markdown);
+    renderAssessment(assessmentData);
+
+    function parseAssessmentMarkdown(raw) {
+        const lines = raw.replace(/\r\n/g, '\n').split('\n');
+        const titleLine = lines.find((line) => line.trim().startsWith('# ')) || '';
+        const rawTitle = titleLine.replace(/^#\s*/, '').trim();
+        const cleanedTitle = rawTitle
+            .replace(/^Assessment\s*\d*\s*:?\s*/i, '')
+            .replace(/\bMCQ\b/i, '')
+            .trim();
+
+        let topics = '';
+        const topicsLine =
+            lines.find((line) => /^\*\*Topics/i.test(line)) ||
+            lines.find((line) => /^\*\*Topics Covered/i.test(line));
+        if (topicsLine) {
+            const parts = topicsLine.split(':');
+            topics = parts.length > 1 ? parts.slice(1).join(':').replace(/\*\*/g, '').trim() : '';
+        }
+
+        if (!topics) {
+            const subtitleLine = lines.find((line) => line.trim().startsWith('## '));
+            if (subtitleLine) {
+                topics = subtitleLine.replace(/^##\s*/, '').trim();
+            }
+        }
+
+        const questionBlocks = [];
+        const hasQuestionsHeading = lines.some((line) => /^##\s*Questions/i.test(line.trim()));
+        let inQuestions = !hasQuestionsHeading;
+        let stopQuestions = false;
+        let current = null;
+
+        for (const line of lines) {
+            const trimmed = line.trim();
+
+            if (/^##\s*Questions/i.test(trimmed)) {
+                inQuestions = true;
+                continue;
+            }
+
+            if (inQuestions && /^##\s+/i.test(trimmed) && !/^##\s*Questions/i.test(trimmed)) {
+                stopQuestions = true;
+                if (current) {
+                    questionBlocks.push(current);
+                    current = null;
+                }
+                continue;
+            }
+
+            if (!inQuestions || stopQuestions) {
+                continue;
+            }
+
+            if (/^###\s*Question\s*\d+/i.test(trimmed)) {
+                if (current) {
+                    questionBlocks.push(current);
+                }
+                current = [];
+                continue;
+            }
+
+            if (current) {
+                current.push(line);
+            }
+        }
+
+        if (current) {
+            questionBlocks.push(current);
+        }
+
+        const questions = questionBlocks
+            .map((block) => parseQuestionBlock(block))
+            .filter((question) => question.options.length > 0);
+
+        return {
+            title: cleanedTitle || rawTitle || 'Assessment',
+            topics,
+            questions
+        };
+    }
+
+    function parseQuestionBlock(lines) {
+        const questionLines = [];
+        const options = [];
+        let answer = '';
+        const explanationLines = [];
+        let capturingExplanation = false;
+
+        lines.forEach((line) => {
+            const trimmed = line.trim();
+
+            if (/^\*\*Answer:/i.test(trimmed)) {
+                const match = trimmed.match(/Answer:\s*([A-D])/i);
+                if (match) {
+                    answer = match[1].toLowerCase();
+                }
+                capturingExplanation = false;
+                return;
+            }
+
+            if (/^\*\*Explanation:/i.test(trimmed)) {
+                capturingExplanation = true;
+                const explanationText = trimmed
+                    .replace(/^\*\*Explanation:\*\*\s*/i, '')
+                    .replace(/^\*\*Explanation:\s*/i, '')
+                    .trim();
+                if (explanationText) {
+                    explanationLines.push(explanationText);
+                }
+                return;
+            }
+
+            if (capturingExplanation) {
+                if (trimmed === '---') {
+                    capturingExplanation = false;
+                } else {
+                    explanationLines.push(line);
+                }
+                return;
+            }
+
+            const optionMatch = trimmed.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);
+            if (optionMatch) {
+                options.push({
+                    letter: optionMatch[1].toLowerCase(),
+                    text: optionMatch[2].trim()
+                });
+                return;
+            }
+
+            if (trimmed === '---' || /^##/.test(trimmed)) {
+                return;
+            }
+
+            questionLines.push(line);
+        });
+
+        if (!answer && options.length > 0) {
+            answer = options[0].letter;
+        }
+
+        const { promptLine, bodyLines } = splitPromptAndBody(questionLines);
+
+        return {
+            promptHtml: formatInlineCode(promptLine || 'Select the correct option.'),
+            bodyHtml: formatLinesToHtml(bodyLines),
+            options: options.map((opt) => ({
+                letter: opt.letter,
+                html: formatInlineCode(opt.text)
+            })),
+            answer,
+            explanationHtml: formatLinesToHtml(explanationLines)
+        };
+    }
+
+    function splitPromptAndBody(lines) {
+        let promptLine = '';
+        const bodyLines = [];
+        let foundPrompt = false;
+
+        lines.forEach((line) => {
+            if (!foundPrompt && line.trim() && !line.trim().startsWith('```')) {
+                promptLine = line.trim();
+                foundPrompt = true;
+            } else {
+                bodyLines.push(line);
+            }
+        });
+
+        return { promptLine, bodyLines };
+    }
+
+    function formatLinesToHtml(lines) {
+        if (!lines.length) {
+            return '';
+        }
+
+        const parts = [];
+        let inCodeBlock = false;
+        let codeLines = [];
+        let textLines = [];
+
+        const flushText = () => {
+            if (!textLines.length) {
+                return;
+            }
+            parts.push(textLines.map(formatInlineCode).join('<br>'));
+            textLines = [];
+        };
+
+        lines.forEach((line) => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('```')) {
+                if (inCodeBlock) {
+                    parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+                    codeLines = [];
+                    inCodeBlock = false;
+                } else {
+                    flushText();
+                    inCodeBlock = true;
+                }
+                return;
+            }
+
+            if (inCodeBlock) {
+                codeLines.push(line);
+            } else if (trimmed !== '') {
+                textLines.push(line);
+            }
+        });
+
+        if (codeLines.length) {
+            parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+        }
+
+        flushText();
+        return parts.join('');
+    }
+
+    function formatInlineCode(text) {
+        if (!text) {
+            return '';
+        }
+
+        const segments = text.split('`');
+        return segments
+            .map((segment, index) => {
+                if (index % 2 === 1) {
+                    return `<code>${escapeHtml(segment)}</code>`;
+                }
+                return escapeHtml(segment);
+            })
+            .join('');
+    }
+
+    function escapeHtml(value) {
+        return value
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    function renderAssessment(data) {
+        const heading = data.title ? `Assessment: ${data.title}` : 'Assessment';
+        titleElement.textContent = heading;
+        subtitleElement.textContent = data.topics || data.title || 'Multiple Choice Questions';
+        document.title = `${heading} - VibeTestQ`;
+
+        form.innerHTML = '';
+
+        data.questions.forEach((question, index) => {
+            form.appendChild(buildQuestionElement(question, index));
+        });
+
+        const submitWrap = document.createElement('div');
+        submitWrap.style.textAlign = 'center';
+        submitWrap.style.marginTop = '30px';
+        submitWrap.innerHTML = `
+            <button type="button" class="btn btn-primary" onclick="submitQuiz()">
+                <i class="fas fa-paper-plane"></i> Submit Assessment
+            </button>
+        `;
+        form.appendChild(submitWrap);
+
+        scoreDisplay.textContent = `0 / ${data.questions.length}`;
+    }
+
+    function buildQuestionElement(question, index) {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.dataset.answer = question.answer;
+
+        const questionText = document.createElement('div');
+        questionText.className = 'question-text';
+
+        const numberSpan = document.createElement('span');
+        numberSpan.className = 'question-number';
+        numberSpan.textContent = `${index + 1}.`;
+
+        const textSpan = document.createElement('span');
+        textSpan.innerHTML = question.promptHtml;
+
+        questionText.appendChild(numberSpan);
+        questionText.appendChild(textSpan);
+        questionElement.appendChild(questionText);
+
+        if (question.bodyHtml) {
+            const body = document.createElement('div');
+            body.className = 'question-body';
+            body.innerHTML = question.bodyHtml;
+            questionElement.appendChild(body);
+        }
+
+        const options = document.createElement('div');
+        options.className = 'options';
+
+        question.options.forEach((option) => {
+            const label = document.createElement('label');
+            label.className = 'option';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `q${index + 1}`;
+            input.value = option.letter;
+
+            const optionText = document.createElement('span');
+            optionText.innerHTML = option.html;
+
+            label.appendChild(input);
+            label.appendChild(optionText);
+            options.appendChild(label);
+        });
+
+        questionElement.appendChild(options);
+
+        const explanation = document.createElement('p');
+        explanation.className = 'explanation';
+        explanation.innerHTML = question.explanationHtml || '';
+        questionElement.appendChild(explanation);
+
+        return questionElement;
+    }
+
+    window.submitQuiz = function submitQuiz() {
+        const questions = document.querySelectorAll('.question');
+        let score = 0;
+        const unAnsweredSet = [];
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const selected = form.querySelector(`input[name="q${qNum}"]:checked`);
+            if (!selected) {
+                unAnsweredSet.push(q);
+                q.classList.add('unanswered');
+            } else {
+                q.classList.remove('unanswered');
+            }
+        });
+
+        if (unAnsweredSet.length > 0) {
+            showToast("Please answer all questions before submitting.");
+            unAnsweredSet[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return;
+        }
+
+        questions.forEach((q, index) => {
+            const qNum = index + 1;
+            const selected = form.querySelector(`input[name="q${qNum}"]:checked`);
+            const correctAnswer = q.getAttribute('data-answer');
+            const options = q.querySelectorAll('.option');
+            const explanation = q.querySelector('.explanation');
+
+            if (explanation) {
+                explanation.style.display = 'block';
+            }
+
+            options.forEach(opt => {
+                const radio = opt.querySelector('input');
+                if (radio.value === correctAnswer) {
+                    opt.classList.add('correct');
+                }
+                if (selected && radio === selected && radio.value !== correctAnswer) {
+                    opt.classList.add('incorrect');
+                }
+            });
+
+            if (selected && selected.value === correctAnswer) {
+                score += 1;
+            }
+        });
+
+        document.getElementById('result-container').style.display = 'block';
+        document.getElementById('score-display').innerText = `${score} / ${questions.length}`;
+
+        let feedback = "";
+        const percentage = (score / questions.length) * 100;
+        if (percentage === 100) feedback = "Perfect Score! You are a JS Wizard!";
+        else if (percentage >= 80) feedback = "Excellent! You have a strong grasp of fundamentals.";
+        else if (percentage >= 60) feedback = "Good job! Keep practicing to master the concepts.";
+        else feedback = "Keep learning! Review the Docs to strengthen your basics.";
+
+        document.getElementById('feedback-text').innerText = feedback;
+
+        form.querySelectorAll('input').forEach(input => input.disabled = true);
+        const submitButton = form.querySelector('button');
+        if (submitButton) {
+            submitButton.style.display = 'none';
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.preparePrint = function preparePrint() {
+        const name = document.getElementById('student-name').value;
+        if (name) {
+            document.getElementById('printed-name').innerText = "Student: " + name;
+        } else {
+            document.getElementById('printed-name').innerText = "";
+        }
+        window.print();
+    };
+
+    function showToast(message) {
+        let toast = document.getElementById('toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'toast';
+            toast.className = 'toast';
+            document.body.appendChild(toast);
+        }
+        toast.innerText = message;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+})();
+    </script>
+</body>
+
+</html>

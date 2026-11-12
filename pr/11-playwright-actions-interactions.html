@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Actions & Interactions - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Playwright Actions &amp; Interactions</h1>
+    <p class="subtitle">Click, Fill, Keyboard, File Upload, Drag &amp; More</p>
+    <p class="tagline">Every interaction pattern you need in real-world automation — Session 11</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Click</span>
+        <span class="badge" style="background:var(--vibe-blue);">Fill</span>
+        <span class="badge" style="background:var(--vibe-green);">Keyboard &amp; Mouse</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Auto-Waiting: What It Means in Practice</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Before Every Action, Playwright:</h3>
+            <ul>
+                <li>Waits for element to exist in DOM</li>
+                <li>Waits for element to be visible</li>
+                <li>Waits for element to be stable (stop animating)</li>
+                <li>Waits for element to be enabled</li>
+                <li>Waits for element to receive focus</li>
+                <li>Scrolls element into view</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3>What You Should NOT Do</h3>
+            <ul>
+                <li class="cross">page.waitForTimeout(3000)</li>
+                <li class="cross">sleep() in test code</li>
+                <li class="cross">Manual wait after every click</li>
+                <li class="cross">Polling with setInterval</li>
+                <li class="cross">Retrying with try/catch loops</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Trust the auto-wait. Only add explicit waits when you need to wait for network events, custom conditions, or non-element state changes.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Click and Mouse Actions</h2>
+    <div class="code-snippet">// Standard click — auto-waits for actionable state
+await page.getByRole('button', { name: 'Submit' }).click();
+
+// Click options
+await element.click({ button: 'right' });       // right-click
+await element.click({ clickCount: 2 });          // double-click
+await element.click({ modifiers: ['Shift'] });   // shift+click
+await element.click({ position: { x: 10, y: 5 } }); // at coordinates
+
+// Convenience methods
+await element.dblclick();
+await element.hover();    // triggers CSS :hover, opens dropdowns
+await element.focus();    // sets focus without clicking
+
+// Tap for mobile contexts
+await element.tap();
+
+// Check / Uncheck
+await page.getByRole('checkbox', { name: 'Agree' }).check();
+await page.getByRole('checkbox', { name: 'Agree' }).uncheck();
+await page.getByRole('checkbox').setChecked(true);
+
+// Force click — bypasses actionability (use sparingly!)
+await element.click({ force: true });</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Form Input Actions</h2>
+    <div class="code-snippet">// fill() — clears existing value then types (recommended for inputs)
+await page.getByLabel('Email').fill('user@example.com');
+
+// pressSequentially() — types char by char, triggers keystroke events
+await page.getByLabel('Search').pressSequentially('playwright', { delay: 50 });
+
+// clear() — empty an input field
+await page.getByLabel('Email').clear();
+
+// selectOption() — dropdowns
+await page.getByRole('combobox').selectOption('chrome');
+await page.getByRole('combobox').selectOption({ label: 'Google Chrome' });
+await page.getByRole('listbox').selectOption(['option1', 'option2']); // multi-select
+
+// File upload
+await page.getByLabel('Upload file').setInputFiles('path/to/file.pdf');
+await page.getByLabel('Upload').setInputFiles(['file1.png', 'file2.png']);
+await page.getByLabel('Upload').setInputFiles([]); // remove
+
+// File upload via dialog intercept
+page.on('filechooser', async (chooser) => {
+  await chooser.setFiles('tests/fixtures/sample.pdf');
+});
+await page.getByRole('button', { name: 'Upload' }).click();</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Keyboard and Special Keys</h2>
+    <div class="two-col">
+        <div class="code-snippet" style="margin-top:0; font-size:0.6em;">// press() on a specific element
+await page.getByLabel('Search').press('Enter');
+await page.getByTestId('input').press('Tab');
+
+// Keyboard shortcuts — page-level
+await page.keyboard.press('Control+A');  // select all
+await page.keyboard.press('Control+C');  // copy
+await page.keyboard.press('Control+V');  // paste
+await page.keyboard.press('Escape');
+await page.keyboard.press('ArrowDown');
+await page.keyboard.press('F12');
+
+// Click while holding key
+await element.click({ modifiers: ['Meta'] }); // Cmd+Click
+await element.click({ modifiers: ['Control'] }); // Ctrl+Click
+
+// Type into focused element
+await page.keyboard.type('Hello World');
+await page.keyboard.down('Shift');
+await page.keyboard.press('ArrowLeft');
+await page.keyboard.up('Shift');</div>
+        <div>
+            <div class="content-box">
+                <h3>Common Key Names</h3>
+                <ul style="font-size:0.8em;">
+                    <li>Enter, Tab, Escape, Space</li>
+                    <li>ArrowUp, ArrowDown, ArrowLeft, ArrowRight</li>
+                    <li>Home, End, PageUp, PageDown</li>
+                    <li>Backspace, Delete</li>
+                    <li>Control, Meta, Alt, Shift</li>
+                    <li>F1–F12, Insert</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Drag &amp; Drop and Scroll</h2>
+    <div class="code-snippet">// Drag and drop — two approaches
+// 1. dragTo() — recommended for accessible DnD
+await page.getByTestId('task-item').dragTo(page.getByTestId('done-column'));
+
+// 2. mouse events — for complex custom DnD
+const source = page.getByTestId('card');
+const target = page.getByTestId('dropzone');
+await source.hover();
+await page.mouse.down();
+const box = await target.boundingBox();
+await page.mouse.move(box.x + box.width/2, box.y + box.height/2);
+await page.mouse.up();
+
+// Scroll
+await page.mouse.wheel(0, 500);              // scroll down 500px
+await element.scrollIntoViewIfNeeded();     // ensure element visible
+await page.evaluate(() => window.scrollTo(0, 0)); // scroll to top
+
+// Scroll within a scrollable container
+await page.getByTestId('scroll-container').evaluate(
+  el => el.scrollTop += 200
+);</div>
+    <div class="highlight-box">
+        <p class="compact">Always use <code>dragTo()</code> first. Only fall back to manual mouse events if the app uses a non-accessible custom DnD library.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Navigation and Page Actions</h2>
+    <div class="code-snippet">// Navigate — auto-waits for load
+await page.goto('https://example.com');
+await page.goto('/dashboard', { waitUntil: 'networkidle' });
+
+// Browser controls
+await page.goBack();
+await page.goForward();
+await page.reload();
+
+// Wait for specific conditions
+await page.waitForURL('**/dashboard');
+await page.waitForURL(/login/);
+await page.waitForLoadState('networkidle');
+await page.waitForLoadState('domcontentloaded');
+
+// Wait for element to appear (use sparingly — prefer assertions)
+await page.waitForSelector('[data-testid="modal"]');
+
+// Screenshots
+await page.screenshot({ path: 'screenshot.png' });
+await page.screenshot({ path: 'full.png', fullPage: true });
+await element.screenshot({ path: 'element.png' });</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 11 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Core Actions</h3>
+            <ul>
+                <li>click(), dblclick(), hover() — mouse</li>
+                <li>fill() — clear + type (recommended)</li>
+                <li>pressSequentially() — char-by-char</li>
+                <li>check(), uncheck(), setChecked()</li>
+                <li>selectOption() — dropdowns</li>
+                <li>setInputFiles() — file upload</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Best Practices</h3>
+            <ul>
+                <li>Never use page.waitForTimeout()</li>
+                <li>Trust auto-waiting — it handles timing</li>
+                <li>Use dragTo() for accessible DnD</li>
+                <li>keyboard.press() for shortcuts</li>
+                <li>waitForURL() after navigations</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="background:#eff6ff; border-color:var(--vibe-blue); text-align:center;">
+        <p class="bold text-blue">Next: Session 12 — Playwright Assertions and the expect() API</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

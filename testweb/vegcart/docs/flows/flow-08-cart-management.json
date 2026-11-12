@@ -1,0 +1,53 @@
+{
+  "name": "Flow 08 – Cart Management (Add, Remove, Update)",
+  "steps": [
+    {
+      "id": "step_1000000007_0",
+      "toolName": "clear_cart",
+      "params": {},
+      "label": "Start fresh – clear cart"
+    },
+    {
+      "id": "step_1000000007_1",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Avocado", "quantity": 2 },
+      "label": "Add Avocado ×2 (₹149/piece)"
+    },
+    {
+      "id": "step_1000000007_2",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Dragon Fruit", "quantity": 1 },
+      "label": "Add Dragon Fruit ×1 (₹199/piece)"
+    },
+    {
+      "id": "step_1000000007_3",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Baby Corn", "quantity": 3 },
+      "label": "Add Baby Corn ×3 (₹89/250g)"
+    },
+    {
+      "id": "step_1000000007_4",
+      "toolName": "get_cart_contents",
+      "params": {},
+      "label": "Verify cart: 3 product lines, check total"
+    },
+    {
+      "id": "step_1000000007_5",
+      "toolName": "remove_from_cart",
+      "params": { "itemName": "Dragon Fruit" },
+      "label": "Remove Dragon Fruit from cart"
+    },
+    {
+      "id": "step_1000000007_6",
+      "toolName": "get_cart_contents",
+      "params": {},
+      "label": "Verify cart: Dragon Fruit gone, total updated"
+    },
+    {
+      "id": "step_1000000007_7",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "cart" },
+      "label": "Navigate to Cart tab to view UI"
+    }
+  ]
+}

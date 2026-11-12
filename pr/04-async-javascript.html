@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Async JavaScript - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .stat-box { display:inline-block; background:#dbeafe; border:2px solid var(--vibe-blue); padding:12px 20px; margin:6px; border-radius:8px; }
+        .stat-number { font-size:1.8em; font-weight:700; color:var(--vibe-orange); display:block; }
+        .stat-label { font-size:0.8em; color:var(--vibe-blue); }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+        .evolution-step { background:var(--vibe-light-bg); border:2px solid #e2e8f0; border-radius:8px; padding:8px 12px; margin:5px 0; position:relative; }
+        .evolution-step.active { border-color:var(--vibe-green); background:#f0fdf4; }
+        .step-era { font-size:0.65em; font-weight:700; color:var(--vibe-orange); text-transform:uppercase; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- Slide 1: Title -->
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Async JavaScript</h1>
+    <p class="subtitle">Callbacks → Promises → async/await → The Event Loop</p>
+    <p class="tagline">Why Playwright needs async/await and how it all works — Session 4</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Promises</span>
+        <span class="badge" style="background:var(--vibe-green);">async/await</span>
+        <span class="badge" style="background:var(--vibe-dark-blue);">Event Loop</span>
+    </div>
+</section>
+
+<!-- Slide 2: The Async Problem -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Why Does Async Exist?</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">The Problem</h3>
+            <p class="compact">Browsers and Node.js are single-threaded. They can only do <strong>one thing at a time</strong>.</p>
+            <p class="compact" style="margin-top:6px;">Waiting for a network request, a file read, or a page to load would <strong>freeze everything</strong> if done synchronously.</p>
+        </div>
+        <div class="content-box">
+            <h3>The Real-World Analogy</h3>
+            <p class="compact">You order coffee at a cafe. You don't stand frozen until it's ready. You sit down, check your phone, and the barista calls you when it's done.</p>
+            <p class="compact" style="margin-top:6px;">That's async: <strong>start a task, do other work, handle result when ready.</strong></p>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Every Playwright action — <code>page.goto()</code>, <code>page.click()</code>, <code>expect().toBeVisible()</code> — is async. This is why you need <code>await</code>.</p>
+    </div>
+</section>
+
+<!-- Slide: The Order Problem -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Order Problem — Why Tests Break Without Async</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">❌ Without await</h3>
+            <div class="code-snippet" style="font-size:0.6em; margin-top:4px;">// Steps fire immediately — no waiting
+page.goto('/login');       // starts, doesn't wait
+page.fill('#u', 'admin');  // page not loaded yet!
+page.click('#submit');     // form not filled yet!
+// Test FAILS — steps ran out of order</div>
+            <ul style="margin-top:8px;">
+                <li class="cross">Button clicked before page loaded</li>
+                <li class="cross">Form submitted before filled</li>
+                <li class="cross">Random failures, hard to debug</li>
+            </ul>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>✅ With await</h3>
+            <div class="code-snippet" style="font-size:0.6em; margin-top:4px;">// Each step waits for the previous
+await page.goto('/login');       // waits for load
+await page.fill('#u', 'admin');  // waits for fill
+await page.click('#submit');     // waits for click
+// Exact sequence, every time</div>
+            <ul style="margin-top:8px;">
+                <li>Each step confirms completion before next</li>
+                <li>Playwright verifies element is ready</li>
+                <li>Reliable, deterministic test flow</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">This is the #1 reason <code>await</code> exists in Playwright — it enforces step order. Forgetting it causes random, hard-to-reproduce failures.</p>
+    </div>
+</section>
+
+<!-- Slide 3: The Evolution of Async -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Evolution of Async Patterns</h2>
+    <div class="evolution-step">
+        <span class="step-era">Era 1 — 1995–2012</span>
+        <p class="compact"><strong>Callbacks</strong> — Functions passed as arguments, called when async work is done. Worked but led to "Callback Hell".</p>
+    </div>
+    <div class="evolution-step" style="margin-top:6px;">
+        <span class="step-era">Era 2 — ES6 2015</span>
+        <p class="compact"><strong>Promises</strong> — Objects representing a future value. Chainable with <code>.then()</code> and <code>.catch()</code>. Much cleaner but still verbose.</p>
+    </div>
+    <div class="evolution-step active" style="margin-top:6px;">
+        <span class="step-era">Era 3 — ES2017 ← We Are Here</span>
+        <p class="compact"><strong>async/await</strong> — Syntactic sugar over Promises. Reads like synchronous code. Used in <em>every</em> Playwright test.</p>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact">Understanding all three eras means you can <strong>debug any async error</strong> you encounter.</p>
+    </div>
+</section>
+
+<!-- Slide 4: Callbacks -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Era 1: Callbacks</h2>
+    <div class="code-snippet">// Callback pattern — basic form
+function fetchUser(id, callback) {
+  setTimeout(() =&gt; {
+    const user = { id, name: "Admin" };  // simulated async result
+    callback(null, user);  // convention: error first, then data
+  }, 1000);
+}
+
+fetchUser(1, function(error, user) {
+  if (error) { console.error(error); return; }
+  console.log(user.name);
+});
+
+// CALLBACK HELL — nested async operations
+getUser(id, function(err, user) {
+  if (err) return handleError(err);
+  getOrders(user.id, function(err, orders) {
+    if (err) return handleError(err);
+    getOrderDetails(orders[0].id, function(err, details) {
+      if (err) return handleError(err);
+      // ... 5 more levels deep
+    });
+  });
+});</div>
+    <div class="highlight-box">
+        <p class="compact">Callback hell = unmaintainable, hard to debug, error handling repeated everywhere. This is why Promises were created.</p>
+    </div>
+</section>
+
+<!-- Slide 5: Promises -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Era 2: Promises</h2>
+    <div class="code-snippet">// Creating a Promise
+const fetchUser = (id) =&gt; new Promise((resolve, reject) =&gt; {
+  setTimeout(() =&gt; {
+    if (id &gt; 0) {
+      resolve({ id, name: "Admin" });  // success
+    } else {
+      reject(new Error("Invalid user ID"));  // failure
+    }
+  }, 1000);
+});
+
+// Consuming with .then() / .catch()
+fetchUser(1)
+  .then(user =&gt; {
+    console.log(`Got user: ${user.name}`);
+    return fetchOrders(user.id);  // chained!
+  })
+  .then(orders =&gt; {
+    console.log(`Orders: ${orders.length}`);
+  })
+  .catch(error =&gt; {
+    console.error(`Error: ${error.message}`);
+  })
+  .finally(() =&gt; {
+    console.log("Done");  // always runs
+  });</div>
+    <div class="highlight-box">
+        <p class="compact">Promises are chainable — no more nesting. But <code>.then().then().then()</code> chains are still harder to read than synchronous code.</p>
+    </div>
+</section>
+
+<!-- Slide: Promise States -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Promise States — Three Possible States</h2>
+    <div class="three-col" style="margin:12px 0;">
+        <div class="content-box" style="text-align:center; border-left:4px solid #94a3b8;">
+            <div style="font-size:2em; color:#94a3b8; margin-bottom:6px;"><i class="fas fa-spinner"></i></div>
+            <h3 style="color:#64748b;">PENDING</h3>
+            <p class="compact" style="font-size:0.8em;">Operation still in progress. Neither resolved nor rejected yet.</p>
+            <p class="compact" style="font-size:0.75em; color:#64748b; margin-top:4px;">e.g. fetch() in flight</p>
+        </div>
+        <div class="content-box" style="text-align:center; border-left:4px solid var(--vibe-green);">
+            <div style="font-size:2em; color:var(--vibe-green); margin-bottom:6px;"><i class="fas fa-check-circle"></i></div>
+            <h3 style="color:var(--vibe-green);">FULFILLED</h3>
+            <p class="compact" style="font-size:0.8em;">Succeeded. Has a result value. <code>.then()</code> callback runs.</p>
+            <p class="compact" style="font-size:0.75em; color:var(--vibe-green); margin-top:4px;">e.g. data received</p>
+        </div>
+        <div class="content-box" style="text-align:center; border-left:4px solid var(--vibe-orange);">
+            <div style="font-size:2em; color:var(--vibe-orange); margin-bottom:6px;"><i class="fas fa-times-circle"></i></div>
+            <h3 style="color:var(--vibe-orange);">REJECTED</h3>
+            <p class="compact" style="font-size:0.8em;">Failed. Has an error reason. <code>.catch()</code> callback runs.</p>
+            <p class="compact" style="font-size:0.75em; color:var(--vibe-orange); margin-top:4px;">e.g. network error</p>
+        </div>
+    </div>
+    <div class="content-box" style="margin-top:6px; text-align:center;">
+        <p class="compact"><strong>Transitions:</strong> <span class="text-blue">Pending → Fulfilled</span> &nbsp;|&nbsp; <span class="text-orange">Pending → Rejected</span> — <strong>never backwards, never twice.</strong> Once settled, a Promise is immutable.</p>
+    </div>
+    <div class="highlight-box" style="margin-top:6px;">
+        <p class="compact">When you <code>await</code> a Promise, code pauses at <em>Pending</em> and resumes when Fulfilled (gets the value) or throws when Rejected.</p>
+    </div>
+</section>
+
+<!-- Slide 6: async/await -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Era 3: async / await</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">Promise Chain Version</h3>
+            <div class="code-snippet" style="margin-top:4px;">function loginTest() {
+  return page.goto('/login')
+    .then(() =&gt; page.fill('#user', 'admin'))
+    .then(() =&gt; page.fill('#pass', 'Admin1234'))
+    .then(() =&gt; page.click('#login'))
+    .then(() =&gt; page.waitForURL('/dashboard'))
+    .then(() =&gt; expect(page.url()).toContain('/dashboard'))
+    .catch(err =&gt; console.error(err));
+}</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>async/await Version (Playwright Style)</h3>
+            <div class="code-snippet" style="margin-top:4px;">async function loginTest(page) {
+  await page.goto('/login');
+  await page.fill('#user', 'admin');
+  await page.fill('#pass', 'Admin1234');
+  await page.click('#login');
+  await page.waitForURL('/dashboard');
+  expect(page.url()).toContain('/dashboard');
+}</div>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">async/await is NOT a different mechanism — it's <strong>syntax sugar over Promises</strong> that reads like synchronous code.</p>
+    </div>
+</section>
+
+<!-- Slide 7: The Rules of async/await -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Critical Rules of async/await</h2>
+    <div class="content-box">
+        <div class="code-snippet" style="margin-top:4px;">// RULE 1: async functions always return a Promise
+async function getUser() {
+  return "Admin";  // actually returns Promise.resolve("Admin")
+}
+
+// RULE 2: await can ONLY be used inside an async function
+async function test() {
+  const user = await getUser();  // OK — inside async function
+}
+// const user = await getUser();  // SyntaxError — top level (unless module)
+
+// RULE 3: await pauses THIS function only — not the whole program
+async function runTests() {
+  console.log("start");
+  const result = await page.goto("/login");  // pauses here until done
+  console.log("navigation complete");         // runs after goto resolves
+}
+
+// RULE 4: Forgetting await = getting a Promise object, not the value!
+const title = page.title();    // Promise object — NOT the title string
+const title2 = await page.title();  // "Login Page" — actual string</div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact text-orange bold">The most common Playwright bug: forgetting <code>await</code> before async calls. Always check if a method is async.</p>
+    </div>
+</section>
+
+<!-- Slide 8: Error Handling with async/await -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Error Handling in async Functions</h2>
+    <div class="code-snippet">// try/catch replaces .catch() in async/await world
+async function performLogin(page, creds) {
+  try {
+    await page.goto('/login');
+    await page.getByLabel('Username').fill(creds.username);
+    await page.getByLabel('Password').fill(creds.password);
+    await page.getByRole('button', { name: 'Login' }).click();
+    await page.waitForURL('**/dashboard', { timeout: 10000 });
+    return true;
+  } catch (error) {
+    // Playwright throws TimeoutError, Error, etc.
+    console.error(`Login failed: ${error.message}`);
+    return false;
+  }
+}
+
+// Unhandled rejection — crashes the test
+// async function badTest() {
+//   await page.goto('/nonexistent');  // throws, but nothing catches it
+// }
+
+// Playwright catches uncaught errors in test body automatically
+// But inside helper functions, YOU must handle errors</div>
+    <div class="highlight-box">
+        <p class="compact">Playwright surfaces async errors with full stack traces in Trace Viewer. Understanding async errors helps you debug fast.</p>
+    </div>
+</section>
+
+<!-- Slide 9: All Promise Methods -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>All 6 Promise Methods — Quick Reference</h2>
+    <div class="two-col" style="margin:8px 0;">
+        <div>
+            <div class="content-box" style="margin-bottom:7px;">
+                <span class="badge" style="background:var(--vibe-blue);">Promise.all()</span>
+                <p class="compact" style="margin-top:4px; font-size:0.82em;"><strong>All must succeed.</strong> Returns array of values. Fails immediately if any promise fails. <em>Best for: parallel test setup.</em></p>
+            </div>
+            <div class="content-box" style="margin-bottom:7px;">
+                <span class="badge" style="background:var(--vibe-green);">Promise.allSettled()</span>
+                <p class="compact" style="margin-top:4px; font-size:0.82em;"><strong>Wait for all, see each result.</strong> Never rejects — each result has <code>status: fulfilled | rejected</code>. <em>Best for: checking all results.</em></p>
+            </div>
+            <div class="content-box">
+                <span class="badge" style="background:var(--vibe-orange);">Promise.race()</span>
+                <p class="compact" style="margin-top:4px; font-size:0.82em;"><strong>First to settle wins</strong> — success or failure. Race an operation against a timer. <em>Best for: custom timeouts.</em></p>
+            </div>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:7px;">
+                <span class="badge" style="background:var(--vibe-dark-blue);">Promise.any()</span>
+                <p class="compact" style="margin-top:4px; font-size:0.82em;"><strong>First success wins.</strong> Only rejects if ALL fail. <em>Best for: trying multiple URLs or endpoints.</em></p>
+            </div>
+            <div class="content-box" style="margin-bottom:7px;">
+                <span class="badge" style="background:#64748b;">Promise.resolve(val)</span>
+                <p class="compact" style="margin-top:4px; font-size:0.82em;"><strong>Already-resolved promise.</strong> Wraps a value in a Promise instantly. <em>Best for: mock/stub return values.</em></p>
+            </div>
+            <div class="content-box">
+                <span class="badge" style="background:#ef4444;">Promise.reject(err)</span>
+                <p class="compact" style="margin-top:4px; font-size:0.82em;"><strong>Already-rejected promise.</strong> Wraps an error instantly. <em>Best for: mocking failure scenarios.</em></p>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">In tests: <code>Promise.all()</code> for parallel API setup, <code>Promise.allSettled()</code> to check all results, <code>Promise.race()</code> for timeouts.</p>
+    </div>
+</section>
+
+<!-- Slide 10: The Event Loop Visual -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Event Loop — Mental Model</h2>
+    <div class="three-col">
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-blue); margin-bottom:8px;"><i class="fas fa-layer-group"></i></div>
+            <h3>Call Stack</h3>
+            <p class="compact" style="font-size:0.75em;">Currently executing code. Synchronous only. One thing at a time.</p>
+        </div>
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-orange); margin-bottom:8px;"><i class="fas fa-clock"></i></div>
+            <h3>Web APIs / Node APIs</h3>
+            <p class="compact" style="font-size:0.75em;">setTimeout, fetch, file reads run here in background threads.</p>
+        </div>
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-green); margin-bottom:8px;"><i class="fas fa-list-ol"></i></div>
+            <h3>Callback Queue</h3>
+            <p class="compact" style="font-size:0.75em;">Completed async tasks wait here until the call stack is empty.</p>
+        </div>
+    </div>
+    <div class="content-box" style="margin-top:10px;">
+        <h3>The Loop</h3>
+        <p class="compact">The event loop continuously checks: <strong>"Is the call stack empty?"</strong> If yes, it picks the next item from the callback queue and runs it. This is how JS handles async without multiple threads.</p>
+    </div>
+    <div class="highlight-box">
+        <p class="compact">Playwright's <code>await</code> lets the event loop process other work while waiting for browser operations.</p>
+    </div>
+</section>
+
+<!-- Slide 11: Microtasks vs Macrotasks -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Microtasks vs Macrotasks (Quick Overview)</h2>
+    <div class="code-snippet">console.log("1 — synchronous start");
+
+setTimeout(() =&gt; console.log("5 — setTimeout (macrotask)"), 0);
+
+Promise.resolve()
+  .then(() =&gt; console.log("3 — Promise .then (microtask)"))
+  .then(() =&gt; console.log("4 — chained .then (microtask)"));
+
+console.log("2 — synchronous end");
+
+// Output order:
+// 1 — synchronous start
+// 2 — synchronous end
+// 3 — Promise .then (microtask)   ← microtasks run before macrotasks!
+// 4 — chained .then (microtask)
+// 5 — setTimeout (macrotask)</div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box">
+            <h3>Microtasks (Higher Priority)</h3>
+            <ul>
+                <li>Promise <code>.then()</code> / <code>.catch()</code></li>
+                <li><code>async/await</code> continuations</li>
+                <li>Run before any macrotask</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Macrotasks (Lower Priority)</h3>
+            <ul>
+                <li><code>setTimeout</code> / <code>setInterval</code></li>
+                <li>DOM events, I/O</li>
+                <li>Run after all microtasks clear</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 12: Common Async Mistakes -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Common Async Mistakes in Playwright</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">Mistakes</h3>
+            <div class="code-snippet" style="margin-top:4px;">// Missing await — gets Promise, not value
+const text = page.textContent('.title');
+expect(text).toBe("Login");  // FAILS: text is Promise
+
+// await in forEach — BROKEN
+urls.forEach(async (url) =&gt; {
+  await page.goto(url);  // forEach doesn't await!
+});
+// Test ends before navigations complete
+
+// Mixing then() with await
+const result = await fetch('/api')
+  .then(r =&gt; r.json());  // valid but confusing</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>Fixes</h3>
+            <div class="code-snippet" style="margin-top:4px;">// Always await async calls
+const text = await page.textContent('.title');
+expect(text).toBe("Login");  // ✓
+
+// Use for...of for async iteration
+for (const url of urls) {
+  await page.goto(url);  // correctly sequential
+}
+
+// Or Promise.all for parallel
+await Promise.all(
+  urls.map(url =&gt; page.goto(url))
+);</div>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 13: Async in Playwright Context -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Async/Await in Playwright: The Full Picture</h2>
+    <div class="code-snippet">import { test, expect } from '@playwright/test';
+
+// test() callback MUST be async — all Playwright actions are async
+test('complete login flow', async ({ page }) =&gt; {
+
+  // Every browser interaction is awaited
+  await page.goto('https://demo.app/login');
+
+  // Locator actions are async
+  await page.getByLabel('Username').fill('admin');
+  await page.getByLabel('Password').fill('Admin1234!');
+  await page.getByRole('button', { name: 'Login' }).click();
+
+  // Assertions in Playwright have built-in auto-retry (they're async too)
+  await expect(page).toHaveURL(/dashboard/);
+  await expect(page.getByText('Welcome, Admin')).toBeVisible();
+
+  // page.evaluate runs code in the browser context
+  const pageTitle = await page.evaluate(() =&gt; document.title);
+  expect(pageTitle).toBe('Dashboard — Demo App');
+});</div>
+    <div class="highlight-box">
+        <p class="compact bold">Rule: If a Playwright method returns a Promise — which is most of them — you must <code>await</code> it. VS Code shows the return type when you hover.</p>
+    </div>
+</section>
+
+<!-- Slide: Playwright Auto-Waiting -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Playwright Auto-Waiting — Built-in Intelligence</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>What Playwright Waits For Automatically</h3>
+            <p class="compact" style="font-size:0.8em;">Before every action (<code>click</code>, <code>fill</code>, <code>check</code>…), Playwright checks:</p>
+            <ul style="margin-top:6px;">
+                <li>Element is <strong>attached</strong> to the DOM</li>
+                <li>Element is <strong>visible</strong> (not hidden/display:none)</li>
+                <li>Element is <strong>stable</strong> (not animating)</li>
+                <li>Element is <strong>enabled</strong> (not disabled)</li>
+                <li>Element <strong>receives events</strong> (not covered by overlay)</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Explicit waitFor Methods</h3>
+            <div class="code-snippet" style="font-size:0.6em; margin-top:4px;">// Wait for URL to change
+await page.waitForURL('**/dashboard');
+
+// Wait for element state
+await page.waitForSelector('.toast');
+
+// Wait for network idle
+await page.waitForLoadState('networkidle');
+
+// Wait with custom timeout
+await expect(locator)
+  .toBeVisible({ timeout: 10000 });</div>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Never use <code>page.waitForTimeout(3000)</code> — it's a fixed delay and makes tests slow and flaky. Use event-based waiting instead.</p>
+    </div>
+</section>
+
+<!-- Slide: Async in Hooks and Page Objects -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Async in Hooks and Page Objects</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Hooks Must Be async</h3>
+            <div class="code-snippet" style="font-size:0.6em; margin-top:4px;">test.beforeEach(async ({ page }) =&gt; {
+  await page.goto('/login');
+  await page.fill('#user', 'admin');
+  await page.click('#submit');
+  await page.waitForURL('/dashboard');
+});
+
+test.afterEach(async ({ page }) =&gt; {
+  await page.close();
+});
+
+test.beforeAll(async () =&gt; {
+  await createTestUser(); // API setup
+});</div>
+        </div>
+        <div class="content-box">
+            <h3>Page Object Async Methods</h3>
+            <div class="code-snippet" style="font-size:0.6em; margin-top:4px;">class LoginPage {
+  constructor(page) {
+    this.page = page;
+  }
+
+  async login(user, pass) {
+    await this.page.fill('#user', user);
+    await this.page.fill('#pass', pass);
+    await this.page.click('#submit');
+    await this.page.waitForURL('/dashboard');
+  }
+}
+
+// In test:
+await loginPage.login('admin', 'Admin1!');</div>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact">All Page Object methods <strong>must be async</strong> — they call Playwright actions. Every call in tests must use <code>await</code>.</p>
+    </div>
+</section>
+
+<!-- Slide 14: Summary -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 4 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Concepts Mastered</h3>
+            <ul>
+                <li>Why JS needs async: single-threaded runtime</li>
+                <li>Callbacks → Promises → async/await evolution</li>
+                <li>3 Promise states: Pending, Fulfilled, Rejected</li>
+                <li>All 6 Promise methods and when to use each</li>
+                <li>async/await rules + try/catch error handling</li>
+                <li>Event loop: Call Stack, Web APIs, Callback Queue</li>
+                <li>Microtasks run before macrotasks</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>Playwright Connection</h3>
+            <ul>
+                <li>await enforces step order — critical for test reliability</li>
+                <li>Forgetting await = Promise object, not value</li>
+                <li>Auto-waiting: Playwright checks visible/enabled/stable</li>
+                <li>forEach broken for async — use for...of</li>
+                <li>Hooks (beforeEach/afterAll) must be async</li>
+                <li>Page Object methods must be async + awaited</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="text-align:center; background:#eff6ff; border-color:var(--vibe-blue);">
+        <p class="bold text-blue">Next: Session 5 — TypeScript for Testers (types, interfaces, generics — the language layer on top of JS)</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

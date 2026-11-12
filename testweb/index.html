@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="TAMASH Training Portal - Multi-App Professional Training Environment for Playwright Test Automation">
+    <title>TAMASH Training Portal | Command Center</title>
+
+    <link rel="stylesheet" href="shared/css/portal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ── Command Center overrides ── */
+        .content-scroller {
+            padding: 0;
+            overflow-y: auto;
+            height: calc(100vh - var(--header-height));
+        }
+
+        /* Hero Banner */
+        .cc-hero {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #1e3a5f 100%);
+            padding: 3rem 2.5rem 2.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+            overflow: hidden;
+        }
+        .cc-hero::before {
+            content: '';
+            position: absolute;
+            top: -80px; right: -80px;
+            width: 360px; height: 360px;
+            background: radial-gradient(circle, rgba(79,70,229,0.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cc-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(79,70,229,0.18);
+            border: 1px solid rgba(79,70,229,0.35);
+            color: #a5b4fc;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 1.25rem;
+        }
+        .cc-hero h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #f8fafc;
+            margin: 0 0 0.6rem;
+            line-height: 1.2;
+        }
+        .cc-hero p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            max-width: 580px;
+            margin: 0 0 2rem;
+            line-height: 1.6;
+        }
+        .cc-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .cc-stat {
+            display: flex;
+            flex-direction: column;
+        }
+        .cc-stat-num {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #f8fafc;
+            line-height: 1;
+        }
+        .cc-stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 3px;
+        }
+        .cc-stat-divider {
+            width: 1px;
+            background: rgba(255,255,255,0.1);
+            align-self: stretch;
+        }
+
+        /* Section headings */
+        .cc-section {
+            padding: 2rem 2.5rem;
+        }
+        .cc-section-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.25rem;
+        }
+        .cc-section-header h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .cc-section-header span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .cc-section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Sandbox Spotlight */
+        .sandbox-spotlight {
+            background: linear-gradient(135deg, #0c1a2e 0%, #0d2137 60%, #0a1628 100%);
+            border: 1px solid rgba(16,185,129,0.25);
+            border-radius: 16px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .sandbox-spotlight::after {
+            content: '';
+            position: absolute;
+            top: -60px; right: 60px;
+            width: 240px; height: 240px;
+            background: radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .sandbox-tagline {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16,185,129,0.15);
+            border: 1px solid rgba(16,185,129,0.3);
+            color: #34d399;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 3px 10px;
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+        }
+        .sandbox-spotlight h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #f8fafc;
+            margin: 0 0 0.5rem;
+        }
+        .sandbox-spotlight p {
+            color: #94a3b8;
+            font-size: 0.875rem;
+            margin: 0 0 1.25rem;
+            line-height: 1.6;
+            max-width: 560px;
+        }
+        .control-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .control-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+        .control-tag i { color: #10b981; font-size: 0.65rem; }
+        .sandbox-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        .btn-launch-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.65rem 1.5rem;
+            background: #10b981;
+            color: white;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .btn-launch-primary:hover { background: #059669; transform: translateY(-1px); }
+        .btn-launch-ghost {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.65rem 1.25rem;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #cbd5e1;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-launch-ghost:hover { background: rgba(255,255,255,0.1); }
+        .sandbox-icon-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .sandbox-big-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #059669, #10b981);
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 8px 32px rgba(16,185,129,0.35);
+        }
+
+        /* App Cards Grid */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .app-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+        .app-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            border-color: var(--card-accent);
+        }
+        .app-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        .app-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .app-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 3px;
+        }
+        .app-card-subtitle {
+            font-size: 0.775rem;
+            color: var(--text-muted);
+            margin: 0;
+            font-weight: 500;
+        }
+        .app-card-desc {
+            font-size: 0.825rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin: 0;
+            flex: 1;
+        }
+        .app-modules {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .app-module-tag {
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 5px;
+            background: var(--tag-bg);
+            color: var(--tag-color);
+        }
+        .app-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border);
+        }
+        .app-launch-link {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .app-launch-link i { font-size: 0.7rem; transition: transform 0.15s; }
+        .app-card:hover .app-launch-link i { transform: translateX(3px); }
+        .app-module-count {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* ecommerce themed card */
+        .card-vegcart  { --card-accent: #16a34a; --tag-bg: #dcfce7; --tag-color: #15803d; }
+        .card-hrms     { --card-accent: #2563eb; --tag-bg: #dbeafe; --tag-color: #1d4ed8; }
+        .card-crm      { --card-accent: #d97706; --tag-bg: #fef3c7; --tag-color: #92400e; }
+        .card-asset    { --card-accent: #7c3aed; --tag-bg: #ede9fe; --tag-color: #5b21b6; }
+        .card-flight   { --card-accent: #0284c7; --tag-bg: #e0f2fe; --tag-color: #0369a1; }
+        .card-loan     { --card-accent: #4f46e5; --tag-bg: #e0e7ff; --tag-color: #3730a3; }
+
+        [data-theme="dark"] .card-vegcart  { --tag-bg: rgba(22,163,74,0.15); --tag-color: #4ade80; }
+        [data-theme="dark"] .card-hrms     { --tag-bg: rgba(37,99,235,0.15); --tag-color: #93c5fd; }
+        [data-theme="dark"] .card-crm      { --tag-bg: rgba(217,119,6,0.15); --tag-color: #fcd34d; }
+        [data-theme="dark"] .card-asset    { --tag-bg: rgba(124,58,237,0.15); --tag-color: #c4b5fd; }
+        [data-theme="dark"] .card-flight   { --tag-bg: rgba(2,132,199,0.15); --tag-color: #7dd3fc; }
+        [data-theme="dark"] .card-loan     { --tag-bg: rgba(79,70,229,0.15); --tag-color: #a5b4fc; }
+
+        /* Bottom padding */
+        .cc-footer { padding: 1.5rem 2.5rem 2.5rem; color: var(--text-muted); font-size: 0.78rem; border-top: 1px solid var(--border); margin-top: 0.5rem; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body data-theme="dark">
+    <div class="portal-container">
+        <!-- Sidebar -->
+        <nav class="portal-sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo-icon">T</div>
+                <div class="sidebar-logo-text">
+                    <h1 style="font-size: 1.25rem; font-weight: 700; color: white; margin: 0;">TAMASH</h1>
+                    <span style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Training Portal</span>
+                </div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-label">Navigation</p>
+                    <a href="index" class="nav-link active"><i class="fas fa-th-large"></i> Command Center</a>
+                    <a href="sandbox" class="nav-link"><i class="fas fa-vial"></i> Sandbox Studio</a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-label">Applications</p>
+                    <a href="vegcart" class="nav-link"><i class="fas fa-shopping-basket"></i> VegCart</a>
+                    <a href="hrms" class="nav-link"><i class="fas fa-users-cog"></i> HRMS Solution</a>
+                    <a href="crm" class="nav-link"><i class="fas fa-handshake"></i> CRM System</a>
+                    <a href="asset" class="nav-link"><i class="fas fa-server"></i> Asset Manager</a>
+                    <a href="flight" class="nav-link"><i class="fas fa-plane"></i> Flight Booking</a>
+                    <a href="loan" class="nav-link"><i class="fas fa-landmark"></i> Loan System</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main -->
+        <main class="portal-main">
+            <!-- Sticky Header -->
+            <header class="portal-header">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-size:1rem; font-weight:700;">Command Center</span>
+                    <span style="font-size:0.72rem; background:rgba(79,70,229,0.15); color:#a5b4fc; padding:2px 8px; border-radius:20px; font-weight:600;">v2.0</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <button class="theme-toggle" onclick="toggleTheme()"
+                        title="Toggle theme"
+                        style="background:none; border:1px solid var(--border); cursor:pointer; color:var(--text-muted); font-size:0.95rem; display:flex; align-items:center; padding:0.45rem 0.75rem; border-radius:8px; gap:6px; transition:all 0.2s;">
+                        <i class="fas fa-moon"></i>
+                        <span style="font-size:0.75rem; font-weight:600;">Theme</span>
+                    </button>
+                    <a href="sandbox" class="btn-portal" style="background: var(--p-600); color: white; min-height:0; padding:0.45rem 1rem; font-size:0.85rem; gap:6px; text-decoration:none;">
+                        <i class="fas fa-vial"></i> Open Sandbox
+                    </a>
+                </div>
+            </header>
+
+            <!-- Scrollable Content -->
+            <div class="content-scroller" id="main-content">
+
+                <!-- Hero -->
+                <div class="cc-hero">
+                    <div class="cc-hero-badge"><i class="fas fa-graduation-cap"></i> Playwright Automation Practice</div>
+                    <h1>Your Test Automation<br>Training Command Center</h1>
+                    <p>Seven purpose-built applications, each simulating real-world business workflows. Practice writing Playwright tests against authentic UI patterns — forms, tables, modals, CRUD operations, and complex state flows.</p>
+                    <div class="cc-stats">
+                        <div class="cc-stat">
+                            <span class="cc-stat-num">7</span>
+                            <span class="cc-stat-label">Applications</span>
+                        </div>
+                        <div class="cc-stat-divider"></div>
+                        <div class="cc-stat">
+                            <span class="cc-stat-num">50+</span>
+                            <span class="cc-stat-label">UI Controls</span>
+                        </div>
+                        <div class="cc-stat-divider"></div>
+                        <div class="cc-stat">
+                            <span class="cc-stat-num">300+</span>
+                            <span class="cc-stat-label">Test Scenarios</span>
+                        </div>
+                        <div class="cc-stat-divider"></div>
+                        <div class="cc-stat">
+                            <span class="cc-stat-num">8</span>
+                            <span class="cc-stat-label">Modules per App</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sandbox Spotlight -->
+                <div class="cc-section">
+                    <div class="cc-section-header">
+                        <h2><i class="fas fa-star" style="color:#f59e0b; margin-right:6px;"></i>Practice Studio</h2>
+                        <div class="cc-section-line"></div>
+                        <span>Start here if you're new</span>
+                    </div>
+
+                    <div class="sandbox-spotlight">
+                        <div>
+                            <div class="sandbox-tagline"><i class="fas fa-circle" style="font-size:0.45rem;"></i> Sandbox Studio</div>
+                            <h3>Master Every HTML Control Before Writing Tests</h3>
+                            <p>The Sandbox is your dedicated practice ground. Every interactive HTML element lives here — inputs, selects, checkboxes, date pickers, sliders, file uploads, rich text editors, drag-and-drop, iframes, and more. Understand how each control behaves before you automate it.</p>
+                            <div class="control-tags">
+                                <span class="control-tag"><i class="fas fa-check"></i> Text Inputs</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Dropdowns &amp; Selects</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Checkboxes &amp; Radios</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Date &amp; Time Pickers</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> File Upload</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Modals &amp; Dialogs</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Tables &amp; Sorting</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Alerts &amp; Toasts</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Drag &amp; Drop</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Sliders &amp; Range</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> iFrame Content</span>
+                                <span class="control-tag"><i class="fas fa-check"></i> Dynamic Waits</span>
+                            </div>
+                            <div class="sandbox-actions">
+                                <a href="sandbox" class="btn-launch-primary"><i class="fas fa-flask"></i> Launch Sandbox</a>
+                                <a href="sandbox/timesheet.html" class="btn-launch-ghost"><i class="fas fa-table"></i> Timesheet Form</a>
+                            </div>
+                        </div>
+                        <div class="sandbox-icon-block">
+                            <div class="sandbox-big-icon"><i class="fas fa-vial"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enterprise Applications -->
+                <div class="cc-section" style="padding-top:0;">
+                    <div class="cc-section-header">
+                        <h2><i class="fas fa-th-large" style="color:#6366f1; margin-right:6px;"></i>Training Applications</h2>
+                        <div class="cc-section-line"></div>
+                        <span>Real-world complexity, safe to break</span>
+                    </div>
+
+                    <div class="app-grid">
+
+                        <!-- VegCart -->
+                        <div class="app-card card-vegcart">
+                            <div class="app-card-header">
+                                <div class="app-card-icon" style="background:#dcfce7; color:#15803d;"><i class="fas fa-shopping-basket"></i></div>
+                                <div>
+                                    <h3 class="app-card-title">VegCart</h3>
+                                    <p class="app-card-subtitle">E-Commerce &amp; Shopping</p>
+                                </div>
+                            </div>
+                            <p class="app-card-desc">A vegetable e-commerce store with product browsing, cart management, coupon codes, and a multi-step checkout flow. Ideal for end-to-end purchase journey testing.</p>
+                            <div class="app-modules">
+                                <span class="app-module-tag">Product Listing</span>
+                                <span class="app-module-tag">Shopping Cart</span>
+                                <span class="app-module-tag">Coupons</span>
+                                <span class="app-module-tag">Checkout</span>
+                                <span class="app-module-tag">Order Summary</span>
+                            </div>
+                            <div class="app-card-footer">
+                                <a href="vegcart" class="app-launch-link" style="color:#16a34a;">Launch App <i class="fas fa-arrow-right"></i></a>
+                                <span class="app-module-count">5 modules · <a href="vegcart/guide.html" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem;">Guide</a></span>
+                            </div>
+                        </div>
+
+                        <!-- HRMS -->
+                        <div class="app-card card-hrms">
+                            <div class="app-card-header">
+                                <div class="app-card-icon" style="background:#dbeafe; color:#1d4ed8;"><i class="fas fa-users-cog"></i></div>
+                                <div>
+                                    <h3 class="app-card-title">HRMS Solution</h3>
+                                    <p class="app-card-subtitle">Human Resource Management</p>
+                                </div>
+                            </div>
+                            <p class="app-card-desc">Full HR suite covering employee lifecycle, department org charts, leave approvals, payroll processing, performance reviews, and HR analytics dashboard.</p>
+                            <div class="app-modules">
+                                <span class="app-module-tag">Employees</span>
+                                <span class="app-module-tag">Departments</span>
+                                <span class="app-module-tag">Leave</span>
+                                <span class="app-module-tag">Payroll</span>
+                                <span class="app-module-tag">Performance</span>
+                                <span class="app-module-tag">Reports</span>
+                            </div>
+                            <div class="app-card-footer">
+                                <a href="hrms" class="app-launch-link" style="color:#2563eb;">Launch App <i class="fas fa-arrow-right"></i></a>
+                                <span class="app-module-count">8 modules · <a href="hrms/guide.html" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem;">Guide</a></span>
+                            </div>
+                        </div>
+
+                        <!-- CRM -->
+                        <div class="app-card card-crm">
+                            <div class="app-card-header">
+                                <div class="app-card-icon" style="background:#fef3c7; color:#92400e;"><i class="fas fa-handshake"></i></div>
+                                <div>
+                                    <h3 class="app-card-title">CRM System</h3>
+                                    <p class="app-card-subtitle">Customer Relationship Management</p>
+                                </div>
+                            </div>
+                            <p class="app-card-desc">Sales CRM with contact and account records, lead scoring, a Kanban opportunity pipeline, activity scheduling, email campaign metrics, and SLA-tracked support tickets.</p>
+                            <div class="app-modules">
+                                <span class="app-module-tag">Contacts</span>
+                                <span class="app-module-tag">Leads</span>
+                                <span class="app-module-tag">Pipeline</span>
+                                <span class="app-module-tag">Activities</span>
+                                <span class="app-module-tag">Campaigns</span>
+                                <span class="app-module-tag">Support</span>
+                            </div>
+                            <div class="app-card-footer">
+                                <a href="crm" class="app-launch-link" style="color:#d97706;">Launch App <i class="fas fa-arrow-right"></i></a>
+                                <span class="app-module-count">8 modules · <a href="crm/guide.html" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem;">Guide</a></span>
+                            </div>
+                        </div>
+
+                        <!-- Asset Manager -->
+                        <div class="app-card card-asset">
+                            <div class="app-card-header">
+                                <div class="app-card-icon" style="background:#ede9fe; color:#5b21b6;"><i class="fas fa-server"></i></div>
+                                <div>
+                                    <h3 class="app-card-title">Asset Manager</h3>
+                                    <p class="app-card-subtitle">IT Asset &amp; Inventory Tracking</p>
+                                </div>
+                            </div>
+                            <p class="app-card-desc">IT inventory management system for tracking hardware and software assets across their full lifecycle — acquisition, assignment, maintenance schedules, and disposal.</p>
+                            <div class="app-modules">
+                                <span class="app-module-tag">Inventory</span>
+                                <span class="app-module-tag">Assignments</span>
+                                <span class="app-module-tag">Lifecycle</span>
+                                <span class="app-module-tag">Maintenance</span>
+                                <span class="app-module-tag">Reports</span>
+                            </div>
+                            <div class="app-card-footer">
+                                <a href="asset" class="app-launch-link" style="color:#7c3aed;">Launch App <i class="fas fa-arrow-right"></i></a>
+                                <span class="app-module-count">8 modules · <a href="asset/guide.html" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem;">Guide</a></span>
+                            </div>
+                        </div>
+
+                        <!-- Flight Booking -->
+                        <div class="app-card card-flight">
+                            <div class="app-card-header">
+                                <div class="app-card-icon" style="background:#e0f2fe; color:#0369a1;"><i class="fas fa-plane"></i></div>
+                                <div>
+                                    <h3 class="app-card-title">Flight Booking</h3>
+                                    <p class="app-card-subtitle">Travel &amp; Reservation System</p>
+                                </div>
+                            </div>
+                            <p class="app-card-desc">Full-cycle flight booking portal with one-way and round-trip search, seat selection, passenger details, add-ons, payment processing, and booking confirmation.</p>
+                            <div class="app-modules">
+                                <span class="app-module-tag">Search</span>
+                                <span class="app-module-tag">Seat Map</span>
+                                <span class="app-module-tag">Passengers</span>
+                                <span class="app-module-tag">Add-ons</span>
+                                <span class="app-module-tag">Payment</span>
+                                <span class="app-module-tag">Confirmation</span>
+                            </div>
+                            <div class="app-card-footer">
+                                <a href="flight" class="app-launch-link" style="color:#0284c7;">Launch App <i class="fas fa-arrow-right"></i></a>
+                                <span class="app-module-count">8 modules · <a href="flight/guide.html" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem;">Guide</a></span>
+                            </div>
+                        </div>
+
+                        <!-- Loan System -->
+                        <div class="app-card card-loan">
+                            <div class="app-card-header">
+                                <div class="app-card-icon" style="background:#e0e7ff; color:#3730a3;"><i class="fas fa-landmark"></i></div>
+                                <div>
+                                    <h3 class="app-card-title">LoanEdge</h3>
+                                    <p class="app-card-subtitle">Loan Application System</p>
+                                </div>
+                            </div>
+                            <p class="app-card-desc">End-to-end loan portal covering product browsing, a 5-step application wizard, document management, status tracking, EMI calculation, repayment scheduling, and customer support.</p>
+                            <div class="app-modules">
+                                <span class="app-module-tag">Apply</span>
+                                <span class="app-module-tag">Documents</span>
+                                <span class="app-module-tag">EMI Calc</span>
+                                <span class="app-module-tag">Repayments</span>
+                                <span class="app-module-tag">Support</span>
+                            </div>
+                            <div class="app-card-footer">
+                                <a href="loan" class="app-launch-link" style="color:#4f46e5;">Launch App <i class="fas fa-arrow-right"></i></a>
+                                <span class="app-module-count">8 modules · <a href="loan/guide.html" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem;">Guide</a></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="cc-footer">
+                    TAMASH Training Portal &nbsp;·&nbsp; All data is stored in localStorage — safe to create, edit, and delete &nbsp;·&nbsp; Reload any app to reset to seed data
+                </div>
+
+            </div><!-- /content-scroller -->
+        </main>
+    </div>
+
+    <script src="shared/js/portal.js"></script>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const theme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', theme);
+            const icon = document.querySelector('.theme-toggle i');
+            icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            localStorage.setItem('lab-theme', theme);
+        }
+        (function () {
+            const savedTheme = localStorage.getItem('lab-theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+            const icon = document.querySelector('.theme-toggle i');
+            if (icon) icon.className = savedTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        })();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Using AI for Testing &amp; Playwright Automation - A Practical Training</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --secondary: #1e293b;
+      --muted: #64748b;
+      --bg: #f8fafc;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px;
+      font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--secondary);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #ffffff;
+      padding: 48px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin-top: 48px;
+      font-size: 1.6rem;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 6px;
+    }
+
+    h3 {
+      margin-top: 32px;
+      font-size: 1.25rem;
+      color: var(--primary);
+    }
+
+    h4 {
+      margin-top: 20px;
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    p {
+      margin: 8px 0 16px;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 24px 0 40px;
+      padding: 16px;
+      background: #f1f5f9;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+
+    ul {
+      margin: 8px 0 16px 20px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    code {
+      background: #e5e7eb;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9em;
+      color: #1e293b;
+    }
+
+    .day {
+      margin-top: 28px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #ffffff;
+    }
+
+    .takeaway {
+      margin-top: 28px;
+      padding: 16px 20px;
+      background: #f0fdf4;
+      border-left: 4px solid #22c55e;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .takeaway strong {
+      color: #15803d;
+    }
+
+    .section-box {
+      margin-top: 24px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .section-box h4 {
+      margin-top: 16px;
+      margin-bottom: 8px;
+      color: var(--secondary);
+      font-size: 1.05rem;
+    }
+
+    .section-box h4:first-child {
+      margin-top: 0;
+    }
+
+    .trainer-info {
+      margin: 24px 0;
+      padding: 20px;
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+    }
+
+    .trainer-info h4 {
+      margin-top: 0;
+      color: var(--primary);
+    }
+
+    .highlight-box {
+      margin: 24px 0;
+      padding: 20px;
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      border-radius: 8px;
+    }
+
+    .highlight-box p {
+      margin: 4px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.95rem;
+    }
+
+    th {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      text-align: left;
+      border: 1px solid var(--border);
+      font-weight: 600;
+    }
+
+    td {
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .level-desc {
+      margin: 4px 0 20px;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.97rem;
+    }
+
+    footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    @media print {
+      body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        font-size: 11.5pt;
+        line-height: 1.45;
+      }
+
+      .container {
+        max-width: 100%;
+        padding: 24px 32px;
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      h1, h2, h3 {
+        page-break-after: avoid;
+        page-break-inside: avoid;
+      }
+
+      h2 {
+        margin-top: 28px;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        margin-top: 18px;
+        margin-bottom: 8px;
+      }
+
+      p { margin: 6px 0 10px; }
+
+      ul { margin: 6px 0 10px 18px; }
+
+      .day, .section-box, .takeaway, .meta, .trainer-info, .highlight-box {
+        background: none;
+        border: 1px solid #ddd;
+        box-shadow: none;
+        padding: 12px 14px;
+        margin-top: 14px;
+      }
+
+      .day { page-break-inside: avoid; }
+
+      footer { margin-top: 24px; font-size: 9.5pt; }
+    }
+  </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+  <div class="container">
+
+    <h1>Using AI for Testing &amp; Playwright Automation</h1>
+    <p><strong>A Practical Training | 31 Days | 1.5 Hours Daily | AI-Powered Testing | BDD | Practice-First | Manual Testers, QA Leads &amp; Developers</strong></p>
+
+    <div class="trainer-info">
+      <h4>Program Trainer</h4>
+      <p><strong>Sudhakar Kakunuri (qtpsudhakar)</strong></p>
+      <p>QA & Test Automation Trainer | India's First Playwright Corporate Trainer | 21+ Years Experience | 10,000+ Engineers Trained | GenAI & Agentic Testing Pioneer</p>
+    </div>
+
+    <div class="meta">
+      <div><strong>Duration:</strong> 31 Working Days</div>
+      <div><strong>Daily Schedule:</strong> 1.5 Hours</div>
+      <div><strong>Format:</strong> Practice-First</div>
+      <div><strong>AI Tools from:</strong> Day 1</div>
+      <div><strong>Primary Tools:</strong> Claude.ai · VS Code · GitHub Copilot · MCP</div>
+      <div><strong>Audience:</strong> Manual QA · QA Leads · Developers moving into QA</div>
+    </div>
+
+    <div class="highlight-box">
+      <h4>Program Structure</h4>
+      <p><strong>Level 1 (5 days):</strong> Understanding AI &nbsp;|&nbsp; <strong>Level 2 (5 days):</strong> AI for Manual Testing &nbsp;|&nbsp; <strong>Level 3 (16 days):</strong> AI for Test Automation &nbsp;|&nbsp; <strong>Level 4 (5 days):</strong> QA Workflows for AI SDLC</p>
+    </div>
+
+    <!-- LEVEL TAKEAWAYS -->
+    <h2>Level Takeaways at a Glance</h2>
+    <table>
+      <tr>
+        <th>Level</th>
+        <th>Days</th>
+        <th>Takeaway When You Complete It</th>
+      </tr>
+      <tr>
+        <td><strong>Level 1 — Understanding AI</strong></td>
+        <td>5</td>
+        <td>You can talk to AI and get useful outputs for any QA task using prompts, context, and skills.md</td>
+      </tr>
+      <tr>
+        <td><strong>Level 2 — AI for Manual Testing</strong></td>
+        <td>5</td>
+        <td>You have a working AI-powered testing toolkit — MCP configured, skills.md files built, Gherkin feature files ready</td>
+      </tr>
+      <tr>
+        <td><strong>Level 3 — AI for Test Automation</strong></td>
+        <td>16</td>
+        <td>You have a full project with Playwright POM tests + Cucumber BDD + API tests — built with AI agents, running in GitHub Actions CI</td>
+      </tr>
+      <tr>
+        <td><strong>Level 4 — QA Workflows for AI SDLC</strong></td>
+        <td>5</td>
+        <td>You understand how QA transforms in the AI era and can apply the AI-native SDLC model in your team</td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><strong>31 days</strong></td>
+        <td><strong>Future-ready AI-era QA professional</strong></td>
+      </tr>
+    </table>
+
+    <!-- ==================== LEVEL 1 ==================== -->
+    <h2>Level 1 — Understanding AI</h2>
+    <p class="level-desc">You start using AI on Day 1. Theory follows practice — you experience it first, then understand why it works.</p>
+
+    <div class="day">
+      <h3>Use AI Before You Learn About It</h3>
+      <ul>
+        <li>What is an LLM</li>
+        <li>Hallucination &amp; Why Human Verification Matters</li>
+        <li>AI as a Collaborator vs an Answer Machine</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>The Disruption Is Already Here</h3>
+      <ul>
+        <li>Why the AI Transition Is Different from All Previous SDLC Shifts</li>
+        <li>Every SDLC Role Being Touched Simultaneously</li>
+        <li>How QA Work Transforms — From Executor to Governor</li>
+        <li>Old QA Skills vs New QA Skills</li>
+        <li>The Mindset Shift: From Test Phase Owner to Quality System Architect</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>How AI Works &amp; Responsible Use</h3>
+      <ul>
+        <li>LLM Training, Context Window &amp; Tokens</li>
+        <li>Types of AI: Generative AI, ML Models, Agents</li>
+        <li>AI Ethics, Responsible Use &amp; Data Privacy</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Prompts &amp; Context</h3>
+      <ul>
+        <li>Anatomy of an Effective Prompt: Role, Context, Instruction, Format</li>
+        <li>Providing Context to AI</li>
+        <li>Iterative Prompting</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>VS Code, GitHub Copilot &amp; Skills.md</h3>
+      <ul>
+        <li>VS Code &amp; GitHub Copilot Setup</li>
+        <li>Copilot Chat, Inline Suggestions &amp; Slash Commands</li>
+        <li>Cursor IDE — Overview</li>
+        <li>Skills.md — Purpose, Structure &amp; Writing Your First One</li>
+      </ul>
+    </div>
+
+    <div class="takeaway">
+      <strong>✅ Level 1 Complete — Your Takeaway</strong>
+      <p>VS Code + GitHub Copilot set up. skills.md built. Prompt method mastered. You get useful AI outputs every time.</p>
+    </div>
+
+    <!-- ==================== LEVEL 2 ==================== -->
+    <h2>Level 2 — Using AI for Manual Testing</h2>
+    <p class="level-desc">Every manual testing task — requirements, test design, exploration, data, bug reporting — done faster and better using AI tools you set up once and use every day.</p>
+
+    <div class="day">
+      <h3>MCP in VS Code</h3>
+      <ul>
+        <li>Model Context Protocol (MCP) — What It Is</li>
+        <li>npm, npm install, npx &amp; package.json</li>
+        <li>Claude Desktop &amp; MCP Server Configuration</li>
+        <li>Filesystem MCP &amp; Playwright MCP</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Requirements Analysis &amp; Test Case Design with Gherkin</h3>
+      <ul>
+        <li>Requirements Analysis</li>
+        <li>Test Case Design: Tabular &amp; Gherkin Formats</li>
+        <li>Gherkin Syntax: Feature, Scenario, Given, When, Then</li>
+        <li>Generating .feature Files</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Exploratory Testing with MCP &amp; AI Agents</h3>
+      <ul>
+        <li>Exploratory Testing in the AI Era</li>
+        <li>MCP-Connected Claude for Live App Browsing</li>
+        <li>AI Agents for Active Exploration</li>
+        <li>Structured Exploration Capture</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Test Data Generation &amp; Bug Reporting</h3>
+      <ul>
+        <li>Test Data Generation: JSON, CSV, SQL</li>
+        <li>Synthetic Data &amp; Privacy</li>
+        <li>Bug Reporting &amp; Root Cause Analysis</li>
+        <li>Defect Pattern Analysis</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>AI Testing Toolkit Organization</h3>
+      <ul>
+        <li>Toolkit Folder Structure</li>
+        <li>Skills, Prompts, Test Cases, Feature Files, Test Data</li>
+        <li>Toolkit as Input for Level 3 Automation</li>
+      </ul>
+    </div>
+
+    <div class="takeaway">
+      <strong>✅ Level 2 Complete — Your Takeaway</strong>
+      <p>Complete AI-powered manual testing toolkit organized in VS Code — with Gherkin feature files ready for Level 3 automation.</p>
+    </div>
+
+    <!-- ==================== LEVEL 3 ==================== -->
+    <h2>Level 3 — Using AI for Test Automation</h2>
+    <p class="level-desc">Everything in this level is built using AI. You learn just enough JavaScript, TypeScript, and Playwright to understand and guide what AI generates — then AI does the heavy lifting.</p>
+
+    <h3>Module 1: JavaScript &amp; TypeScript Foundations</h3>
+
+    <div class="day">
+      <h3>JavaScript Data Types &amp; Variables</h3>
+      <ul>
+        <li>Variables, Data Types &amp; Template Literals</li>
+        <li>Arrays &amp; Objects</li>
+        <li>TypeScript Introduction &amp; Type Annotations</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Functions, Loops, Conditions &amp; Classes</h3>
+      <ul>
+        <li>Functions &amp; Arrow Functions</li>
+        <li>Async/Await in Playwright</li>
+        <li>Loops, Conditions &amp; Classes</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>TypeScript &amp; Project Configuration Files</h3>
+      <ul>
+        <li>TypeScript Interfaces, Typed Properties &amp; Methods</li>
+        <li>package.json, tsconfig.json &amp; npm Scripts</li>
+        <li>.env, .env.example &amp; .gitignore</li>
+      </ul>
+    </div>
+
+    <h3>Module 2: Playwright Framework</h3>
+
+    <div class="day">
+      <h3>Project Setup, Configuration &amp; First Test</h3>
+      <ul>
+        <li>Playwright Project Setup &amp; Folder Structure</li>
+        <li>playwright.config.ts — Key Configuration Options</li>
+        <li>Locators, Actions &amp; Assertions</li>
+        <li>Running Tests &amp; HTML Report</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Page Object Model &amp; Playwright Spec Tests</h3>
+      <ul>
+        <li>POM Design: Page Classes, Properties &amp; Methods</li>
+        <li>Custom Fixtures &amp; Auth State</li>
+        <li>Writing Spec Tests Using POM &amp; Test Data</li>
+      </ul>
+    </div>
+
+    <h3>Module 3: AI Agents &amp; Test Generation</h3>
+
+    <div class="day">
+      <h3>AI Agents in Test Automation</h3>
+      <ul>
+        <li>Planner Agents — AI-Driven Test Strategy &amp; Planning</li>
+        <li>Generator Agents — Automated Test Generation</li>
+        <li>Healer Agents — Self-Healing Tests at Runtime</li>
+        <li>Actions vs Verifications — The Critical Self-Healing Distinction</li>
+        <li>Healing Log as Quality Intelligence</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Generating Test Suites with Playwright MCP Agent</h3>
+      <ul>
+        <li>Playwright MCP Agent for App Exploration</li>
+        <li>POM Classes &amp; Spec Test Generation</li>
+        <li>Generating Automation from Stored Exploration Results</li>
+        <li>Reviewing &amp; Iterating on Generated Tests</li>
+      </ul>
+    </div>
+
+    <h3>Module 4: Cucumber BDD</h3>
+
+    <div class="day">
+      <h3>Cucumber Setup &amp; Configuration</h3>
+      <ul>
+        <li>BDD Principles &amp; Cucumber Overview</li>
+        <li>Cucumber Installation &amp; Project Structure</li>
+        <li>cucumber.json Configuration &amp; Profiles</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Step Definitions &amp; Hooks</h3>
+      <ul>
+        <li>Step Definitions — Connecting Gherkin to POM</li>
+        <li>World Object &amp; Context Sharing</li>
+        <li>Hooks: BeforeAll, Before, After, AfterAll</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Generating BDD Suites with MCP Agent</h3>
+      <ul>
+        <li>Feature File &amp; Step Definition Generation</li>
+        <li>Data Tables &amp; Scenario Outlines</li>
+        <li>Spec Tests vs BDD — When to Use Each</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Tags, Reporting &amp; Running Both Test Styles</h3>
+      <ul>
+        <li>Tag-Based Execution &amp; Tag Strategy</li>
+        <li>Cucumber HTML &amp; JSON Reports</li>
+        <li>Running Playwright Spec Tests &amp; Cucumber BDD Together</li>
+      </ul>
+    </div>
+
+    <h3>Module 5: API Testing</h3>
+
+    <div class="day">
+      <h3>API Testing Fundamentals &amp; First API Test</h3>
+      <ul>
+        <li>HTTP Methods, Status Codes &amp; Authentication</li>
+        <li>APIRequestContext in Playwright</li>
+        <li>Response Assertions &amp; API Helper Pattern</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>API Test Generation from Specs &amp; Test Maintenance</h3>
+      <ul>
+        <li>Generating API Tests from Swagger / OpenAPI Specs</li>
+        <li>Fixing, Updating &amp; Diagnosing Tests</li>
+        <li>Test Refactoring</li>
+      </ul>
+    </div>
+
+    <h3>Module 6: Git, GitHub &amp; CI/CD</h3>
+
+    <div class="day">
+      <h3>Git, GitHub &amp; the Daily Workflow</h3>
+      <ul>
+        <li>Git &amp; GitHub Concepts</li>
+        <li>Daily Git Loop with gh CLI</li>
+        <li>Common Git Situations</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>GitHub Actions: CI Pipeline</h3>
+      <ul>
+        <li>CI/CD Concepts &amp; GitHub Actions</li>
+        <li>Generating Playwright + Cucumber CI Workflow</li>
+        <li>Targeted Regression in CI</li>
+        <li>AI Agent &amp; Skill Files in .github/</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Expanding the CI Pipeline &amp; Project Completion</h3>
+      <ul>
+        <li>Scheduled Runs, Smoke-Only PR Trigger</li>
+        <li>Multi-Browser Matrix</li>
+        <li>Complete Project Review</li>
+      </ul>
+    </div>
+
+    <div class="takeaway">
+      <strong>✅ Level 3 Complete — Your Takeaway</strong>
+      <p>Complete automation project — Playwright POM spec tests, Cucumber BDD tests, API tests — built with Planner, Generator and Healer agents, tracked in GitHub, running in CI on every push.</p>
+    </div>
+
+    <!-- ==================== LEVEL 4 ==================== -->
+    <h2>Level 4 — QA Workflows for the AI SDLC</h2>
+    <p class="level-desc">This level is about the bigger picture — how AI-native teams work, where quality fits, and what changes for you, your team, and your organisation. Designed by Architects. Understood and executed by everyone.</p>
+
+    <div class="day">
+      <h3>The AI-Native SDLC &amp; the AI-Native STLC</h3>
+      <ul>
+        <li>The AI-Native SDLC — The Continuous Loop</li>
+        <li>AI-Native STLC — Shift Left Done Right</li>
+        <li>Requirements Not Approved Until Testable</li>
+        <li>Quality Embedded Inside Development</li>
+        <li>The Parallel Stream Model</li>
+        <li>Independent Dev &amp; QA Exploration</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>The Repository as the Single Source of Truth</h3>
+      <ul>
+        <li>Why Separate Tools Break the AI Loop</li>
+        <li>What Lives in the Repository</li>
+        <li>Version Control Beyond Code</li>
+        <li>Storing Test Exploration Decisions &amp; Results</li>
+        <li>Compounding Intelligence Advantage</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Self-Healing, Risks &amp; Coverage Governance</h3>
+      <ul>
+        <li>Self-Healing Automation — What It Is and Is NOT</li>
+        <li>Green Results ≠ Good Coverage</li>
+        <li>Coverage Audits Every Sprint</li>
+        <li>Risks &amp; Mitigations in AI-Native QA Workflows</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>What Needs to Change</h3>
+      <ul>
+        <li>For Individual QA Professionals — Stop, Start, Reframe</li>
+        <li>For Development Teams — Parallel Streams, Repo-First</li>
+        <li>For Companies — Job Descriptions, Team Size, Upskilling</li>
+        <li>AI Did Not Make QA Less Important — It Made Getting QA Right Exponentially More Critical</li>
+      </ul>
+    </div>
+
+    <div class="day">
+      <h3>Putting It All Together: Personal Action Plan</h3>
+      <ul>
+        <li>Full Course Recap — The Thread Connecting All 4 Levels</li>
+        <li>AI Project Review</li>
+        <li>Personal Action Plan &amp; Group Share</li>
+      </ul>
+    </div>
+
+    <div class="takeaway">
+      <strong>✅ Level 4 Complete — Your Takeaway</strong>
+      <p>You understand the AI-native SDLC. You can explain the parallel stream model, the repository-first approach, and the key risks. You have a complete project and a personal action plan. You are ready.</p>
+    </div>
+
+    <!-- ==================== SUMMARY ==================== -->
+    <h2>Complete Curriculum at a Glance</h2>
+    <table>
+      <tr>
+        <th>Level</th>
+        <th>Days</th>
+        <th>What You Build</th>
+      </tr>
+      <tr>
+        <td>Level 1 — Understanding AI</td>
+        <td>5</td>
+        <td>VS Code + Copilot setup, skills.md, prompt library</td>
+      </tr>
+      <tr>
+        <td>Level 2 — AI for Manual Testing</td>
+        <td>5</td>
+        <td>Complete AI testing toolkit with Gherkin feature files</td>
+      </tr>
+      <tr>
+        <td>Level 3 — AI for Test Automation</td>
+        <td>16</td>
+        <td>Playwright POM + Cucumber BDD + API + GitHub Actions CI</td>
+      </tr>
+      <tr>
+        <td>Level 4 — QA Workflows for AI SDLC</td>
+        <td>5</td>
+        <td>Repository organized, action plan committed</td>
+      </tr>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><strong>31 days</strong></td>
+        <td><strong>Future-ready AI-era QA professional</strong></td>
+      </tr>
+    </table>
+
+    <h2>Tools &amp; Technologies Covered</h2>
+    <div class="section-box">
+      <ul>
+        <li><strong>AI Tools:</strong> Claude.ai, Claude Desktop, GitHub Copilot, Cursor IDE</li>
+        <li><strong>MCP &amp; Agents:</strong> Model Context Protocol, Planner / Generator / Healer Agents</li>
+        <li><strong>Automation:</strong> Playwright, TypeScript, Page Object Model</li>
+        <li><strong>BDD:</strong> Cucumber, Gherkin</li>
+        <li><strong>API Testing:</strong> Playwright APIRequestContext, Swagger / OpenAPI</li>
+        <li><strong>Languages:</strong> JavaScript, TypeScript</li>
+        <li><strong>Version Control:</strong> Git, GitHub, gh CLI</li>
+        <li><strong>CI/CD:</strong> GitHub Actions</li>
+        <li><strong>Runtime:</strong> Node.js, npm</li>
+      </ul>
+    </div>
+
+    <footer>
+      qtpsudhakar &nbsp;|&nbsp; QA &amp; Test Automation Trainer &nbsp;|&nbsp; Built for QA professionals who want to lead with confidence in the AI era.
+    </footer>
+
+  </div>
+</body>
+</html>

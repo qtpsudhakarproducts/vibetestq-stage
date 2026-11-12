@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Training Program - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+
+        .reveal h1 {
+            font-size: 1.8em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+            color: var(--vibe-blue);
+        }
+
+        .reveal h3 {
+            font-size: 1.1em;
+            color: var(--vibe-green);
+            margin-bottom: 0.2em;
+        }
+
+        .reveal p,
+        .reveal li {
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        /* Logo in corner for all slides except title */
+        .logo-corner {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            z-index: 100;
+        }
+
+        .logo-corner img {
+            width: 80px;
+            height: auto;
+        }
+
+        /* Title slide - full company branding */
+        .title-slide {
+            background: #ffffff !important;
+        }
+
+        .title-slide .company-header {
+            max-width: 800px;
+            margin: 0 auto 15px;
+        }
+
+        .title-slide h1 {
+            font-size: 2em;
+            color: var(--vibe-dark-blue);
+            margin: 10px 0 8px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.2em;
+            color: var(--vibe-orange);
+            margin: 10px 0;
+        }
+
+        .title-slide .tagline {
+            font-size: 1em;
+            color: var(--vibe-blue);
+            margin: 8px 0 15px;
+        }
+
+        /* Content boxes */
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 6px;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border: 2px solid var(--vibe-yellow);
+            padding: 12px;
+            margin: 10px auto;
+            border-radius: 8px;
+            max-width: 90%;
+        }
+
+        .stat-box {
+            display: inline-block;
+            background: #dbeafe;
+            border: 2px solid var(--vibe-blue);
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--vibe-orange);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: var(--vibe-blue);
+        }
+
+        /* Lists */
+        .reveal ul {
+            list-style: none;
+            margin: 8px 0;
+        }
+
+        .reveal ul li {
+            margin: 6px 0;
+            padding-left: 35px;
+            /* Increased padding to accommodate icon */
+            position: relative;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        .reveal ul li:before {
+            content: "\f058";
+            /* FontAwesome Check Circle */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--vibe-green);
+            font-size: 1em;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .reveal ul li.cross:before {
+            content: "\f057";
+            /* FontAwesome Times Circle */
+            color: var(--vibe-orange);
+        }
+
+        /* Colors */
+        .text-blue {
+            color: var(--vibe-blue);
+        }
+
+        .text-green {
+            color: var(--vibe-green);
+        }
+
+        .text-yellow {
+            color: var(--vibe-yellow);
+        }
+
+        .text-orange {
+            color: var(--vibe-orange);
+        }
+
+        .bold {
+            font-weight: 700;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            background: var(--vibe-orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+            margin: 4px;
+        }
+
+        /* Two columns */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        /* Call to action */
+        .cta-box {
+            background: linear-gradient(135deg, var(--vibe-orange), var(--vibe-yellow));
+            padding: 15px;
+            border-radius: 12px;
+            margin: 12px auto;
+            max-width: 600px;
+            color: white;
+        }
+
+        .contact-info {
+            font-size: 1.1em;
+            margin: 8px 0;
+            font-weight: 600;
+        }
+
+        /* Compact spacing */
+        .reveal .slides section {
+            height: 100%;
+            padding: 15px 35px;
+        }
+
+        .compact {
+            font-size: 0.8em;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title Slide -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>Playwright Training Demo</h1>
+                <p class="subtitle">By QtpSudhakar</p>
+                <p class="tagline">Prepare for the Future of AI-Powered Testing</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge"><i class="fas fa-calendar-day mr-1"></i> Demo: June 10 @ 10AM IST</span>
+                    <span class="badge"><i class="fas fa-rocket mr-1"></i> Batch Starts: June 17, 2026</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: The AI Revolution -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Testing Industry Has Changed</h2>
+                <div class="highlight-box">
+                    <p class="bold text-orange" style="font-size: 1em;">GenAI moved from experimental to ESSENTIAL in 18
+                        months</p>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>2024</h3>
+                        <p>AI was <em>optional</em><br>Nice-to-have skill</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>2026</h3>
+                        <p>AI is <em>mandatory</em><br>Career requirement</p>
+                    </div>
+                </div>
+                <p style="margin-top: 12px;" class="text-orange bold">In 2026, NOT having AI skills = Career liability
+                </p>
+            </section>
+
+            <!-- Slide 3: What Companies Need -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What Companies Actually Need</h2>
+                <p class="text-blue bold" style="font-size: 1em;">Not KNOWLEDGE about AI, but LEVERAGE with AI</p>
+                <div class="two-col" style="margin-top: 12px;">
+                    <div class="content-box">
+                        <h3><i class="fas fa-eye-slash mr-2"></i>Awareness </h3>
+                        <ul class="compact">
+                            <li class="cross">Just knowing ChatGPT exists</li>
+                            <li class="cross">Surface level AI concepts</li>
+                            <li class="cross">Passive theoretical knowledge</li>
+                        </ul>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-bolt mr-2"></i>Leverage </h3>
+                        <ul class="compact">
+                            <li>Daily AI-powered testing workflows</li>
+                            <li>Building Self-healing frameworks</li>
+                            <li>Advanced AI debugging & Refactoring</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 10px;">
+                    <span class="text-orange bold">2-3x productivity</span> + <span class="text-orange bold">40-60%
+                        salary increase</span>
+                </div>
+            </section>
+
+            <!-- Slide 4: The Learning Paradox -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Learning Paradox</h2>
+                <p class="text-blue bold compact">Content is Everywhere. Results are Nowhere.</p>
+                <div class="two-col">
+                    <div style="background: #fee2e2; border: 2px solid #ef4444; padding: 20px; border-radius: 8px;">
+                        <h3 style="color: #ef4444; margin-bottom: 15px;"><i
+                                class="fas fa-exclamation-triangle mr-2"></i>The Problem</h3>
+                        <ul style="list-style: none; padding-left: 0; margin: 10px 0;">
+                            <li class="cross"
+                                style="margin-bottom: 12px; font-size: 0.9em; line-height: 1.4; color: #b91c1c;">
+                                Millions of YouTube tutorials
+                            </li>
+                            <li class="cross"
+                                style="margin-bottom: 12px; font-size: 0.9em; line-height: 1.4; color: #b91c1c;">
+                                ₹500 Udemy courses galore
+                            </li>
+                            <li class="cross"
+                                style="margin-bottom: 12px; font-size: 0.9em; line-height: 1.4; color: #b91c1c;">
+                                Free documentation everywhere
+                            </li>
+                        </ul>
+                        <p style="margin-top: 15px; font-size: 0.9em; color: #b91c1c;">Yet 90% <span class="bold">fail
+                                interviews</span></p>
+                    </div>
+                    <div
+                        style="background: #dcfce7; border: 2px solid var(--vibe-green); padding: 20px; border-radius: 8px;">
+                        <h3 style="margin-bottom: 15px;"><i class="fas fa-check-circle mr-2"></i>The Reality</h3>
+                        <ul class="compact" style="list-style: none; padding-left: 0; margin: 10px 0;">
+                            <li style="margin-bottom: 12px; line-height: 1.4;">Consuming ≠ Learning (Watching is
+                                passive)</li>
+                            <li style="margin-bottom: 12px; line-height: 1.4;">Knowledge ≠ Mastery (Practice is active)
+                            </li>
+                            <li style="margin-bottom: 12px; line-height: 1.4;">No Real-World Context or Feedback</li>
+                        </ul>
+                        <p style="margin-top: 15px; font-size: 0.9em; color: var(--vibe-dark-blue);" class="bold">
+                            Mastery = DO, fail, debug, repeat</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 5: My Unique Approach -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>3 Levels of Mentorship</h2>
+                <div class="content-box">
+                    <h3>Level 1: Tell (Most Trainers)</h3>
+                    <p class="compact">Share information. Passive learning.</p>
+                </div>
+                <div class="content-box">
+                    <h3>Level 2: Guide (Premium Courses)</h3>
+                    <p class="compact">Show direction. You implement alone.</p>
+                </div>
+                <div class="content-box"
+                    style="background: #dcfce7; border-color: var(--vibe-green); border-width: 3px;">
+                    <h3 class="text-green">Level 3: Hand-Hold (This Program)</h3>
+                    <p class="bold text-orange compact">Work alongside you until mastery!</p>
+                </div>
+                <p style="margin-top: 12px;" class="text-blue bold">Transformational learning, not just information</p>
+            </section>
+
+            <!-- Slide 6: Practice-Driven -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Practice-Driven Methodology</h2>
+                <div class="content-box">
+                    <h3 class="text-blue">Daily In-Class Practice</h3>
+                    <ul class="compact">
+                        <li>NOT homework - practice IN class</li>
+                        <li>Real-time guidance when stuck</li>
+                        <li>Immediate feedback</li>
+                    </ul>
+                </div>
+                <div class="content-box">
+                    <h3 class="text-blue">Collaborative Learning</h3>
+                    <ul class="compact">
+                        <li>Learn from peer approaches</li>
+                        <li>Code review skills</li>
+                        <li>Real team simulation</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 12px;" class="text-green bold">Every code you write gets reviewed!</p>
+            </section>
+
+            <!-- Slide 7: 4-Stage Labs -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>4-Stage Lab Progression</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="content-box">
+                        <h3>1. Warm-up</h3>
+                        <p class="compact">Guided steps, build confidence</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>2. Core Practice</h3>
+                        <p class="compact">Semi-guided with hints</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>3. Open Challenges</h3>
+                        <p class="compact">Real scenarios, you design</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>4. Review & Refactor</h3>
+                        <p class="compact">Think like a Lead</p>
+                    </div>
+                </div>
+                <p style="margin-top: 12px;" class="text-blue bold">Systematic skill building from basics to mastery</p>
+            </section>
+
+            <!-- Slide 8: Curriculum (What you will master) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What You Will Master</h2>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; font-size: 0.75em;">
+
+                    <div class="content-box">
+                        <h3 style="font-size: 1.1em;"><i class="fas fa-laptop-code mr-1"></i>Playwright</h3>
+                        <p class="compact">TS/JS Expert, Smart Locators, Advanced Fixtures</p>
+                    </div>
+                    <div class="content-box">
+                        <h3 style="font-size: 1.1em;"><i class="fas fa-layer-group mr-1"></i>Framework</h3>
+                        <p class="compact">Enterprise POM, AI-Powered Healing, Clean Arch</p>
+                    </div>
+                    <div class="content-box">
+                        <h3 style="font-size: 1.1em;"><i class="fas fa-infinity mr-1"></i>CI/CD</h3>
+                        <p class="compact">GitHub Actions</p>
+                    </div>
+                    <div class="content-box">
+                        <h3 style="font-size: 1.1em;"><i class="fas fa-robot mr-1"></i>GenAI Engg</h3>
+                        <p class="compact">Prompt/Context Engg, AI Agents, AI Pair Programming</p>
+                    </div>
+                    <div class="content-box">
+                        <h3 style="font-size: 1.1em;"><i class="fas fa-magnifying-glass mr-1"></i>Vibe Testing</h3>
+                        <p class="compact">Exploratory Session Testing & AI-Augmented Bug Hunting</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 9: Results (What You'll Achieve) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>What You'll Achieve</h2>
+                <div>
+                    <div class="stat-box">
+                        <span class="stat-number">40-60%</span>
+                        <span class="stat-label">Salary Increase</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">3-6</span>
+                        <span class="stat-label">Months to ROI</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number">1-2</span>
+                        <span class="stat-label">Level Jump</span>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 12px;">
+                    <h3><i class="fas fa-briefcase mr-2"></i>Portfolio Projects</h3>
+                    <ul style="text-align: left;" class="compact">
+                        <li>E-commerce framework (UI + API)</li>
+                        <li>Self-healing framework with AI integration</li>
+                        <li>CI/CD pipeline implementation</li>
+                        <li>Permanent listing on VibeTestQ.com for recruiters</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 10: The Career Transformation -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Career Transformation</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="content-box">
+                        <h3 style="color:var(--vibe-orange)"><i class="fas fa-robot mr-2"></i>Testing using GenAI</h3>
+                        <p class="compact">Mastering Vibe Testing, AI IDEs (Cursor/Copilot), AI Agents, and MCPs for 10x
+                            Productivity</p>
+                    </div>
+                    <div class="content-box">
+                        <h3 style="color:var(--vibe-orange)"><i class="fas fa-user-tie mr-2"></i>Mock Interviews</h3>
+                        <p class="compact">Live simulations, feedback, and Salary Negotiation coaching</p>
+                    </div>
+                    <div class="content-box">
+                        <h3 style="color:var(--vibe-orange)"><i class="fas fa-award mr-2"></i>Verified Validation</h3>
+                        <p class="compact">Official Certifications, Portfolio on GitHub, LinkedIn Endorsements</p>
+                    </div>
+                    <div class="content-box" style="background:var(--vibe-dark-blue); border:none; color:white;">
+                        <h3 style="color:var(--vibe-yellow)"><i class="fas fa-crown mr-2"></i>VibeTestQ Listing</h3>
+                        <p class="compact" style="color:white">Get listed as <strong>"Certified by QtpSudhakar"</strong>
+                            - visible to recruiters globally</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 11: Why Learn From Me? -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Why Learn From Me?</h2>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 15px;">
+                    <div class="content-box"
+                        style="text-align: center; border-left: none; border-top: 4px solid var(--vibe-blue);">
+                        <div style="font-size: 2em; margin-bottom: 5px;">🤝</div>
+                        <h4 class="bold" style="font-size: 0.9em; margin-bottom: 5px; color: var(--vibe-dark-blue);">I
+                            Hand-Hold</h4>
+                        <p class="compact" style="font-size: 0.75em;">I work alongside you until you master it.</p>
+                    </div>
+                    <div class="content-box"
+                        style="text-align: center; border-left: none; border-top: 4px solid var(--vibe-green);">
+                        <div style="font-size: 2em; margin-bottom: 5px;">💻</div>
+                        <h4 class="bold" style="font-size: 0.9em; margin-bottom: 5px; color: var(--vibe-dark-blue);">
+                            Practice-First</h4>
+                        <p class="compact" style="font-size: 0.75em;">Daily in-class practice & collaboration.</p>
+                    </div>
+                    <div class="content-box"
+                        style="text-align: center; border-left: none; border-top: 4px solid var(--vibe-orange);">
+                        <div style="font-size: 2em; margin-bottom: 5px;">🎯</div>
+                        <h4 class="bold" style="font-size: 0.9em; margin-bottom: 5px; color: var(--vibe-dark-blue);">
+                            Role-Specific</h4>
+                        <p class="compact" style="font-size: 0.75em;">Strategy & Leadership, not just code.</p>
+                    </div>
+                    <div class="content-box"
+                        style="text-align: center; border-left: none; border-top: 4px solid var(--vibe-yellow);">
+                        <div style="font-size: 2em; margin-bottom: 5px;">🤖</div>
+                        <h4 class="bold" style="font-size: 0.9em; margin-bottom: 5px; color: var(--vibe-dark-blue);">
+                            Real AI</h4>
+                        <p class="compact" style="font-size: 0.75em;">Real workflows with AI IDEs.</p>
+                    </div>
+                    <div class="content-box"
+                        style="text-align: center; border-left: none; border-top: 4px solid #ef4444;">
+                        <div style="font-size: 2em; margin-bottom: 5px;">📈</div>
+                        <h4 class="bold" style="font-size: 0.9em; margin-bottom: 5px; color: var(--vibe-dark-blue);">
+                            Track Record</h4>
+                        <p class="compact" style="font-size: 0.75em;">20+ Years, 10k+ Students Trained.</p>
+                    </div>
+                    <div class="content-box"
+                        style="text-align: center; border-left: none; border-top: 4px solid #6366f1;">
+                        <div style="font-size: 2em; margin-bottom: 5px;">🌐</div>
+                        <h4 class="bold" style="font-size: 0.9em; margin-bottom: 5px; color: var(--vibe-dark-blue);">
+                            Career Support</h4>
+                        <p class="compact" style="font-size: 0.75em;">Mock interviews & Listings.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 12: Experience -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>QtpSudhakar's Experience</h2>
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div style="display: flex; gap: 20px; justify-content: center; margin-bottom: 20px;">
+                        <div class="stat-box">
+                            <span class="stat-number">10,000+</span>
+                            <span class="stat-label">Students Trained</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-number">20+</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                    </div>
+                    <div class="content-box"
+                        style="margin-top: 5px; max-width: 800px; text-align: center; border-left: none; border-top: 4px solid var(--vibe-blue);">
+                        <p class="bold" style="font-size: 1.1em; color: var(--vibe-dark-blue);">My Mission:</p>
+                        <p style="margin-top: 10px; font-size: 1em;">Create practical, role-focused learning that
+                            produces
+                            <span class="text-orange bold">Test Leaders</span>, not just automation engineers
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 13: Who Should Join -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Is This For You?</h2>
+                <div class="two-col">
+                    <div class="content-box" style="background: #dcfce7;">
+                        <h3 class="text-green"><i class="fas fa-user-check mr-2"></i>Perfect Fit </h3>
+                        <ul class="compact">
+                            <li>Manual testers seeking automation</li>
+                            <li>Selenium testers wanting to modernize</li>
+                            <li>Aspiring Test Leads & QA Managers</li>
+                            <li>Serious learners ready to commit 2 months</li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="background: #fee2e2;">
+                        <h3 style="color: #ef4444;"><i class="fas fa-user-xmark mr-2"></i>NOT For </h3>
+                        <ul class="compact">
+                            <li class="cross">Looking for "Certification only"</li>
+                            <li class="cross">Cannot attend sessions regularly</li>
+                            <li class="cross">Unwilling to practice coding daily</li>
+                            <li class="cross">Looking for shortcuts without effort</li>
+                        </ul>
+                    </div>
+                </div>
+                <p style="margin-top: 12px;" class="bold">Requires commitment & active participation</p>
+            </section>
+
+            <!-- Slide 14: Program Format -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Program Format</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                    <div class="content-box">
+                        <h3><i class="fas fa-hourglass-half mr-2"></i>Duration</h3>
+                        <p class="text-orange bold" style="font-size: 1.1em;">2 Months</p>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-calendar-alt mr-2"></i>Schedule</h3>
+                        <p class="text-orange bold" style="font-size: 1.1em;">Weekdays </p>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-users mr-2"></i>Batch Size</h3>
+                        <p class="text-orange bold" style="font-size: 1.1em;">10-15 Students Max</p>
+                    </div>
+                    <div class="content-box">
+                        <h3><i class="fas fa-headset mr-2"></i>Support</h3>
+                        <p class="text-orange bold" style="font-size: 1.1em;">Personal & Community</p>
+                    </div>
+                </div>
+                <p style="margin-top: 12px;" class="text-green bold">GitHub + Spaces + Personal Code Reviews</p>
+            </section>
+
+            <!-- Slide 15: Your Three Options -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Your Three Options</h2>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: 0.75em;">
+                    <div style="background: #fee2e2; border: 2px solid #ef4444; padding: 12px; border-radius: 8px;">
+                        <h3 style="color: #ef4444;">Do Nothing</h3>
+                        <p class="compact">Keep watching YouTube</p>
+                        <p class="bold compact" style="margin-top: 8px;">Result: Same or worse</p>
+                    </div>
+                    <div
+                        style="background: #fef3c7; border: 2px solid var(--vibe-yellow); padding: 12px; border-radius: 8px;">
+                        <h3 style="color: #92400e;">Try Again</h3>
+                        <p class="compact">Another course</p>
+                        <p class="bold compact" style="margin-top: 8px;">Result: Same approach = Same results</p>
+                    </div>
+                    <div
+                        style="background: #dcfce7; border: 2px solid var(--vibe-green); padding: 12px; border-radius: 8px;">
+                        <h3 class="text-green">Transform</h3>
+                        <p class="compact">Commit 2 months</p>
+                        <p class="bold compact" style="margin-top: 8px; color: var(--vibe-orange);">Result: Career
+                            transformation!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 16: Call to Action -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Take Action Today!</h2>
+                <div class="cta-box">
+                    <div class="contact-info"><i class="fab fa-whatsapp mr-2"></i>+91-8328152362</div>
+                    <div class="contact-info"><i class="fas fa-envelope mr-2"></i>trainings@vibetestq.com</div>
+                    <div class="contact-info"><i class="fas fa-globe mr-2"></i>www.vibetestq.com</div>
+                </div>
+                <div
+                    style="margin-top: 15px; background: #dcfce7; border: 3px solid var(--vibe-green); padding: 15px; border-radius: 10px;">
+                    <p class="bold" style="font-size: 1.2em; color: var(--vibe-orange);">Demo: June 10 @ 10AM IST</p>
+                    <p class="bold" style="font-size: 1.2em; color: var(--vibe-blue); margin-top: 6px;">Training: June
+                        17, 2026</p>
+                </div>
+                <p style="margin-top: 12px; color: var(--vibe-orange);" class="bold">Limited to 15 Seats | Early Bird
+                    till Jun 15</p>
+            </section>
+
+            <!-- Slide 17: Final -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Your Career. Your Choice.</h2>
+                <div class="highlight-box" style="font-size: 1.1em; padding: 30px;">
+                    <p class="bold">In 2-3 months, you'll look back at this decision as the <span
+                            class="text-orange">turning point</span> in your testing career</p>
+                </div>
+                <div style="margin-top: 20px;">
+                    <p style="font-size: 1.2em;" class="text-blue bold">Don't wait. The market won't.</p>
+                </div>
+                <p style="font-size: 1em; margin-top: 20px;">
+                    <span class="text-blue bold">I look forward to your transformation</span><br>
+                    <span style="font-size: 0.9em; color: var(--vibe-orange);">- QtpSudhakar</span>
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            if (typeof Reveal !== 'undefined') {
+                Reveal.initialize({
+                    hash: true,
+                    transition: 'slide',
+                    transitionSpeed: 'default',
+                    slideNumber: true,
+                    controls: true,
+                    progress: true,
+                    center: true,
+                    width: 1280,
+                    height: 720,
+                    margin: 0.04
+                });
+            } else {
+                console.error('Reveal.js failed to load');
+            }
+        });
+    </script>
+</body>
+
+</html>

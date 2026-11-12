@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Capstone Review - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.capstone-banner{background:linear-gradient(135deg,#ea580c,#9333ea);color:white;border-radius:12px;padding:25px 30px;margin-bottom:20px;text-align:center;}.capstone-banner h2{font-size:1.5rem;margin-bottom:8px;}.capstone-banner p{opacity:0.9;font-size:0.95rem;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;border:none;gap:8px;font-size:1rem;transition:all 0.2s;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background:white;padding:0;}.card{box-shadow:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}.capstone-banner{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}@media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Capstone Assessment</h1><p>25 Questions · All Topics</p></div>
+    </header>
+    <div class="capstone-banner">
+        <h2>🎓 Capstone Review Assessment</h2>
+        <p>This final assessment covers all 15 days of the Quantifi QE program. Complete it to validate your full learning journey.</p>
+    </div>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Capstone Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the certificate:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-certificate"></i> Print Certificate</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: Capstone Review
+
+**Total Questions:** 25
+**Time:** 30 minutes
+**Pass Mark:** 60%
+**Topics:** JavaScript, TypeScript, Playwright Setup, Locators, Interactions, Test Runner, AI Tools, API Testing, POM, Framework, BDD, Reporting, CI/CD
+
+---
+
+## Questions
+
+### Question 1
+What is the difference between `let` and `const` in JavaScript?
+
+A) `let` is for strings; `const` is for numbers
+B) `let` allows reassignment; `const` creates a binding that cannot be reassigned
+C) `const` variables are hoisted; `let` variables are not
+D) They are identical in behavior
+
+**Answer: B) `let` allows reassignment; `const` creates a binding that cannot be reassigned**
+
+**Explanation:** `let x = 5; x = 10;` is valid. `const y = 5; y = 10;` throws a TypeError. Use `const` for values that should not change; use `let` when reassignment is needed.
+
+---
+
+### Question 2
+What does `Promise.all([p1, p2, p3])` return?
+
+A) The result of the first resolved promise
+B) An array of results when all three promises resolve, or rejects if any one rejects
+C) A merged promise that runs sequentially
+D) The result of the last promise only
+
+**Answer: B) An array of results when all three promises resolve, or rejects if any one rejects**
+
+**Explanation:** `Promise.all` waits for every promise to resolve and returns all results as an array. If any promise rejects, the whole `Promise.all` rejects immediately.
+
+---
+
+### Question 3
+In TypeScript, what does the `interface` keyword do?
+
+A) Defines a class with constructor logic
+B) Creates an immutable value binding
+C) Declares a contract/shape that objects must follow, without implementation details
+D) Imports external modules
+
+**Answer: C) Declares a contract/shape that objects must follow, without implementation details**
+
+**Explanation:** An `interface` in TypeScript describes the structure (properties and method signatures) required of an object. Unlike a class, it has no constructor or implementation — just the shape definition.
+
+---
+
+### Question 4
+What is the Playwright Browser → Context → Page hierarchy responsible for?
+
+A) Browser = one test; Context = one file; Page = one assertion
+B) Browser = a browser process; Context = an isolated session with its own cookies; Page = a single tab
+C) Browser = a worker; Context = a fixture; Page = a locator
+D) All three are aliases for the same object
+
+**Answer: B) Browser = a browser process; Context = an isolated session with its own cookies; Page = a single tab**
+
+**Explanation:** Each `BrowserContext` is like a private browsing session — fully isolated cookies, storage, and auth state. Each `Page` within a context is one tab. This architecture enables clean test isolation.
+
+---
+
+### Question 5
+Which Playwright locator best combines resilience and accessibility alignment?
+
+A) `page.locator('.submit-btn')`
+B) `page.locator('//button[1]')`
+C) `page.getByRole('button', { name: 'Submit' })`
+D) `page.locator('[id*="btn"]')`
+
+**Answer: C) `page.getByRole('button', { name: 'Submit' })`**
+
+**Explanation:** `getByRole` targets ARIA roles and accessible names — both semantically meaningful and resilient to styling changes. CSS classes and XPath positions break easily with UI refactoring.
+
+---
+
+### Question 6
+What does `await locator.fill('test@example.com')` do?
+
+A) Reads the current value of the input
+B) Types characters one at a time with key events
+C) Clears the input and sets its value directly
+D) Checks if the input contains the email
+
+**Answer: C) Clears the input and sets its value directly**
+
+**Explanation:** `fill()` is the reliable way to set input values — it clears existing content and sets the new value. Unlike `type()`, it doesn't simulate individual keystrokes; it's faster and more reliable.
+
+---
+
+### Question 7
+What is the correct Playwright hook order within a `test.describe` block?
+
+A) beforeEach → beforeAll → test → afterAll → afterEach
+B) beforeAll → beforeEach → test → afterEach → afterAll
+C) test → beforeEach → beforeAll → afterAll → afterEach
+D) beforeAll → test → afterAll → beforeEach → afterEach
+
+**Answer: B) beforeAll → beforeEach → test → afterEach → afterAll**
+
+**Explanation:** `beforeAll` runs once at the start of the describe block. `beforeEach` runs before every test. After each test `afterEach` fires, and `afterAll` cleans up at the very end.
+
+---
+
+### Question 8
+What is the MCP (Model Context Protocol) primarily used for in AI-assisted testing?
+
+A) Managing CI/CD pipeline schedules
+B) Enabling AI assistants to interact with external tools and live browsers via a standardized protocol
+C) Compiling TypeScript for browser environments
+D) Configuring Playwright's proxy settings
+
+**Answer: B) Enabling AI assistants to interact with external tools and live browsers via a standardized protocol**
+
+**Explanation:** MCP is an open standard for AI clients (like Copilot or Claude) to communicate with tool servers. The Playwright MCP server gives AI the ability to browse live applications and generate accurate locators.
+
+---
+
+### Question 9
+What does a self-healing test framework do when a locator fails?
+
+A) Immediately fails the test and sends an alert
+B) Retries the same broken locator indefinitely
+C) Uses AI to identify the element through alternative strategies and updates the locator
+D) Skips the failing step and continues
+
+**Answer: C) Uses AI to identify the element through alternative strategies and updates the locator**
+
+**Explanation:** Self-healing frameworks maintain fallback locator strategies. When the primary fails, AI ranks alternatives (role, label, testid) by reliability, finds the element, and repairs the locator for future runs.
+
+---
+
+### Question 10
+What Playwright method intercepts and mocks an API call in a UI test?
+
+A) page.intercept()
+B) page.mock()
+C) page.route()
+D) page.block()
+
+**Answer: C) page.route()**
+
+**Explanation:** `page.route(pattern, handler)` intercepts matching network requests. Use `route.fulfill()` to return mock data, `route.abort()` to simulate network failure, or `route.continue()` to pass through.
+
+---
+
+### Question 11
+In the Page Object Model, where should `expect()` assertions be placed?
+
+A) Inside page object action methods
+B) In playwright.config.ts
+C) In the test functions, visible at the test level
+D) In a global assertion helper inside fixtures
+
+**Answer: C) In the test functions, visible at the test level**
+
+**Explanation:** Assertions belong in tests — they encode what specific tests are verifying. Page objects encapsulate interactions. Mixing assertions into page methods makes tests opaque and harder to debug.
+
+---
+
+### Question 12
+What does `test.extend({ loginPage: async ({ page }, use) => { await use(new LoginPage(page)); } })` create?
+
+A) A new test configuration
+B) A custom fixture that injects an instantiated `LoginPage` into any test that requests it
+C) A mock of the LoginPage class
+D) A test that runs only for logged-in users
+
+**Answer: B) A custom fixture that injects an instantiated `LoginPage` into any test that requests it**
+
+**Explanation:** Fixtures are dependency injection. Tests declare `loginPage` as a parameter and receive a fully set-up `LoginPage` instance automatically — no manual `new LoginPage(page)` in tests.
+
+---
+
+### Question 13
+What does `storageState` accomplish when used in a Playwright framework's CI pipeline?
+
+A) Stores test results for future comparison
+B) Caches browser binary downloads
+C) Pre-loads a logged-in browser session, eliminating per-test login overhead
+D) Stores Playwright configuration between pipeline runs
+
+**Answer: C) Pre-loads a logged-in browser session, eliminating per-test login overhead**
+
+**Explanation:** Login once in `globalSetup`, save state with `context.storageState()`, then load it with `test.use({ storageState })`. All tests start authenticated without running through the login UI each time.
+
+---
+
+### Question 14
+What is the Gherkin keyword `Scenario Outline` paired with?
+
+A) `Table:` data blocks
+B) `Examples:` tables for data-driven iteration
+C) `Background:` preconditions
+D) `Feature:` descriptions
+
+**Answer: B) `Examples:` tables for data-driven iteration**
+
+**Explanation:** `Scenario Outline` defines the template scenario with `<placeholder>` values. An `Examples:` table beneath it provides rows of data — each row generates a separate scenario execution.
+
+---
+
+### Question 15
+What does `--shard=2/4` do in a CI test run?
+
+A) Runs tests 2 times with 4 workers each
+B) Runs only 2 of the 4 project configurations
+C) Runs the second quarter of the total test suite (tests 26-50% of the sorted list)
+D) Limits test output to 2 results per page
+
+**Answer: C) Runs the second quarter of the total test suite (tests 26-50% of the sorted list)**
+
+**Explanation:** Sharding divides all tests numerically. `--shard=2/4` means "I am runner 2 of 4 total runners — run my assigned quarter". All 4 shards run in parallel on separate machines, cutting total time by ~75%.
+
+---
+
+### Question 16
+What TypeScript access modifier makes a locator property accessible only within its own class?
+
+A) public
+B) protected
+C) readonly
+D) private
+
+**Answer: D) private**
+
+**Explanation:** `private` enforces encapsulation in page objects. Tests must call action methods instead of accessing locators directly — maintaining the clean API that POM provides.
+
+---
+
+### Question 17
+What does `expect.soft(locator).toBeVisible()` do when the assertion fails?
+
+A) The test immediately fails and stops
+B) The failure is recorded but test execution continues to the next assertion
+C) The assertion is retried 3 times silently
+D) A warning is logged without marking the test as failed
+
+**Answer: B) The failure is recorded but test execution continues to the next assertion**
+
+**Explanation:** Soft assertions queue failures. The whole test is eventually marked failed, but you get all failures in one run instead of stopping at the first. Useful when validating multiple independent aspects.
+
+---
+
+### Question 18
+What is the best practice for handling authentication in a large parallel Playwright test suite?
+
+A) Log in through the UI in every test's `beforeEach`
+B) Use `page.evaluate()` to bypass authentication
+C) Hard-code session cookies in each test file
+D) Log in once in `globalSetup` via API, save `storageState`, and have tests load it
+
+**Answer: D) Log in once in `globalSetup` via API, save `storageState`, and have tests load it**
+
+**Explanation:** UI-based login in every test is slow and brittle. Logging in once via API (fastest path) in `globalSetup` and saving the state is the standard enterprise pattern for fast, scalable test suites.
+
+---
+
+### Question 19
+What is the role of `data-testid` attributes in a modern test automation strategy?
+
+A) They style elements for visual testing
+B) They track user behavior in analytics
+C) They provide stable, purpose-built identifiers that survive UI refactoring
+D) They are required for ARIA accessibility compliance
+
+**Answer: C) They provide stable, purpose-built identifiers that survive UI refactoring**
+
+**Explanation:** `data-testid` attributes exist solely for testing. Developers understand not to change them during styling updates. They reduce locator maintenance and form the ideal foundation for self-healing strategies.
+
+---
+
+### Question 20
+What is the output of `[1, 2, 3].filter(n => n > 1).map(n => n * 2)`?
+
+A) [1, 2, 3]
+B) [4, 6]
+C) [2, 4, 6]
+D) [3, 4, 6]
+
+**Answer: B) [4, 6]**
+
+**Explanation:** `filter(n => n > 1)` produces `[2, 3]`. Then `map(n => n * 2)` produces `[4, 6]`. Method chaining applies transformations sequentially.
+
+---
+
+### Question 21
+What does `trace: 'on-first-retry'` in playwright.config.ts capture?
+
+A) A trace for every test regardless of outcome
+B) A trace starting from the first time a failing test is retried
+C) A console log of each retry attempt
+D) A video recording of the test on failures
+
+**Answer: B) A trace starting from the first time a failing test is retried**
+
+**Explanation:** Traces contain every Playwright action, assertion, network call, and screenshot. Capturing on first retry means CI failures come with full debugging context without the overhead of tracing all passing tests.
+
+---
+
+### Question 22
+What is the main advantage of the BDD approach for QE teams?
+
+A) It eliminates the need for manual testing entirely
+B) Gherkin scenarios serve as living documentation readable by both technical and non-technical team members
+C) It is faster to run than standard Playwright tests
+D) It requires less tooling than native Playwright testing
+
+**Answer: B) Gherkin scenarios serve as living documentation readable by both technical and non-technical team members**
+
+**Explanation:** BDD bridges the communication gap between business, QA, and development. Scenarios written in Gherkin are understood by all stakeholders, reducing misunderstandings and improving collaboration.
+
+---
+
+### Question 23
+In a Playwright API test, what does `expect(response).toBeOK()` verify?
+
+A) The response body is not empty
+B) The response arrived within 1 second
+C) The HTTP status code is in the 200-299 (success) range
+D) The response has a valid JSON body
+
+**Answer: C) The HTTP status code is in the 200-299 (success) range**
+
+**Explanation:** `toBeOK()` is the clean API assertion for successful HTTP responses. It is equivalent to `expect(response.status()).toBeGreaterThanOrEqual(200)` combined with checking less than 300.
+
+---
+
+### Question 24
+What does `fullyParallel: true` combined with `workers: 8` enable?
+
+A) 8 separate test files running, with sequential tests inside each file
+B) Up to 8 individual test cases running concurrently across all files simultaneously
+C) 8 retries for every test
+D) 8 browser instances across 4 machines
+
+**Answer: B) Up to 8 individual test cases running concurrently across all files simultaneously**
+
+**Explanation:** Without `fullyParallel`, tests within a file run sequentially on one worker. With it, every individual test can run on any available worker — maximizing parallelism and minimizing total suite duration.
+
+---
+
+### Question 25
+Which combination of practices creates the most maintainable and scalable Playwright test automation framework?
+
+A) Hard-coded locators in tests, no CI/CD, manual test execution
+B) XPath-heavy locators, login UI in every test, no page objects
+C) POM with stable locators, storageState auth, custom fixtures, CI/CD integration, and AI-assisted generation
+D) A single test file with all 200 tests, run sequentially
+
+**Answer: C) POM with stable locators, storageState auth, custom fixtures, CI/CD integration, and AI-assisted generation**
+
+**Explanation:** The modern enterprise QA stack combines: POM for maintainability, stable locators (role/testid) for resilience, storageState for speed, fixtures for clean injection, CI/CD for continuous quality, and AI agents to accelerate coverage. This is the complete Quantifi QE framework.
+
+---
+
+</script>
+<script>(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Capstone Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'PERFECT SCORE! You have mastered the complete Quantifi QE program!':pct>=80?'Outstanding! You are well-prepared for a QE role. Congratulations!':pct>=60?'Passed! Review the chapters covering your weaker areas and keep practicing.':'Keep going! Revisit the chapters where you lost marks and reattempt.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Full Name: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();</script>
+</body>
+</html>

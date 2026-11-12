@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Portal | Human Resource Management System</title>
+    <meta name="description" content="Playwright test automation practice application for HRMS operations">
+    <link rel="stylesheet" href="../shared/css/portal.css">
+    <link rel="stylesheet" href="hrms.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+    <div class="hrms-container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar -->
+        <aside class="hrms-sidebar" id="sidebar">
+            <div class="hrms-logo">
+                <h1><i class="fas fa-id-card-alt"></i> HRMS</h1>
+                <p>Human Resource Management</p>
+            </div>
+
+            <nav class="hrms-nav">
+                <div class="hrms-nav-section">Main Menu</div>
+                <button class="hrms-nav-item active" data-tab="dashboard">
+                    <i class="fas fa-th-large"></i> Dashboard
+                </button>
+                <button class="hrms-nav-item" data-tab="pim">
+                    <i class="fas fa-users"></i> People (PIM)
+                </button>
+                <button class="hrms-nav-item" data-tab="leave">
+                    <i class="fas fa-calendar-alt"></i> Leave Management
+                </button>
+                <button class="hrms-nav-item" data-tab="time">
+                    <i class="fas fa-clock"></i> Time & Attendance
+                </button>
+
+                <div class="hrms-nav-section">Talent</div>
+                <button class="hrms-nav-item" data-tab="recruit">
+                    <i class="fas fa-user-tie"></i> Recruitment
+                </button>
+                <button class="hrms-nav-item" data-tab="performance">
+                    <i class="fas fa-chart-line"></i> Performance
+                </button>
+
+                <div class="hrms-nav-section">System</div>
+                <button class="hrms-nav-item" data-tab="admin">
+                    <i class="fas fa-cog"></i> Administration
+                </button>
+            </nav>
+
+            <div class="hrms-user-panel">
+                <div class="hrms-user-avatar">AM</div>
+                <div class="hrms-user-info">
+                    <div class="name">Admin Master</div>
+                    <div class="role">HR Manager</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="hrms-main">
+            <header class="hrms-header">
+                <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 id="header-title"><i class="fas fa-th-large"></i> Dashboard</h2>
+                <div class="hrms-header-actions">
+                    <a href="guide.html" class="btn btn-secondary"><i class="fas fa-book"></i> Testing Guide</a>
+                </div>
+            </header>
+
+            <div class="hrms-content">
+                <!-- Dashboard Tab -->
+                <div class="hrms-tab active" id="tab-dashboard">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                            <div class="stat-info">
+                                <h3 id="stat-employees">0</h3>
+                                <p>Total Employees</p>
+                                <span class="stat-trend up"><i class="fas fa-arrow-up"></i> 3 this month</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange"><i class="fas fa-umbrella-beach"></i></div>
+                            <div class="stat-info">
+                                <h3 id="stat-onleave">0</h3>
+                                <p>On Leave Today</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon purple"><i class="fas fa-hourglass-half"></i></div>
+                            <div class="stat-info">
+                                <h3 id="stat-pending-leaves">0</h3>
+                                <p>Pending Leave Requests</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green"><i class="fas fa-briefcase"></i></div>
+                            <div class="stat-info">
+                                <h3 id="stat-open-jobs">0</h3>
+                                <p>Open Positions</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon pink"><i class="fas fa-star-half-alt"></i></div>
+                            <div class="stat-info">
+                                <h3 id="stat-pending-reviews">0</h3>
+                                <p>Pending Reviews</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                        <div class="hrms-card">
+                            <div class="hrms-card-header">
+                                <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                            </div>
+                            <div class="hrms-card-body">
+                                <div class="quick-actions">
+                                    <button class="quick-action-btn" onclick="hrmsApp.showTab('pim'); setTimeout(() => hrmsApp.openAddEmployee(), 500);">
+                                        <i class="fas fa-user-plus"></i> Add Employee
+                                    </button>
+                                    <button class="quick-action-btn" onclick="hrmsApp.showTab('leave');">
+                                        <i class="fas fa-check-circle"></i> Approve Leaves
+                                    </button>
+                                    <button class="quick-action-btn" onclick="hrmsApp.showTab('recruit'); setTimeout(() => hrmsApp.openPostJob(), 500);">
+                                        <i class="fas fa-plus-circle"></i> Post Job
+                                    </button>
+                                    <button class="quick-action-btn" onclick="hrmsApp.showTab('admin');">
+                                        <i class="fas fa-chart-bar"></i> View Reports
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hrms-card">
+                            <div class="hrms-card-header">
+                                <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                            </div>
+                            <div class="hrms-card-body">
+                                <div class="activity-feed" id="activity-feed">
+                                    <!-- Dynamic content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- People Management (PIM) Tab -->
+                <div class="hrms-tab" id="tab-pim">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="emp-search" placeholder="Search employees..." oninput="hrmsApp.searchEmployees()">
+                        </div>
+                        <select class="filter-select" id="emp-filter-dept" onchange="hrmsApp.searchEmployees()">
+                            <option value="all">All Departments</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Quality Assurance">Quality Assurance</option>
+                            <option value="Design">Design</option>
+                            <option value="Product">Product</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Analytics">Analytics</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="hrmsApp.openAddEmployee()">
+                            <i class="fas fa-user-plus"></i> Add Employee
+                        </button>
+                    </div>
+
+                    <div class="hrms-card">
+                        <div class="hrms-card-header">
+                            <h3><i class="fas fa-list"></i> Employee Directory</h3>
+                        </div>
+                        <div class="hrms-card-body" style="padding:0;">
+                            <table class="hrms-table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>ID</th>
+                                        <th>Job Title</th>
+                                        <th>Department</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="employees-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leave Management Tab -->
+                <div class="hrms-tab" id="tab-leave">
+                    <div class="balance-grid">
+                        <div class="balance-card annual">
+                            <div class="type"><i class="fas fa-sun"></i> Annual Leave</div>
+                            <div class="days" id="balance-annual">0</div>
+                            <div class="label">days available</div>
+                        </div>
+                        <div class="balance-card sick">
+                            <div class="type"><i class="fas fa-medkit"></i> Sick Leave</div>
+                            <div class="days" id="balance-sick">0</div>
+                            <div class="label">days available</div>
+                        </div>
+                        <div class="balance-card personal">
+                            <div class="type"><i class="fas fa-user"></i> Personal Leave</div>
+                            <div class="days" id="balance-personal">0</div>
+                            <div class="label">days available</div>
+                        </div>
+                        <div class="balance-card compoff">
+                            <div class="type"><i class="fas fa-gift"></i> Comp-Off</div>
+                            <div class="days" id="balance-compoff">0</div>
+                            <div class="label">days available</div>
+                        </div>
+                    </div>
+
+                    <div class="toolbar">
+                        <h3 style="margin:0;font-size:1rem;"><i class="fas fa-inbox"></i> Leave Requests</h3>
+                        <div style="flex:1;"></div>
+                        <button class="btn btn-primary" onclick="hrmsApp.openApplyLeave()">
+                            <i class="fas fa-calendar-plus"></i> Apply Leave
+                        </button>
+                    </div>
+
+                    <div class="hrms-card">
+                        <div class="hrms-card-body" style="padding:0;">
+                            <table class="hrms-table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Type</th>
+                                        <th>Dates</th>
+                                        <th>Days</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="leaves-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time & Attendance Tab -->
+                <div class="hrms-tab" id="tab-time">
+                    <div class="clock-widget">
+                        <div class="date" id="clock-date">Loading...</div>
+                        <div class="time" id="clock-time">--:--:--</div>
+                        <div class="status" id="clock-status"><i class="fas fa-circle"></i> Not Clocked In</div>
+                        <div style="margin-bottom:0.5rem;">
+                            <span style="opacity:0.9;">Hours Today:</span>
+                            <strong id="worked-hours">0h 0m</strong>
+                        </div>
+                        <button class="clock-btn" id="btn-clock" onclick="hrmsApp.toggleClock()">Clock In</button>
+                    </div>
+
+                    <div class="hrms-card">
+                        <div class="hrms-card-header">
+                            <h3><i class="fas fa-calendar-check"></i> Today's Attendance</h3>
+                        </div>
+                        <div class="hrms-card-body" style="padding:0;">
+                            <table class="hrms-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Employee</th>
+                                        <th>Clock In</th>
+                                        <th>Clock Out</th>
+                                        <th>Total Hours</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="attendance-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recruitment Tab -->
+                <div class="hrms-tab" id="tab-recruit">
+                    <div class="pipeline-stages">
+                        <div class="pipeline-stage">
+                            <div class="count" id="pipeline-applied">0</div>
+                            <div class="label">Applied</div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="count" id="pipeline-screening">0</div>
+                            <div class="label">Screening</div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="count" id="pipeline-interview">0</div>
+                            <div class="label">Interview</div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="count" id="pipeline-offer">0</div>
+                            <div class="label">Offer</div>
+                        </div>
+                        <div class="pipeline-stage">
+                            <div class="count" id="pipeline-hired">0</div>
+                            <div class="label">Hired</div>
+                        </div>
+                    </div>
+
+                    <div class="toolbar">
+                        <h3 style="margin:0;font-size:1rem;"><i class="fas fa-briefcase"></i> Open Positions</h3>
+                        <div style="flex:1;"></div>
+                        <button class="btn btn-primary" onclick="hrmsApp.openPostJob()">
+                            <i class="fas fa-plus"></i> Post New Job
+                        </button>
+                    </div>
+
+                    <div class="jobs-grid" id="jobs-grid">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <!-- Performance Tab -->
+                <div class="hrms-tab" id="tab-performance">
+                    <div class="toolbar">
+                        <h3 style="margin:0;font-size:1rem;"><i class="fas fa-bullseye"></i> Goals & OKRs</h3>
+                        <div style="flex:1;"></div>
+                        <button class="btn btn-primary" onclick="hrmsApp.openAddGoal()">
+                            <i class="fas fa-plus"></i> Add Goal
+                        </button>
+                    </div>
+
+                    <div id="goals-list" style="margin-bottom:2rem;">
+                        <!-- Dynamic content -->
+                    </div>
+
+                    <div class="hrms-card">
+                        <div class="hrms-card-header">
+                            <h3><i class="fas fa-star"></i> Performance Reviews</h3>
+                        </div>
+                        <div class="hrms-card-body" style="padding:0;">
+                            <table class="hrms-table">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Cycle</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Rating</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="reviews-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Administration Tab -->
+                <div class="hrms-tab" id="tab-admin">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+                        <div class="hrms-card">
+                            <div class="hrms-card-header">
+                                <h3><i class="fas fa-user-shield"></i> User Management</h3>
+                            </div>
+                            <div class="hrms-card-body" style="padding:0;">
+                                <table class="hrms-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Username</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>Status</th>
+                                            <th>Last Login</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="users-body">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="hrms-card">
+                            <div class="hrms-card-header">
+                                <h3><i class="fas fa-history"></i> Audit Logs</h3>
+                            </div>
+                            <div class="hrms-card-body">
+                                <div id="audit-logs">
+                                    <!-- Dynamic content -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- Add/Edit Employee Modal -->
+    <div class="hrms-modal" id="modal-employee">
+        <div class="hrms-modal-content modal-lg">
+            <div class="hrms-modal-header">
+                <h3 id="modal-emp-title"><i class="fas fa-user-plus"></i> Add New Employee</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="hrms-modal-body">
+                <form id="emp-form">
+                    <h4 style="margin:0 0 1rem;font-size:0.9rem;color:#64748b;">Personal Information</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name *</label>
+                            <input type="text" class="form-input" id="emp-firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name *</label>
+                            <input type="text" class="form-input" id="emp-lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-input" id="emp-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-input" id="emp-phone">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" class="form-input" id="emp-dob">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Gender</label>
+                            <select class="form-input" id="emp-gender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h4 style="margin:1.5rem 0 1rem;font-size:0.9rem;color:#64748b;">Employment Details</h4>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Job Title *</label>
+                            <select class="form-input" id="emp-jobTitle">
+                                <option value="">Select Title</option>
+                                <option value="Junior Developer">Junior Developer</option>
+                                <option value="Software Engineer">Software Engineer</option>
+                                <option value="Senior Software Engineer">Senior Software Engineer</option>
+                                <option value="QA Engineer">QA Engineer</option>
+                                <option value="Senior QA Engineer">Senior QA Engineer</option>
+                                <option value="UI/UX Designer">UI/UX Designer</option>
+                                <option value="Product Manager">Product Manager</option>
+                                <option value="DevOps Engineer">DevOps Engineer</option>
+                                <option value="Data Scientist">Data Scientist</option>
+                                <option value="Software Architect">Software Architect</option>
+                                <option value="HR Manager">HR Manager</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Department *</label>
+                            <select class="form-input" id="emp-department">
+                                <option value="">Select Department</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Quality Assurance">Quality Assurance</option>
+                                <option value="Design">Design</option>
+                                <option value="Product">Product</option>
+                                <option value="Human Resources">Human Resources</option>
+                                <option value="Analytics">Analytics</option>
+                                <option value="Finance">Finance</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Join Date *</label>
+                            <input type="date" class="form-input" id="emp-joinDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-input" id="emp-status">
+                                <option value="Active">Active</option>
+                                <option value="On Leave">On Leave</option>
+                                <option value="Resigned">Resigned</option>
+                                <option value="Terminated">Terminated</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="hrms-modal-footer">
+                <button class="btn btn-secondary" onclick="hrmsApp.closeModal('modal-employee')">Cancel</button>
+                <button class="btn btn-primary" id="btn-save-employee" onclick="hrmsApp.saveEmployee()">
+                    <i class="fas fa-save"></i> Save Employee
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Employee Modal -->
+    <div class="hrms-modal" id="modal-view-employee">
+        <div class="hrms-modal-content modal-lg">
+            <div class="hrms-modal-header">
+                <h3><i class="fas fa-id-card"></i> Employee Profile</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="hrms-modal-body">
+                <div class="profile-header">
+                    <div class="profile-avatar-lg"><i class="fas fa-user"></i></div>
+                    <div class="profile-info">
+                        <h2 id="view-emp-name">Employee Name</h2>
+                        <p id="view-emp-title">Job Title | Department</p>
+                        <span class="badge badge-success" id="view-emp-status">Active</span>
+                    </div>
+                </div>
+                <div id="view-emp-details">
+                    <!-- Dynamic content -->
+                </div>
+            </div>
+            <div class="hrms-modal-footer">
+                <button class="btn btn-secondary" onclick="hrmsApp.closeModal('modal-view-employee')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Apply Leave Modal -->
+    <div class="hrms-modal" id="modal-leave">
+        <div class="hrms-modal-content">
+            <div class="hrms-modal-header">
+                <h3><i class="fas fa-calendar-plus"></i> Apply for Leave</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="hrms-modal-body">
+                <form id="leave-form">
+                    <div class="form-group">
+                        <label class="form-label">Leave Type *</label>
+                        <select class="form-input" id="leave-type">
+                            <option value="Annual">Annual Leave</option>
+                            <option value="Sick">Sick Leave</option>
+                            <option value="Personal">Personal Leave</option>
+                            <option value="Comp-Off">Compensatory Off</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Start Date *</label>
+                            <input type="date" class="form-input" id="leave-startDate" required onchange="hrmsApp.calculateLeaveDays()">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">End Date *</label>
+                            <input type="date" class="form-input" id="leave-endDate" required onchange="hrmsApp.calculateLeaveDays()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Number of Days</label>
+                        <input type="text" class="form-input" id="leave-days" readonly style="background:#f1f5f9;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Reason *</label>
+                        <textarea class="form-textarea" id="leave-reason" rows="3" placeholder="Please provide a reason for your leave request..." required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="hrms-modal-footer">
+                <button class="btn btn-secondary" onclick="hrmsApp.closeModal('modal-leave')">Cancel</button>
+                <button class="btn btn-primary" id="btn-submit-leave" onclick="hrmsApp.submitLeave()">
+                    <i class="fas fa-paper-plane"></i> Submit Request
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Post Job Modal -->
+    <div class="hrms-modal" id="modal-job">
+        <div class="hrms-modal-content modal-lg">
+            <div class="hrms-modal-header">
+                <h3><i class="fas fa-briefcase"></i> Post New Job</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="hrms-modal-body">
+                <form id="job-form">
+                    <div class="form-row">
+                        <div class="form-group full">
+                            <label class="form-label">Job Title *</label>
+                            <input type="text" class="form-input" id="job-title" placeholder="e.g. Senior Software Engineer" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Department *</label>
+                            <select class="form-input" id="job-department">
+                                <option value="">Select Department</option>
+                                <option value="Engineering">Engineering</option>
+                                <option value="Quality Assurance">Quality Assurance</option>
+                                <option value="Design">Design</option>
+                                <option value="Product">Product</option>
+                                <option value="Human Resources">Human Resources</option>
+                                <option value="Analytics">Analytics</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Location *</label>
+                            <input type="text" class="form-input" id="job-location" placeholder="e.g. Bangalore, Remote">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Employment Type</label>
+                            <select class="form-input" id="job-type">
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Contract">Contract</option>
+                                <option value="Internship">Internship</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Experience Required</label>
+                            <input type="text" class="form-input" id="job-experience" placeholder="e.g. 3-5 years">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Salary Range</label>
+                        <input type="text" class="form-input" id="job-salary" placeholder="e.g. $80,000 - $120,000">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Job Description</label>
+                        <textarea class="form-textarea" id="job-description" rows="4" placeholder="Describe the role, responsibilities, and requirements..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="hrms-modal-footer">
+                <button class="btn btn-secondary" onclick="hrmsApp.closeModal('modal-job')">Cancel</button>
+                <button class="btn btn-primary" id="btn-save-job" onclick="hrmsApp.saveJob()">
+                    <i class="fas fa-plus"></i> Post Job
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Candidates Modal -->
+    <div class="hrms-modal" id="modal-candidates">
+        <div class="hrms-modal-content modal-lg">
+            <div class="hrms-modal-header">
+                <h3><i class="fas fa-users"></i> Candidates - <span id="candidates-job-title">Job Title</span></h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="hrms-modal-body" style="padding:0;">
+                <table class="hrms-table">
+                    <thead>
+                        <tr>
+                            <th>Candidate</th>
+                            <th>Experience</th>
+                            <th>Skills</th>
+                            <th>Rating</th>
+                            <th>Stage</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="candidates-body">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="hrms-modal-footer">
+                <button class="btn btn-secondary" onclick="hrmsApp.closeModal('modal-candidates')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Goal Modal -->
+    <div class="hrms-modal" id="modal-goal">
+        <div class="hrms-modal-content">
+            <div class="hrms-modal-header">
+                <h3><i class="fas fa-bullseye"></i> Add New Goal</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="hrms-modal-body">
+                <form id="goal-form">
+                    <div class="form-group">
+                        <label class="form-label">Goal Title *</label>
+                        <input type="text" class="form-input" id="goal-title" placeholder="What do you want to achieve?" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="goal-description" rows="3" placeholder="Describe the goal in detail..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Due Date *</label>
+                            <input type="date" class="form-input" id="goal-dueDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Priority</label>
+                            <select class="form-input" id="goal-priority">
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="hrms-modal-footer">
+                <button class="btn btn-secondary" onclick="hrmsApp.closeModal('modal-goal')">Cancel</button>
+                <button class="btn btn-primary" id="btn-save-goal" onclick="hrmsApp.saveGoal()">
+                    <i class="fas fa-save"></i> Save Goal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Performance Review Modal -->
+    <div class="hrms-modal" id="modal-review">
+        <div class="hrms-modal-content modal-lg">
+            <div class="hrms-modal-header">
+                <h3><i class="fas fa-star"></i> Performance Review</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="hrms-modal-body">
+                <div style="background:#f8fafc;padding:1rem;border-radius:8px;margin-bottom:1.5rem;">
+                    <p style="margin:0;font-size:0.9rem;"><strong>Employee:</strong> <span id="review-employee-name">Employee Name</span></p>
+                    <p style="margin:0.25rem 0 0;font-size:0.85rem;color:#64748b;"><strong>Review Cycle:</strong> <span id="review-cycle">Q4-2025</span></p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Overall Rating</label>
+                    <div class="star-rating" data-rating="4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Strengths *</label>
+                    <textarea class="form-textarea" id="review-strengths" rows="3" placeholder="What are the employee's key strengths?" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Areas for Improvement</label>
+                    <textarea class="form-textarea" id="review-improvements" rows="3" placeholder="What areas need improvement?"></textarea>
+                </div>
+            </div>
+            <div class="hrms-modal-footer">
+                <button class="btn btn-secondary" onclick="hrmsApp.closeModal('modal-review')">Cancel</button>
+                <button class="btn btn-primary" id="btn-submit-review" onclick="hrmsApp.submitReview()">
+                    <i class="fas fa-check"></i> Submit Review
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/js/mock-api.js"></script>
+    <script src="hrms.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+        // Close sidebar when clicking a nav item on mobile
+        document.querySelectorAll('.hrms-nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    toggleSidebar();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

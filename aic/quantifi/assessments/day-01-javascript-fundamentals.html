@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: JavaScript Fundamentals - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+:root {
+    --primary: #ea580c;
+    --primary-dark: #c2410c;
+    --secondary: #22c55e;
+    --accent: #f97316;
+    --warning: #fbbf24;
+    --danger: #ef4444;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+.container { max-width: 800px; margin: 0 auto; }
+header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 2px solid var(--border); }
+.logo img { height: 50px; }
+.back-link { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--primary-dark); font-weight: 600; padding: 6px 10px; border-radius: 6px; transition: all 0.2s ease; }
+.back-link:hover { background: #fff7ed; color: var(--primary); }
+.assessment-title { text-align: right; }
+.assessment-title h1 { font-size: 1.5rem; color: var(--primary-dark); }
+.assessment-title p { font-size: 0.9rem; color: var(--text-light); }
+.card { background: var(--card-bg); border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1),0 2px 4px -1px rgba(0,0,0,0.06); margin-bottom: 20px; }
+.question { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+.question:last-child { border-bottom: none; }
+.question-text { font-weight: 600; font-size: 1.1rem; margin-bottom: 15px; display: flex; gap: 10px; }
+.question-number { color: var(--primary); min-width: 25px; }
+.options { display: grid; gap: 10px; }
+.option { display: flex; align-items: center; padding: 12px 15px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
+.option:hover { background-color: #f1f5f9; border-color: var(--primary); }
+.option input { margin-right: 15px; cursor: pointer; }
+.option.correct { border-color: var(--secondary); background-color: #ecfdf5; }
+.option.incorrect { border-color: var(--danger); background-color: #fef2f2; }
+.question.unanswered { border: 2px solid var(--danger) !important; background-color: #fef2f2 !important; border-radius: 8px; padding: 15px !important; margin-bottom: 25px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; border: none; gap: 8px; font-size: 1rem; }
+.btn-primary { background-color: var(--primary); color: white; }
+.btn-primary:hover { background-color: var(--primary-dark); }
+.btn-success { background-color: var(--secondary); color: white; }
+.result-section { display: none; text-align: center; animation: fadeIn 0.5s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.score-display { font-size: 3rem; font-weight: 800; color: var(--primary); margin: 20px 0; }
+.feedback-text { font-size: 1.2rem; margin-bottom: 30px; }
+.name-input-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); }
+.name-input-section label { display: block; margin-bottom: 10px; font-weight: 500; }
+.name-input-section input { padding: 10px 15px; border: 1px solid var(--border); border-radius: 6px; width: 100%; max-width: 300px; margin-bottom: 15px; }
+.toast { position: fixed; top: 20px; right: 20px; padding: 15px 25px; background: #ef4444; color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: none; z-index: 1000; font-weight: 500; animation: slideIn 0.3s ease-out; }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.explanation { margin-top: 10px; font-size: 0.9rem; color: var(--text-light); display: none; padding: 10px; background: #f8fafc; border-radius: 4px; border-left: 3px solid var(--primary); }
+@media print { .btn, .name-input-section { display: none !important; } body { background-color: white; padding: 0; } .card { box-shadow: none; border: none; } .explanation, .result-section { display: block !important; } #printed-name { display: block !important; text-align: center; margin-bottom: 20px; font-size: 1.5rem; font-weight: 700; color: var(--primary-dark); border-bottom: 1px solid var(--border); padding-bottom: 10px; } }
+#printed-name { display: none; }
+code { background: #f1f5f9; padding: 2px 4px; border-radius: 4px; color: #e11d48; font-family: monospace; }
+pre { background: #1e293b; color: #f8fafc; padding: 15px; border-radius: 8px; overflow-x: auto; margin: 10px 0; font-size: 0.85rem; }
+    @media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title">
+            <h1>Assessment</h1>
+            <p>Loading topics...</p>
+        </div>
+    </header>
+
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+
+    <div id="quiz-container">
+        <div class="card">
+            <form id="quiz-form"></form>
+        </div>
+    </div>
+
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+
+<script type="text/plain" id="assessment-markdown">
+# Assessment: JavaScript Fundamentals
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** Variables, Operators, Conditionals, Loops, Functions, Template Literals
+
+---
+
+## Questions
+
+### Question 1
+Which keyword declares a block-scoped variable that CAN be reassigned?
+
+A) var
+B) const
+C) let
+D) function
+
+**Answer: C) let**
+
+**Explanation:** `let` is block-scoped and allows reassignment, unlike `const` which is read-only after assignment.
+
+---
+
+### Question 2
+What is the output of `console.log(typeof null)`?
+
+A) "null"
+B) "undefined"
+C) "object"
+D) "boolean"
+
+**Answer: C) "object"**
+
+**Explanation:** This is a known JavaScript quirk — `typeof null` returns `"object"` due to a legacy bug in the language.
+
+---
+
+### Question 3
+Which operator checks BOTH value AND type (strict equality)?
+
+A) ==
+B) =
+C) !=
+D) ===
+
+**Answer: D) ===**
+
+**Explanation:** `===` is strict equality and does not perform type coercion, unlike `==` which allows type conversion.
+
+---
+
+### Question 4
+What does `console.log(5 + "3")` output?
+
+A) 8
+B) "53"
+C) 53
+D) NaN
+
+**Answer: B) "53"**
+
+**Explanation:** When a number is added to a string, JavaScript converts the number to a string and concatenates.
+
+---
+
+### Question 5
+Which of the following values is FALSY in JavaScript?
+
+A) "false"
+B) []
+C) {}
+D) 0
+
+**Answer: D) 0**
+
+**Explanation:** In JavaScript, `0`, `""`, `null`, `undefined`, `NaN`, and `false` are falsy. Non-empty strings, arrays, and objects are truthy.
+
+---
+
+### Question 6
+What does `break` do inside a `for` loop?
+
+A) Skips the current iteration and continues
+B) Exits the loop immediately
+C) Resets the loop counter
+D) Throws a SyntaxError
+
+**Answer: B) Exits the loop immediately**
+
+**Explanation:** `break` terminates the nearest enclosing loop. Use `continue` if you only want to skip the current iteration.
+
+---
+
+### Question 7
+What is the result of `let x = 10; x += 5; console.log(x)`?
+
+A) 10
+B) 5
+C) 15
+D) 105
+
+**Answer: C) 15**
+
+**Explanation:** `+=` is the addition assignment operator. `x += 5` is equivalent to `x = x + 5`, so `10 + 5 = 15`.
+
+---
+
+### Question 8
+Which type of function is hoisted and can be called BEFORE it is defined?
+
+A) Arrow function
+B) Function expression
+C) Function declaration
+D) Immediately Invoked Function Expression (IIFE)
+
+**Answer: C) Function declaration**
+
+**Explanation:** Function declarations are hoisted to the top of their scope. Function expressions and arrow functions assigned to variables are not fully hoisted.
+
+---
+
+### Question 9
+What does `continue` do in a `for` loop?
+
+A) Exits the loop entirely
+B) Restarts the loop from the beginning
+C) Skips the rest of the current iteration and moves to the next
+D) Returns a value from the loop
+
+**Answer: C) Skips the rest of the current iteration and moves to the next**
+
+**Explanation:** `continue` jumps past the remaining body of the current iteration and re-evaluates the loop condition.
+
+---
+
+### Question 10
+What is the output of `console.log(10 % 3)`?
+
+A) 3
+B) 1
+C) 0.3
+D) 3.33
+
+**Answer: B) 1**
+
+**Explanation:** The `%` operator returns the remainder. `10 / 3` is 3 with remainder 1, so `10 % 3 === 1`.
+
+---
+
+### Question 11
+What does the template literal `` `Hello ${name}!` `` require?
+
+A) Single quotes around it
+B) Double quotes around it
+C) Backticks around it
+D) Parentheses around it
+
+**Answer: C) Backticks around it**
+
+**Explanation:** Template literals use backtick (`` ` ``) characters and support `${expression}` interpolation.
+
+---
+
+### Question 12
+What is the scope of a variable declared with `var` inside a function?
+
+A) Block scope
+B) Global scope
+C) Module scope
+D) Function scope
+
+**Answer: D) Function scope**
+
+**Explanation:** `var` is function-scoped, not block-scoped. Unlike `let` and `const`, it ignores `if`, `for`, and other block boundaries.
+
+---
+
+### Question 13
+What value does an uninitialized `let` variable hold?
+
+A) null
+B) 0
+C) undefined
+D) ""
+
+**Answer: C) undefined**
+
+**Explanation:** Variables declared with `let` (or `var`) that have not been assigned a value hold `undefined` by default.
+
+---
+
+### Question 14
+What is the result of `"5" == 5` in JavaScript?
+
+A) false, because types differ
+B) true, because loose equality coerces the string to a number
+C) TypeError
+D) undefined
+
+**Answer: B) true, because loose equality coerces the string to a number**
+
+**Explanation:** `==` performs type coercion; `"5"` is coerced to `5` before comparison. Use `===` to avoid this.
+
+---
+
+### Question 15
+Which loop is guaranteed to execute its body AT LEAST once?
+
+A) for
+B) while
+C) do...while
+D) for...of
+
+**Answer: C) do...while**
+
+**Explanation:** A `do...while` loop checks its condition AFTER executing the body, guaranteeing at least one execution.
+
+---
+
+### Question 16
+What does `const greet = (name) => \`Hello, ${name}!\`` define?
+
+A) A constructor function
+B) A class method
+C) An arrow function
+D) A generator function
+
+**Answer: C) An arrow function**
+
+**Explanation:** Arrow functions use `=>` syntax. They are concise and do not have their own `this` binding.
+
+---
+
+### Question 17
+What keyword is used to exit a function and optionally return a value?
+
+A) break
+B) exit
+C) yield
+D) return
+
+**Answer: D) return**
+
+**Explanation:** `return` stops function execution and sends the specified value back to the caller. `yield` is for generators.
+
+---
+
+### Question 18
+What happens when you declare a variable with `const` without assigning a value?
+
+A) It is assigned undefined
+B) It is assigned null
+C) A SyntaxError is thrown
+D) It works the same as let
+
+**Answer: C) A SyntaxError is thrown**
+
+**Explanation:** `const` requires an initializer. `const x;` is a syntax error because constants must be assigned at declaration.
+
+---
+
+### Question 19
+What is the output of the following code?
+```
+let i;
+for (i = 0; i < 3; i++) {}
+console.log(i);
+```
+
+A) 2
+B) 3
+C) undefined
+D) ReferenceError
+
+**Answer: B) 3**
+
+**Explanation:** After the loop, `i` is 3 (the value that caused the condition `i < 3` to be false). Since `i` was declared outside the loop with `let`, it is still accessible.
+
+---
+
+### Question 20
+Which of the following correctly declares a function that takes two numbers and returns their sum?
+
+A) `function add(a, b) => { return a + b; }`
+B) `const add = function(a, b) { return a + b; }`
+C) `add(a, b) { return a + b; }`
+D) `let add = (a, b) => a + b`
+
+**Answer: D) `let add = (a, b) => a + b`**
+
+**Explanation:** Both B and D are valid, but D uses the concise arrow function syntax with implicit return. Option A mixes declaration and arrow syntax incorrectly.
+
+---
+
+</script>
+<script>
+(() => {
+    const markdownNode = document.getElementById('assessment-markdown');
+    if (!markdownNode) return;
+    const markdown = markdownNode.textContent.trim();
+    const form = document.getElementById('quiz-form');
+    const titleElement = document.querySelector('.assessment-title h1');
+    const subtitleElement = document.querySelector('.assessment-title p');
+    const scoreDisplay = document.getElementById('score-display');
+    const assessmentData = parseAssessmentMarkdown(markdown);
+    renderAssessment(assessmentData);
+
+    function parseAssessmentMarkdown(raw) {
+        const lines = raw.replace(/\r\n/g, '\n').split('\n');
+        const titleLine = lines.find(l => l.trim().startsWith('# ')) || '';
+        const rawTitle = titleLine.replace(/^#\s*/, '').trim();
+        const cleanedTitle = rawTitle.replace(/^Assessment\s*\d*\s*:?\s*/i, '').replace(/\bMCQ\b/i, '').trim();
+        let topics = '';
+        const topicsLine = lines.find(l => /^\*\*Topics/i.test(l));
+        if (topicsLine) { const parts = topicsLine.split(':'); topics = parts.length > 1 ? parts.slice(1).join(':').replace(/\*\*/g, '').trim() : ''; }
+        const questionBlocks = [];
+        let inQuestions = false, stopQuestions = false, current = null;
+        for (const line of lines) {
+            const trimmed = line.trim();
+            if (/^##\s*Questions/i.test(trimmed)) { inQuestions = true; continue; }
+            if (inQuestions && /^##\s+/i.test(trimmed) && !/^##\s*Questions/i.test(trimmed)) { stopQuestions = true; if (current) { questionBlocks.push(current); current = null; } continue; }
+            if (!inQuestions || stopQuestions) continue;
+            if (/^###\s*Question\s*\d+/i.test(trimmed)) { if (current) questionBlocks.push(current); current = []; continue; }
+            if (current) current.push(line);
+        }
+        if (current) questionBlocks.push(current);
+        const questions = questionBlocks.map(b => parseQuestionBlock(b)).filter(q => q.options.length > 0);
+        return { title: cleanedTitle || rawTitle || 'Assessment', topics, questions };
+    }
+
+    function parseQuestionBlock(lines) {
+        const questionLines = [], options = [], explanationLines = [];
+        let answer = '', capturingExplanation = false;
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            if (/^\*\*Answer:/i.test(trimmed)) { const m = trimmed.match(/Answer:\s*([A-D])/i); if (m) answer = m[1].toLowerCase(); capturingExplanation = false; return; }
+            if (/^\*\*Explanation:/i.test(trimmed)) { capturingExplanation = true; const t = trimmed.replace(/^\*\*Explanation:\*\*\s*/i, '').replace(/^\*\*Explanation:\s*/i, '').trim(); if (t) explanationLines.push(t); return; }
+            if (capturingExplanation) { if (trimmed === '---') capturingExplanation = false; else explanationLines.push(line); return; }
+            const m = trimmed.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);
+            if (m) { options.push({ letter: m[1].toLowerCase(), text: m[2].trim() }); return; }
+            if (trimmed === '---' || /^##/.test(trimmed)) return;
+            questionLines.push(line);
+        });
+        if (!answer && options.length > 0) answer = options[0].letter;
+        const { promptLine, bodyLines } = splitPromptAndBody(questionLines);
+        return { promptHtml: formatInlineCode(promptLine || 'Select the correct option.'), bodyHtml: formatLinesToHtml(bodyLines), options: options.map(o => ({ letter: o.letter, html: formatInlineCode(o.text) })), answer, explanationHtml: formatLinesToHtml(explanationLines) };
+    }
+
+    function splitPromptAndBody(lines) {
+        let promptLine = ''; const bodyLines = []; let foundPrompt = false;
+        lines.forEach(l => { if (!foundPrompt && l.trim() && !l.trim().startsWith('```')) { promptLine = l.trim(); foundPrompt = true; } else bodyLines.push(l); });
+        return { promptLine, bodyLines };
+    }
+
+    function formatLinesToHtml(lines) {
+        if (!lines.length) return '';
+        const parts = []; let inCodeBlock = false, codeLines = [], textLines = [];
+        const flushText = () => { if (!textLines.length) return; parts.push(textLines.map(formatInlineCode).join('<br>')); textLines = []; };
+        lines.forEach(line => {
+            const t = line.trim();
+            if (t.startsWith('```')) { if (inCodeBlock) { parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`); codeLines = []; inCodeBlock = false; } else { flushText(); inCodeBlock = true; } return; }
+            if (inCodeBlock) codeLines.push(line); else if (t !== '') textLines.push(line);
+        });
+        if (codeLines.length) parts.push(`<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre>`);
+        flushText(); return parts.join('');
+    }
+
+    function formatInlineCode(text) {
+        if (!text) return '';
+        return text.split('`').map((s, i) => i % 2 === 1 ? `<code>${escapeHtml(s)}</code>` : escapeHtml(s)).join('');
+    }
+
+    function escapeHtml(v) { return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+    function renderAssessment(data) {
+        const heading = data.title ? `Assessment: ${data.title}` : 'Assessment';
+        titleElement.textContent = heading;
+        subtitleElement.textContent = data.topics || data.title || 'Multiple Choice Questions';
+        document.title = `${heading} - VibeTestQ`;
+        form.innerHTML = '';
+        data.questions.forEach((q, i) => form.appendChild(buildQuestionElement(q, i)));
+        const submitWrap = document.createElement('div');
+        submitWrap.style.cssText = 'text-align:center;margin-top:30px;';
+        submitWrap.innerHTML = `<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;
+        form.appendChild(submitWrap);
+        scoreDisplay.textContent = `0 / ${data.questions.length}`;
+    }
+
+    function buildQuestionElement(question, index) {
+        const qEl = document.createElement('div');
+        qEl.className = 'question'; qEl.dataset.answer = question.answer;
+        const qText = document.createElement('div'); qText.className = 'question-text';
+        const num = document.createElement('span'); num.className = 'question-number'; num.textContent = `${index + 1}.`;
+        const txt = document.createElement('span'); txt.innerHTML = question.promptHtml;
+        qText.appendChild(num); qText.appendChild(txt); qEl.appendChild(qText);
+        if (question.bodyHtml) { const body = document.createElement('div'); body.className = 'question-body'; body.innerHTML = question.bodyHtml; qEl.appendChild(body); }
+        const opts = document.createElement('div'); opts.className = 'options';
+        question.options.forEach(opt => {
+            const lbl = document.createElement('label'); lbl.className = 'option';
+            const inp = document.createElement('input'); inp.type = 'radio'; inp.name = `q${index+1}`; inp.value = opt.letter;
+            const span = document.createElement('span'); span.innerHTML = opt.html;
+            lbl.appendChild(inp); lbl.appendChild(span); opts.appendChild(lbl);
+        });
+        qEl.appendChild(opts);
+        const expl = document.createElement('p'); expl.className = 'explanation'; expl.innerHTML = question.explanationHtml || ''; qEl.appendChild(expl);
+        return qEl;
+    }
+
+    window.submitQuiz = function() {
+        const questions = document.querySelectorAll('.question');
+        let score = 0; const unanswered = [];
+        questions.forEach((q, i) => { const sel = form.querySelector(`input[name="q${i+1}"]:checked`); if (!sel) { unanswered.push(q); q.classList.add('unanswered'); } else q.classList.remove('unanswered'); });
+        if (unanswered.length > 0) { showToast('Please answer all questions before submitting.'); unanswered[0].scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+        questions.forEach((q, i) => {
+            const sel = form.querySelector(`input[name="q${i+1}"]:checked`);
+            const correct = q.getAttribute('data-answer');
+            const expl = q.querySelector('.explanation'); if (expl) expl.style.display = 'block';
+            q.querySelectorAll('.option').forEach(opt => { const radio = opt.querySelector('input'); if (radio.value === correct) opt.classList.add('correct'); if (sel && radio === sel && radio.value !== correct) opt.classList.add('incorrect'); });
+            if (sel && sel.value === correct) score++;
+        });
+        document.getElementById('result-container').style.display = 'block';
+        document.getElementById('score-display').innerText = `${score} / ${questions.length}`;
+        const pct = (score / questions.length) * 100;
+        let feedback = pct === 100 ? 'Perfect Score! Outstanding JavaScript mastery!' : pct >= 80 ? 'Excellent! Strong command of JS fundamentals.' : pct >= 60 ? 'Good job! Review the weaker areas and keep practicing.' : 'Keep learning! Re-read Chapter 01 and retry assignments.';
+        document.getElementById('feedback-text').innerText = feedback;
+        form.querySelectorAll('input').forEach(inp => inp.disabled = true);
+        const btn = form.querySelector('button'); if (btn) btn.style.display = 'none';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.preparePrint = function() {
+        const name = document.getElementById('student-name').value;
+        document.getElementById('printed-name').innerText = name ? 'Student: ' + name : '';
+        window.print();
+    };
+
+    function showToast(msg) {
+        let t = document.getElementById('toast');
+        if (!t) { t = document.createElement('div'); t.id = 'toast'; t.className = 'toast'; document.body.appendChild(t); }
+        t.innerText = msg; t.style.display = 'block';
+        setTimeout(() => { t.style.display = 'none'; }, 3000);
+    }
+})();
+</script>
+</body>
+</html>

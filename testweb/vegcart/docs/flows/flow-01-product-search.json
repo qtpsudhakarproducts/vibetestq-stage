@@ -1,0 +1,41 @@
+{
+  "name": "Flow 01 – Product Search",
+  "steps": [
+    {
+      "id": "step_1000000000_0",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "products" },
+      "label": "Navigate to Products tab"
+    },
+    {
+      "id": "step_1000000000_1",
+      "toolName": "get_product_list",
+      "params": {},
+      "label": "Load full product list"
+    },
+    {
+      "id": "step_1000000000_2",
+      "toolName": "search_products",
+      "params": { "query": "tomato" },
+      "label": "Search for 'tomato'"
+    },
+    {
+      "id": "step_1000000000_3",
+      "toolName": "search_products",
+      "params": { "query": "" },
+      "label": "Clear search – show all products"
+    },
+    {
+      "id": "step_1000000000_4",
+      "toolName": "filter_products_by_category",
+      "params": { "category": "vegetables" },
+      "label": "Filter by Vegetables category"
+    },
+    {
+      "id": "step_1000000000_5",
+      "toolName": "filter_products_by_category",
+      "params": { "category": "all" },
+      "label": "Reset category filter to All"
+    }
+  ]
+}

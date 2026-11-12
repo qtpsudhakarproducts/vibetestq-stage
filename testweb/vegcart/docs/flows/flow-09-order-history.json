@@ -1,0 +1,47 @@
+{
+  "name": "Flow 09 – Order History & Status Check",
+  "steps": [
+    {
+      "id": "step_1000000008_0",
+      "toolName": "user_login",
+      "params": { "email": "priya@example.com", "password": "test123" },
+      "label": "Login as Priya Sharma"
+    },
+    {
+      "id": "step_1000000008_1",
+      "toolName": "get_order_history",
+      "params": { "status": "all", "limit": 10 },
+      "label": "Get all orders for Priya (should show 3)"
+    },
+    {
+      "id": "step_1000000008_2",
+      "toolName": "get_order_history",
+      "params": { "status": "delivered", "limit": 5 },
+      "label": "Filter delivered orders only"
+    },
+    {
+      "id": "step_1000000008_3",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "orders" },
+      "label": "Navigate to My Orders tab"
+    },
+    {
+      "id": "step_1000000008_4",
+      "toolName": "user_logout",
+      "params": {},
+      "label": "Logout Priya"
+    },
+    {
+      "id": "step_1000000008_5",
+      "toolName": "user_login",
+      "params": { "email": "ravi@example.com", "password": "demo123" },
+      "label": "Login as Ravi Kumar"
+    },
+    {
+      "id": "step_1000000008_6",
+      "toolName": "get_order_history",
+      "params": { "status": "all", "limit": 10 },
+      "label": "Get all orders for Ravi (should show 2)"
+    }
+  ]
+}

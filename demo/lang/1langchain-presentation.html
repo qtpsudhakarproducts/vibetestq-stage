@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangChain for QA Engineers | VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --amber:      #b45309;
+            --amber-dark: #78350f;
+            --amber-light:#fef3c7;
+            --amber-mid:  #f59e0b;
+            --blue:       #1e40af;
+            --green:      #16a34a;
+            --orange:     #f97316;
+            --light-bg:   #f8fafc;
+        }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--amber-dark); }
+        .reveal h1 { font-size:1.6em; margin-bottom:.15em; }
+        .reveal h2 { font-size:1.2em; margin-bottom:.2em; color:var(--amber); }
+        .reveal h3 { font-size:.92em; color:var(--amber-dark); margin-bottom:.15em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.4; }
+        .reveal .slides section { padding:6px 28px; box-sizing:border-box; }
+        .logo-corner { position:absolute; top:10px; right:20px; z-index:100; }
+        .logo-corner img { width:70px; height:auto; }
+
+        /* TITLE SLIDE */
+        .title-slide h1 { font-size:1.75em; color:var(--amber-dark); margin:8px 0 6px; }
+        .title-slide .subtitle { font-size:1.05em; color:var(--amber); margin:6px 0; font-weight:700; }
+        .title-slide .tagline { font-size:.88em; color:#475569; margin:5px 0 10px; }
+
+        /* CHAPTER DIVIDERS */
+        .chapter-slide { background:var(--amber-dark) !important; }
+        .chapter-slide h1 { color:#fff; font-size:2em; margin-bottom:8px; }
+        .chapter-slide h2 { color:#fde68a; font-size:1.2em; }
+        .chapter-slide i { color:var(--amber-mid); }
+
+        /* BOXES */
+        .content-box { background:var(--light-bg); border-left:4px solid var(--amber); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .highlight-box { background:var(--amber-light); border:2px solid var(--amber-mid); padding:6px 10px; margin:4px auto; border-radius:8px; max-width:92%; }
+        .success-box { background:#f0fdf4; border-left:4px solid var(--green); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .warning-box { background:#fff7ed; border-left:4px solid var(--orange); padding:6px 12px; margin:4px 0; border-radius:6px; }
+        .code-box { background:#1e1e2e; color:#cdd6f4; border-radius:8px; padding:10px 14px; margin:6px 0; font-family:'Fira Code','Cascadia Code',monospace; font-size:.72em; line-height:1.55; text-align:left; overflow-x:auto; }
+        .code-box .kw { color:#cba6f7; }
+        .code-box .str { color:#a6e3a1; }
+        .code-box .cm { color:#585b70; font-style:italic; }
+        .code-box .fn { color:#89b4fa; }
+        .code-box .num { color:#fab387; }
+
+        /* LISTS */
+        .reveal ul { list-style:none; margin:5px 0; }
+        .reveal ul li { margin:4px 0; padding-left:28px; position:relative; text-align:left; font-size:.8em; line-height:1.35; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--amber); font-size:.95em; position:absolute; left:0; top:1px; }
+        .reveal ul li.cross:before { content:"\f057"; color:#ef4444; }
+        .reveal ul li.dot:before   { content:"\f111"; font-size:.45em; top:6px; color:#94a3b8; }
+        .reveal ul li.arr:before   { content:"\f061"; color:var(--amber); }
+
+        /* BADGES */
+        .badge { display:inline-block; color:white; padding:4px 10px; border-radius:20px; font-weight:600; font-size:.73em; margin:3px; background:var(--amber); }
+        .badge.blue   { background:var(--blue); }
+        .badge.green  { background:var(--green); }
+        .badge.purple { background:#7c3aed; }
+        .badge.grey   { background:#64748b; }
+        .badge.red    { background:#dc2626; }
+
+        /* GRIDS */
+        .two-col   { display:grid; grid-template-columns:1fr 1fr;     gap:10px; margin:6px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;  margin:6px 0; }
+        .four-col  { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:6px 0; }
+        .compact  { font-size:.8em;  line-height:1.35; }
+        .compact2 { font-size:.74em; line-height:1.3; }
+
+        /* ICON BOX */
+        .icon-box { text-align:center; padding:10px 8px; background:var(--light-bg); border-radius:8px; }
+        .icon-box i { font-size:1.5em; margin-bottom:5px; display:block; color:var(--amber); }
+        .icon-box.blue   i { color:var(--blue); }
+        .icon-box.green  i { color:var(--green); }
+        .icon-box.purple i { color:#9333ea; }
+        .icon-box.amber  i { color:var(--amber); }
+
+        /* FLOW */
+        .flow-container { background:#f1f5f9; border-radius:8px; padding:10px; margin:6px 0; }
+        .arrow-flow { display:flex; align-items:center; justify-content:center; gap:6px; margin:6px 0; flex-wrap:wrap; }
+        .arrow-flow .step { background:var(--amber); color:white; padding:5px 10px; border-radius:6px; font-weight:600; font-size:.65em; }
+        .arrow-flow .step.blue   { background:var(--blue); }
+        .arrow-flow .step.green  { background:var(--green); }
+        .arrow-flow .step.purple { background:#7c3aed; }
+        .arrow-flow .step.grey   { background:#64748b; }
+        .arrow-flow .arrow { color:var(--amber); font-size:1.1em; font-weight:700; }
+
+        /* BUILDING BLOCK CARD */
+        .block-card { border-radius:10px; padding:12px; text-align:center; }
+        .block-card i { font-size:1.6em; display:block; margin-bottom:6px; }
+        .block-card h3 { font-size:.88em; margin:4px 0; }
+        .block-card p  { font-size:.68em; line-height:1.35; margin:0; color:#475569; }
+        .bc-model   { background:#fff7ed; border:2px solid var(--amber-mid); }
+        .bc-prompt  { background:#fffbeb; border:2px solid #fbbf24; }
+        .bc-chain   { background:#eff6ff; border:2px solid var(--blue); }
+        .bc-memory  { background:#f0fdf4; border:2px solid var(--green); }
+        .bc-tool    { background:#fdf4ff; border:2px solid #a855f7; }
+        .bc-agent   { background:#fff1f2; border:2px solid #f43f5e; }
+
+        /* PIPELINE STEP */
+        .pipeline { display:flex; gap:0; margin:10px 0; border-radius:10px; overflow:hidden; }
+        .pipe-step { flex:1; text-align:center; padding:12px 6px; }
+        .pipe-step i { font-size:1.3em; display:block; margin-bottom:5px; }
+        .pipe-step p { font-size:.65em; margin:0; line-height:1.3; color:#475569; }
+        .pipe-step h4 { font-size:.78em; margin:3px 0 4px; }
+        .ps1 { background:#fff7ed; }
+        .ps2 { background:#fffbeb; }
+        .ps3 { background:#eff6ff; }
+        .ps4 { background:#f0fdf4; }
+        .ps5 { background:#fdf4ff; }
+        .pipe-divider { width:3px; background:white; flex-shrink:0; }
+
+        .text-amber  { color:var(--amber); }
+        .text-blue   { color:var(--blue); }
+        .text-green  { color:var(--green); }
+        .bold { font-weight:700; }
+
+        .cmp-table { width:100%; border-collapse:collapse; font-size:.7em; margin:6px 0; }
+        .cmp-table th { background:var(--amber); color:white; padding:5px 8px; text-align:left; font-weight:600; }
+        .cmp-table td { padding:5px 8px; border-bottom:1px solid #e2e8f0; color:#334155; }
+        .cmp-table tr:nth-child(even) td { background:var(--light-bg); }
+        .cmp-table .good { color:var(--green); font-weight:600; }
+        .cmp-table .bad  { color:#dc2626; font-weight:600; }
+
+        @media print {
+            .reveal .slides section { page-break-inside: avoid; }
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================
+     SLIDE 1 — TITLE
+     ============================================================ -->
+<section class="title-slide">
+    <img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ"
+         style="max-width:560px;width:86%;margin:0 auto 10px;display:block;"
+         onerror="this.style.display='none'">
+    <div>
+        <span class="badge"><i class="fas fa-link"></i> LangChain</span>
+        <span class="badge blue"><i class="fas fa-vial"></i> QA Engineering</span>
+        <span class="badge green"><i class="fas fa-code"></i> TypeScript</span>
+    </div>
+    <h1 style="margin-top:16px;">LangChain for QA Engineers</h1>
+    <p class="subtitle">Build AI Tools That Help You Test Smarter</p>
+    <p class="tagline">From raw API calls to production-grade AI pipelines — in TypeScript</p>
+    <div class="flow-container" style="margin-top:14px;">
+        <div class="arrow-flow">
+            <div class="step grey">Raw API</div>
+            <div class="arrow">→</div>
+            <div class="step">Prompts + Chains</div>
+            <div class="arrow">→</div>
+            <div class="step blue">Agents + Tools</div>
+            <div class="arrow">→</div>
+            <div class="step green">AI QA Pipeline</div>
+        </div>
+    </div>
+    <p class="tagline" style="margin-top:12px;">
+        <strong>Sudhakar Kakunuri (qtpsudhakar)</strong>
+        &nbsp;|&nbsp; 21+ Years &nbsp;·&nbsp; 10,000+ Engineers Trained
+    </p>
+</section>
+
+<!-- ============================================================
+     SLIDE 2 — THE PROBLEM WITH RAW API CALLS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>The Problem with Raw AI API Calls</h2>
+    <div class="highlight-box">
+        <p class="bold text-amber" style="text-align:center;">You call the OpenAI API. It works. Then the real problems start.</p>
+    </div>
+    <div class="three-col" style="margin-top:12px;">
+        <div class="block-card" style="background:#fff1f2;border:2px solid #f43f5e;">
+            <i class="fas fa-brain" style="color:#f43f5e;"></i>
+            <h3 style="color:#be123c;">No Memory</h3>
+            <p>Every API call is stateless. Multi-step workflows (generate → review → prioritise) require you to manually stitch results together.</p>
+        </div>
+        <div class="block-card" style="background:#fff7ed;border:2px solid var(--amber-mid);">
+            <i class="fas fa-file-slash" style="color:var(--amber);"></i>
+            <h3 style="color:var(--amber-dark);">Text Only</h3>
+            <p>The AI can't read PDFs, query databases, or run Playwright. You must write all the plumbing yourself — every integration from scratch.</p>
+        </div>
+        <div class="block-card" style="background:#fdf4ff;border:2px solid #a855f7;">
+            <i class="fas fa-puzzle-piece" style="color:#9333ea;"></i>
+            <h3 style="color:#6b21a8;">Unstructured Output</h3>
+            <p>The AI returns a string. You need a typed TypeScript object. If it formats its answer differently today, your parser breaks.</p>
+        </div>
+    </div>
+    <div class="success-box" style="margin-top:12px;">
+        <p class="compact"><strong style="color:var(--green);">LangChain solves all three.</strong> It provides memory, tool integrations, and structured output parsers — so you build QA AI tools instead of plumbing.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 3 — WHAT IS LANGCHAIN?
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>What Is LangChain?</h2>
+    <div class="two-col">
+        <div>
+            <div class="highlight-box">
+                <p class="compact bold">LangChain is a framework for building applications powered by language models.</p>
+            </div>
+            <ul style="margin-top:10px;">
+                <li>Connects LLMs to external data, tools, and memory</li>
+                <li>Provides composable building blocks — not a black box</li>
+                <li>Works with OpenAI, Anthropic, Gemini, local models</li>
+                <li>First-class TypeScript support</li>
+                <li>Used in production by thousands of companies</li>
+            </ul>
+        </div>
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold text-amber">Without LangChain:</p>
+                <p class="compact">Write plumbing for memory, output parsing, retries, tool calls, prompt templates — every project from scratch.</p>
+            </div>
+            <div class="success-box">
+                <p class="compact bold" style="color:var(--green);">With LangChain:</p>
+                <p class="compact">Compose pre-built, tested components. Focus on your QA logic, not infrastructure.</p>
+            </div>
+            <div class="warning-box" style="margin-top:8px;">
+                <p class="compact"><strong>Not a replacement for Playwright</strong> — it is the AI brain <em>behind</em> your test tools.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 4 — THE 6 CORE BUILDING BLOCKS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>The 6 Core Building Blocks</h2>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="block-card bc-model">
+            <i class="fas fa-robot" style="color:var(--amber);"></i>
+            <h3>1. LLM / Chat Model</h3>
+            <p>The AI brain. GPT-4o, Claude, Gemini. LangChain wraps them with a unified interface — swap models without rewriting your app.</p>
+        </div>
+        <div class="block-card bc-prompt">
+            <i class="fas fa-file-alt" style="color:#d97706;"></i>
+            <h3>2. Prompt Template</h3>
+            <p>Parameterised, reusable prompts. Separate prompt design from code. Keep system and user messages clean and testable.</p>
+        </div>
+        <div class="block-card bc-chain">
+            <i class="fas fa-link" style="color:var(--blue);"></i>
+            <h3>3. Chain (LCEL)</h3>
+            <p>Compose components using the pipe operator <strong>|</strong>. Template → Model → Parser — readable, testable pipelines.</p>
+        </div>
+        <div class="block-card bc-memory">
+            <i class="fas fa-database" style="color:var(--green);"></i>
+            <h3>4. Memory</h3>
+            <p>Give your AI context across calls. Conversation history, summary memory, vector-based recall. Stateful AI pipelines.</p>
+        </div>
+        <div class="block-card bc-tool">
+            <i class="fas fa-tools" style="color:#a855f7;"></i>
+            <h3>5. Tools</h3>
+            <p>Connect AI to the real world — web search, calculators, APIs, Playwright, databases. The AI decides when to use them.</p>
+        </div>
+        <div class="block-card bc-agent">
+            <i class="fas fa-robot" style="color:#f43f5e;"></i>
+            <h3>6. Agent</h3>
+            <p>An AI that reasons about which tools to use and in what order — to solve a goal autonomously. The most powerful pattern.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 5 — CHAPTER BREAK: FROM ZERO TO LANGCHAIN
+     ============================================================ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <i class="fas fa-layer-group" style="font-size:2.5em;margin-bottom:16px;display:block;"></i>
+    <h1>Part 1</h1>
+    <h2>Models, Prompts &amp; Chains</h2>
+    <p style="color:#fde68a;margin-top:12px;font-size:.9em;">The foundations every QA engineer needs before building AI tools</p>
+</section>
+
+<!-- ============================================================
+     SLIDE 6 — LLMS vs CHAT MODELS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>LLMs vs Chat Models — What's the Difference?</h2>
+    <div class="two-col" style="margin-top:10px;">
+        <div class="block-card" style="background:#fff7ed;border:2px solid var(--amber-mid);padding:16px;">
+            <i class="fas fa-comment-dots" style="color:var(--amber-mid);"></i>
+            <h3>LLM (Completion Model)</h3>
+            <p>Takes a raw text string. Continues it. Good for single-shot generation — write a test case, summarise a bug.</p>
+            <div class="code-box" style="margin-top:8px;">
+<span class="cm">// Input text → continued text</span>
+<span class="kw">const</span> result = <span class="kw">await</span> model.<span class="fn">invoke</span>(
+  <span class="str">"Write a test case for login:"</span>
+);
+            </div>
+        </div>
+        <div class="block-card" style="background:#eff6ff;border:2px solid var(--blue);padding:16px;">
+            <i class="fas fa-comments" style="color:var(--blue);"></i>
+            <h3>Chat Model (Preferred)</h3>
+            <p>Takes a list of messages (system + human + AI). Preserves roles and context. Works the way ChatGPT works internally.</p>
+            <div class="code-box" style="margin-top:8px;">
+<span class="kw">const</span> messages = [
+  <span class="kw">new</span> <span class="fn">SystemMessage</span>(<span class="str">"You are a QA expert"</span>),
+  <span class="kw">new</span> <span class="fn">HumanMessage</span>(<span class="str">"Generate test cases"</span>)
+];
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact bold text-amber" style="text-align:center;">Use <strong>ChatOpenAI</strong> for all your QA tools. It's the standard for modern AI applications.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 7 — PROMPT TEMPLATES
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Prompt Templates — Reusable, Parameterised Prompts</h2>
+    <div class="two-col">
+        <div>
+            <div class="warning-box">
+                <p class="compact bold">❌ Without templates:</p>
+                <div class="code-box" style="margin-top:6px;font-size:.68em;">
+<span class="cm">// Hardcoded — hard to maintain</span>
+<span class="kw">const</span> prompt = <span class="str">`You are a QA expert.
+Generate 5 test cases for login.
+Format as JSON.`</span>;
+                </div>
+            </div>
+            <div class="success-box" style="margin-top:8px;">
+                <p class="compact bold">✅ With ChatPromptTemplate:</p>
+                <div class="code-box" style="margin-top:6px;font-size:.68em;">
+<span class="kw">const</span> template = ChatPromptTemplate.<span class="fn">fromMessages</span>([
+  [<span class="str">"system"</span>, <span class="str">"You are a QA expert. Respond in JSON."</span>],
+  [<span class="str">"human"</span>, <span class="str">"Generate {count} tests for: {feature}"</span>]
+]);
+<span class="cm">// Reuse across any feature</span>
+<span class="kw">await</span> template.<span class="fn">format</span>({
+  count: <span class="num">5</span>, feature: <span class="str">"login"</span>
+});
+                </div>
+            </div>
+        </div>
+        <div>
+            <ul>
+                <li>Variables <code>{'{feature}'}</code> injected at call time</li>
+                <li>System prompt stays consistent across tests</li>
+                <li>Easy to test the template independently</li>
+                <li>Change one template → all chains updated</li>
+                <li>Shareable across team members</li>
+            </ul>
+            <div class="highlight-box" style="margin-top:10px;">
+                <p class="compact bold text-amber">Think of prompt templates like Page Object classes — they centralise what would otherwise be scattered strings.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 8 — OUTPUT PARSERS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Output Parsers — Get Typed TypeScript Objects</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-amber" style="text-align:center;">The AI always returns a string. Output parsers convert it into typed objects you can actually use in your test code.</p>
+    </div>
+    <div class="two-col" style="margin-top:10px;">
+        <div>
+            <p class="compact bold">Define a Zod schema for your output:</p>
+            <div class="code-box" style="font-size:.68em;">
+<span class="kw">const</span> TestCaseSchema = z.<span class="fn">object</span>({
+  title:    z.<span class="fn">string</span>(),
+  steps:    z.<span class="fn">array</span>(z.<span class="fn">string</span>()),
+  expected: z.<span class="fn">string</span>(),
+  priority: z.<span class="fn">enum</span>([<span class="str">"High"</span>,<span class="str">"Medium"</span>,<span class="str">"Low"</span>])
+});
+<span class="kw">const</span> parser = <span class="fn">StructuredOutputParser</span>
+  .<span class="fn">fromZodSchema</span>(TestCaseSchema);
+            </div>
+        </div>
+        <div>
+            <p class="compact bold">Plug into your chain:</p>
+            <div class="code-box" style="font-size:.68em;">
+<span class="kw">const</span> chain = prompt | model | parser;
+<span class="kw">const</span> result = <span class="kw">await</span> chain.<span class="fn">invoke</span>({
+  feature: <span class="str">"user login"</span>
+});
+<span class="cm">// result is fully typed ✓</span>
+console.<span class="fn">log</span>(result.title);   <span class="cm">// string</span>
+console.<span class="fn">log</span>(result.steps);   <span class="cm">// string[]</span>
+console.<span class="fn">log</span>(result.priority);<span class="cm">// "High"|"Medium"|"Low"</span>
+            </div>
+        </div>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="icon-box"><i class="fas fa-shield-halved" style="color:var(--green);"></i><p class="compact2 bold">Type-safe output</p></div>
+        <div class="icon-box"><i class="fas fa-rotate" style="color:var(--blue);"></i><p class="compact2 bold">Auto-retry on bad format</p></div>
+        <div class="icon-box"><i class="fas fa-sitemap" style="color:#9333ea;"></i><p class="compact2 bold">Nested objects &amp; arrays</p></div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 9 — LCEL: BUILDING CHAINS WITH THE PIPE OPERATOR
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>LCEL — The LangChain Expression Language</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-amber" style="text-align:center;">Compose components with <strong>|</strong> just like Unix pipes. Each component outputs what the next expects.</p>
+    </div>
+    <div class="code-box" style="margin-top:10px;font-size:.74em;">
+<span class="cm">// Template → Model → Parser: a complete AI pipeline in one line</span>
+<span class="kw">const</span> chain = promptTemplate | chatModel | outputParser;
+
+<span class="cm">// Invoke with variables</span>
+<span class="kw">const</span> testCases = <span class="kw">await</span> chain.<span class="fn">invoke</span>({
+  feature:  <span class="str">"password reset"</span>,
+  count:    <span class="num">5</span>,
+  format:   <span class="str">"JSON"</span>
+});
+    </div>
+    <div class="pipeline" style="margin-top:12px;">
+        <div class="pipe-step ps1"><i class="fas fa-file-alt" style="color:var(--amber);"></i><h4>Prompt Template</h4><p>Inject variables into a reusable prompt</p></div>
+        <div class="pipe-divider"></div>
+        <div class="pipe-step ps2"><i class="fas fa-arrow-right" style="color:#d97706;"></i><h4></h4><p></p></div>
+        <div class="pipe-divider"></div>
+        <div class="pipe-step ps3"><i class="fas fa-robot" style="color:var(--blue);"></i><h4>Chat Model</h4><p>Send to GPT-4o, Claude, etc.</p></div>
+        <div class="pipe-divider"></div>
+        <div class="pipe-step ps4"><i class="fas fa-arrow-right" style="color:#d97706;"></i><h4></h4><p></p></div>
+        <div class="pipe-divider"></div>
+        <div class="pipe-step ps5"><i class="fas fa-cube" style="color:#9333ea;"></i><h4>Output Parser</h4><p>Typed TypeScript object</p></div>
+    </div>
+    <div class="success-box" style="margin-top:8px;">
+        <p class="compact">Chains are <strong>composable</strong>, <strong>testable</strong>, and <strong>readable</strong>. You can unit-test each component separately.</p>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — CHAPTER BREAK: MEMORY, TOOLS & AGENTS
+     ============================================================ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <i class="fas fa-brain" style="font-size:2.5em;margin-bottom:16px;display:block;"></i>
+    <h1>Part 2</h1>
+    <h2>Memory, Tools &amp; Agents</h2>
+    <p style="color:#fde68a;margin-top:12px;font-size:.9em;">Give your AI context, capabilities, and the ability to reason</p>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — MEMORY
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Memory — Give AI Context Across Calls</h2>
+    <div class="two-col">
+        <div>
+            <ul>
+                <li>Every AI call is stateless by default — no memory</li>
+                <li>For multi-step QA workflows you need context</li>
+                <li class="arr">Generate test cases → Review them → Prioritise</li>
+                <li class="arr">Each step needs to "remember" the previous output</li>
+            </ul>
+            <div class="highlight-box" style="margin-top:8px;">
+                <p class="compact bold text-amber">Types of Memory:</p>
+                <ul style="margin-top:4px;">
+                    <li><strong>Buffer</strong> — stores all messages verbatim</li>
+                    <li><strong>Summary</strong> — AI summarises old messages to save tokens</li>
+                    <li><strong>Vector</strong> — semantic recall from a knowledge store</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="code-box" style="font-size:.68em;">
+<span class="kw">const</span> memory = <span class="kw">new</span> <span class="fn">BufferMemory</span>({
+  returnMessages: <span class="num">true</span>,
+  memoryKey: <span class="str">"chat_history"</span>
+});
+
+<span class="kw">const</span> chain = <span class="kw">new</span> <span class="fn">ConversationChain</span>({
+  llm: model,
+  memory
+});
+
+<span class="cm">// Turn 1 — generates test cases</span>
+<span class="kw">await</span> chain.<span class="fn">call</span>({
+  input: <span class="str">"Generate tests for login"</span>
+});
+
+<span class="cm">// Turn 2 — AI remembers turn 1 ✓</span>
+<span class="kw">await</span> chain.<span class="fn">call</span>({
+  input: <span class="str">"Now prioritise those by risk"</span>
+});
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — TOOLS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Tools — Connect AI to the Real World</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-amber" style="text-align:center;">Tools are functions the AI can decide to call. You define what they do. The AI decides when to use them.</p>
+    </div>
+    <div class="three-col" style="margin-top:12px;">
+        <div class="icon-box" style="background:#fff7ed;border:1px solid var(--amber-mid);padding:14px;">
+            <i class="fas fa-globe" style="color:var(--amber);"></i>
+            <p class="compact bold" style="color:var(--amber-dark);">Web Search</p>
+            <p class="compact2">Look up current docs, CVEs, changelog entries for the app under test</p>
+        </div>
+        <div class="icon-box" style="background:#eff6ff;border:1px solid var(--blue);padding:14px;">
+            <i class="fas fa-database" style="color:var(--blue);"></i>
+            <p class="compact bold" style="color:var(--blue);">Database Query</p>
+            <p class="compact2">Read test data, defect history, requirement tables directly from SQL or API</p>
+        </div>
+        <div class="icon-box" style="background:#f0fdf4;border:1px solid var(--green);padding:14px;">
+            <i class="fas fa-theater-masks" style="color:var(--green);"></i>
+            <p class="compact bold" style="color:var(--green);">Playwright Runner</p>
+            <p class="compact2">Execute browser actions — the AI can trigger tests and read the results</p>
+        </div>
+    </div>
+    <div class="code-box" style="margin-top:10px;font-size:.7em;">
+<span class="kw">const</span> runPlaywrightTest = tool(
+  <span class="kw">async</span> ({ testName }) => {
+    <span class="cm">// actually runs your Playwright test and returns result</span>
+    <span class="kw">return</span> <span class="kw">await</span> <span class="fn">execPlaywright</span>(testName);
+  },
+  { name: <span class="str">"run_playwright_test"</span>, description: <span class="str">"Runs a named Playwright test and returns pass/fail + error"</span>,
+    schema: z.<span class="fn">object</span>({ testName: z.<span class="fn">string</span>() }) }
+);
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 — AGENTS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Agents — AI That Reasons and Acts</h2>
+    <div class="two-col">
+        <div>
+            <div class="content-box">
+                <p class="compact bold">A Chain is a fixed pipeline.</p>
+                <p class="compact">Template → Model → Parser. Same steps, every time.</p>
+            </div>
+            <div class="success-box" style="margin-top:8px;">
+                <p class="compact bold" style="color:var(--green);">An Agent is dynamic.</p>
+                <p class="compact">It looks at your goal, decides which tools to use, uses them, observes the result, and repeats until the goal is met.</p>
+            </div>
+            <div class="highlight-box" style="margin-top:8px;">
+                <p class="compact bold text-amber">QA Agent Example:</p>
+                <p class="compact">Goal: "Analyse why the login test failed today and suggest a fix."</p>
+                <p class="compact">The agent: reads logs → searches docs → queries defect DB → generates fix suggestion.</p>
+            </div>
+        </div>
+        <div>
+            <div class="code-box" style="font-size:.67em;">
+<span class="kw">const</span> agent = <span class="kw">await</span> <span class="fn">createReactAgent</span>({
+  llm: model,
+  tools: [
+    readTestLog,
+    searchDocs,
+    queryDefectDB
+  ]
+});
+
+<span class="kw">const</span> result = <span class="kw">await</span> agent.<span class="fn">invoke</span>({
+  messages: [<span class="kw">new</span> <span class="fn">HumanMessage</span>(
+    <span class="str">"Login test failed at 09:14. 
+     Analyse and suggest a fix."</span>
+  )]
+});
+
+console.<span class="fn">log</span>(result.messages.<span class="fn">at</span>(-<span class="num">1</span>).content);
+<span class="cm">// Root cause + suggested fix</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 14 — CHAPTER BREAK: RAG
+     ============================================================ -->
+<section class="chapter-slide">
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <i class="fas fa-book-open" style="font-size:2.5em;margin-bottom:16px;display:block;"></i>
+    <h1>Part 3</h1>
+    <h2>RAG — Retrieval-Augmented Generation</h2>
+    <p style="color:#fde68a;margin-top:12px;font-size:.9em;">Make AI answer questions from your own test documents and knowledge base</p>
+</section>
+
+<!-- ============================================================
+     SLIDE 15 — RAG OVERVIEW
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>RAG — What It Is and Why QA Engineers Need It</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-amber" style="text-align:center;">RAG = give the AI access to YOUR documents so it answers from your knowledge, not just its training data.</p>
+    </div>
+    <div class="pipeline" style="margin-top:12px;">
+        <div class="pipe-step ps1"><i class="fas fa-folder-open" style="color:var(--amber);"></i><h4>Load Docs</h4><p>PDFs, Jira, Confluence, Excel, test reports</p></div>
+        <div class="pipe-divider"></div>
+        <div class="pipe-step ps2"><i class="fas fa-scissors" style="color:#d97706;"></i><h4>Chunk</h4><p>Split into small, overlapping pieces</p></div>
+        <div class="pipe-divider"></div>
+        <div class="pipe-step ps3"><i class="fas fa-vector-square" style="color:var(--blue);"></i><h4>Embed</h4><p>Convert to numerical vectors (semantic meaning)</p></div>
+        <div class="pipe-divider"></div>
+        <div class="pipe-step ps4"><i class="fas fa-magnifying-glass" style="color:var(--green);"></i><h4>Retrieve</h4><p>Find most relevant chunks for the question</p></div>
+        <div class="pipe-divider"></div>
+        <div class="pipe-step ps5"><i class="fas fa-robot" style="color:#9333ea;"></i><h4>Generate</h4><p>AI answers using retrieved context</p></div>
+    </div>
+    <div class="three-col" style="margin-top:10px;">
+        <div class="content-box">
+            <p class="compact bold">QA Use Case 1</p>
+            <p class="compact2">Ask AI questions about your requirements doc: "What are the acceptance criteria for checkout?"</p>
+        </div>
+        <div class="content-box">
+            <p class="compact bold">QA Use Case 2</p>
+            <p class="compact2">Query your defect history: "What bugs occurred most in the payments module last quarter?"</p>
+        </div>
+        <div class="content-box">
+            <p class="compact bold">QA Use Case 3</p>
+            <p class="compact2">Generate tests from requirements: "Create test cases for every acceptance criterion in section 3.2."</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 16 — 4 REAL QA TOOLS BUILT WITH LANGCHAIN
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>4 Real QA Tools Built with LangChain</h2>
+    <div class="two-col">
+        <div class="block-card" style="background:#fff7ed;border:2px solid var(--amber-mid);padding:14px;text-align:left;">
+            <p class="compact bold"><i class="fas fa-list-check" style="color:var(--amber);"></i> &nbsp;AI Test Case Generator</p>
+            <p class="compact2">Takes a feature description (or acceptance criteria) and generates structured, prioritised test cases as typed JSON objects. Uses StructuredOutputParser + Zod schema.</p>
+        </div>
+        <div class="block-card" style="background:#fff1f2;border:2px solid #f43f5e;padding:14px;text-align:left;">
+            <p class="compact bold"><i class="fas fa-bug" style="color:#f43f5e;"></i> &nbsp;AI Bug Report Analyzer</p>
+            <p class="compact2">Takes raw bug reports and classifies them by severity, module, and likely root cause. Returns structured output you can import directly to Jira or your defect tracker.</p>
+        </div>
+        <div class="block-card" style="background:#eff6ff;border:2px solid var(--blue);padding:14px;text-align:left;">
+            <p class="compact bold"><i class="fas fa-flask" style="color:var(--blue);"></i> &nbsp;AI Test Data Generator</p>
+            <p class="compact2">Generates unlimited realistic, typed test data from a Zod schema. No hardcoded fixtures. Generate edge cases, boundary values, and locale-specific data on demand.</p>
+        </div>
+        <div class="block-card" style="background:#f0fdf4;border:2px solid var(--green);padding:14px;text-align:left;">
+            <p class="compact bold"><i class="fas fa-wand-magic-sparkles" style="color:var(--green);"></i> &nbsp;AI Selector Healer</p>
+            <p class="compact2">When a Playwright test fails because a locator is broken, the AI analyses the DOM and suggests alternative locators — no human needed to fix flaky selectors.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 17 — LANGCHAIN vs LANGGRAPH vs LANGSMITH
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>LangChain vs LangGraph vs LangSmith</h2>
+    <div class="highlight-box">
+        <p class="compact bold text-amber" style="text-align:center;">These are three separate libraries that work together — not three versions of the same thing.</p>
+    </div>
+    <table class="cmp-table" style="margin-top:12px;">
+        <tr><th>Library</th><th>What It Does</th><th>QA Analogy</th><th>When You Need It</th></tr>
+        <tr>
+            <td><span class="badge" style="font-size:.75em;">LangChain</span></td>
+            <td>Building blocks: models, prompts, chains, agents</td>
+            <td>Your test framework (like Playwright)</td>
+            <td class="good">Start here — always</td>
+        </tr>
+        <tr>
+            <td><span class="badge" style="background:#047857;font-size:.75em;">LangGraph</span></td>
+            <td>Stateful multi-step workflows with loops &amp; branching</td>
+            <td>Your CI pipeline (step → decision → retry)</td>
+            <td>Complex orchestration</td>
+        </tr>
+        <tr>
+            <td><span class="badge" style="background:#6d28d9;font-size:.75em;">LangSmith</span></td>
+            <td>Observability: trace, evaluate, debug LLM calls</td>
+            <td>Your test reports &amp; dashboards</td>
+            <td>Production &amp; quality tracking</td>
+        </tr>
+    </table>
+    <div class="flow-container" style="margin-top:12px;">
+        <div class="arrow-flow">
+            <div class="step">LangChain</div>
+            <div class="arrow">+</div>
+            <div class="step" style="background:#047857;">LangGraph</div>
+            <div class="arrow">+</div>
+            <div class="step" style="background:#6d28d9;">LangSmith</div>
+            <div class="arrow">=</div>
+            <div class="step green">Full AI QA Platform</div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 18 — KEY TAKEAWAYS
+     ============================================================ -->
+<section>
+    <div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+    <h2>Key Takeaways — LangChain for QA</h2>
+    <div class="two-col">
+        <div>
+            <div class="content-box" style="margin-bottom:8px;">
+                <p class="compact bold text-amber">What LangChain gives you:</p>
+                <ul>
+                    <li>Reusable prompt templates (like Page Objects)</li>
+                    <li>Typed outputs via Zod schemas</li>
+                    <li>Composable chains with the pipe operator</li>
+                    <li>Memory for multi-step conversations</li>
+                    <li>Tools that connect AI to Playwright, APIs, DBs</li>
+                    <li>Agents that reason and act autonomously</li>
+                    <li>RAG to query your own test knowledge base</li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <div class="success-box" style="margin-bottom:8px;">
+                <p class="compact bold" style="color:var(--green);">What to build first:</p>
+                <ul>
+                    <li>AI Test Case Generator from requirements</li>
+                    <li>Bug Report Analyzer and classifier</li>
+                    <li>AI Test Data Factory with Zod schemas</li>
+                    <li>Playwright Selector Healer agent</li>
+                </ul>
+            </div>
+            <div class="warning-box">
+                <p class="compact bold">Remember:</p>
+                <p class="compact2">LangChain is the <em>foundation</em>. Add LangGraph for complex orchestration, LangSmith for observability and evaluation in production.</p>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box" style="margin-top:10px;">
+        <p class="compact bold text-amber" style="text-align:center;">📖 Full book: <strong>docs/lang/langchain/</strong> &nbsp;·&nbsp; 17 chapters + 2 appendices &nbsp;·&nbsp; All code in TypeScript</p>
+    </div>
+</section>
+
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+Reveal.initialize({
+    hash: true, slideNumber: 'c/t', transition: 'slide',
+    transitionSpeed: 'fast', controls: true, progress: true,
+    center: false, width: 1280, height: 720,
+    margin: 0.04, minScale: 0.2, maxScale: 2.0
+});
+</script>
+</body>
+</html>

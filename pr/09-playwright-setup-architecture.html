@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Setup & Architecture - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Playwright Setup &amp; Architecture</h1>
+    <p class="subtitle">Browser → Context → Page · Installation · First Test</p>
+    <p class="tagline">From zero to your first passing Playwright test — Session 9</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Install</span>
+        <span class="badge" style="background:var(--vibe-blue);">Browser/Context/Page</span>
+        <span class="badge" style="background:var(--vibe-green);">First Test</span>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Installation: npm init playwright@latest</h2>
+    <div class="code-snippet">mkdir my-playwright-tests
+cd my-playwright-tests
+
+npm init playwright@latest
+# Interactive prompt:
+# - TypeScript or JavaScript? → TypeScript
+# - Where to put end-to-end tests? → tests
+# - Add GitHub Actions workflow? → Yes
+# - Install Playwright browsers? → Yes
+
+# What gets created:
+# playwright.config.ts   - main configuration
+# tests/example.spec.ts  - demo test file
+# tests-examples/        - more examples
+# package.json           - with @playwright/test dependency
+# .github/workflows/     - CI pipeline
+
+# Run the installed example tests
+npx playwright test
+# --> launches 3 browsers, runs 3 tests</div>
+    <div class="highlight-box">
+        <p class="compact bold">Always use <code>npm init playwright@latest</code> for new projects. It sets up the optimal project structure automatically.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Browser → Context → Page Hierarchy</h2>
+    <div class="three-col">
+        <div class="content-box" style="text-align:center; border-left:none; border-top:4px solid var(--vibe-dark-blue);">
+            <div style="font-size:2em; color:var(--vibe-dark-blue); margin-bottom:6px;"><i class="fas fa-window-maximize"></i></div>
+            <h3>Browser</h3>
+            <p class="compact" style="font-size:0.75em;">The browser executable. Chromium, Firefox, or WebKit. One per playwright run. Expensive to create.</p>
+        </div>
+        <div class="content-box" style="text-align:center; border-left:none; border-top:4px solid var(--vibe-blue);">
+            <div style="font-size:2em; color:var(--vibe-blue); margin-bottom:6px;"><i class="fas fa-user-shield"></i></div>
+            <h3>BrowserContext</h3>
+            <p class="compact" style="font-size:0.75em;">Isolated session: own cookies, localStorage, auth state. One per test = no test interference!</p>
+        </div>
+        <div class="content-box" style="text-align:center; border-left:none; border-top:4px solid var(--vibe-green);">
+            <div style="font-size:2em; color:var(--vibe-green); margin-bottom:6px;"><i class="fas fa-file-alt"></i></div>
+            <h3>Page</h3>
+            <p class="compact" style="font-size:0.75em;">A single tab in the context. Interact with elements, navigate URLs, run assertions here.</p>
+        </div>
+    </div>
+    <div class="code-snippet" style="margin-top:8px;">// Manual creation (rarely needed — test fixtures do this)
+const browser = await chromium.launch();
+const context = await browser.newContext();   // isolated session
+const page = await context.newPage();
+await page.goto('https://example.com');
+await browser.close();</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Test Fixtures: page, browser, context</h2>
+    <div class="code-snippet">import { test, expect } from '@playwright/test';
+
+// Playwright provides these fixtures automatically:
+// page        - a fresh Page in a fresh BrowserContext
+// browser     - the Browser instance
+// context     - the BrowserContext (isolated session)
+// request     - APIRequestContext for API testing
+// browserName - "chromium" | "firefox" | "webkit"
+
+test('basic navigation test', async ({ page }) => {
+  // 'page' is already created and ready to use
+  await page.goto('https://playwright.dev');
+
+  // Assertion — auto-waits for the title to match
+  await expect(page).toHaveTitle(/Playwright/);
+});
+
+test('multi-page test', async ({ context }) => {
+  const page1 = await context.newPage();
+  const page2 = await context.newPage();
+  // Both pages share the same session (cookies)
+  await page1.goto('https://demo.app/login');
+  await page2.goto('https://demo.app/dashboard');
+});</div>
+    <div class="highlight-box">
+        <p class="compact">You almost always destructure <code>{ page }</code> from the test callback. The framework creates and tears down context automatically.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>playwright.config.ts — Core Settings</h2>
+    <div class="code-snippet">import { defineConfig, devices } from '@playwright/test';
+
+export default defineConfig({
+  testDir: './tests',           // where to find test files
+  fullyParallel: true,          // run tests in parallel
+  forbidOnly: !!process.env.CI, // fail if test.only in CI
+  retries: process.env.CI ? 2 : 0,  // retry on CI only
+  workers: process.env.CI ? 1 : undefined,
+
+  reporter: 'html',             // HTML report in playwright-report/
+
+  use: {
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',   // record trace on retry
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox',  use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit',   use: { ...devices['Desktop Safari'] } },
+    { name: 'Mobile',   use: { ...devices['iPhone 14'] } },
+  ],
+});</div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Your First Complete Playwright Test</h2>
+    <div class="code-snippet">// tests/login.spec.ts
+import { test, expect } from '@playwright/test';
+
+test.describe('Login Tests', () => {
+
+  test('should login with valid credentials', async ({ page }) => {
+    // Navigate to the login page
+    await page.goto('/login');
+
+    // Fill the login form
+    await page.getByLabel('Username').fill('admin');
+    await page.getByLabel('Password').fill('admin123');
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    // Verify successful login
+    await expect(page).toHaveURL(/dashboard/);
+    await expect(page.getByText('Welcome back')).toBeVisible();
+  });
+
+  test('should show error for invalid credentials', async ({ page }) => {
+    await page.goto('/login');
+    await page.getByLabel('Username').fill('invalid');
+    await page.getByLabel('Password').fill('wrong');
+    await page.getByRole('button', { name: 'Login' }).click();
+
+    await expect(page.getByRole('alert')).toContainText('Invalid credentials');
+  });
+});</div>
+    <div class="highlight-box">
+        <p class="compact bold">This is a complete, production-quality test. Notice: no sleeps, no explicit waits — Playwright handles all the timing.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Running Tests and Viewing Reports</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Run Commands</h3>
+            <div class="code-snippet" style="margin-top:4px;">npx playwright test
+npx playwright test --headed
+npx playwright test --ui
+npx playwright test login.spec
+npx playwright test --project=chromium
+npx playwright test --debug
+npx playwright show-report</div>
+        </div>
+        <div class="content-box" style="border-left-color:var(--vibe-green);">
+            <h3>UI Mode — Best for Development</h3>
+            <ul>
+                <li>Visual test picker with filter</li>
+                <li>Watch mode — re-runs on file save</li>
+                <li>Built-in Locator Explorer</li>
+                <li>Timeline with screenshots per step</li>
+                <li>Network activity panel</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact">Use <code>--ui</code> during development. Use headless (default) in CI. Trace files let you replay test execution offline.</p>
+    </div>
+</section>
+
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 9 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Setup Mastery</h3>
+            <ul>
+                <li><code>npm init playwright@latest</code> — auto-scaffold</li>
+                <li>Browser → Context → Page hierarchy</li>
+                <li>Fixtures: page, browser, context, request</li>
+                <li>playwright.config.ts core settings</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>First Test Patterns</h3>
+            <ul>
+                <li><code>test.describe()</code> for grouping</li>
+                <li>navigate → interact → assert pattern</li>
+                <li>await on every browser action</li>
+                <li>expect() auto-waits for assertions</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="text-align:center; background:#eff6ff; border-color:var(--vibe-blue);">
+        <p class="bold text-blue">Next: Session 10 — Element Inspection and Playwright Locator Masterclass</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

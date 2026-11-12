@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHook Airlines | Flight Booking</title>
+    <meta name="description"
+        content="Book flights with SkyHook Airlines - Practice flight reservation for Playwright automation testing">
+    <link rel="stylesheet" href="../shared/css/portal.css">
+    <link rel="stylesheet" href="flight.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="portal-container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar -->
+        <nav class="portal-sidebar" id="sidebar" aria-label="Main Navigation">
+            <div class="sidebar-header">
+                <div class="sidebar-logo-icon" style="background:#0284c7;">
+                    <i class="fas fa-plane"></i>
+                </div>
+                <div class="sidebar-logo-text">
+                    <h1 style="font-size:1.1rem;font-weight:700;color:white;margin:0;">SkyHook</h1>
+                    <span style="font-size:0.7rem;color:#64748b;">Airlines</span>
+                </div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-label">Navigation</p>
+                    <a href="../" class="nav-link"><i class="fas fa-home"></i> Command Center</a>
+                    <a href="guide.html" class="nav-link"><i class="fas fa-book-open"></i> Testing Guide</a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-label">Booking Flow</p>
+                    <a href="javascript:void(0)" class="nav-link active" data-target="tab-search" id="nav-search">
+                        <i class="fas fa-search"></i> Search Flights</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-bookings" id="nav-bookings">
+                        <i class="fas fa-ticket-alt"></i> My Bookings</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-checkin" id="nav-checkin">
+                        <i class="fas fa-clipboard-check"></i> Check-In</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-status" id="nav-status">
+                        <i class="fas fa-satellite-dish"></i> Flight Status</a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-label">Account</p>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-profile" id="nav-profile">
+                        <i class="fas fa-user-circle"></i> My Profile</a>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="user-badge" id="user-badge">
+                    <i class="fas fa-user-circle" style="font-size:1.5rem;color:#0284c7;"></i>
+                    <div>
+                        <div style="font-weight:600;font-size:0.85rem;color:white;" id="sidebar-username">Guest</div>
+                        <div style="font-size:0.7rem;color:#64748b;">SkyHook Member</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="portal-main">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="mobile-brand">
+                    <i class="fas fa-plane" style="color:#0284c7;"></i>
+                    <span>SkyHook Airlines</span>
+                </div>
+            </header>
+
+            <!-- ===== TAB: SEARCH FLIGHTS ===== -->
+            <div id="tab-search" class="section-tab active">
+                <div class="hero-banner">
+                    <div class="hero-content">
+                        <h2 class="hero-title">Where do you want to fly?</h2>
+                        <p class="hero-sub">Search from 500+ routes across 80 destinations</p>
+                    </div>
+                </div>
+
+                <div class="content-pad">
+                    <!-- Search Box -->
+                    <div class="search-card" id="search-box">
+                        <div class="trip-type-tabs">
+                            <button class="trip-tab active" id="btn-oneway" data-trip="one-way"
+                                onclick="flightApp.setTripType('one-way')">One Way</button>
+                            <button class="trip-tab" id="btn-roundtrip" data-trip="round-trip"
+                                onclick="flightApp.setTripType('round-trip')">Round Trip</button>
+                            <button class="trip-tab" id="btn-multicity" data-trip="multi-city"
+                                onclick="flightApp.setTripType('multi-city')">Multi-City</button>
+                        </div>
+                        <div class="search-grid" id="search-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="fromCity"><i class="fas fa-plane-departure"></i>
+                                    From</label>
+                                <input type="text" id="fromCity" class="form-input" placeholder="City or Airport"
+                                    value="Delhi" list="city-list" autocomplete="off">
+                            </div>
+                            <div class="swap-btn-wrap">
+                                <button class="swap-btn" id="btn-swap" onclick="flightApp.swapCities()"
+                                    title="Swap cities" aria-label="Swap cities">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="toCity"><i class="fas fa-plane-arrival"></i> To</label>
+                                <input type="text" id="toCity" class="form-input" placeholder="City or Airport"
+                                    value="Mumbai" list="city-list" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="depDate"><i class="fas fa-calendar"></i>
+                                    Departure</label>
+                                <input type="date" id="depDate" class="form-input" value="2026-03-15">
+                            </div>
+                            <div class="form-group" id="ret-date-group" style="display:none;">
+                                <label class="form-label" for="retDate"><i class="fas fa-calendar-check"></i>
+                                    Return</label>
+                                <input type="date" id="retDate" class="form-input" value="2026-03-22">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="passengers"><i class="fas fa-users"></i>
+                                    Passengers</label>
+                                <select id="passengers" class="form-input">
+                                    <option value="1">1 Adult</option>
+                                    <option value="2">2 Adults</option>
+                                    <option value="3">3 Adults</option>
+                                    <option value="4">4 Adults</option>
+                                    <option value="5">5 Adults</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="cabinClass"><i class="fas fa-chair"></i> Class</label>
+                                <select id="cabinClass" class="form-input">
+                                    <option value="economy">Economy</option>
+                                    <option value="premium">Premium Economy</option>
+                                    <option value="business">Business</option>
+                                    <option value="first">First Class</option>
+                                </select>
+                            </div>
+                            <div class="form-group search-btn-group">
+                                <button class="btn-search" id="btn-search" onclick="flightApp.searchFlights()">
+                                    <i class="fas fa-search"></i> Search Flights
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Popular Routes -->
+                    <div id="popular-routes" class="popular-section">
+                        <h3 class="section-heading">Popular Routes</h3>
+                        <div class="routes-grid" id="routes-grid"></div>
+                    </div>
+
+                    <!-- Flight Results -->
+                    <div id="results-section" style="display:none;">
+                        <div class="results-header">
+                            <div>
+                                <h3 class="section-heading" id="results-title">Available Flights</h3>
+                                <p id="results-count" style="color:#64748b;font-size:0.85rem;"></p>
+                            </div>
+                            <div class="sort-bar">
+                                <label for="sort-by" style="font-size:0.85rem;color:#64748b;">Sort by:</label>
+                                <select id="sort-by" class="form-input" style="width:auto;padding:0.4rem 0.8rem;"
+                                    onchange="flightApp.sortResults()">
+                                    <option value="price">Price</option>
+                                    <option value="duration">Duration</option>
+                                    <option value="departure">Departure</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Filter Bar -->
+                        <div class="filter-bar">
+                            <button class="filter-chip active" data-filter="all"
+                                onclick="flightApp.filterByStop(this,'all')">All</button>
+                            <button class="filter-chip" data-filter="0"
+                                onclick="flightApp.filterByStop(this,'0')">Non-stop</button>
+                            <button class="filter-chip" data-filter="1" onclick="flightApp.filterByStop(this,'1')">1
+                                Stop</button>
+                            <button class="filter-chip" data-filter="2" onclick="flightApp.filterByStop(this,'2')">2
+                                Stops</button>
+                        </div>
+                        <div id="flight-list"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: MY BOOKINGS ===== -->
+            <div id="tab-bookings" class="section-tab" style="padding:2rem;">
+                <div class="tab-header">
+                    <h2><i class="fas fa-ticket-alt"></i> My Bookings</h2>
+                    <p style="color:#64748b;margin-top:0.25rem;">Manage your upcoming and past reservations</p>
+                </div>
+                <div id="bookings-container" style="margin-top:1.5rem;"></div>
+            </div>
+
+            <!-- ===== TAB: CHECK-IN ===== -->
+            <div id="tab-checkin" class="section-tab" style="padding:2rem;">
+                <div class="tab-header">
+                    <h2><i class="fas fa-clipboard-check"></i> Online Check-In</h2>
+                    <p style="color:#64748b;margin-top:0.25rem;">Check in 24-48 hours before your flight</p>
+                </div>
+                <div class="checkin-card">
+                    <div class="form-group">
+                        <label class="form-label" for="ci-booking-ref">Booking Reference (PNR)</label>
+                        <input type="text" id="ci-booking-ref" class="form-input" placeholder="e.g. ABC123"
+                            style="text-transform:uppercase;">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="ci-last-name">Last Name</label>
+                        <input type="text" id="ci-last-name" class="form-input" placeholder="As on passport">
+                    </div>
+                    <button class="btn-primary" id="btn-checkin" onclick="flightApp.doCheckIn()">
+                        <i class="fas fa-search"></i> Find My Booking
+                    </button>
+                </div>
+                <div id="checkin-result" style="margin-top:1.5rem;"></div>
+            </div>
+
+            <!-- ===== TAB: FLIGHT STATUS ===== -->
+            <div id="tab-status" class="section-tab" style="padding:2rem;">
+                <div class="tab-header">
+                    <h2><i class="fas fa-satellite-dish"></i> Flight Status</h2>
+                    <p style="color:#64748b;margin-top:0.25rem;">Real-time flight tracking</p>
+                </div>
+                <div class="checkin-card">
+                    <div class="form-group">
+                        <label class="form-label" for="status-flight-no">Flight Number</label>
+                        <input type="text" id="status-flight-no" class="form-input" placeholder="e.g. SK-101">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="status-date">Date</label>
+                        <input type="date" id="status-date" class="form-input" value="2026-03-15">
+                    </div>
+                    <button class="btn-primary" id="btn-status" onclick="flightApp.checkStatus()">
+                        <i class="fas fa-satellite-dish"></i> Check Status
+                    </button>
+                </div>
+                <div id="status-result" style="margin-top:1.5rem;"></div>
+            </div>
+
+            <!-- ===== TAB: PROFILE ===== -->
+            <div id="tab-profile" class="section-tab" style="padding:2rem;">
+                <div class="tab-header">
+                    <h2><i class="fas fa-user-circle"></i> My Profile</h2>
+                    <p style="color:#64748b;margin-top:0.25rem;">Manage your traveler information</p>
+                </div>
+                <div class="profile-grid">
+                    <div class="profile-card">
+                        <h4>Personal Information</h4>
+                        <div class="form-group"><label class="form-label" for="p-fname">First Name</label><input
+                                type="text" id="p-fname" class="form-input" placeholder="First Name"></div>
+                        <div class="form-group"><label class="form-label" for="p-lname">Last Name</label><input
+                                type="text" id="p-lname" class="form-input" placeholder="Last Name"></div>
+                        <div class="form-group"><label class="form-label" for="p-email">Email</label><input type="email"
+                                id="p-email" class="form-input" placeholder="email@example.com"></div>
+                        <div class="form-group"><label class="form-label" for="p-phone">Phone</label><input type="tel"
+                                id="p-phone" class="form-input" placeholder="+1 234 567 8900"></div>
+                        <div class="form-group"><label class="form-label" for="p-dob">Date of Birth</label><input
+                                type="date" id="p-dob" class="form-input"></div>
+                        <div class="form-group"><label class="form-label" for="p-nationality">Nationality</label>
+                            <select id="p-nationality" class="form-input">
+                                <option>American</option>
+                                <option>British</option>
+                                <option>Indian</option>
+                                <option>Canadian</option>
+                                <option>Australian</option>
+                                <option>German</option>
+                                <option>French</option>
+                                <option>Japanese</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" id="btn-save-profile" onclick="flightApp.saveProfile()"><i
+                                class="fas fa-save"></i> Save Profile</button>
+                    </div>
+                    <div class="profile-card">
+                        <h4>Travel Documents</h4>
+                        <div class="form-group"><label class="form-label" for="p-passport">Passport Number</label><input
+                                type="text" id="p-passport" class="form-input" placeholder="e.g. A12345678"></div>
+                        <div class="form-group"><label class="form-label" for="p-passport-exp">Passport
+                                Expiry</label><input type="date" id="p-passport-exp" class="form-input"></div>
+                        <div class="form-group"><label class="form-label" for="p-freq-flyer">Frequent Flyer
+                                No.</label><input type="text" id="p-freq-flyer" class="form-input"
+                                placeholder="SkyHook Miles No."></div>
+                        <h4 style="margin-top:1.5rem;">Preferences</h4>
+                        <div class="form-group"><label class="form-label" for="p-meal">Meal Preference</label>
+                            <select id="p-meal" class="form-input">
+                                <option value="standard">Standard</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="halal">Halal</option>
+                                <option value="kosher">Kosher</option>
+                                <option value="gluten-free">Gluten-Free</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label class="form-label" for="p-seat-pref">Seat Preference</label>
+                            <select id="p-seat-pref" class="form-input">
+                                <option value="window">Window</option>
+                                <option value="aisle">Aisle</option>
+                                <option value="middle">Middle</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- City Datalist -->
+    <datalist id="city-list">
+        <option value="New York (JFK)">
+        <option value="London (LHR)">
+        <option value="Dubai (DXB)">
+        <option value="Singapore (SIN)">
+        <option value="Tokyo (NRT)">
+        <option value="Paris (CDG)">
+        <option value="Sydney (SYD)">
+        <option value="Mumbai (BOM)">
+        <option value="Frankfurt (FRA)">
+        <option value="Toronto (YYZ)">
+        <option value="Los Angeles (LAX)">
+        <option value="Bangkok (BKK)">
+        <option value="Amsterdam (AMS)">
+        <option value="Hong Kong (HKG)">
+        <option value="Chicago (ORD)">
+        <option value="Istanbul (IST)">
+        <option value="Seoul (ICN)">
+        <option value="Kuala Lumpur (KUL)">
+        <option value="Cairo (CAI)">
+        <option value="Johannesburg (JNB)">
+    </datalist>
+
+    <!-- Booking Modal (Step 1: Seat Selection) -->
+    <div id="modal-seat" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-seat-title">
+        <div class="modal-box modal-lg">
+            <div class="modal-head">
+                <h3 id="modal-seat-title"><i class="fas fa-chair"></i> Select Your Seat</h3>
+                <button class="modal-close" onclick="flightApp.closeModal('modal-seat')"
+                    aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="seat-flight-info" class="seat-flight-info"></div>
+                <div class="seat-legend">
+                    <span class="legend-item"><span class="seat-dot available"></span> Available</span>
+                    <span class="legend-item"><span class="seat-dot occupied"></span> Occupied</span>
+                    <span class="legend-item"><span class="seat-dot selected"></span> Selected</span>
+                    <span class="legend-item"><span class="seat-dot extra-legroom"></span> Extra Legroom</span>
+                </div>
+                <div class="seat-map-container">
+                    <div class="seat-map" id="seat-map"></div>
+                </div>
+                <p id="seat-selection-info"
+                    style="text-align:center;color:#64748b;font-size:0.85rem;margin-top:0.5rem;">Select a seat to
+                    continue</p>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-secondary" onclick="flightApp.closeModal('modal-seat')">Cancel</button>
+                <button class="btn-primary" id="btn-proceed-passenger" onclick="flightApp.openPassengerModal()"
+                    disabled>
+                    Continue <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal (Step 2: Passenger Details) -->
+    <div id="modal-passenger" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-pass-title">
+        <div class="modal-box">
+            <div class="modal-head">
+                <h3 id="modal-pass-title"><i class="fas fa-user"></i> Passenger Details</h3>
+                <button class="modal-close" onclick="flightApp.closeModal('modal-passenger')"
+                    aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="pass-flight-summary" class="pass-flight-summary"></div>
+                <div id="passenger-forms-container"></div>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-secondary" onclick="flightApp.openSeatModal()"><i class="fas fa-arrow-left"></i>
+                    Back</button>
+                <button class="btn-primary" id="btn-proceed-payment" onclick="flightApp.openPaymentModal()">
+                    Proceed to Payment <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal (Step 3: Payment) -->
+    <div id="modal-payment" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-pay-title">
+        <div class="modal-box">
+            <div class="modal-head">
+                <h3 id="modal-pay-title"><i class="fas fa-credit-card"></i> Payment</h3>
+                <button class="modal-close" onclick="flightApp.closeModal('modal-payment')"
+                    aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="payment-summary" class="pass-flight-summary"></div>
+                <div class="payment-methods">
+                    <label class="pay-method">
+                        <input type="radio" name="pay-method" id="pay-card" value="card" checked>
+                        <span><i class="fas fa-credit-card"></i> Credit / Debit Card</span>
+                    </label>
+                    <label class="pay-method">
+                        <input type="radio" name="pay-method" id="pay-upi" value="upi">
+                        <span><i class="fas fa-mobile-alt"></i> UPI / Wallet</span>
+                    </label>
+                    <label class="pay-method">
+                        <input type="radio" name="pay-method" id="pay-netbanking" value="netbanking">
+                        <span><i class="fas fa-university"></i> Net Banking</span>
+                    </label>
+                </div>
+                <div id="card-form">
+                    <div class="form-group"><label class="form-label" for="card-name">Name on Card</label><input
+                            type="text" id="card-name" class="form-input" placeholder="John Smith"></div>
+                    <div class="form-group"><label class="form-label" for="card-number">Card Number</label><input
+                            type="text" id="card-number" class="form-input" placeholder="4111 1111 1111 1111"
+                            maxlength="19"></div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                        <div class="form-group"><label class="form-label" for="card-expiry">Expiry</label><input
+                                type="text" id="card-expiry" class="form-input" placeholder="MM/YY" maxlength="5"></div>
+                        <div class="form-group"><label class="form-label" for="card-cvv">CVV</label><input type="text"
+                                id="card-cvv" class="form-input" placeholder="123" maxlength="3"></div>
+                    </div>
+                </div>
+                <div id="upi-form" style="display:none;">
+                    <div class="form-group"><label class="form-label" for="upi-id">UPI ID</label><input type="text"
+                            id="upi-id" class="form-input" placeholder="yourname@upi"></div>
+                </div>
+                <div id="netbanking-form" style="display:none;">
+                    <div class="form-group"><label class="form-label" for="bank-select">Select Bank</label>
+                        <select id="bank-select" class="form-input">
+                            <option>State Bank</option>
+                            <option>HDFC Bank</option>
+                            <option>ICICI Bank</option>
+                            <option>Chase Bank</option>
+                            <option>Barclays</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="promo-row">
+                    <input type="text" id="promo-code" class="form-input" placeholder="Promo Code (try: SAVE10)">
+                    <button class="btn-secondary" id="btn-apply-promo" onclick="flightApp.applyPromo()">Apply</button>
+                </div>
+                <div id="promo-msg" style="font-size:0.8rem;margin-top:0.25rem;"></div>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-secondary" onclick="flightApp.openPassengerModal()"><i class="fas fa-arrow-left"></i>
+                    Back</button>
+                <button class="btn-primary" id="btn-confirm-pay" onclick="flightApp.confirmPayment()">
+                    <i class="fas fa-lock"></i> Pay & Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="modal-confirm" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-confirm-title">
+        <div class="modal-box">
+            <div class="modal-head" style="background:linear-gradient(135deg,#10b981,#059669);color:white;">
+                <h3 id="modal-confirm-title" style="color:white;"><i class="fas fa-check-circle"></i> Booking Confirmed!
+                </h3>
+                <button class="modal-close" style="color:white;" onclick="flightApp.closeModal('modal-confirm')"
+                    aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body" id="confirmation-body"></div>
+            <div class="modal-foot">
+                <button class="btn-secondary" onclick="flightApp.closeModal('modal-confirm')">Close</button>
+                <button class="btn-primary" onclick="flightApp.downloadTicket()"><i class="fas fa-download"></i>
+                    Download E-Ticket</button>
+                <button class="btn-primary" style="background:#0284c7;" onclick="flightApp.viewBookings()"><i
+                        class="fas fa-ticket-alt"></i> View My Bookings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Booking Modal -->
+    <div id="modal-cancel" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-box" style="max-width:420px;">
+            <div class="modal-head" style="background:#ef4444;color:white;">
+                <h3 style="color:white;"><i class="fas fa-times-circle"></i> Cancel Booking</h3>
+                <button class="modal-close" style="color:white;" onclick="flightApp.closeModal('modal-cancel')"
+                    aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel booking <strong id="cancel-pnr"></strong>?</p>
+                <p style="color:#ef4444;font-size:0.85rem;margin-top:0.5rem;"><i
+                        class="fas fa-exclamation-triangle"></i> Cancellation fee of $50 may apply.</p>
+            </div>
+            <div class="modal-foot">
+                <button class="btn-secondary" onclick="flightApp.closeModal('modal-cancel')">Keep Booking</button>
+                <button class="btn-danger" id="btn-confirm-cancel" onclick="flightApp.confirmCancel()">Yes,
+                    Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- City Autocomplete List -->
+    <datalist id="city-list">
+        <!-- Indian Cities -->
+        <option value="Delhi (DEL)">
+        <option value="Mumbai (BOM)">
+        <option value="Bangalore (BLR)">
+        <option value="Chennai (MAA)">
+        <option value="Hyderabad (HYD)">
+        <option value="Kolkata (CCU)">
+        <option value="Pune (PNQ)">
+        <option value="Ahmedabad (AMD)">
+        <option value="Goa (GOI)">
+        <option value="Jaipur (JAI)">
+        <option value="Kochi (COK)">
+        <option value="Lucknow (LKO)">
+            <!-- International Cities -->
+        <option value="New York (JFK)">
+        <option value="London (LHR)">
+        <option value="Dubai (DXB)">
+        <option value="Singapore (SIN)">
+        <option value="Tokyo (NRT)">
+        <option value="Paris (CDG)">
+        <option value="Berlin (BER)">
+        <option value="Sydney (SYD)">
+        <option value="Los Angeles (LAX)">
+        <option value="Toronto (YYZ)">
+    </datalist>
+
+    <script src="../shared/js/utils.js"></script>
+    <script src="../shared/js/mock-api.js"></script>
+    <script src="flight.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+        // Close sidebar when clicking a nav link on mobile
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    toggleSidebar();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

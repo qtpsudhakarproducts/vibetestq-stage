@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AssetExplorer | IT Asset Management</title>
+    <meta name="description"
+        content="Enterprise IT Asset Management - Practice environment for Playwright test automation">
+    <link rel="stylesheet" href="../shared/css/portal.css">
+    <link rel="stylesheet" href="asset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="portal-container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar -->
+        <nav class="portal-sidebar" id="sidebar" aria-label="Main Navigation">
+            <div class="sidebar-header">
+                <div class="sidebar-logo-icon" style="background:var(--ae-primary);">
+                    <i class="fas fa-cubes"></i>
+                </div>
+                <div class="sidebar-logo-text">
+                    <h1 style="font-size:1.1rem;font-weight:700;color:white;margin:0;">AssetExplorer</h1>
+                    <span style="font-size:0.7rem;color:#64748b;">ManageEngine</span>
+                </div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-group">
+                    <p class="nav-label">Navigation</p>
+                    <a href="../" class="nav-link"><i class="fas fa-home"></i> Command Center</a>
+                    <a href="guide.html" class="nav-link"><i class="fas fa-book-open"></i> Testing Guide</a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-label">Asset Management</p>
+                    <a href="javascript:void(0)" class="nav-link active" data-target="tab-dashboard" id="nav-dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-it" id="nav-it">
+                        <i class="fas fa-laptop"></i> IT Assets</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-nonit" id="nav-nonit">
+                        <i class="fas fa-chair"></i> Non-IT Assets</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-software" id="nav-software">
+                        <i class="fas fa-cube"></i> Software</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-cmdb" id="nav-cmdb">
+                        <i class="fas fa-project-diagram"></i> CMDB</a>
+                </div>
+                <div class="nav-group">
+                    <p class="nav-label">Procurement</p>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-purchases" id="nav-purchases">
+                        <i class="fas fa-shopping-cart"></i> Purchase Orders</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-contracts" id="nav-contracts">
+                        <i class="fas fa-file-contract"></i> Contracts</a>
+                    <a href="javascript:void(0)" class="nav-link" data-target="tab-consumables" id="nav-consumables">
+                        <i class="fas fa-box-open"></i> Consumables</a>
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <div class="user-badge">
+                    <i class="fas fa-user-circle" style="font-size:1.5rem;color:var(--ae-primary);"></i>
+                    <div>
+                        <div style="font-weight:600;font-size:0.85rem;color:white;">IT Admin</div>
+                        <div style="font-size:0.7rem;color:#64748b;">AssetExplorer Admin</div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="portal-main">
+            <!-- Mobile Header -->
+            <header class="mobile-header">
+                <button class="mobile-toggle" id="mobile-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="mobile-brand">
+                    <i class="fas fa-cubes" style="color:var(--ae-primary);"></i>
+                    <span>AssetExplorer</span>
+                </div>
+            </header>
+
+            <!-- ===== TAB: DASHBOARD ===== -->
+            <div id="tab-dashboard" class="section-tab active">
+                <div class="ae-hero">
+                    <h2><i class="fas fa-tachometer-alt" style="margin-right:0.5rem;"></i>Asset Dashboard</h2>
+                    <p>Unified view of all configuration items across your organization</p>
+                </div>
+                <div class="content-pad">
+                    <!-- Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card" onclick="app.showTab('tab-it')">
+                            <div class="stat-icon" style="background:linear-gradient(135deg,#4f46e5,#818cf8);"><i
+                                    class="fas fa-laptop"></i></div>
+                            <div>
+                                <div class="stat-label">IT Assets</div>
+                                <div class="stat-value" id="stat-it">--</div>
+                                <div class="stat-trend up">↑ Active</div>
+                            </div>
+                        </div>
+                        <div class="stat-card" onclick="app.showTab('tab-nonit')">
+                            <div class="stat-icon" style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);"><i
+                                    class="fas fa-chair"></i></div>
+                            <div>
+                                <div class="stat-label">Non-IT Assets</div>
+                                <div class="stat-value" id="stat-nonit">--</div>
+                            </div>
+                        </div>
+                        <div class="stat-card" onclick="app.showTab('tab-software')">
+                            <div class="stat-icon" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa);"><i
+                                    class="fas fa-cube"></i></div>
+                            <div>
+                                <div class="stat-label">Software Titles</div>
+                                <div class="stat-value" id="stat-sw">--</div>
+                            </div>
+                        </div>
+                        <div class="stat-card" onclick="app.showTab('tab-purchases')">
+                            <div class="stat-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);"><i
+                                    class="fas fa-shopping-cart"></i></div>
+                            <div>
+                                <div class="stat-label">Pending POs</div>
+                                <div class="stat-value" id="stat-po">--</div>
+                            </div>
+                        </div>
+                        <div class="stat-card" onclick="app.showTab('tab-contracts')">
+                            <div class="stat-icon" style="background:linear-gradient(135deg,#10b981,#34d399);"><i
+                                    class="fas fa-file-contract"></i></div>
+                            <div>
+                                <div class="stat-label">Contracts</div>
+                                <div class="stat-value" id="stat-contracts">--</div>
+                            </div>
+                        </div>
+                        <div class="stat-card" onclick="app.showTab('tab-consumables')">
+                            <div class="stat-icon" style="background:linear-gradient(135deg,#ef4444,#f87171);"><i
+                                    class="fas fa-box-open"></i></div>
+                            <div>
+                                <div class="stat-label">Consumables</div>
+                                <div class="stat-value" id="stat-consumables">--</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background:linear-gradient(135deg,#059669,#34d399);"><i
+                                    class="fas fa-check-shield"></i></div>
+                            <div>
+                                <div class="stat-label">License Compliance</div>
+                                <div class="stat-value" id="stat-compliance">--</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background:linear-gradient(135deg,#dc2626,#f87171);"><i
+                                    class="fas fa-exclamation-triangle"></i></div>
+                            <div>
+                                <div class="stat-label">Expiring Contracts</div>
+                                <div class="stat-value" id="stat-expiring">--</div>
+                                <div class="stat-trend down">Needs Attention</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3><i class="fas fa-bolt" style="color:var(--ae-warning);margin-right:0.5rem;"></i>Quick
+                                Actions</h3>
+                        </div>
+                        <div class="ae-card-body">
+                            <div class="quick-actions">
+                                <div class="quick-action" onclick="app.openModal('modal-register')">
+                                    <i class="fas fa-plus-circle" style="color:var(--ae-primary);"></i>
+                                    <span>Register IT Asset</span>
+                                </div>
+                                <div class="quick-action" onclick="app.showTab('tab-software')">
+                                    <i class="fas fa-shield-alt" style="color:var(--ae-success);"></i>
+                                    <span>License Compliance</span>
+                                </div>
+                                <div class="quick-action" onclick="app.showTab('tab-purchases')">
+                                    <i class="fas fa-file-invoice" style="color:var(--ae-warning);"></i>
+                                    <span>New Purchase Order</span>
+                                </div>
+                                <div class="quick-action" onclick="app.showTab('tab-cmdb')">
+                                    <i class="fas fa-project-diagram" style="color:#8b5cf6;"></i>
+                                    <span>View CMDB Map</span>
+                                </div>
+                                <div class="quick-action" onclick="app.showTab('tab-contracts')">
+                                    <i class="fas fa-file-contract" style="color:var(--ae-info);"></i>
+                                    <span>Manage Contracts</span>
+                                </div>
+                                <div class="quick-action" onclick="app.showTab('tab-consumables')">
+                                    <i class="fas fa-box-open" style="color:var(--ae-danger);"></i>
+                                    <span>Check Stock</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Assets -->
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3>Recently Tagged IT Assets</h3>
+                        </div>
+                        <div class="ae-card-body no-pad">
+                            <table class="ae-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Asset</th>
+                                        <th>Type</th>
+                                        <th>User</th>
+                                        <th>Department</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recent-assets-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Low Stock Alerts -->
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3><i class="fas fa-exclamation-triangle"
+                                    style="color:var(--ae-danger);margin-right:0.5rem;"></i>Low Stock Alerts</h3>
+                        </div>
+                        <div class="ae-card-body no-pad">
+                            <table class="ae-table">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Category</th>
+                                        <th>Current Stock</th>
+                                        <th>Min Required</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="low-stock-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: IT ASSETS ===== -->
+            <div id="tab-it" class="section-tab">
+                <div class="ae-hero">
+                    <h2><i class="fas fa-laptop" style="margin-right:0.5rem;"></i>IT Asset Inventory</h2>
+                    <p>Track and manage all IT assets with IP address access</p>
+                </div>
+                <div class="content-pad">
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3>All IT Assets <span style="font-size:0.78rem;color:var(--ae-muted);font-weight:400;"
+                                    id="it-count"></span></h3>
+                            <div class="toolbar">
+                                <div class="toolbar-search"><i class="fas fa-search"></i><input type="text"
+                                        id="it-search" placeholder="Search assets..."
+                                        oninput="app.searchIT(this.value)"></div>
+                                <select id="it-filter" onchange="app.filterIT(this.value)">
+                                    <option value="all">All Status</option>
+                                    <option value="In Use">In Use</option>
+                                    <option value="In Stock">In Stock</option>
+                                    <option value="Maintenance">Maintenance</option>
+                                    <option value="Retired">Retired</option>
+                                </select>
+                                <button class="btn-ae btn-ae-primary" onclick="app.openModal('modal-register')"><i
+                                        class="fas fa-plus"></i> New Asset</button>
+                            </div>
+                        </div>
+                        <div class="ae-card-body no-pad">
+                            <table class="ae-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Model</th>
+                                        <th>User</th>
+                                        <th>Location</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="it-assets-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: NON-IT ASSETS ===== -->
+            <div id="tab-nonit" class="section-tab">
+                <div class="ae-hero" style="background:linear-gradient(135deg,#0c4a6e,#0369a1,#0ea5e9);">
+                    <h2><i class="fas fa-chair" style="margin-right:0.5rem;"></i>Non-IT Assets</h2>
+                    <p>Furniture, AV equipment, and other non-IP network assets</p>
+                </div>
+                <div class="content-pad">
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3>Non-IT Asset Register</h3>
+                        </div>
+                        <div class="ae-card-body no-pad">
+                            <table class="ae-table">
+                                <thead>
+                                    <tr>
+                                        <th>Tag</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Location</th>
+                                        <th>Assigned To</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="nonit-assets-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: SOFTWARE ===== -->
+            <div id="tab-software" class="section-tab">
+                <div class="ae-hero" style="background:linear-gradient(135deg,#4c1d95,#6d28d9,#8b5cf6);">
+                    <h2><i class="fas fa-cube" style="margin-right:0.5rem;"></i>Software Asset Management</h2>
+                    <p>License management, metering, and compliance tracking</p>
+                </div>
+                <div class="content-pad">
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3>Software Licenses & Compliance</h3>
+                        </div>
+                        <div class="ae-card-body no-pad">
+                            <table class="ae-table">
+                                <thead>
+                                    <tr>
+                                        <th>Software</th>
+                                        <th>Version</th>
+                                        <th>License</th>
+                                        <th>Category</th>
+                                        <th>Usage (Installed/Purchased)</th>
+                                        <th>Compliance</th>
+                                        <th>Metering</th>
+                                        <th>Total Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="software-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: CMDB ===== -->
+            <div id="tab-cmdb" class="section-tab">
+                <div class="ae-hero" style="background:linear-gradient(135deg,#065f46,#059669,#10b981);">
+                    <h2><i class="fas fa-project-diagram" style="margin-right:0.5rem;"></i>Configuration Management
+                        Database</h2>
+                    <p>CI relationships and dependency mapping</p>
+                </div>
+                <div class="content-pad">
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3>CI Relationship Map</h3>
+                        </div>
+                        <div class="ae-card-body" id="cmdb-body"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: PURCHASES ===== -->
+            <div id="tab-purchases" class="section-tab">
+                <div class="ae-hero" style="background:linear-gradient(135deg,#78350f,#b45309,#f59e0b);">
+                    <h2><i class="fas fa-shopping-cart" style="margin-right:0.5rem;"></i>Purchase Management</h2>
+                    <p>Purchase orders, approvals, and procurement tracking</p>
+                </div>
+                <div class="content-pad">
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3>Purchase Orders</h3>
+                        </div>
+                        <div class="ae-card-body no-pad">
+                            <table class="ae-table">
+                                <thead>
+                                    <tr>
+                                        <th>PO #</th>
+                                        <th>Description</th>
+                                        <th>Vendor</th>
+                                        <th>Amount</th>
+                                        <th>Requested By</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="purchases-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: CONTRACTS ===== -->
+            <div id="tab-contracts" class="section-tab">
+                <div class="ae-hero" style="background:linear-gradient(135deg,#1e3a5f,#1e40af,#3b82f6);">
+                    <h2><i class="fas fa-file-contract" style="margin-right:0.5rem;"></i>Contract Management</h2>
+                    <p>Vendor contracts, renewals, and expiry tracking</p>
+                </div>
+                <div class="content-pad">
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3>Active Contracts</h3>
+                        </div>
+                        <div class="ae-card-body no-pad">
+                            <table class="ae-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Contract</th>
+                                        <th>Vendor</th>
+                                        <th>Type</th>
+                                        <th>Value</th>
+                                        <th>Period</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="contracts-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TAB: CONSUMABLES ===== -->
+            <div id="tab-consumables" class="section-tab">
+                <div class="ae-hero" style="background:linear-gradient(135deg,#7f1d1d,#dc2626,#ef4444);">
+                    <h2><i class="fas fa-box-open" style="margin-right:0.5rem;"></i>Consumables</h2>
+                    <p>Bulk-managed single-use items and stock tracking</p>
+                </div>
+                <div class="content-pad">
+                    <div class="ae-card">
+                        <div class="ae-card-header">
+                            <h3>Consumable Inventory</h3>
+                        </div>
+                        <div class="ae-card-body no-pad">
+                            <table class="ae-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Item</th>
+                                        <th>Category</th>
+                                        <th>Stock</th>
+                                        <th>Min Stock</th>
+                                        <th>Unit Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="consumables-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ===== MODALS ===== -->
+
+    <!-- View Asset Modal -->
+    <div class="ae-modal" id="modal-view-asset">
+        <div class="ae-modal-content">
+            <div class="ae-modal-header">
+                <h3><i class="fas fa-laptop" style="color:var(--ae-primary);margin-right:0.5rem;"></i>Asset Details</h3>
+                <button class="ae-modal-close" onclick="app.closeModal('modal-view-asset')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="ae-modal-body" id="view-asset-body"></div>
+            <div class="ae-modal-footer">
+                <button class="btn-ae btn-ae-ghost" onclick="app.closeModal('modal-view-asset')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Asset Modal -->
+    <div class="ae-modal" id="modal-edit-asset">
+        <div class="ae-modal-content">
+            <div class="ae-modal-header">
+                <h3><i class="fas fa-edit" style="color:var(--ae-primary);margin-right:0.5rem;"></i>Edit Asset</h3>
+                <button class="ae-modal-close" onclick="app.closeModal('modal-edit-asset')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="ae-modal-body">
+                <div class="ae-form-row">
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-tag">Asset Tag</label><input
+                            class="ae-form-input" id="edit-tag"></div>
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-name">Hostname</label><input
+                            class="ae-form-input" id="edit-name"></div>
+                </div>
+                <div class="ae-form-row">
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-type">Type</label>
+                        <select class="ae-form-input" id="edit-type">
+                            <option>Laptop</option>
+                            <option>Workstation</option>
+                            <option>Server</option>
+                            <option>Monitor</option>
+                            <option>Printer</option>
+                            <option>Network Switch</option>
+                        </select>
+                    </div>
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-model">Model</label><input
+                            class="ae-form-input" id="edit-model"></div>
+                </div>
+                <div class="ae-form-row">
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-serial">Serial
+                            Number</label><input class="ae-form-input" id="edit-serial"></div>
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-ip">IP Address</label><input
+                            class="ae-form-input" id="edit-ip"></div>
+                </div>
+                <div class="ae-form-row">
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-user">Assigned To</label><input
+                            class="ae-form-input" id="edit-user"></div>
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-dept">Department</label><input
+                            class="ae-form-input" id="edit-dept"></div>
+                </div>
+                <div class="ae-form-row">
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-location">Location</label><input
+                            class="ae-form-input" id="edit-location"></div>
+                    <div class="ae-form-group"><label class="ae-form-label" for="edit-status">Status</label>
+                        <select class="ae-form-input" id="edit-status">
+                            <option>In Use</option>
+                            <option>In Stock</option>
+                            <option>Maintenance</option>
+                            <option>Retired</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="ae-modal-footer">
+                <button class="btn-ae btn-ae-ghost" onclick="app.closeModal('modal-edit-asset')">Cancel</button>
+                <button class="btn-ae btn-ae-primary" id="btn-save-edit" onclick="app.saveAssetEdit()"><i
+                        class="fas fa-save"></i> Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Asset Modal -->
+    <div class="ae-modal" id="modal-register">
+        <div class="ae-modal-content">
+            <div class="ae-modal-header">
+                <h3><i class="fas fa-plus-circle" style="color:var(--ae-primary);margin-right:0.5rem;"></i>Register New
+                    IT Asset</h3>
+                <button class="ae-modal-close" onclick="app.closeModal('modal-register')"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="ae-modal-body">
+                <form id="register-form" onsubmit="event.preventDefault(); app.registerAsset();">
+                    <div class="ae-form-row">
+                        <div class="ae-form-group"><label class="ae-form-label" for="reg-tag">Asset Tag *</label><input
+                                class="ae-form-input" id="reg-tag" placeholder="AT-2026-XXX" required></div>
+                        <div class="ae-form-group"><label class="ae-form-label" for="reg-name">Hostname *</label><input
+                                class="ae-form-input" id="reg-name" placeholder="e.g. LAP-MBP-100" required></div>
+                    </div>
+                    <div class="ae-form-row">
+                        <div class="ae-form-group"><label class="ae-form-label" for="reg-type">Type</label>
+                            <select class="ae-form-input" id="reg-type">
+                                <option>Laptop</option>
+                                <option>Workstation</option>
+                                <option>Server</option>
+                                <option>Monitor</option>
+                                <option>Printer</option>
+                                <option>Network Switch</option>
+                            </select>
+                        </div>
+                        <div class="ae-form-group"><label class="ae-form-label" for="reg-model">Model *</label><input
+                                class="ae-form-input" id="reg-model" placeholder="e.g. MacBook Pro M3" required></div>
+                    </div>
+                    <div class="ae-form-row">
+                        <div class="ae-form-group"><label class="ae-form-label" for="reg-serial">Serial
+                                Number</label><input class="ae-form-input" id="reg-serial" placeholder="Serial #"></div>
+                        <div class="ae-form-group"><label class="ae-form-label" for="reg-ip">IP Address</label><input
+                                class="ae-form-input" id="reg-ip" placeholder="192.168.x.x"></div>
+                    </div>
+                    <div class="ae-form-row">
+                        <div class="ae-form-group"><label class="ae-form-label" for="reg-user">Assign To</label><input
+                                class="ae-form-input" id="reg-user" placeholder="User name"></div>
+                        <div class="ae-form-group"><label class="ae-form-label" for="reg-dept">Department</label>
+                            <select class="ae-form-input" id="reg-dept">
+                                <option>Engineering</option>
+                                <option>Design</option>
+                                <option>QA</option>
+                                <option>Data Science</option>
+                                <option>Marketing</option>
+                                <option>HR</option>
+                                <option>Finance</option>
+                                <option>Admin</option>
+                                <option>Infrastructure</option>
+                                <option>IT Pool</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="ae-form-row" style="grid-template-columns:1fr;">
+                        <div class="ae-form-group"><label class="ae-form-label"
+                                for="reg-location">Location</label><input class="ae-form-input" id="reg-location"
+                                placeholder="e.g. Floor 3, B-Wing"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="ae-modal-footer">
+                <button class="btn-ae btn-ae-ghost" onclick="app.closeModal('modal-register')">Cancel</button>
+                <button class="btn-ae btn-ae-primary" id="btn-register" onclick="app.registerAsset()"><i
+                        class="fas fa-plus"></i> Register Asset</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="../shared/js/utils.js"></script>
+    <script src="../shared/js/mock-api.js"></script>
+    <script src="asset.js"></script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+        }
+        // Close sidebar when clicking a nav link on mobile
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 1024) {
+                    toggleSidebar();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

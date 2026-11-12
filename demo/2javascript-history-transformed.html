@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript: From 10 Days to Test Automation Dominance - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --vibe-blue: #1e40af;
+            --vibe-dark-blue: #1e3a8a;
+            --vibe-green: #22c55e;
+            --vibe-yellow: #fbbf24;
+            --vibe-orange: #f97316;
+            --vibe-light-bg: #f8fafc;
+        }
+
+        .reveal {
+            background: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .reveal h1,
+        .reveal h2,
+        .reveal h3 {
+            text-transform: none;
+            font-weight: 700;
+            color: var(--vibe-dark-blue);
+        }
+
+        .reveal h1 {
+            font-size: 1.8em;
+            margin-bottom: 0.2em;
+        }
+
+        .reveal h2 {
+            font-size: 1.4em;
+            margin-bottom: 0.3em;
+            color: var(--vibe-blue);
+        }
+
+        .reveal h3 {
+            font-size: 1.1em;
+            color: var(--vibe-green);
+            margin-bottom: 0.2em;
+        }
+
+        .reveal p,
+        .reveal li {
+            color: #334155;
+            line-height: 1.5;
+        }
+
+        /* Logo in corner for all slides except title */
+        .logo-corner {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            z-index: 100;
+        }
+
+        .logo-corner img {
+            width: 80px;
+            height: auto;
+        }
+
+        /* Title slide - full company branding */
+        .title-slide {
+            background: #ffffff !important;
+        }
+
+        .title-slide .company-header {
+            max-width: 800px;
+            margin: 0 auto 15px;
+        }
+
+        .title-slide h1 {
+            font-size: 2em;
+            color: var(--vibe-dark-blue);
+            margin: 10px 0 8px;
+        }
+
+        .title-slide .subtitle {
+            font-size: 1.2em;
+            color: var(--vibe-orange);
+            margin: 10px 0;
+        }
+
+        .title-slide .tagline {
+            font-size: 1em;
+            color: var(--vibe-blue);
+            margin: 8px 0 15px;
+        }
+
+        /* Content boxes */
+        .content-box {
+            background: var(--vibe-light-bg);
+            border-left: 4px solid var(--vibe-blue);
+            padding: 8px 15px;
+            margin: 5px 0;
+            border-radius: 6px;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border: 2px solid var(--vibe-yellow);
+            padding: 8px 12px;
+            margin: 5px auto;
+            border-radius: 8px;
+            max-width: 90%;
+        }
+
+        .stat-box {
+            display: inline-block;
+            background: #dbeafe;
+            border: 2px solid var(--vibe-blue);
+            padding: 12px 20px;
+            margin: 6px;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--vibe-orange);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: var(--vibe-blue);
+        }
+
+        /* Lists */
+        .reveal ul {
+            list-style: none;
+            margin: 8px 0;
+        }
+
+        .reveal ul li {
+            margin: 6px 0;
+            padding-left: 35px;
+            position: relative;
+            text-align: left;
+            font-size: 0.85em;
+        }
+
+        .reveal ul li:before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: var(--vibe-green);
+            font-size: 1em;
+            position: absolute;
+            left: 0;
+            top: 2px;
+        }
+
+        .reveal ul li.cross:before {
+            content: "\f057";
+            color: var(--vibe-orange);
+        }
+
+        /* Colors */
+        .text-blue {
+            color: var(--vibe-blue);
+        }
+
+        .text-green {
+            color: var(--vibe-green);
+        }
+
+        .text-yellow {
+            color: var(--vibe-yellow);
+        }
+
+        .text-orange {
+            color: var(--vibe-orange);
+        }
+
+        .bold {
+            font-weight: 700;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-block;
+            background: var(--vibe-orange);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.8em;
+            margin: 4px;
+        }
+
+        /* Two columns */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        /* Compact spacing */
+        .reveal .slides section {
+            padding: 10px 30px;
+        }
+
+        .compact {
+            font-size: 0.85em;
+        }
+
+        .code-snippet {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.65em;
+            overflow-x: auto;
+            margin: 10px 0;
+            color: #c9d1d9;
+            text-align: left;
+            white-space: pre;
+        }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Hero -->
+            <section class="title-slide">
+                <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+                <h1>JavaScript: From 10 Days to World Domination</h1>
+                <p class="subtitle">The Remarkable Survival Story of JavaScript</p>
+                <p class="tagline">Session 1: The Foundation of Modern Automation</p>
+                <div style="margin-top: 15px;">
+                    <span class="badge"><i class="fas fa-graduation-cap mr-1"></i> Course Introduction</span>
+                    <span class="badge"><i class="fas fa-rocket mr-1"></i> Your Automation Journey Begins</span>
+                </div>
+            </section>
+
+            <!-- Slide 2: Today's Agenda -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Our Learning Roadmap</h2>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <p class="bold text-blue">1. The Origin Story</p>
+                        <p class="compact">JavaScript's creation & 10-day legacy.</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <p class="bold text-blue">2. JS for Automation</p>
+                        <p class="compact">Breaking the browser prison with Node.js.</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-blue);">
+                        <p class="bold text-blue">3. TypeScript Shield</p>
+                        <p class="compact">Adding type safety for enterprise scale.</p>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-yellow);">
+                        <p class="bold text-blue">4. The Automation Era</p>
+                        <p class="compact">Modern tool ecosystem & Playwright.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 2: The Crisis -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Crisis That Started It All</h2>
+                <div class="highlight-box">
+                    <p class="bold text-orange">May 1995: The Web Was Dying of Boredom</p>
+                </div>
+                <div class="content-box">
+                    <ul>
+                        <li>Websites were static documents (HTML + CSS only)</li>
+                        <li>No interactivity, no dynamic content</li>
+                        <li>Netscape Navigator needed differentiation</li>
+                        <li>Internet Explorer was preparing to attack</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 12px;" class="text-blue bold">Netscape needed a scripting language... FAST</p>
+            </section>
+
+            <!-- Slide 3: The 10-Day Miracle -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The 10-Day Miracle</h2>
+                <div class="stat-box">
+                    <span class="stat-number">10</span>
+                    <span class="stat-label">Days for Prototype</span>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>The Mission</h3>
+                        <p class="compact">Brendan Eich hired to create a language for "HTML Authors", not just pro
+                            programmers.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>The Trade-off</h3>
+                        <p class="compact text-orange">Speed over perfection. Bugs and quirks that persist today.</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="bold">Mocha → LiveScript → JavaScript</p>
+                </div>
+            </section>
+
+            <!-- Slide 4: Marketing Genius -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Marketing Genius</h2>
+                <div style="display: flex; justify-content: space-around; align-items: center; margin: 20px 0;">
+                    <div class="stat-box" style="border-color: var(--vibe-blue);">
+                        <span class="stat-label">Initial</span>
+                        <span class="stat-number" style="font-size: 1.2em;">Mocha</span>
+                    </div>
+                    <i class="fas fa-arrow-right text-blue"></i>
+                    <div class="stat-box" style="border-color: var(--vibe-green);">
+                        <span class="stat-label">Launch</span>
+                        <span class="stat-number" style="font-size: 1.2em;">LiveScript</span>
+                    </div>
+                    <i class="fas fa-arrow-right text-blue"></i>
+                    <div class="stat-box" style="border-color: var(--vibe-orange);">
+                        <span class="stat-label">Branding</span>
+                        <span class="stat-number" style="font-size: 1.2em;">JavaScript</span>
+                    </div>
+                </div>
+                <div class="content-box">
+                    <p class="bold text-blue">Renamed to ride the hype of Java, the buzzword of 1995</p>
+                    <p class="compact" style="margin-top: 5px;">"Java is to JavaScript as <strong>Car is to
+                            Carpet</strong>"</p>
+                </div>
+            </section>
+
+            <!-- Slide 5: The First Browser War -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The First Browser War</h2>
+                <div class="two-col">
+                    <div class="content-box" style="border-left-color: var(--vibe-green);">
+                        <h3>Netscape</h3>
+                        <ul>
+                            <li>JavaScript (Official)</li>
+                            <li><strong>$49 Paid Software</strong></li>
+                        </ul>
+                    </div>
+                    <div class="content-box" style="border-left-color: var(--vibe-orange);">
+                        <h3>Internet Explorer</h3>
+                        <ul>
+                            <li>JScript (Reverse-engineered)</li>
+                            <li><strong>FREE with Windows</strong></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="bold text-blue">Developer Nightmare: The Web Fractured</p>
+                    <p class="compact">Code for one crashed in the other. Microsoft's "Free" strategy eventually won.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 6: Enter the Referee -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Enter the Referee (1997)</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>ECMAScript</h3>
+                        <p class="compact">The specification (Rules set by ECMA community)</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>JavaScript</h3>
+                        <p class="compact">The implementation (What developers use daily)</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="bold text-orange">Irony Alert</p>
+                    <p class="compact">Oracle owns the "JavaScript" trademark, but ECMA manages the language.</p>
+                </div>
+            </section>
+
+            <!-- Slide 7: The Dark Ages -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Dark Ages (2000-2009)</h2>
+                <div class="stat-box">
+                    <span class="stat-number">10 Years</span>
+                    <span class="stat-label">Zero Progress</span>
+                </div>
+                <div class="content-box">
+                    <ul>
+                        <li>Dot-com bubble burst in 2000</li>
+                        <li>Netscape crushed; innovation frozen</li>
+                        <li>MicrosoftIE dominance led to stagnation</li>
+                        <li>ES4 failed - too ambitious for its time</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 12px;" class="text-orange bold">The Phoenix: Mozilla Firefox rises from Netscape
+                    source</p>
+            </section>
+
+            <!-- Slide 8: Renaissance -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Renaissance</h2>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <div class="content-box">
+                        <h3 style="font-size: 1.1em;">AJAX (2005)</h3>
+                        <p class="compact">Dynamic updates without page reloads (Google Maps)</p>
+                    </div>
+                    <div class="content-box">
+                        <h3 style="font-size: 1.1em;">V8 Engine (2008)</h3>
+                        <p class="compact">Google's speed engine. Near-native performance.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3 style="font-size: 1.1em;">Node.js (2009)</h3>
+                        <p class="compact">JavaScript runs outside the browser. Full-stack born.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 15px;" class="text-blue bold">The world started taking JS seriously.</p>
+            </section>
+
+            <!-- Slide 9: How Browsers Work (Modern Era) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>How Browsers Work</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>HTML & CSS</h3>
+                        <p class="bold text-orange">Using Browser Engine</p>
+                        <p class="compact">Handles page parsing and visual rendering.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>JavaScript</h3>
+                        <p class="bold text-orange">Using JavaScript Engine</p>
+                        <p class="compact">Handles logic execution (like Google's V8).</p>
+                    </div>
+                </div>
+                <div class="highlight-box">
+                    <p class="bold text-blue">The Key Distinction</p>
+                    <p class="compact">Browser Engine = <strong>Visuals</strong> | JS Engine = <strong>Logic</strong>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Slide 10: The Pre-Node.js Problem -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Pre-Node.js Problem</h2>
+                <div class="highlight-box">
+                    <p class="bold text-orange">JavaScript was trapped in the Browser "Prison"</p>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Terminal Reality</h3>
+                        <p class="compact"><code>$ python script.py</code> ✓ works<br><code>$ node script.js</code> ✗
+                            Not found</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>System Limitations</h3>
+                        <p class="compact">No File System access, no Networking outside browser tab.</p>
+                    </div>
+                </div>
+                <div class="highlight-box" style="margin-top: 15px; border-color: var(--vibe-orange);">
+                    <p class="compact"><strong>Result:</strong> Can't read test files, can't write reports, can't
+                        control browsers.</p>
+                </div>
+            </section>
+
+            <!-- Slide 11: How JS Runs Outside Browsers -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>JS Runtime: Outside the Browser</h2>
+                <div class="content-box">
+                    <h3 class="text-blue">Node.js = V8 Engine + C++ Bindings</h3>
+                    <p class="compact">Enabled JS to talk to the Operating System (Windows/Mac/Linux).</p>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Node-Only APIs</h3>
+                        <p class="compact"><code>fs</code> (File System), <code>http</code> (Server),
+                            <code>process</code>.
+                        </p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Browser-Only APIs</h3>
+                        <p class="compact"><code>window</code>, <code>document</code>, <code>localStorage</code>.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 15px;" class="text-green bold">This enabled Test Frameworks to run in Command
+                    Line!</p>
+            </section>
+
+            <!-- Slide 12: The Async Challenge -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Async Challenge</h2>
+                <p class="text-blue bold compact">Why automation was impossible before 2017</p>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Synchronous</h3>
+                        <p class="compact">Wait for completion. Line-by-line execution.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Asynchronous</h3>
+                        <p class="compact">Don't wait. Slow tasks run in background.</p>
+                    </div>
+                </div>
+                <div class="code-snippet">
+                    <span style="color: #79c0ff;">// JavaScript completes task2 first if task1 is slow!</span>
+                    <span style="color: #ff7b72;">const</span> task1 = <span
+                        style="color: #a5d6ff;">slowDatabaseQuery</span>(); <span style="color: #8b949e;">// Start but
+                        don't wait</span>
+                    <span style="color: #ff7b72;">const</span> task2 = <span
+                        style="color: #a5d6ff;">fastUIValidation</span>(); <span style="color: #8b949e;">// This
+                        finishes first</span>
+                </div>
+                <p style="margin-top: 10px;" class="compact text-orange"><strong>Problem:</strong> Tests need sequential
+                    order. Async causes random failures.</p>
+            </section>
+
+            <!-- Slide 13: The Callback Hell Era (Pre-2015) -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Callback Hell Era</h2>
+                <div class="highlight-box">
+                    <p class="bold text-orange">The "Pyramid of Doom"</p>
+                </div>
+                <div class="content-box">
+                    <p class="compact">Before ES6, handling sequential async tasks required nesting functions inside
+                        functions.</p>
+                    <ul style="font-size: 0.75em;">
+                        <li>Deeply nested code - impossible to read</li>
+                        <li>Brackets closing at the end like <code>}})}})</code></li>
+                        <li>A nightmare for test maintenance</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;" class="text-blue bold">Nobody wanted to write large test suites this way!
+                </p>
+            </section>
+
+            <!-- Slide 14: The Two Core Limitations -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Why JS Automation was Blocked</h2>
+                <p class="text-orange bold">21 Years of Struggle (1995-2016)</p>
+                <div class="content-box">
+                    <h3 class="text-blue">Limitation #1: Runtime Environment</h3>
+                    <p class="compact">JS couldn't access File Systems or Terminal. Node.js (2009) fixed this.</p>
+                </div>
+                <div class="content-box">
+                    <h3 class="text-blue">Limitation #2: Async Execution</h3>
+                    <p class="compact">Tests must be sequential. "Async Chaos" made JS tests flakey. async/await (2017)
+                        fixed this.</p>
+                </div>
+            </section>
+
+            <!-- Slide 15: The Breakthrough: ES6 & ES2017 -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Breakthrough: ES6 & ES2017</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>ES6 (2015)</h3>
+                        <p class="compact">Classes, Promises, and Modules. Modern structure.</p>
+                    </div>
+                    <div class="content-box" style="background: #dcfce7; border-color: var(--vibe-green);">
+                        <h3>ES2017</h3>
+                        <p class="compact bold text-orange">async/await Keywords!</p>
+                    </div>
+                </div>
+                <div class="code-snippet">
+                    <span style="color: #79c0ff;">// Result: Clean & Sequential Code ✨</span>
+                    <span style="color: #ff7b72;">async function</span> <span style="color: #d2a8ff;">runTests</span>()
+                    {
+                    <span style="color: #ff7b72;">await</span> <span style="color: #a5d6ff;">login</span>();
+                    <span style="color: #ff7b72;">await</span> <span style="color: #a5d6ff;">verifyDashboard</span>();
+                    }
+                </div>
+            </section>
+
+
+            <!-- Slide 13: TypeScript: The Scaling Solution -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>TypeScript: The Scaling Solution</h2>
+                <div class="highlight-box">
+                    <p class="bold text-blue">Problem: JavaScript is "Too Forgiving"</p>
+                    <p class="compact"><code>add(5, '10')</code> results in <code>"510"</code> - Dangerous for testing!
+                    </p>
+                </div>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>Type Safety</h3>
+                        <p class="compact">Catch errors at <strong>Compile Time</strong> (while writing), not at Runtime
+                            (while testing).</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Smart Autocomplete</h3>
+                        <p class="compact">The IDE suggests code for you. No more guessing function names.</p>
+                    </div>
+                </div>
+                <p style="margin-top: 15px;" class="text-blue bold">TypeScript = JavaScript + Protection.</p>
+            </section>
+
+            <!-- Slide 17: Modern Test Automation Era -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Modern Test Automation Era</h2>
+                <div class="highlight-box">
+                    <p class="bold text-blue">The JavaScript/TypeScript Toolset</p>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 30px;">
+                    <div class="stat-box" style="width: 100%; margin: 0;">
+                        <span class="stat-number">Playwright</span>
+                        <span class="stat-label">AI-Native & Fast</span>
+                    </div>
+                    <div class="stat-box" style="width: 100%; margin: 0;">
+                        <span class="stat-number">Cypress</span>
+                        <span class="stat-label">Developer Focused</span>
+                    </div>
+                    <div class="stat-box" style="width: 100%; margin: 0;">
+                        <span class="stat-number">Puppeteer</span>
+                        <span class="stat-label">Chrome Control</span>
+                    </div>
+                    <div class="stat-box" style="width: 100%; margin: 0;">
+                        <span class="stat-number">TestCafe</span>
+                        <span class="stat-label">No WebDriver</span>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Slide 22: The Perfect Storm -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Perfect Storm</h2>
+                <div class="highlight-box">
+                    <p class="bold text-blue">5 Key Ingredients for JS Dominance</p>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.7em;">
+                    <div class="content-box"><strong>V8 Engine (2008):</strong> Speed</div>
+                    <div class="content-box"><strong>Node.js (2009):</strong> Runtime Env</div>
+                    <div class="content-box"><strong>ES6 Promises (2015):</strong> Structure</div>
+                    <div class="content-box"><strong>async/await (2017):</strong> Sequential Control</div>
+                    <div class="content-box" style="grid-column: span 2; background: #fef3c7;">
+                        <strong>TypeScript:</strong> Scalability & Safety
+                    </div>
+                </div>
+                <p style="margin-top: 15px;" class="text-green bold">The Perfect ecosystem for Test Automation was born.
+                </p>
+            </section>
+
+            <!-- Slide 19: Complete Timeline -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Complete Timeline</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.65em;">
+                    <div class="content-box"><strong>1995:</strong> Created in 10 days</div>
+                    <div class="content-box"><strong>1995-2000:</strong> Browser Wars</div>
+                    <div class="content-box"><strong>1997:</strong> ECMAScript standard born</div>
+                    <div class="content-box"><strong>2000-2009:</strong> Dark Ages (Stagnation)</div>
+                    <div class="content-box"><strong>2005:</strong> AJAX Revolution</div>
+                    <div class="content-box"><strong>2008:</strong> V8 Engine (Speed)</div>
+                    <div class="content-box"><strong>2009:</strong> Node.js (Server-side)</div>
+                    <div class="content-box"><strong>2015:</strong> ES6 (Promises/Classes)</div>
+                    <div class="content-box"><strong>2017:</strong> ES2017 (async/await)</div>
+                    <div class="content-box" style="background: #dcfce7;"><strong>2026:</strong> Test Automation
+                        Dominance</div>
+                </div>
+            </section>
+
+            <!-- Slide 20: Strategic Implications -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Strategic Implications</h2>
+                <div class="highlight-box">
+                    <p class="bold text-orange">JavaScript is No Longer Optional</p>
+                </div>
+                <div class="content-box">
+                    <ul>
+                        <li><strong>Unified Stack:</strong> Reduced context-switching errors.</li>
+                        <li><strong>Efficiency:</strong> Faster development cycles.</li>
+                        <li><strong>Modern Ecosystem:</strong> NPM, AI-based IDEs (Cursor), and 2026 workflows.</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 15px;" class="text-green bold">The transformation from script to OS of the Web is
+                    complete.</p>
+            </section>
+
+            <!-- Slide 21: Key Takeaways -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>Key Takeaways</h2>
+                <div class="two-col">
+                    <div class="content-box">
+                        <h3>10-Day Legacy</h3>
+                        <p class="compact">Speed created quirks, but rapid adoption won the market.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Async Unlocked</h3>
+                        <p class="compact">async/await removed the 21-year barrier for testers.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Community Wins</h3>
+                        <p class="compact">Open source kept JS alive when giants failed.</p>
+                    </div>
+                    <div class="content-box">
+                        <h3>Future-Ready</h3>
+                        <p class="compact">JS is the foundation of AI-powered automation today.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Slide 22: Final Transformation -->
+            <section>
+                <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+                <h2>The Final Transformation</h2>
+                <div class="highlight-box" style="font-size: 1.1em; padding: 25px;">
+                    <p class="bold">"As long as there is a Web, there is JavaScript"</p>
+                </div>
+                <div style="margin-top: 20px;">
+                    <p class="text-blue bold">Join the Era of Automation Excellence</p>
+                    <p class="compact" style="margin-top: 10px;">Understanding history helps us master the future.</p>
+                </div>
+                <p style="font-size: 1em; margin-top: 20px;">
+                    <span style="font-size: 0.9em; color: var(--vibe-orange); font-weight: 700;">- QtpSudhakar</span>
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            if (typeof Reveal !== 'undefined') {
+                Reveal.initialize({
+                    hash: true,
+                    transition: 'slide',
+                    transitionSpeed: 'default',
+                    slideNumber: true,
+                    controls: true,
+                    progress: true,
+                    center: true,
+                    width: 1280,
+                    height: 720,
+                    margin: 0.04
+                });
+            } else {
+                console.error('Reveal.js failed to load');
+            }
+        });
+    </script>
+</body>
+
+</html>

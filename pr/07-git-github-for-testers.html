@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git & GitHub for Testers - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --vibe-blue:#1e40af; --vibe-dark-blue:#1e3a8a; --vibe-green:#22c55e; --vibe-yellow:#fbbf24; --vibe-orange:#f97316; --vibe-light-bg:#f8fafc; }
+        .reveal { background:#ffffff; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        .reveal h1,.reveal h2,.reveal h3 { text-transform:none; font-weight:700; color:var(--vibe-dark-blue); }
+        .reveal h1 { font-size:1.8em; margin-bottom:0.2em; }
+        .reveal h2 { font-size:1.4em; margin-bottom:0.3em; color:var(--vibe-blue); }
+        .reveal h3 { font-size:1.1em; color:var(--vibe-green); margin-bottom:0.2em; }
+        .reveal p,.reveal li { color:#334155; line-height:1.5; }
+        .logo-corner { position:absolute; top:15px; right:25px; z-index:100; }
+        .logo-corner img { width:80px; height:auto; }
+        .title-slide { background:#ffffff !important; }
+        .title-slide .company-header { max-width:800px; margin:0 auto 15px; }
+        .title-slide h1 { font-size:2em; color:var(--vibe-dark-blue); margin:10px 0 8px; }
+        .title-slide .subtitle { font-size:1.2em; color:var(--vibe-orange); margin:10px 0; }
+        .title-slide .tagline { font-size:1em; color:var(--vibe-blue); margin:8px 0 15px; }
+        .content-box { background:var(--vibe-light-bg); border-left:4px solid var(--vibe-blue); padding:8px 15px; margin:5px 0; border-radius:6px; }
+        .highlight-box { background:#fef3c7; border:2px solid var(--vibe-yellow); padding:8px 12px; margin:5px auto; border-radius:8px; max-width:90%; }
+        .reveal ul { list-style:none; margin:8px 0; }
+        .reveal ul li { margin:6px 0; padding-left:35px; position:relative; text-align:left; font-size:0.85em; }
+        .reveal ul li:before { content:"\f058"; font-family:"Font Awesome 6 Free"; font-weight:900; color:var(--vibe-green); font-size:1em; position:absolute; left:0; top:2px; }
+        .reveal ul li.cross:before { content:"\f057"; color:var(--vibe-orange); }
+        .text-blue { color:var(--vibe-blue); } .text-green { color:var(--vibe-green); } .text-orange { color:var(--vibe-orange); } .bold { font-weight:700; }
+        .badge { display:inline-block; background:var(--vibe-orange); color:white; padding:5px 12px; border-radius:20px; font-weight:600; font-size:0.8em; margin:4px; }
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:15px; margin:10px 0; }
+        .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+        .reveal .slides section { padding:10px 30px; }
+        .compact { font-size:0.85em; }
+        .code-snippet { background:#0d1117; border:1px solid #30363d; border-radius:10px; padding:15px; font-family:'Consolas',monospace; font-size:0.65em; overflow-x:auto; margin:10px 0; color:#c9d1d9; text-align:left; white-space:pre; }
+        .vibe-table { width:100%; border-collapse:collapse; margin:10px 0; font-size:0.75em; }
+        .vibe-table th { background:var(--vibe-dark-blue); color:white; padding:8px 10px; text-align:left; }
+        .vibe-table td { padding:7px 10px; border-bottom:1px solid #e2e8f0; color:#334155; }
+        .vibe-table tr:nth-child(even) td { background:var(--vibe-light-bg); }
+    </style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal"><div class="slides">
+
+<!-- Slide 1: Title -->
+<section class="title-slide">
+    <img src="../assets/Title with logo and box.png" alt="VibeTestQ" class="company-header">
+    <h1>Git &amp; GitHub for Testers</h1>
+    <p class="subtitle">Version Control · Branching · Pull Requests · GitHub Actions</p>
+    <p class="tagline">Collaboration and CI/CD fundamentals every SDET must own — Session 7</p>
+    <div style="margin-top:15px;">
+        <span class="badge">Git</span>
+        <span class="badge" style="background:#24292f;">GitHub</span>
+        <span class="badge" style="background:var(--vibe-green);">Actions</span>
+    </div>
+</section>
+
+<!-- Slide 2: Why Git Matters to Testers -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Why Every Tester Needs Git</h2>
+    <div class="two-col">
+        <div class="content-box" style="border-left-color:var(--vibe-orange);">
+            <h3 style="color:var(--vibe-orange);">Without Git</h3>
+            <ul>
+                <li class="cross">test-v1.spec.ts, test-v2.spec.ts, test-FINAL.spec.ts</li>
+                <li class="cross">Can't undo a bad change</li>
+                <li class="cross">Can't collaborate without overwriting</li>
+                <li class="cross">No history of why a test was changed</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>With Git</h3>
+            <ul>
+                <li>Full history of every change with author + reason</li>
+                <li>Branch off, experiment, merge when ready</li>
+                <li>Revert to any point in history</li>
+                <li>Collaborate with PRs + code review</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box">
+        <p class="compact bold">Git is not optional for SDET roles. Every job description requires it. It is also how you showcase your portfolio on GitHub.</p>
+    </div>
+</section>
+
+<!-- Slide 3: Core Git Concepts -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Core Git Concepts</h2>
+    <div class="three-col">
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-blue); margin-bottom:6px;"><i class="fas fa-folder-open"></i></div>
+            <h3>Repository</h3>
+            <p class="compact" style="font-size:0.75em;">A folder with full version history stored in <code>.git/</code>. Can be local or remote (GitHub).</p>
+        </div>
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-green); margin-bottom:6px;"><i class="fas fa-code-branch"></i></div>
+            <h3>Commit</h3>
+            <p class="compact" style="font-size:0.75em;">A snapshot of changes with a message. The atomic unit of Git history.</p>
+        </div>
+        <div class="content-box" style="text-align:center;">
+            <div style="font-size:2em; color:var(--vibe-orange); margin-bottom:6px;"><i class="fas fa-sitemap"></i></div>
+            <h3>Branch</h3>
+            <p class="compact" style="font-size:0.75em;">A parallel line of development. Work on features without affecting <code>main</code>.</p>
+        </div>
+    </div>
+    <div class="two-col" style="margin-top:8px;">
+        <div class="content-box" style="text-align:center;">
+            <h3>Staging Area</h3>
+            <p class="compact" style="font-size:0.75em;">The "draft" area — choose exactly which changes go into the next commit.</p>
+        </div>
+        <div class="content-box" style="text-align:center;">
+            <h3>Remote</h3>
+            <p class="compact" style="font-size:0.75em;">A copy of the repo on GitHub. <code>push</code> sends changes; <code>pull</code> gets them.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 4: Daily Git Commands -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Daily Git Workflow</h2>
+    <div class="code-snippet"># Initial project setup
+git init                              # create a new repo
+git clone https://github.com/org/repo # clone existing repo
+
+# Daily workflow
+git status                            # see what changed
+git add tests/login.spec.ts           # stage specific file
+git add .                             # stage ALL changes
+git commit -m "feat: add login smoke test"
+
+# Remote sync
+git push origin main                  # push to GitHub
+git pull origin main                  # get latest changes
+
+# Branching
+git checkout -b feature/login-tests   # create + switch to branch
+git checkout main                     # switch back
+git merge feature/login-tests         # merge branch
+
+# History
+git log --oneline --graph             # visual history
+git diff HEAD~1                       # diff vs last commit
+
+# Undo
+git restore tests/login.spec.ts       # discard unstaged change
+git reset HEAD~1 --soft               # undo last commit, keep changes</div>
+    <div class="highlight-box">
+        <p class="compact bold">Learn these 15 commands. They cover 95% of your daily Git work.</p>
+    </div>
+</section>
+
+<!-- Slide 5: Branching Strategy for Test Teams -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Branching Strategy for Test Frameworks</h2>
+    <div class="content-box">
+        <table class="vibe-table">
+            <thead><tr><th>Branch</th><th>Purpose</th><th>Rule</th></tr></thead>
+            <tbody>
+                <tr><td><code>main</code></td><td>Stable, working tests</td><td>Never commit directly</td></tr>
+                <tr><td><code>develop</code></td><td>Integration branch</td><td>Merge feature branches here first</td></tr>
+                <tr><td><code>feature/login-tests</code></td><td>New test suite</td><td>One feature = one branch</td></tr>
+                <tr><td><code>fix/flaky-checkout-test</code></td><td>Bug fix in existing test</td><td>Fix + PR + merge</td></tr>
+                <tr><td><code>chore/update-playwright</code></td><td>Dependency update</td><td>Always in separate branch</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="highlight-box">
+        <p class="compact">Convention: <code>type/description-in-kebab-case</code>. Types: <code>feat</code>, <code>fix</code>, <code>chore</code>, <code>refactor</code>, <code>docs</code></p>
+    </div>
+</section>
+
+<!-- Slide 6: Commit Message Convention -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Commit Messages — Conventional Commits</h2>
+    <div class="code-snippet"># Format: type(scope): description
+# Body (optional)
+# Footer (optional)
+
+# Good commit messages
+git commit -m "feat(auth): add login tests for admin and viewer roles"
+git commit -m "fix(checkout): handle timeout on payment page"
+git commit -m "chore(deps): update @playwright/test to v1.52"
+git commit -m "refactor(pom): extract header component into BasePage"
+git commit -m "docs: add README with setup instructions"
+
+# Bad commit messages (avoid)
+# git commit -m "fix"
+# git commit -m "updates"
+# git commit -m "WIP"
+# git commit -m "checkpoint"
+
+# Types: feat, fix, docs, style, refactor, test, chore, perf, ci</div>
+    <div class="highlight-box">
+        <p class="compact">Conventional Commits are machine-readable: tools like <code>semantic-release</code> auto-generate changelogs from them.</p>
+    </div>
+</section>
+
+<!-- Slide 7: GitHub Pull Request Flow -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>The Pull Request (PR) Workflow</h2>
+    <div class="content-box">
+        <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:4px; text-align:center; margin:8px 0;">
+            <div style="background:#dbeafe; border-radius:6px; padding:8px 4px;">
+                <div style="font-size:1.4em; color:var(--vibe-blue);">①</div>
+                <p class="compact" style="font-size:0.7em; margin:2px 0;">Create feature branch</p>
+            </div>
+            <div style="background:#dbeafe; border-radius:6px; padding:8px 4px;">
+                <div style="font-size:1.4em; color:var(--vibe-green);">②</div>
+                <p class="compact" style="font-size:0.7em; margin:2px 0;">Commit changes with good messages</p>
+            </div>
+            <div style="background:#dbeafe; border-radius:6px; padding:8px 4px;">
+                <div style="font-size:1.4em; color:var(--vibe-orange);">③</div>
+                <p class="compact" style="font-size:0.7em; margin:2px 0;">Push branch to GitHub</p>
+            </div>
+            <div style="background:#dbeafe; border-radius:6px; padding:8px 4px;">
+                <div style="font-size:1.4em; color:var(--vibe-blue);">④</div>
+                <p class="compact" style="font-size:0.7em; margin:2px 0;">Open PR for code review</p>
+            </div>
+            <div style="background:#f0fdf4; border-radius:6px; padding:8px 4px; border:1px solid var(--vibe-green);">
+                <div style="font-size:1.4em; color:var(--vibe-green);">⑤</div>
+                <p class="compact" style="font-size:0.7em; margin:2px 0;">Merge to main</p>
+            </div>
+        </div>
+    </div>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Good PR Description Contains</h3>
+            <ul>
+                <li>What the change does (summary)</li>
+                <li>Why it was needed (context)</li>
+                <li>How to test it (reviewer steps)</li>
+                <li>Screenshots/traces if applicable</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>PR Review Checklist</h3>
+            <ul>
+                <li>No hardcoded credentials</li>
+                <li>Tests follow POM pattern</li>
+                <li>Assertions after every action</li>
+                <li>CI pipeline passes</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Slide 8: GitHub Actions Intro -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>GitHub Actions — CI for Playwright</h2>
+    <div class="code-snippet"># .github/workflows/playwright.yml
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/</div>
+    <div class="highlight-box">
+        <p class="compact bold">Every push runs tests automatically. Broken tests block the merge. This is Continuous Integration in action.</p>
+    </div>
+</section>
+
+<!-- Slide 9: Summary -->
+<section>
+    <div class="logo-corner"><img src="../assets/White-Logo.png" alt="VibeTestQ"></div>
+    <h2>Session 7 Recap</h2>
+    <div class="two-col">
+        <div class="content-box">
+            <h3>Git Mastery</h3>
+            <ul>
+                <li>init, clone, status, add, commit, push, pull</li>
+                <li>Branch per feature — never commit to main directly</li>
+                <li>Conventional commit messages</li>
+                <li>Undo with restore and reset --soft</li>
+            </ul>
+        </div>
+        <div class="content-box">
+            <h3>GitHub Skills</h3>
+            <ul>
+                <li>Pull Request flow: branch → PR → review → merge</li>
+                <li>GitHub Actions for CI on every push/PR</li>
+                <li>Upload Playwright report as artifact</li>
+                <li>Protected branches: require passing CI to merge</li>
+            </ul>
+        </div>
+    </div>
+    <div class="highlight-box" style="text-align:center; background:#eff6ff; border-color:var(--vibe-blue);">
+        <p class="bold text-blue">Next: Session 8 — Why Playwright? Architecture vs Selenium, BiDi protocol, MCP</p>
+    </div>
+</section>
+
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+    window.addEventListener('load', function () {
+        if (typeof Reveal !== 'undefined') {
+            Reveal.initialize({ hash:true, transition:'slide', transitionSpeed:'default', slideNumber:true, controls:true, progress:true, center:true, width:1280, height:720, margin:0.04 });
+        }
+    });
+</script>
+</body>
+</html>

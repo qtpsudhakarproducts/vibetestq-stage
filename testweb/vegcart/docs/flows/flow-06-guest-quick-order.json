@@ -1,0 +1,47 @@
+{
+  "name": "Flow 06 – Guest Quick Order",
+  "steps": [
+    {
+      "id": "step_1000000005_0",
+      "toolName": "clear_cart",
+      "params": {},
+      "label": "Clear cart for fresh guest order"
+    },
+    {
+      "id": "step_1000000005_1",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Banana", "quantity": 1 },
+      "label": "Add Banana ×1 (₹49/doz)"
+    },
+    {
+      "id": "step_1000000005_2",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Onions", "quantity": 2 },
+      "label": "Add Onions ×2 (₹35/kg)"
+    },
+    {
+      "id": "step_1000000005_3",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Garlic", "quantity": 1 },
+      "label": "Add Garlic ×1 (₹99/250g)"
+    },
+    {
+      "id": "step_1000000005_4",
+      "toolName": "get_cart_contents",
+      "params": {},
+      "label": "Review cart total"
+    },
+    {
+      "id": "step_1000000005_5",
+      "toolName": "place_order",
+      "params": {
+        "name": "Guest User",
+        "phone": "9000000000",
+        "address": "100 MG Road",
+        "city": "Mumbai",
+        "pincode": "400001"
+      },
+      "label": "Place guest order to 100 MG Road, Mumbai"
+    }
+  ]
+}

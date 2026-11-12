@@ -1,0 +1,53 @@
+{
+  "name": "Flow 04 – Add Daily Essentials to Cart",
+  "steps": [
+    {
+      "id": "step_1000000003_0",
+      "toolName": "clear_cart",
+      "params": {},
+      "label": "Clear any existing cart items"
+    },
+    {
+      "id": "step_1000000003_1",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Tomatoes", "quantity": 2 },
+      "label": "Add Tomatoes ×2 (₹39/kg)"
+    },
+    {
+      "id": "step_1000000003_2",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Onions", "quantity": 1 },
+      "label": "Add Onions ×1 (₹35/kg)"
+    },
+    {
+      "id": "step_1000000003_3",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Carrots", "quantity": 2 },
+      "label": "Add Carrots ×2 (₹45/kg)"
+    },
+    {
+      "id": "step_1000000003_4",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Spinach", "quantity": 1 },
+      "label": "Add Spinach ×1 (₹29/bunch)"
+    },
+    {
+      "id": "step_1000000003_5",
+      "toolName": "add_item_to_cart",
+      "params": { "itemName": "Coriander", "quantity": 2 },
+      "label": "Add Coriander ×2 (₹15/bunch)"
+    },
+    {
+      "id": "step_1000000003_6",
+      "toolName": "get_cart_contents",
+      "params": {},
+      "label": "Review cart contents and total"
+    },
+    {
+      "id": "step_1000000003_7",
+      "toolName": "navigate_to_tab",
+      "params": { "tab": "cart" },
+      "label": "Navigate to Cart tab"
+    }
+  ]
+}

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="theme-color" content="#1e3a8a">
+<title>Speaker Notes — QA Workflows for the AI SDLC</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+    background: #f8fafc;
+    color: #334155;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+}
+
+/* ── Sticky header ── */
+.topbar {
+    position: sticky;
+    top: 0;
+    background: #1e3a8a;
+    color: #fff;
+    padding: 12px 16px;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.topbar h1 { margin: 0 0 2px; font-size: 17px; font-weight: 700; }
+.topbar .sub { font-size: 12px; opacity: 0.8; }
+
+/* ── Intro section ── */
+.intro {
+    background: #fff;
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.intro h2 { margin: 0 0 8px; font-size: 15px; color: #1e40af; }
+.intro p { margin: 6px 0; font-size: 14px; }
+.intro strong { color: #1e3a8a; }
+
+/* ── Slide block ── */
+.slide {
+    background: #fff;
+    margin: 10px 8px;
+    padding: 14px 14px 16px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border-left: 4px solid #1e40af;
+}
+.slide.act-divider {
+    background: #1e3a8a;
+    color: #fff;
+    border-left-color: #22c55e;
+    text-align: center;
+    padding: 20px 14px;
+}
+.slide.act-divider h3 { color: #fff; font-size: 18px; margin: 4px 0; }
+.slide.act-divider .act-sub { color: #cbd5e1; font-size: 13px; margin-top: 4px; }
+
+.slide.hero { border-left-color: #f97316; border-left-width: 6px; background: #fff7ed; }
+.slide.black { background: #0f172a; color: #fff; border-left-color: #f97316; }
+.slide.black .slide-title { color: #fff; }
+.slide.black .slide-num { color: #f97316; }
+
+.slide-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.slide.black .slide-head { border-bottom-color: #334155; }
+.slide-num {
+    background: #f97316;
+    color: #fff;
+    font-weight: 800;
+    font-size: 11px;
+    padding: 2px 7px;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+.slide-title { font-size: 15px; font-weight: 700; color: #1e3a8a; flex: 1; }
+
+.timing {
+    display: inline-block;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.slide p { margin: 6px 0; font-size: 14px; line-height: 1.5; }
+.slide strong { color: #1e3a8a; font-weight: 700; }
+.slide.black strong { color: #fbbf24; }
+.slide em { color: #64748b; }
+
+.script-box {
+    background: #eff6ff;
+    border-left: 3px solid #1e40af;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 13px;
+}
+.slide.black .script-box { background: #1e293b; border-left-color: #60a5fa; color: #e2e8f0; }
+.script-box .label { display: block; font-size: 11px; font-weight: 800; color: #1e40af; letter-spacing: 1px; margin-bottom: 3px; }
+.slide.black .script-box .label { color: #60a5fa; }
+
+.key-line {
+    background: #fef3c7;
+    border: 2px solid #fbbf24;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #78350f;
+}
+.slide.black .key-line { background: #422006; border-color: #fbbf24; color: #fde68a; }
+
+.warning {
+    background: #fff1f2;
+    border-left: 3px solid #ef4444;
+    padding: 7px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #991b1b;
+}
+.slide.black .warning { background: #450a0a; color: #fecaca; }
+
+.pause {
+    background: #fae8ff;
+    border-left: 3px solid #9333ea;
+    padding: 7px 10px;
+    margin: 8px 0;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #581c87;
+    font-style: italic;
+}
+.slide.black .pause { background: #2e1065; color: #e9d5ff; }
+
+/* ── TOC ── */
+.toc {
+    background: #fff;
+    padding: 14px;
+    margin: 0 0 10px;
+    border-bottom: 1px solid #e2e8f0;
+}
+.toc h2 { font-size: 15px; margin: 0 0 10px; color: #1e40af; }
+.toc a {
+    display: block;
+    padding: 8px 10px;
+    font-size: 13px;
+    color: #1e3a8a;
+    text-decoration: none;
+    border-left: 3px solid #22c55e;
+    background: #f8fafc;
+    margin: 4px 0;
+    border-radius: 4px;
+}
+.toc a:active { background: #dbeafe; }
+.toc .toc-time { float: right; color: #64748b; font-size: 11px; }
+
+/* ── Back-to-top ── */
+.back-to-top {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    background: #1e3a8a;
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    z-index: 90;
+}
+.back-to-top:active { background: #f97316; }
+
+/* ── Footer ── */
+.footer {
+    text-align: center;
+    padding: 24px 16px 40px;
+    color: #64748b;
+    font-size: 12px;
+}
+
+/* ── Larger text on mobile ── */
+@media (max-width: 480px) {
+    .slide p, .script-box, .warning, .pause { font-size: 14px; }
+    .slide-title { font-size: 15px; }
+    .key-line { font-size: 14px; }
+}
+
+/* ── Tablet / desktop ── */
+@media (min-width: 768px) {
+    body { max-width: 780px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+    .slide p { font-size: 15px; }
+    .key-line { font-size: 15px; }
+}
+</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+
+<div class="topbar">
+    <h1>🎤 Speaker Notes</h1>
+    <div class="sub">QA Workflows for the AI SDLC · Sudhakar Kakunuri · VibeTestQ</div>
+</div>
+
+<div class="intro">
+    <h2>📖 How to use this</h2>
+    <p><strong>Timing totals:</strong> ~42–48 minutes of talk time. Trim fast-flip sections if your slot is 45 min.</p>
+    <p><strong>Key line</strong> (yellow) = own this, memorize it, say it slowly.</p>
+    <p><strong>Script box</strong> (blue) = verbatim lines for anchor moments.</p>
+    <p><strong>Pause cue</strong> (purple) = deliberate silence — count it.</p>
+    <p><strong>Warning</strong> (red) = anti-pattern or non-negotiable delivery note.</p>
+</div>
+
+<!-- ───── TOC ───── -->
+<div class="toc" id="top">
+    <h2>📑 Acts at a glance</h2>
+    <a href="#act1">Act 1 — The Confession <span class="toc-time">~5 min</span></a>
+    <a href="#act2">Act 2 — The Reversal <span class="toc-time">~6 min</span></a>
+    <a href="#act3">Act 3 — Types of AI SDLC <span class="toc-time">~7 min</span></a>
+    <a href="#act4">Act 4 — The Generation Gap <span class="toc-time">~3 min</span></a>
+    <a href="#act5">Act 5 — Tool Landscape <span class="toc-time">~5 min</span></a>
+    <a href="#act6">Act 6 — QA Workflows <span class="toc-time">~7 min</span></a>
+    <a href="#act7">Act 7 — Tools × Workflows <span class="toc-time">~5 min</span></a>
+    <a href="#act8">Act 8 — Integration <span class="toc-time">~4 min</span></a>
+    <a href="#act9">Act 9 — Where is this heading <span class="toc-time">~3 min</span></a>
+    <a href="#act10">Act 10 — Close <span class="toc-time">~2 min</span></a>
+</div>
+
+<!-- ═══════════ ACT 1 ═══════════ -->
+<div class="slide act-divider" id="act1">
+    <h3>ACT 1 — THE CONFESSION</h3>
+    <div class="act-sub">Earn trust · Admit what we got wrong</div>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">1</span><span class="slide-title">Title Slide</span></div>
+    <span class="timing">⏱ 30 sec</span>
+    <p>Walk on. Don't rush. Let the title breathe 5 seconds.</p>
+    <div class="script-box">
+        <span class="label">OPENING</span>
+        "Before we start — this isn't a talk about AI. It's a talk about us. About something our industry got wrong for a long time."
+    </div>
+    <div class="pause">Pause. Click.</div>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">2</span><span class="slide-title">Before I begin</span></div>
+    <span class="timing">⏱ 90 sec — slow down</span>
+    <p>This is where you earn the room. Speak slowly. Make eye contact.</p>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "I've spent 21 years in this industry. Trained 10,000+ engineers. Given 50+ keynotes. So the least I owe this room — is to tell you what we got wrong. Not AI. Us. The IT industry."
+    </div>
+    <div class="pause">Pause <strong>3–4 seconds</strong>. Let the posture shift in the room. Then click.</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">3</span><span class="slide-title">Mistake #1 — We Chose Disconnection</span></div>
+    <span class="timing">⏱ 2 min</span>
+    <p>Engage before telling them the answer.</p>
+    <div class="script-box">
+        <span class="label">ASK THE ROOM</span>
+        "Quick show of hands — who uses Jira?" (most hands)<br>
+        "Who uses GitHub or GitLab?" (most hands)<br>
+        "Notice something? Jira ships with Bitbucket. You chose GitHub. We did this to ourselves."
+    </div>
+    <div class="key-line">💡 "We didn't inherit fragmentation. We chose it."</div>
+    <p>Don't moralize. State it as fact. Move on.</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">4</span><span class="slide-title">Mistake #2 — We Never Cared About Traceability</span></div>
+    <span class="timing">⏱ 2 min</span>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "Honestly — when code changed last sprint, did anyone know exactly which tests to re-run?"
+    </div>
+    <p>Wait. Let the silence confirm.</p>
+    <div class="key-line">💡 "AI didn't break our SDLC. It exposed a debt we refused to pay."</div>
+    <div class="pause">Pause here. First thesis statement. Let it land.</div>
+</div>
+
+<!-- ═══════════ ACT 2 ═══════════ -->
+<div class="slide act-divider" id="act2">
+    <h3>ACT 2 — THE REVERSAL</h3>
+    <div class="act-sub">AI is paying back the debt — but not for us</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">5</span><span class="slide-title">Act 2 Divider</span></div>
+    <span class="timing">⏱ 15 sec</span>
+    <p>"Here's the twist. Everything we failed to build for 20 years — AI is now building. But not for us. For itself."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">6</span><span class="slide-title">The IDE is Becoming the OS of Your Project</span></div>
+    <span class="timing">⏱ 90 sec</span>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "Think about Cursor, Copilot, Antigravity. What do they do that VS Code from 2020 didn't?"
+    </div>
+    <p>They're not text editors anymore. They remember intent, read the whole project, talk to Jira.</p>
+    <div class="key-line">💡 "The IDE is becoming the OS of your project."</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">7</span><span class="slide-title">From Code Repository → Project Repository</span></div>
+    <span class="timing">⏱ 90 sec</span>
+    <p>This is the conceptual shift that everything downstream depends on. Make it simple.</p>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "We used to put only code in the repo. Everything else lived elsewhere — Jira, Confluence, TestRail, Slack. AI couldn't see it. Now the repo holds the entire project. Every artifact. Version-controlled. AI-readable."
+    </div>
+    <p>Don't belabor. Move to the next slide — where you challenge your own claim.</p>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">8</span><span class="slide-title">Wait — Am I Saying Replace Jira?</span></div>
+    <span class="timing">⏱ 90 sec — POWER MOMENT</span>
+    <p>Intellectually honest moment. Audiences remember this.</p>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Wait — am I saying replace Jira? No. Your team uses Jira and TestRail today. Both things cannot be true. So which is it?"
+    </div>
+    <p>Pause. Then answer:</p>
+    <div class="script-box">
+        <span class="label">ANSWER</span>
+        "The Project Repository doesn't replace Jira. It adds a layer on top. Jira owns the human process. The repo owns the machine context. Nothing thrown away."
+    </div>
+    <p><em>This slide builds trust. People will quote this later.</em></p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">9</span><span class="slide-title">The Artifact: graph.json</span></div>
+    <span class="timing">⏱ 2 min</span>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Let me make this concrete. This is the file. graph.json. You commit it to your repo. AI updates it on every commit. Every query to AI reads it. Requirements, code, tests — all linked."
+    </div>
+    <p>Point at the left panel: "This is how it's created."<br>
+    Point at the right panel: "This is what a single entry looks like."</p>
+    <div class="key-line">💡 "The traceability debt — paid by a file in your repo."</div>
+    <div class="warning">Don't explain every JSON field. Let them scan it.</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">10</span><span class="slide-title">Documentation: Finally Getting Solved</span></div>
+    <span class="timing">⏱ 60 sec</span>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "How many times has your team asked developers for proper documentation? And how many times did you get it?"
+    </div>
+    <p>Small laugh expected. Then the insight:</p>
+    <div class="key-line">💡 "Documentation wasn't solved for us. It's being solved because AI needs it more than we do."</div>
+    <p>Quick slide. Move on.</p>
+</div>
+
+<!-- ═══════════ ACT 3 ═══════════ -->
+<div class="slide act-divider" id="act3">
+    <h3>ACT 3 — TYPES OF AI SDLC</h3>
+    <div class="act-sub">Which type is your team actually running?</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">11</span><span class="slide-title">Act 3 Divider</span></div>
+    <span class="timing">⏱ 15 sec</span>
+    <p>"Let's talk about the 5 types of AI SDLC. Each one is not just a stage — it's a different <em>driver</em> controlling your SDLC."</p>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">12</span><span class="slide-title">The Types of AI SDLC — With Meaning</span></div>
+    <span class="timing">⏱ 90 sec — DIAGNOSTIC MOMENT</span>
+    <p>Most important slide of Act 3. Don't read the tiles aloud.</p>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Five types. Five different drivers. Look at each one — and privately note which one is actually running your SDLC right now."
+    </div>
+    <div class="pause">Pause <strong>5–7 seconds</strong>. Let them scan.</div>
+    <div class="script-box">
+        <span class="label">THEN</span>
+        "Now note which one you tell people you're in. Those are usually not the same."
+    </div>
+    <p>Don't wait for confirmation. Move on — the discomfort is the teaching.</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">13</span><span class="slide-title">Each Type is a Shift in the Center of Control</span></div>
+    <span class="timing">⏱ 45 sec</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "Each type is really a shift in who controls the SDLC. Humans, then tools, then specs, then workflows, then AI, then governance. Every step, the center of control moves."
+    </div>
+    <p><em>Quotable line. Reframes from "maturity" to "who decides."</em></p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">14</span><span class="slide-title">Type 1 — AI-Assisted</span></div>
+    <span class="timing">⏱ 60 sec</span>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "Raise your hand if your team 'uses Copilot' — but your sprint ceremonies haven't changed at all."
+    </div>
+    <p>Most hands go up.</p>
+    <div class="key-line">💡 "That's Type 1. Individual speed up 30%. System speed up zero."</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">15</span><span class="slide-title">Type 2 — Spec-Driven (think BDD, reborn)</span></div>
+    <span class="timing">⏱ 75 sec</span>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Those of us who lived through BDD a decade ago will recognize this. Given/When/Then. The idea was right. It just needed AI to actually work."
+    </div>
+    <p>Engineers over 35 will nod. That's deliberate — validates the older audience while sounding contemporary.</p>
+    <div class="key-line">💡 "It's BDD — reborn."</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">16</span><span class="slide-title">Type 3 — Parallel Stream</span></div>
+    <span class="timing">⏱ 45 sec</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "This is where most teams want to be. Dev and QA starting at the same moment. No waiting. Built, tested, automated — same sprint."
+    </div>
+    <p><em>Don't oversell. Most teams think they're here. Very few actually are.</em></p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">17</span><span class="slide-title">Type 4 — Agentic</span></div>
+    <span class="timing">⏱ 45 sec</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "This is the frontier. Agents plan, code, test, heal. Humans govern — they don't execute."
+    </div>
+    <div class="warning">⚠ "The agent approved it" is not a legal defense. The human gate stays.</div>
+    <p><em>That line matters if anyone in your audience is in a regulated industry.</em></p>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">18</span><span class="slide-title">Type 5 + Uncomfortable Truth</span></div>
+    <span class="timing">⏱ 60 sec — UNCOMFORTABLE MOMENT</span>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Type 5 is banking, healthcare, fintech. Where 'AI did it' is not a legal defense."
+    </div>
+    <p>Then pause. Lean in slightly.</p>
+    <div class="key-line">💡 "Most teams are Type 1 — dressed up as Type 3. And pretending doesn't help when production breaks."</div>
+    <div class="warning">Don't apologize. Don't soften. Let it sit.</div>
+</div>
+
+<!-- ═══════════ ACT 4 ═══════════ -->
+<div class="slide act-divider" id="act4">
+    <h3>ACT 4 — THE GENERATION GAP</h3>
+    <div class="act-sub">The one idea you carry home</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">19</span><span class="slide-title">Act 4 Divider</span></div>
+    <span class="timing">⏱ 10 sec</span>
+    <p>Longest pause of the talk coming up. Prepare yourself.</p>
+    <p>"Now — to the one idea I want you to take home."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">20</span><span class="slide-title">Why Every AI Vendor Chased Generation First</span></div>
+    <span class="timing">⏱ 60 sec</span>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "Every AI demo you've watched in the last 2 years — generation or validation? Now think — why?"
+    </div>
+    <p>Let them think. Then:</p>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Generation sells itself. It fits in a 90-second demo. It funds the next round. It goes viral. Validation? Doesn't demo. Takes context. Measured by what didn't break. No viral moment."
+    </div>
+    <p><em>Setting up the black slide.</em></p>
+</div>
+
+<div class="slide black hero">
+    <div class="slide-head"><span class="slide-num">21</span><span class="slide-title">🎯 THE BLACK SLIDE</span></div>
+    <span class="timing">⏱ 45 sec — MIC-DROP MOMENT</span>
+    <div class="warning"><strong>DO NOT RUSH.</strong> Click to the slide. Then say NOTHING for 5 seconds.</div>
+    <p>Let the room read it. Let it become uncomfortable.</p>
+    <div class="script-box">
+        <span class="label">THEN, SLOWLY</span>
+        "Generation is 2026. Validation is 2023. Three years behind. That gap has a name. It also has an owner."
+    </div>
+    <div class="pause">Pause again. Then click.</div>
+    <div class="key-line">🔥 This is the 10-second silence moment of the whole talk. OWN IT.</div>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">22</span><span class="slide-title">This Is QA's Moment</span></div>
+    <span class="timing">⏱ 60 sec</span>
+    <p>Now flip from tension to opportunity.</p>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Most people hear 'validation is 3 years behind' and get defensive. Wrong read. The gap is territory. Whoever closes it — owns the next decade of quality."
+    </div>
+    <div class="key-line">💡 "The generation gap is not a problem. It's a career."</div>
+    <p><em>This is your LinkedIn quote. Say it clearly.</em></p>
+</div>
+
+<!-- ═══════════ ACT 5 ═══════════ -->
+<div class="slide act-divider" id="act5">
+    <h3>ACT 5 — TOOL LANDSCAPE</h3>
+    <div class="act-sub">Fast flip-through · Don't deep-dive</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">23</span><span class="slide-title">Act 5 Divider</span></div>
+    <span class="timing">⏱ 15 sec — shift gears</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "Okay. Philosophy over. Let's get practical. What tools do you actually have? I'll flip through 7 categories. Don't try to memorize. They're in the deck — I'll share it."
+    </div>
+    <p><em>This is your permission-granting sentence. Frees the audience to stop taking notes and listen.</em></p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">24</span><span class="slide-title">7 Categories Overview</span></div>
+    <span class="timing">⏱ 45 sec</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "Seven categories. No vendor sells all seven. And that's deliberate. Your job is composition — not buying a single tool."
+    </div>
+    <p>Then move. Categories get one slide each.</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">25</span><span class="slide-title">1. Browser Assistant Agents</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"Browser assistant agents — Comet and Claude in Chrome. They use the page like a user would. Great for exploratory. Don't use for deterministic regression."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">26</span><span class="slide-title">2. MCPs — Model Context Protocol</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"MCPs are the USB-C of AI. Plug any AI into the browser via one standard. Playwright MCP, Chrome CDP MCP. No lock-in."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">27</span><span class="slide-title">3. AI IDE Browser Agents</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"Copilot, Antigravity, Cursor. The same IDE that wrote the code now runs the browser. Validation enters the commit loop. Step-change."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">28</span><span class="slide-title">4. Platform AI</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"This is the category that actually operationalises the Project Repository we talked about. Rovo ties Jira, Confluence, Bitbucket. Claude plugins reason across artifacts. Custom agents on MCP."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">29</span><span class="slide-title">5. Playwright Agents</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"Playwright went agentic. Planner writes scenarios. Generator writes code. Healer fixes locators at runtime. Three composable agents."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">30</span><span class="slide-title">6. Cloud-Scale AI Testing</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"When you need 40 device-browser combos at scale — BrowserStack's AI agents. Cloud-scale validation with AI flakiness diagnosis."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">31</span><span class="slide-title">7. Runtime Self-Healing</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"Your existing framework. One API key. 30 lines of glue. Self-healing."</p>
+    <div class="warning">⚠ Every heal must be logged. Silent fixes hide real regressions.</div>
+</div>
+
+<!-- ═══════════ ACT 6 ═══════════ -->
+<div class="slide act-divider" id="act6">
+    <h3>ACT 6 — QA WORKFLOWS</h3>
+    <div class="act-sub">11 workflows · Design · Execution · Intelligence</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">32</span><span class="slide-title">Act 6 Divider</span></div>
+    <span class="timing">⏱ 15 sec</span>
+    <p>"Now — the workflows themselves. Grouped by purpose, not by where they run."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">33</span><span class="slide-title">A QA Workflow is Not a Test Case</span></div>
+    <span class="timing">⏱ 45 sec</span>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "If I ask most teams for their workflows, they send me a test case template. That's not a workflow. A workflow is a loop — end to end, continuous, learns from production."
+    </div>
+    <div class="key-line">💡 "A test case fires once. A workflow runs forever."</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">34</span><span class="slide-title">11 Workflows Grouped</span></div>
+    <span class="timing">⏱ 60 sec</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "11 workflows. Three groups. Design is before testing starts. Execution is during. Intelligence is what the system learns."
+    </div>
+    <div class="key-line">💡 "Design shapes quality. Execution delivers it. Intelligence compounds it."</div>
+    <div class="warning">⚠ Next 10 slides are workflow details. Announce: "I'll hit the 4 most important. Rest are in the deck for later."</div>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">35</span><span class="slide-title">WF1 — Requirements → Scenarios</span></div>
+    <span class="timing">⏱ 60 sec — GO DEEP</span>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "How long does it take your team, from receiving a user story, to solid test scenarios the team agrees on?" (Most will say days.)
+    </div>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "Minutes. If WF1 runs right. AI extracts testable conditions, flags ambiguity before dev starts, QA approves. Done."
+    </div>
+    <p><em>This is the gateway workflow. Without it, nothing downstream works.</em></p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">36</span><span class="slide-title">WF5 — Automation Generation</span></div>
+    <span class="timing">⏱ 45 sec</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "Scenarios exist. Code exists. Nothing stops the test code from writing itself — if AI has both."
+    </div>
+    <div class="warning">⚠ "More code ≠ more coverage. Always review."</div>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">37</span><span class="slide-title">WF8 — Coverage Audit</span></div>
+    <span class="timing">⏱ 60 sec — MAKE THIS LAND</span>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "When code changed last sprint — how did you know your tests still covered what mattered? Or did you just trust the green suite?"
+    </div>
+    <div class="pause">Pause. Let them squirm a little.</div>
+    <div class="key-line">💡 "Green tests ≠ covered tests." — OWN THIS LINE.</div>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">38</span><span class="slide-title">WF11 — Production Feedback Loop</span></div>
+    <span class="timing">⏱ 75 sec — IMPORTANT</span>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "When a bug escapes to production — what actually feeds back into your next sprint? A Jira ticket? Or nothing?"
+    </div>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "WF11 closes the loop. Production bug → AI generates a test → added to next sprint → never happens again."
+    </div>
+    <div class="key-line">💡 "Production stops being the end of the pipeline. It becomes the start of the next sprint."</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">39</span><span class="slide-title">WF2 — Exploratory Planning</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"WF2. Exploratory — but deliberate. AI proposes risk areas, QA explores, findings feed the next sprint."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">40</span><span class="slide-title">WF3 + WF4 — Test Data & Bug Triage</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"WF3 — test data generation. WF4 — bug triage. Two workflows that quietly eat sprint hours. Both solved at generation speed."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">41</span><span class="slide-title">WF6 — Test Maintenance</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"WF6. Test maintenance. The hidden sprint killer."</p>
+    <div class="warning">⚠ Without QA review — the suite stays green because it's gutted. Review gate non-negotiable.</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">42</span><span class="slide-title">WF7 — Self-Healing Tests</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"WF7 — self-healing at runtime. Pipelines stay green despite UI drift. But every heal is logged. Silent fixes hide real regressions."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">43</span><span class="slide-title">WF9 + WF10 — The Quality Gates</span></div>
+    <span class="timing">⏱ 30 sec · FLIP</span>
+    <p>"WF9 is the feature readiness gate. WF10 is the CI quality gate. Together, they turn 'ready to release' from an opinion into an auditable artifact."</p>
+    <p><em>Setup for Act 8 — "evidence not opinion."</em></p>
+</div>
+
+<!-- ═══════════ ACT 7 ═══════════ -->
+<div class="slide act-divider" id="act7">
+    <h3>ACT 7 — TOOLS × WORKFLOWS</h3>
+    <div class="act-sub">Fast flip · Composition stacks</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">44</span><span class="slide-title">Act 7 Divider</span></div>
+    <span class="timing">⏱ 15 sec</span>
+    <p>"No single tool completes a workflow. Composition is the skill. Let me show you how the stacks come together — fast flip, deep reference."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">45</span><span class="slide-title">The Composition Principle</span></div>
+    <span class="timing">⏱ 45 sec</span>
+    <div class="key-line">💡 "QA's new job title: Workflow Composer."</div>
+    <p>Don't oversell. State it. Move.</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">46</span><span class="slide-title">Stack — WF1 Requirements → Scenarios</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"WF1 stack. Rovo reads the story. Claude plugin flags ambiguity. Cursor drafts scenarios. Playwright MCP validates. graph.json stores the link. 5 tools. 1 workflow."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">47</span><span class="slide-title">Stack — WF5 Automation Generation</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"WF5 stack. graph.json + AI IDE + Playwright MCP + Healer + BrowserStack. Scenario to cross-browser test. Unbroken chain. Generation speed."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">48</span><span class="slide-title">Stack — WF8 Coverage Audit</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"WF8 stack. Webhook fires on PR. Custom MCP agent reads the diff. Claude reasons about coverage. Rovo raises a ticket. No new dashboard. No new tool."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">49</span><span class="slide-title">Stack — WF11 Production Feedback Loop</span></div>
+    <span class="timing">⏱ 30 sec · FLIP</span>
+    <p>"WF11 stack. Observability detects. MCP agent correlates to graph.json. Claude proposes the test. Rovo creates next-sprint backlog. Playwright agent generates."</p>
+    <div class="key-line">💡 "A human approves. A human does not write."</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">50</span><span class="slide-title">Stack — WF2 Exploratory</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"WF2 stack — exploratory. Diff + graph.json + Claude in Chrome + Rovo in Confluence. Exploration becomes cumulative."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">51</span><span class="slide-title">Stacks — WF3 + WF4</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"WF3 — test data. WF4 — bug triage. Both stacks. Scenario-driven data. AI triage with graph.json context."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">52</span><span class="slide-title">Stack — WF6 Test Maintenance</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"WF6 stack. Merge webhook + graph.json + AI IDE + Playwright MCP + QA human gate. Test maintenance without the sprint tax."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">53</span><span class="slide-title">Stack — WF7 Self-Healing</span></div>
+    <span class="timing">⏱ 20 sec · FLIP</span>
+    <p>"WF7 stack. Your framework + an AI API key + 30 lines of glue. Self-healing. No new tool bought."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">54</span><span class="slide-title">Stacks — WF9 + WF10 Gates</span></div>
+    <span class="timing">⏱ 25 sec · FLIP</span>
+    <p>"WF9 — feature readiness. WF10 — CI quality gate. Both enforce: tests linked, coverage intact, no silent heals. Merges become auditable."</p>
+</div>
+
+<!-- ═══════════ ACT 8 ═══════════ -->
+<div class="slide act-divider" id="act8">
+    <h3>ACT 8 — INTEGRATION</h3>
+    <div class="act-sub">The session title, finally resolved</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">55</span><span class="slide-title">Act 8 Divider</span></div>
+    <span class="timing">⏱ 15 sec — SLOW DOWN</span>
+    <p>"Now — the session title. QA Workflows for the AI SDLC. Everything we've built so far comes together here."</p>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">56</span><span class="slide-title">Current State — Parallel Disconnected Streams</span></div>
+    <span class="timing">⏱ 60 sec — THE CALLBACK</span>
+    <p>Callback to Mistake #1 from Act 1. Let the audience feel it.</p>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Look at this. Dev has its AI. QA has its AI. Different tools. Different dashboards. No shared context."
+    </div>
+    <div class="pause">Pause. Lean in.</div>
+    <div class="key-line">💡 "We're re-creating our mistake — at generation speed."</div>
+    <p><em>This is the loop closing back to Act 1. Ring the bell.</em></p>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">57</span><span class="slide-title">Integrated State — The Unified Loop</span></div>
+    <span class="timing">⏱ 75 sec — HERO SLIDE</span>
+    <p>This is the thesis landing.</p>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Here's what integrated looks like. Requirement to WF1 gate. AI code plus AI tests running parallel. WF5 and WF8 gates. Merge. Production. WF11 loops back."
+    </div>
+    <div class="key-line">💡 "One loop. Not two streams. QA workflows are gates — not a parallel universe."</div>
+    <div class="pause">Let it sit. This is where the session title resolves.</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">58</span><span class="slide-title">Match Workflow to SDLC Type</span></div>
+    <span class="timing">⏱ 45 sec</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "Match the workflow to your type. Mismatch equals failure. Type 4 workflows in a Type 1 team collapse. Type 1 workflows in a Type 3 team leave value on the table."
+    </div>
+    <div class="key-line">💡 "Start with your actual type. Not the one on your slides."</div>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">59</span><span class="slide-title">Evidence, Not Opinion</span></div>
+    <span class="timing">⏱ 90 sec — EXECUTIVE MOMENT</span>
+    <p>Slow down. This is the line your audience will quote in LinkedIn posts.</p>
+    <div class="script-box">
+        <span class="label">ASK</span>
+        "At sprint end, when leadership asks 'can we ship' — what does your team answer with today?"
+    </div>
+    <p>Listen. Usually: "I think so." "Tests passed." "QA signed off."</p>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "That's opinion. That's trust. That's hope. With these workflows, you answer with evidence."
+    </div>
+    <div class="key-line">💡 "Release decisions from evidence — not opinion." — OWN THIS ONE.</div>
+    <div class="pause">Pause. Let it land.</div>
+</div>
+
+<!-- ═══════════ ACT 9 ═══════════ -->
+<div class="slide act-divider" id="act9">
+    <h3>ACT 9 — WHERE IS THIS HEADING?</h3>
+    <div class="act-sub">AI takes the middle · Humans anchor the ends</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">60</span><span class="slide-title">Act 9 Divider</span></div>
+    <span class="timing">⏱ 15 sec</span>
+    <p>"Last section before we close. Where is this heading? What does the future actually look like?"</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">61</span><span class="slide-title">AI Has Taken the Middle</span></div>
+    <span class="timing">⏱ 90 sec</span>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Look at any modern SDLC. Humans still own intent — product, architecture, risk. AI has taken execution — code, tests, optimization. Humans still own accountability — governance, production, compliance."
+    </div>
+    <div class="key-line">💡 (In AI's voice) "AI has taken the middle. You define the intent and own the outcome. The execution in between is mine."</div>
+    <p><em>Say that line slowly. It's a quote worth sitting with.</em></p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">62</span><span class="slide-title">The Middle is Expanding. The Ends Are Not.</span></div>
+    <span class="timing">⏱ 60 sec</span>
+    <div class="script-box">
+        <span class="label">SAY</span>
+        "Here's the nuance though. The middle is expanding. AI is starting to propose architectures, make operational calls. The boundary isn't fixed."
+    </div>
+    <div class="key-line">💡 "What stays with humans isn't tasks. It's accountability. Ownership."</div>
+    <p>Closing line of this slide: "AI owns execution. Humans stay anchored at intent and accountability."</p>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">63</span><span class="slide-title">The AI IDE Becomes the Command Center</span></div>
+    <span class="timing">⏱ 75 sec</span>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "The AI IDE becomes the command center. One environment holding everything — requirements, code, tests, diagrams, pipelines. Version-controlled. AI-maintained."
+    </div>
+    <div class="script-box">
+        <span class="label">CLARIFY</span>
+        "Jira-PM might get replaced — because the AI IDE tracks progress from actual code. But CI/CD doesn't disappear. It's the engine running beneath."
+    </div>
+    <div class="key-line">💡 "AI IDE = interface. CI/CD = engine. PM tools = legacy."</div>
+</div>
+
+<!-- ═══════════ ACT 10 ═══════════ -->
+<div class="slide act-divider" id="act10">
+    <h3>ACT 10 — THE CLOSE</h3>
+    <div class="act-sub">The thesis · Monday assignment · Silence</div>
+</div>
+
+<div class="slide">
+    <div class="slide-head"><span class="slide-num">64</span><span class="slide-title">The Generation Gap Is Your Job</span></div>
+    <span class="timing">⏱ 60 sec — SETUP FOR FINAL</span>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "So here's what I want you to carry home. AI didn't break QA. It exposed a debt we refused to pay. Generation is 2026. Validation is 2023. That gap is not a problem. It's a career."
+    </div>
+    <div class="key-line">💡 "If we design the workflows right — validation runs at generation speed."</div>
+    <p>Then — the final slide.</p>
+</div>
+
+<div class="slide hero">
+    <div class="slide-head"><span class="slide-num">65</span><span class="slide-title">🎯 FINAL — Your Monday Assignment</span></div>
+    <span class="timing">⏱ 90 sec — THE CLOSE</span>
+    <div class="script-box">
+        <span class="label">SCRIPT</span>
+        "Here's your job Monday morning. Not one thing. All seven categories."
+    </div>
+    <p>Read the list, slowly. Let them photograph it.</p>
+    <div class="key-line">💡 "Touch each one. Build something small. Compose, don't just consume."</div>
+    <div class="pause">Pause.</div>
+    <div class="key-line">🎯 FINAL LINE: "That's how you close the generation gap."</div>
+    <div class="pause">Pause 3 seconds.</div>
+    <p>"Thank you."</p>
+    <p><em>Step back from the podium. Take a breath. Q&A.</em></p>
+</div>
+
+<div class="footer">
+    <p>🎤 Good luck, Sudhakar.</p>
+    <p>VibeTestQ · vibetestq.com</p>
+</div>
+
+<a href="#top" class="back-to-top" aria-label="Back to top">↑</a>
+
+</body>
+</html>

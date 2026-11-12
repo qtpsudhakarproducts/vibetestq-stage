@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment: Playwright Test Runner - VibeTestQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>:root{--primary:#ea580c;--primary-dark:#c2410c;--secondary:#22c55e;--danger:#ef4444;--bg:#f8fafc;--card-bg:#ffffff;--text:#1e293b;--text-light:#64748b;--border:#e2e8f0;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Inter',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;padding:20px;}.container{max-width:800px;margin:0 auto;}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:30px;padding-bottom:20px;border-bottom:2px solid var(--border);}.logo img{height:50px;}.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--primary-dark);font-weight:600;padding:6px 10px;border-radius:6px;}.back-link:hover{background:#fff7ed;color:var(--primary);}.assessment-title{text-align:right;}.assessment-title h1{font-size:1.5rem;color:var(--primary-dark);}.assessment-title p{font-size:0.9rem;color:var(--text-light);}.card{background:var(--card-bg);border-radius:12px;padding:30px;box-shadow:0 4px 6px -1px rgba(0,0,0,0.1);margin-bottom:20px;}.question{margin-bottom:25px;padding-bottom:20px;border-bottom:1px solid var(--border);}.question:last-child{border-bottom:none;}.question-text{font-weight:600;font-size:1.1rem;margin-bottom:15px;display:flex;gap:10px;}.question-number{color:var(--primary);min-width:25px;}.options{display:grid;gap:10px;}.option{display:flex;align-items:center;padding:12px 15px;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.2s;}.option:hover{background-color:#f1f5f9;border-color:var(--primary);}.option input{margin-right:15px;cursor:pointer;}.option.correct{border-color:var(--secondary);background-color:#ecfdf5;}.option.incorrect{border-color:var(--danger);background-color:#fef2f2;}.question.unanswered{border:2px solid var(--danger)!important;background-color:#fef2f2!important;border-radius:8px;padding:15px!important;}.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;border:none;gap:8px;font-size:1rem;transition:all 0.2s;}.btn-primary{background-color:var(--primary);color:white;}.btn-primary:hover{background-color:var(--primary-dark);}.btn-success{background-color:var(--secondary);color:white;}.result-section{display:none;text-align:center;animation:fadeIn 0.5s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}.score-display{font-size:3rem;font-weight:800;color:var(--primary);margin:20px 0;}.feedback-text{font-size:1.2rem;margin-bottom:30px;}.name-input-section{margin-top:30px;padding-top:20px;border-top:1px solid var(--border);}.name-input-section label{display:block;margin-bottom:10px;font-weight:500;}.name-input-section input{padding:10px 15px;border:1px solid var(--border);border-radius:6px;width:100%;max-width:300px;margin-bottom:15px;}.toast{position:fixed;top:20px;right:20px;padding:15px 25px;background:#ef4444;color:white;border-radius:8px;display:none;z-index:1000;font-weight:500;}.explanation{margin-top:10px;font-size:0.9rem;color:var(--text-light);display:none;padding:10px;background:#f8fafc;border-radius:4px;border-left:3px solid var(--primary);}@media print{.btn,.name-input-section{display:none!important;}body{background:white;padding:0;}.card{box-shadow:none;}.explanation,.result-section{display:block!important;}#printed-name{display:block!important;text-align:center;margin-bottom:20px;font-size:1.5rem;font-weight:700;color:var(--primary-dark);border-bottom:1px solid var(--border);padding-bottom:10px;}}#printed-name{display:none;}code{background:#f1f5f9;padding:2px 4px;border-radius:4px;color:#e11d48;font-family:monospace;}pre{background:#1e293b;color:#f8fafc;padding:15px;border-radius:8px;overflow-x:auto;margin:10px 0;font-size:0.85rem;}@media(max-width:640px){body{padding:12px;}.container{padding:0;}header{flex-direction:column;align-items:flex-start;gap:10px;padding-bottom:15px;}.assessment-title{text-align:left;}.logo img{height:38px;}.back-link{align-self:flex-start;font-size:0.85rem;}.card{padding:18px 14px;}.question-text{font-size:1rem;}.option{padding:10px 12px;}.score-display{font-size:2.2rem;}.name-input-section input{max-width:100%;width:100%;}.btn{padding:10px 18px;font-size:0.95rem;}}</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="container">
+    <header>
+        <div class="logo"><img src="../../../assets/Title with logo and box.png" alt="VibeTestQ Logo"></div>
+        <a class="back-link" href="index.html"><i class="fas fa-arrow-left"></i> Back to Assessments Home</a>
+        <div class="assessment-title"><h1>Assessment</h1><p>Loading topics...</p></div>
+    </header>
+    <div id="result-container" class="card result-section">
+        <div id="printed-name"></div>
+        <h2>Assessment Completed!</h2>
+        <div id="score-display" class="score-display">0 / 0</div>
+        <p id="feedback-text" class="feedback-text"></p>
+        <div class="name-input-section">
+            <label for="student-name">Enter your name for the report:</label>
+            <input type="text" id="student-name" placeholder="Your Full Name"><br>
+            <button class="btn btn-success" onclick="preparePrint()"><i class="fas fa-print"></i> Print Result</button>
+        </div>
+    </div>
+    <div id="quiz-container"><div class="card"><form id="quiz-form"></form></div></div>
+    <footer style="text-align:center;margin-top:40px;color:var(--text-light);font-size:0.8rem;">&copy; 2026 VibeTestQ. All rights reserved.</footer>
+</div>
+<script type="text/plain" id="assessment-markdown">
+# Assessment: Playwright Test Runner
+
+**Total Questions:** 20
+**Time:** 20 minutes
+**Pass Mark:** 60%
+**Topics:** test.describe, Hooks, Assertions, Soft Assertions, Fixtures, Workers, Reporters
+
+---
+
+## Questions
+
+### Question 1
+Which Playwright function groups related tests into a named suite?
+
+A) test.suite()
+B) test.block()
+C) test.describe()
+D) test.group()
+
+**Answer: C) test.describe()**
+
+**Explanation:** `test.describe('Suite Name', () => { ... })` groups related tests. Hooks like `beforeEach` inside a `describe` apply only to tests within that group.
+
+---
+
+### Question 2
+What is the correct execution order for Playwright hooks?
+
+A) beforeEach → beforeAll → test → afterAll → afterEach
+B) beforeAll → beforeEach → test → afterEach → afterAll
+C) beforeAll → test → beforeEach → afterEach → afterAll
+D) beforeEach → test → afterAll → beforeAll → afterEach
+
+**Answer: B) beforeAll → beforeEach → test → afterEach → afterAll**
+
+**Explanation:** `beforeAll` runs once before any test in the group. `beforeEach` runs before every single test. After each test runs `afterEach`, and `afterAll` runs once at the very end.
+
+---
+
+### Question 3
+Which assertion checks that a locator contains a specific text fragment?
+
+A) expect(locator).hasText()
+B) expect(locator).toContainText()
+C) expect(locator).includesText()
+D) expect(locator).textContains()
+
+**Answer: B) expect(locator).toContainText()**
+
+**Explanation:** `toContainText()` checks that the element's text content includes the given substring. Use `toHaveText()` for an exact match.
+
+---
+
+### Question 4
+What does `expect.soft(locator).toBeVisible()` do differently from a regular `expect`?
+
+A) It retries the assertion 10 times before failing
+B) It logs a warning to the console instead of failing
+C) It records the failure but allows the test to continue executing
+D) It skips subsequent assertions in the same test
+
+**Answer: C) It records the failure but allows the test to continue executing**
+
+**Explanation:** Soft assertions accumulate failures without stopping the test. At the end of the test, all soft assertion failures are reported together. Use them when you want to gather multiple failures in one run.
+
+---
+
+### Question 5
+What is a Playwright fixture?
+
+A) A type of CSS locator
+B) A special assertion method
+C) A reusable piece of setup/teardown that is injected into tests automatically
+D) A configuration shortcut for playwright.config.ts
+
+**Answer: C) A reusable piece of setup/teardown that is injected into tests automatically**
+
+**Explanation:** Fixtures are the dependency injection mechanism in Playwright Test. They manage setup/teardown logic and are declared as function parameters in test functions.
+
+---
+
+### Question 6
+What does `test.use({ storageState: 'auth.json' })` do when placed at the top of a test file?
+
+A) Saves the current browser storage to auth.json
+B) Clears all stored credentials
+C) Makes all tests in the file load the saved browser state (logged-in session)
+D) Enables offline mode for the test file
+
+**Answer: C) Makes all tests in the file load the saved browser state (logged-in session)**
+
+**Explanation:** `storageState` pre-loads cookies, localStorage, and sessionStorage from a saved file, eliminating the need to log in before each test.
+
+---
+
+### Question 7
+What does `workers: 4` in `playwright.config.ts` control?
+
+A) The number of retries per test
+B) The number of test files in a batch
+C) The maximum number of parallel browser instances running simultaneously
+D) The timeout in seconds for each worker
+
+**Answer: C) The maximum number of parallel browser instances running simultaneously**
+
+**Explanation:** `workers` sets the concurrency level. With `workers: 4`, up to 4 test files (or individual tests with `fullyParallel`) run in parallel, speeding up the overall suite.
+
+---
+
+### Question 8
+What is the difference between `test.beforeAll` and `test.beforeEach`?
+
+A) `beforeAll` runs before every test; `beforeEach` runs once per file
+B) `beforeAll` runs once for the entire describe block; `beforeEach` runs before every individual test
+C) They are functionally identical
+D) `beforeAll` only runs if all tests pass
+
+**Answer: B) `beforeAll` runs once for the entire describe block; `beforeEach` runs before every individual test**
+
+**Explanation:** Use `beforeAll` for expensive setup shared by all tests (e.g., seeding a database). Use `beforeEach` for setup that must be fresh per test (e.g., navigating to a page).
+
+---
+
+### Question 9
+What does `test.fail()` do in Playwright?
+
+A) Forces the test to fail immediately
+B) Marks the test as expected to fail — it PASSES if it fails, and FAILS if it unexpectedly passes
+C) Skips the test with a failure message
+D) Sets the test retry count to 0
+
+**Answer: B) Marks the test as expected to fail — it PASSES if it fails, and FAILS if it unexpectedly passes**
+
+**Explanation:** `test.fail()` is used for known bugs. It inverts the pass/fail logic so the suite stays green while tracking known failures. Remove it once the bug is fixed.
+
+---
+
+### Question 10
+What does `expect(locator).toHaveCount(5)` verify?
+
+A) The element has 5 child nodes
+B) Exactly 5 elements match the locator
+C) The element's text is exactly "5"
+D) The element appears 5 times per second
+
+**Answer: B) Exactly 5 elements match the locator**
+
+**Explanation:** `toHaveCount()` auto-waits until the number of matching elements equals the expected count. Useful for asserting table rows, list items, etc.
+
+---
+
+### Question 11
+How do you create custom fixtures by extending from Playwright's base test?
+
+A) Overriding fixtures in playwright.config.ts
+B) Editing files in node_modules/@playwright/test
+C) Using `test.extend({ myFixture: ... })`
+D) Adding fixtures in a global setup file
+
+**Answer: C) Using `test.extend({ myFixture: ... })`**
+
+**Explanation:** `const test = base.extend({ myFixture: async ({}, use) => { ... await use(value); } })` creates a new test object with the custom fixture available to all tests that import it.
+
+---
+
+### Question 12
+What does `--reporter=html` do when running Playwright tests?
+
+A) Takes a screenshot of each test
+B) Opens the browser in headed mode
+C) Generates a static HTML report file in the `playwright-report` folder
+D) Enables trace collection for all tests
+
+**Answer: C) Generates a static HTML report file in the `playwright-report` folder**
+
+**Explanation:** The HTML reporter creates a rich interactive report. Run `npx playwright show-report` to open it after the test run.
+
+---
+
+### Question 13
+What does `test.describe.parallel()` do?
+
+A) Runs tests inside the block sequentially
+B) Enables tests within the describe block to run in parallel with each other
+C) Skips all tests in the block
+D) Adds a timeout to the entire describe block
+
+**Answer: B) Enables tests within the describe block to run in parallel with each other**
+
+**Explanation:** Normally, tests within a `describe` run sequentially. `test.describe.parallel()` allows them to run concurrently, which is useful when tests are independent.
+
+---
+
+### Question 14
+Which assertion checks that an element has a specific CSS class applied?
+
+A) expect(locator).cssContains()
+B) expect(locator).matchClass()
+C) expect(locator).hasClass()
+D) expect(locator).toHaveClass()
+
+**Answer: D) expect(locator).toHaveClass()**
+
+**Explanation:** `toHaveClass()` checks the element's `class` attribute using a string or regex. It auto-waits for the class to be present.
+
+---
+
+### Question 15
+What is the purpose of `globalSetup` in `playwright.config.ts`?
+
+A) It runs before every individual test
+B) It configures the browser instance
+C) It runs once before the entire test suite — ideal for one-time authentication setup
+D) It generates test fixture defaults
+
+**Answer: C) It runs once before the entire test suite — ideal for one-time authentication setup**
+
+**Explanation:** `globalSetup` is a file path to a script that runs once before any tests. It is commonly used to perform login once and save the storage state for reuse.
+
+---
+
+### Question 16
+What does `expect(locator).toHaveAttribute('href', '/employees')` verify?
+
+A) The element's text content is '/employees'
+B) The element's CSS class contains 'employees'
+C) The element has an `href` attribute equal to `/employees`
+D) The element's data attribute is '/employees'
+
+**Answer: C) The element has an `href` attribute equal to `/employees`**
+
+**Explanation:** `toHaveAttribute(name, value)` checks that the element has the specified HTML attribute with the given value. It auto-waits for the attribute to match.
+
+---
+
+### Question 17
+What does `page.evaluate(() => document.title)` do?
+
+A) Returns the page URL
+B) Runs JavaScript in the browser context and returns the document title
+C) Evaluates Playwright assertions
+D) Logs the page title to the terminal
+
+**Answer: B) Runs JavaScript in the browser context and returns the document title**
+
+**Explanation:** `page.evaluate()` executes a JavaScript function inside the browser and returns the result. It bridges Node.js (test code) and the browser (page context).
+
+---
+
+### Question 18
+What does `expect(page).toHaveURL(/dashboard/)` verify?
+
+A) An element with text "dashboard" is visible
+B) The page URL matches the regex `/dashboard/`
+C) The page title contains "dashboard"
+D) The URL must be exactly "/dashboard"
+
+**Answer: B) The page URL matches the regex `/dashboard/`**
+
+**Explanation:** `toHaveURL()` accepts a string, regex, or glob. A regex allows partial URL matching, which is useful when the exact path may vary.
+
+---
+
+### Question 19
+What option in `playwright.config.ts` enables capturing traces when tests fail?
+
+A) `screenshot: 'on-first-retry'`
+B) `video: 'on'`
+C) `trace: 'on-first-retry'`
+D) `debug: 'on-failure'`
+
+**Answer: C) `trace: 'on-first-retry'`**
+
+**Explanation:** Setting `trace: 'on-first-retry'` in the `use` block captures a trace file when a test is retried. The trace contains screenshots, network, and action history for debugging.
+
+---
+
+### Question 20
+What does `test.slow()` do when called inside a test?
+
+A) Adds a fixed 5-second delay before each assertion
+B) Marks the test as expected to timeout
+C) Triples the test's default timeout to allow for slower operations
+D) Runs the test in headed mode only
+
+**Answer: C) Triples the test's default timeout to allow for slower operations**
+
+**Explanation:** `test.slow()` multiplies the default timeout by 3 for that specific test. This is useful for tests that legitimately take longer without globally extending all timeouts.
+
+---
+
+</script>
+<script>(()=>{const mn=document.getElementById('assessment-markdown');if(!mn)return;const md=mn.textContent.trim(),form=document.getElementById('quiz-form'),te=document.querySelector('.assessment-title h1'),se=document.querySelector('.assessment-title p'),sd=document.getElementById('score-display');const data=pAM(md);rA(data);function pAM(raw){const lines=raw.replace(/\r\n/g,'\n').split('\n');const tl=lines.find(l=>l.trim().startsWith('# '))||'',rt=tl.replace(/^#\s*/,'').trim(),ct=rt.replace(/^Assessment\s*\d*\s*:?\s*/i,'').replace(/\bMCQ\b/i,'').trim();let topics='';const tpL=lines.find(l=>/^\*\*Topics/i.test(l));if(tpL){const p=tpL.split(':');topics=p.length>1?p.slice(1).join(':').replace(/\*\*/g,'').trim():'';}const qbs=[];let inQ=false,stop=false,cur=null;for(const line of lines){const t=line.trim();if(/^##\s*Questions/i.test(t)){inQ=true;continue;}if(inQ&&/^##\s+/i.test(t)&&!/^##\s*Questions/i.test(t)){stop=true;if(cur){qbs.push(cur);cur=null;}continue;}if(!inQ||stop)continue;if(/^###\s*Question\s*\d+/i.test(t)){if(cur)qbs.push(cur);cur=[];continue;}if(cur)cur.push(line);}if(cur)qbs.push(cur);return{title:ct||rt||'Assessment',topics,questions:qbs.map(b=>pqb(b)).filter(q=>q.options.length>0)};}function pqb(lines){const ql=[],opts=[],exl=[];let ans='',ce=false;lines.forEach(line=>{const t=line.trim();if(/^\*\*Answer:/i.test(t)){const m=t.match(/Answer:\s*([A-D])/i);if(m)ans=m[1].toLowerCase();ce=false;return;}if(/^\*\*Explanation:/i.test(t)){ce=true;const x=t.replace(/^\*\*Explanation:\*\*\s*/i,'').replace(/^\*\*Explanation:\s*/i,'').trim();if(x)exl.push(x);return;}if(ce){if(t==='---')ce=false;else exl.push(line);return;}const m=t.match(/^[-*]?\s*([A-D])\)\s*(.*)$/);if(m){opts.push({letter:m[1].toLowerCase(),text:m[2].trim()});return;}if(t==='---'||/^##/.test(t))return;ql.push(line);});if(!ans&&opts.length>0)ans=opts[0].letter;const{promptLine:pl,bodyLines:bl}=spb(ql);return{promptHtml:fic(pl||'Select the correct option.'),bodyHtml:flh(bl),options:opts.map(o=>({letter:o.letter,html:fic(o.text)})),answer:ans,explanationHtml:flh(exl)};}function spb(lines){let p='';const b=[];let f=false;lines.forEach(l=>{if(!f&&l.trim()&&!l.trim().startsWith('```')){p=l.trim();f=true;}else b.push(l);});return{promptLine:p,bodyLines:b};}function flh(lines){if(!lines.length)return'';const pts=[];let inCB=false,cL=[],tL=[];const flT=()=>{if(!tL.length)return;pts.push(tL.map(fic).join('<br>'));tL=[];};lines.forEach(l=>{const t=l.trim();if(t.startsWith('```')){if(inCB){pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);cL=[];inCB=false;}else{flT();inCB=true;}return;}if(inCB)cL.push(l);else if(t!=='')tL.push(l);});if(cL.length)pts.push(`<pre><code>${eh(cL.join('\n'))}</code></pre>`);flT();return pts.join('');}function fic(text){if(!text)return'';return text.split('`').map((s,i)=>i%2===1?`<code>${eh(s)}</code>`:eh(s)).join('');}function eh(v){return v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}function rA(data){const h=data.title?`Assessment: ${data.title}`:'Assessment';te.textContent=h;se.textContent=data.topics||data.title||'Multiple Choice Questions';document.title=`${h} - VibeTestQ`;form.innerHTML='';data.questions.forEach((q,i)=>form.appendChild(bqe(q,i)));const sw=document.createElement('div');sw.style.cssText='text-align:center;margin-top:30px;';sw.innerHTML=`<button type="button" class="btn btn-primary" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Assessment</button>`;form.appendChild(sw);sd.textContent=`0 / ${data.questions.length}`;}function bqe(question,index){const qEl=document.createElement('div');qEl.className='question';qEl.dataset.answer=question.answer;const qT=document.createElement('div');qT.className='question-text';const n=document.createElement('span');n.className='question-number';n.textContent=`${index+1}.`;const tx=document.createElement('span');tx.innerHTML=question.promptHtml;qT.appendChild(n);qT.appendChild(tx);qEl.appendChild(qT);if(question.bodyHtml){const bd=document.createElement('div');bd.className='question-body';bd.innerHTML=question.bodyHtml;qEl.appendChild(bd);}const os=document.createElement('div');os.className='options';question.options.forEach(opt=>{const lbl=document.createElement('label');lbl.className='option';const inp=document.createElement('input');inp.type='radio';inp.name=`q${index+1}`;inp.value=opt.letter;const sp=document.createElement('span');sp.innerHTML=opt.html;lbl.appendChild(inp);lbl.appendChild(sp);os.appendChild(lbl);});qEl.appendChild(os);const ex=document.createElement('p');ex.className='explanation';ex.innerHTML=question.explanationHtml||'';qEl.appendChild(ex);return qEl;}window.submitQuiz=function(){const qs=document.querySelectorAll('.question');let score=0;const ua=[];qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);if(!s){ua.push(q);q.classList.add('unanswered');}else q.classList.remove('unanswered');});if(ua.length>0){showToast('Please answer all questions before submitting.');ua[0].scrollIntoView({behavior:'smooth',block:'center'});return;}qs.forEach((q,i)=>{const s=form.querySelector(`input[name="q${i+1}"]:checked`);const c=q.getAttribute('data-answer');const ex=q.querySelector('.explanation');if(ex)ex.style.display='block';q.querySelectorAll('.option').forEach(opt=>{const r=opt.querySelector('input');if(r.value===c)opt.classList.add('correct');if(s&&r===s&&r.value!==c)opt.classList.add('incorrect');});if(s&&s.value===c)score++;});document.getElementById('result-container').style.display='block';document.getElementById('score-display').innerText=`${score} / ${qs.length}`;const pct=(score/qs.length)*100;const fb=pct===100?'Perfect Score! Playwright test runner fully mastered!':pct>=80?'Excellent! Strong grasp of the test runner.':pct>=60?'Good job! Review fixtures, hooks and soft assertions.':'Keep learning! Re-read Chapter 07 and practice test structures.';document.getElementById('feedback-text').innerText=fb;form.querySelectorAll('input').forEach(i=>i.disabled=true);const btn=form.querySelector('button');if(btn)btn.style.display='none';window.scrollTo({top:0,behavior:'smooth'});};window.preparePrint=function(){const n=document.getElementById('student-name').value;document.getElementById('printed-name').innerText=n?'Student: '+n:'';window.print();};function showToast(msg){let t=document.getElementById('toast');if(!t){t=document.createElement('div');t.id='toast';t.className='toast';document.body.appendChild(t);}t.innerText=msg;t.style.display='block';setTimeout(()=>{t.style.display='none';},3000);}})();</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:03.500
+A locator breaks
+The shop renamed a button. The test still looks for the old one.
+
+00:00:03.500 --> 00:00:07.000
+Shield finds the same element
+It finds the element the test meant, by what it is for, and clicks it.
+
+00:00:07.000 --> 00:00:10.500
+apply-heals writes it into your code
+Each healed locator is changed where it is defined, ready for a pull request.
+
+00:00:10.500 --> 00:00:14.500
+A rerun with healing off proves it
+When the next CI run passes with the new locator, the heal is Fixed.
+
+00:00:14.500 --> 00:00:16.000
+Now on the real screens
+Northstar Shop, a demo project with a week of CI runs.
+
+00:00:16.000 --> 00:00:17.810
+Shield shows the heals of every run.
+
+00:00:17.810 --> 00:00:24.750
+Each test with a broken locator, and how often it healed.
+
+00:00:24.750 --> 00:00:28.540
+Before and after: the locator that broke, and the one Shield used.
+
+00:00:28.540 --> 00:00:32.190
+In the code: the change is proposed in pull request #58.
+
+00:00:32.190 --> 00:00:35.440
+A rerun with healing off passed: the heal is Verified.
+
+00:00:35.440 --> 00:00:41.790
+The same heal is in the run, in RunSights.

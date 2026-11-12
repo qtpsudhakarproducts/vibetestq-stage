@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Workflows for the AI SDLC — VibeTestQ</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/simple.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --vibe-blue: #1e40af;
+    --vibe-dark-blue: #1e3a8a;
+    --vibe-green: #22c55e;
+    --vibe-yellow: #fbbf24;
+    --vibe-orange: #f97316;
+    --vibe-light-bg: #f8fafc;
+}
+.reveal { background: #ffffff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+.reveal h1, .reveal h2, .reveal h3 { text-transform: none; font-weight: 700; color: var(--vibe-dark-blue); }
+.reveal h1 { font-size: 1.6em; margin-bottom: 0.15em; }
+.reveal h2 { font-size: 1.25em; margin-bottom: 0.2em; color: var(--vibe-blue); }
+.reveal h3 { font-size: 0.95em; color: var(--vibe-green); margin-bottom: 0.15em; }
+.reveal p, .reveal li { color: #334155; line-height: 1.4; }
+.reveal .slides section { padding: 6px 28px; box-sizing: border-box; }
+.logo-corner { position: absolute; top: 10px; right: 20px; z-index: 100; }
+.logo-corner img { width: 70px; height: auto; }
+.title-slide { background: #ffffff !important; }
+.title-slide h1 { font-size: 1.7em; color: var(--vibe-dark-blue); margin: 8px 0 6px; }
+.title-slide .subtitle { font-size: 1.05em; color: var(--vibe-orange); margin: 6px 0; }
+.title-slide .tagline  { font-size: 0.9em; color: var(--vibe-blue); margin: 5px 0 10px; }
+.chapter-slide { background: #1e3a8a !important; }
+.chapter-slide h1 { color: #ffffff; font-size: 2em; margin-bottom: 10px; }
+.chapter-slide h2 { color: #94a3b8; font-size: 1.2em; }
+.chapter-slide i  { color: var(--vibe-green); }
+.chapter-slide p  { color: #94a3b8; }
+.pause-slide { background: #0f172a !important; }
+.pause-slide h1 { color: #ffffff; font-size: 2.4em; font-weight: 900; line-height: 1.3; }
+.pause-slide h2 { color: var(--vibe-orange); font-size: 1.8em; font-weight: 800; }
+.pause-slide p { color: #64748b; font-size: 0.9em; }
+.content-box { background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+.highlight-box { background: #fef3c7; border: 2px solid var(--vibe-yellow); padding: 6px 10px; margin: 4px auto; border-radius: 8px; max-width: 92%; }
+.success-box { background: #f0fdf4; border-left: 4px solid var(--vibe-green); padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+.warning-box { background: #fff1f2; border-left: 4px solid #ef4444; padding: 6px 12px; margin: 4px 0; border-radius: 6px; }
+.question-box { background: #eff6ff; border: 2px dashed var(--vibe-blue); padding: 6px 12px; margin: 6px auto; border-radius: 8px; max-width: 94%; text-align: center; }
+.question-box p { color: var(--vibe-dark-blue); font-weight: 600; font-size: 0.82em; margin: 0; }
+.reveal ul { list-style: none; margin: 5px 0; }
+.reveal ul li { margin: 4px 0; padding-left: 30px; position: relative; text-align: left; font-size: 0.8em; line-height: 1.35; }
+.reveal ul li:before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--vibe-green); font-size: 0.95em; position: absolute; left: 0; top: 1px; }
+.reveal ul li.cross:before { content: "\f057"; color: var(--vibe-orange); }
+.reveal ul li.warn:before  { content: "\f071"; color: var(--vibe-yellow); }
+.reveal ul li.blue:before  { content: "\f058"; color: var(--vibe-blue); }
+.reveal ul li.red:before   { content: "\f057"; color: #ef4444; }
+.reveal ul li.dot:before   { content: "\f111"; font-size: 0.45em; top: 6px; color: #94a3b8; }
+.text-blue { color: var(--vibe-blue); }
+.text-green { color: var(--vibe-green); }
+.text-yellow { color: var(--vibe-yellow); }
+.text-orange { color: var(--vibe-orange); }
+.text-red { color: #ef4444; }
+.text-purple { color: #9333ea; }
+.bold { font-weight: 700; }
+.badge { display: inline-block; background: var(--vibe-orange); color: white; padding: 4px 10px; border-radius: 20px; font-weight: 600; font-size: 0.75em; margin: 3px; }
+.badge.blue { background: var(--vibe-blue); }
+.badge.green { background: #16a34a; }
+.badge.purple { background: #7c3aed; }
+.badge.red { background: #dc2626; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 6px 0; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 6px 0; }
+.four-col { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin: 6px 0; }
+.compact { font-size: 0.8em; line-height: 1.35; }
+.compact2 { font-size: 0.74em; line-height: 1.3; }
+.icon-box { text-align: center; padding: 10px 8px; background: var(--vibe-light-bg); border-radius: 8px; }
+.icon-box i { font-size: 1.5em; margin-bottom: 5px; display: block; }
+.icon-box.blue i { color: var(--vibe-blue); }
+.icon-box.green i { color: var(--vibe-green); }
+.icon-box.orange i { color: var(--vibe-orange); }
+.icon-box.purple i { color: #9333ea; }
+.icon-box.red i { color: #ef4444; }
+.flow-container { background: #f1f5f9; border-radius: 8px; padding: 10px; margin: 6px 0; }
+.arrow-flow { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
+.arrow-flow .step { background: var(--vibe-blue); color: white; padding: 5px 10px; border-radius: 6px; font-weight: 600; font-size: 0.65em; }
+.arrow-flow .step.green { background: var(--vibe-green); }
+.arrow-flow .step.orange { background: var(--vibe-orange); }
+.arrow-flow .step.purple { background: #9333ea; }
+.arrow-flow .step.red { background: #ef4444; }
+.arrow-flow .step.dark { background: #334155; }
+.arrow-flow .arrow { color: var(--vibe-orange); font-size: 1.1em; }
+.cmp-table { width: 100%; border-collapse: collapse; font-size: 0.7em; margin: 6px 0; }
+.cmp-table th { background: var(--vibe-blue); color: white; padding: 5px 8px; text-align: left; font-weight: 600; }
+.cmp-table td { padding: 4px 8px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+.cmp-table tr:nth-child(even) td { background: var(--vibe-light-bg); }
+.cmp-table .good { color: #16a34a; font-weight: 600; }
+.cmp-table .bad  { color: #dc2626; font-weight: 600; }
+.cmp-table .warn { color: var(--vibe-orange); font-weight: 600; }
+.big-quote { text-align: center; font-size: 1.1em; font-weight: 700; color: var(--vibe-dark-blue); padding: 14px; line-height: 1.4; }
+.stack-row { display: flex; align-items: center; gap: 8px; background: var(--vibe-light-bg); border-left: 4px solid var(--vibe-blue); border-radius: 6px; padding: 6px 12px; margin: 4px 0; font-size: 0.78em; }
+.stack-row .num { background: var(--vibe-orange); color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-size: 0.9em; }
+.stack-row .tool { font-weight: 700; color: var(--vibe-dark-blue); flex: 0 0 auto; }
+.stack-row .act { color: #64748b; font-style: italic; }
+.code-snippet { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 10px 14px; font-family: 'Consolas', monospace; font-size: 0.58em; margin: 6px 0; color: #c9d1d9; text-align: left; white-space: pre; line-height: 1.6; }
+</style>
+<meta name="robots" content="noindex, nofollow"></head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ═══ TITLE ═══ -->
+<section class="title-slide">
+<img src="https://vibetestq.com/assets/Title with logo and box.png" alt="VibeTestQ" style="max-width:560px;width:86%;margin:0 auto 10px;display:block;" onerror="this.style.display='none'">
+<h1>QA Workflows for the AI SDLC</h1>
+<p class="subtitle">"VALIDATION is a generation behind GENERATION. That gap is our job."</p>
+<p class="tagline">Sudhakar Kakunuri &middot; QtpSudhakar &middot; 21 years in QA &middot; Founder, VibeTestQ</p>
+<div style="margin-top:10px;">
+<span class="badge"><i class="fas fa-brain"></i> AI-Native QA</span>
+<span class="badge blue"><i class="fas fa-cogs"></i> Real Tools</span>
+<span class="badge green"><i class="fas fa-bolt"></i> Real Workflows</span>
+</div>
+</section>
+
+<!-- ─── S2: The opening provocation ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-hourglass-half" style="color:var(--vibe-orange)"></i> Before I begin&mdash;</h2>
+<div style="text-align:center;padding:20px 10px 10px;">
+<p style="font-size:1em;color:#64748b;">I've spent 21 years inside this industry. Trained 10,000+ engineers. Delivered 50+ keynotes.</p>
+<p style="font-size:1.15em;font-weight:800;color:var(--vibe-dark-blue);margin-top:20px;line-height:1.4;">So the least I owe this room&hellip;</p>
+<p style="font-size:1.5em;font-weight:900;color:#ef4444;margin-top:14px;line-height:1.3;">is to tell you what we got wrong.</p>
+</div>
+<div class="question-box" style="margin-top:14px;">
+<p>&#128172; Not AI. <em>Us.</em> The IT industry.</p>
+</div>
+</section>
+
+<!-- ─── S3: The disconnection mistake ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-unlink" style="color:#ef4444"></i> Mistake #1 &mdash; We Chose Disconnection</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Quick question: What tools does your team use for project management, code, and test cases? Are they from the same vendor?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-orange);">
+<p class="bold text-blue"><i class="fas fa-box-open"></i> What was offered</p>
+<ul>
+<li class="blue">Atlassian: Jira <strong>+</strong> Bitbucket (ready, integrated)</li>
+<li class="blue">Azure DevOps: PM <strong>+</strong> Repos <strong>+</strong> Test Plans</li>
+<li class="blue">GitLab: PM <strong>+</strong> Code <strong>+</strong> CI/CD</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:#ef4444;background:#fff1f2;">
+<p class="bold" style="color:#be123c;"><i class="fas fa-random"></i> What we chose</p>
+<ul>
+<li class="red">Jira for PM &mdash; but GitHub for code</li>
+<li class="red">Azure DevOps for code &mdash; but Jira for PM</li>
+<li class="red">TestRail separately. Confluence separately. Slack separately.</li>
+</ul>
+</div>
+</div>
+<div class="warning-box" style="margin-top:8px;">
+<p class="compact bold"><i class="fas fa-exclamation-triangle text-red"></i> We didn't inherit fragmentation. <strong>We chose it.</strong> Tool by tool. Decision by decision.</p>
+</div>
+</section>
+
+<!-- ─── S4: The traceability we never built ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-eye-slash" style="color:#ef4444"></i> Mistake #2 &mdash; We Never Cared About Traceability</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Be honest &mdash; when code changed last sprint, <em>did anyone</em> know which tests to re-run, or did you just re-run everything?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-orange);">
+<p class="bold text-blue"><i class="fas fa-heart"></i> What we loved</p>
+<ul>
+<li class="red">Manual regression planning every release</li>
+<li class="red">Root-cause-by-memory (ask the senior tester)</li>
+<li class="red">"Let's just re-run the full suite"</li>
+<li class="red">Tribal knowledge in people's heads</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:#ef4444;background:#fff1f2;">
+<p class="bold" style="color:#be123c;"><i class="fas fa-times-circle"></i> What we never built</p>
+<ul>
+<li class="red"><strong>Which tests are impacted by this code change?</strong></li>
+<li class="red"><strong>Which requirement does this code implement?</strong></li>
+<li class="red"><strong>What regression risk did my commit just introduce?</strong></li>
+</ul>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;">AI didn't break our SDLC. It exposed a <span style="color:#ef4444;">debt</span> we refused to pay.</p>
+</div>
+</section>
+
+<!-- ═══ ACT 2 DIVIDER ═══ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:50px 0;">
+<i class="fas fa-sync-alt" style="font-size:3.5em;margin-bottom:14px;display:block;"></i>
+<h1>Act 2 &mdash; The Reversal</h1>
+<h2>AI is paying back the debt &mdash; but not for us.</h2>
+<p style="margin-top:12px;font-size:0.88em;">The IDE becomes the OS. Code repository becomes project repository. Traceability finally gets solved.</p>
+</div>
+</section>
+
+<!-- ─── S6: IDE as OS ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-microchip" style="color:var(--vibe-blue)"></i> The IDE Is Becoming the OS of Your Project</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Think about Cursor, Copilot, Antigravity. What exactly do they <em>do</em> that your old IDE didn't?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:#94a3b8;">
+<p class="bold text-blue"><i class="fas fa-file-code"></i> Old IDE: A Text Editor</p>
+<ul>
+<li class="dot">Syntax highlighting</li>
+<li class="dot">Compile / run / debug</li>
+<li class="dot">One file in focus at a time</li>
+<li class="dot">The project lived elsewhere</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-green);">
+<p class="bold text-blue"><i class="fas fa-server"></i> New IDE: An Operating System</p>
+<ul>
+<li>Reads every file in the project</li>
+<li>Remembers your intent across sessions</li>
+<li>Talks to Jira, runs browsers, calls APIs</li>
+<li>Hosts agents that reason across the codebase</li>
+</ul>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.93em;">The IDE is no longer where you <em>write code</em>. It's where the <strong>project lives</strong>.</p>
+</div>
+</section>
+
+<!-- ─── S7: Code repo → Project repo ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-database" style="color:var(--vibe-green)"></i> From Code Repository &rarr; Project Repository</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; What if every artifact &mdash; requirements, code, tests, decisions, bugs &mdash; lived under one roof that AI could read?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:#94a3b8;background:#f1f5f9;">
+<p class="bold"><i class="fas fa-code-branch text-blue"></i> Code Repository (yesterday)</p>
+<ul>
+<li class="dot">Source code only</li>
+<li class="dot">Requirements in Jira</li>
+<li class="dot">Tests in TestRail</li>
+<li class="dot">Decisions in Slack</li>
+<li class="dot">Docs in Confluence</li>
+<li class="warn">AI sees one slice of your project.</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-green);background:#f0fdf4;">
+<p class="bold"><i class="fas fa-folder-tree text-green"></i> Project Repository (today)</p>
+<ul>
+<li>Requirements &mdash; machine-readable</li>
+<li>Code &mdash; linked to requirements</li>
+<li>Tests &mdash; linked to both</li>
+<li>Decisions &mdash; captured as context</li>
+<li>Bugs &mdash; linked to code and tests</li>
+<li>AI sees the <strong>whole project</strong>.</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ─── S8: The reconciliation ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-balance-scale" style="color:var(--vibe-orange)"></i> Wait &mdash; Am I Saying "Replace Jira"?</h2>
+<div class="question-box" style="margin-bottom:10px;">
+<p>&#128172; I just said "Project Repository." But your team uses Jira and TestRail today. Both things cannot be true. So which is it?</p>
+</div>
+<div class="highlight-box" style="margin:10px 0;">
+<p class="bold text-blue" style="text-align:center;font-size:1em;">The Project Repository doesn't <span style="color:#ef4444;">replace</span> Jira. It <span style="color:var(--vibe-green);">adds</span> a new layer on top.</p>
+</div>
+<div class="two-col">
+<div class="success-box">
+<p class="bold"><i class="fas fa-users text-green"></i> Jira + TestRail (keep)</p>
+<p class="compact">Own the <strong>human process layer</strong>. Sprint ceremonies, tickets, approvals, dashboards.</p>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-blue);">
+<p class="bold"><i class="fas fa-brain text-blue"></i> Project Repository (add)</p>
+<p class="compact">Owns the <strong>machine context layer</strong>. Linked graph of requirements, code, tests, decisions. What AI reads.</p>
+</div>
+</div>
+<p class="compact" style="text-align:center;margin-top:8px;color:#64748b;"><em>Nothing is thrown away. A new layer is built above.</em></p>
+</section>
+
+<!-- ─── S9: graph.json ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-project-diagram" style="color:var(--vibe-blue)"></i> The Artifact: <code>graph.json</code></h2>
+<div class="question-box" style="margin-bottom:4px;">
+<p>&#128172; How does this file get created? Nobody writes it by hand &mdash; AI generates and maintains it.</p>
+</div>
+<div class="two-col">
+<div>
+<p class="compact bold text-blue" style="margin-bottom:2px;"><i class="fas fa-cogs"></i> How it's created</p>
+<div class="code-snippet" style="font-size:0.46em;height:170px;overflow-y:auto;white-space:pre;line-height:1.5;"><span style="color:#94a3b8;"># Every AI commit triggers:</span>
+<span style="color:#f472b6;">AI-agent</span> scans the diff
+  <span style="color:#94a3b8;">&rarr; linked REQ-ID</span>
+  <span style="color:#94a3b8;">&rarr; updated code_files</span>
+  <span style="color:#94a3b8;">&rarr; linked test_files</span>
+  <span style="color:#94a3b8;">&rarr; fresh coverage numbers</span>
+
+<span style="color:#f472b6;">graph.json</span> updated
+  <span style="color:#94a3b8;">&rarr; committed with code</span>
+  <span style="color:#94a3b8;">&rarr; reviewed in the PR</span>
+
+<span style="color:#94a3b8;"># No manual linking, ever.</span></div>
+</div>
+<div>
+<p class="compact bold text-blue" style="margin-bottom:2px;"><i class="fas fa-file-code"></i> Sample entry</p>
+<div class="code-snippet" style="font-size:0.46em;height:170px;overflow-y:auto;white-space:pre;line-height:1.5;">{
+  <span style="color:#fcd34d;">"requirement_id"</span>: <span style="color:#86efac;">"REQ-142"</span>,
+  <span style="color:#fcd34d;">"title"</span>: <span style="color:#86efac;">"Password reset"</span>,
+  <span style="color:#fcd34d;">"code_files"</span>: [
+    <span style="color:#86efac;">"src/auth/reset.ts"</span>
+  ],
+  <span style="color:#fcd34d;">"test_files"</span>: [
+    <span style="color:#86efac;">"tests/auth/reset.spec.ts"</span>
+  ],
+  <span style="color:#fcd34d;">"coverage"</span>: <span style="color:#fb923c;">94</span>
+}</div>
+</div>
+</div>
+<div class="success-box" style="margin-top:4px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>Living file.</strong> AI creates it. AI updates it. AI queries it.</p>
+</div>
+</section>
+
+<!-- ─── S10: Documentation solved for AI ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-book-open" style="color:var(--vibe-green)"></i> Documentation: Finally Getting Solved</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; We've begged devs for documentation forever. It never worked. So what changed?</p>
+</div>
+<div class="two-col">
+<div class="warning-box">
+<p class="bold" style="color:#be123c;"><i class="fas fa-user-times"></i> For Humans</p>
+<ul>
+<li class="red">Optional &mdash; nobody enforced it</li>
+<li class="red">Cost overhead with no upside for the dev</li>
+<li class="red">Always outdated within one sprint</li>
+</ul>
+</div>
+<div class="success-box">
+<p class="bold"><i class="fas fa-robot text-green"></i> For AI</p>
+<ul>
+<li>Required &mdash; AI cannot reason without it</li>
+<li>Self-generated &mdash; written as a byproduct</li>
+<li>Always current &mdash; regenerated on every change</li>
+</ul>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;">The irony: documentation wasn't solved for <em>us</em>. It's being solved because <strong>AI needs it more than we do.</strong></p>
+</div>
+</section>
+
+<!-- ═══ ACT 3 DIVIDER ═══ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:50px 0;">
+<i class="fas fa-sitemap" style="font-size:3.5em;margin-bottom:14px;display:block;"></i>
+<h1>Act 3 &mdash; Types of AI SDLC</h1>
+<h2>Which type is your team actually operating in?</h2>
+<p style="margin-top:12px;font-size:0.88em;">Different drivers. Different flow diagrams. One uncomfortable truth.</p>
+</div>
+</section>
+
+<!-- ─── S12: Overview of types with drivers ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-layer-group" style="color:var(--vibe-blue)"></i> The Types of AI SDLC &mdash; With Meaning</h2>
+<div class="question-box" style="margin-bottom:4px;">
+<p>&#128172; Each type isn't a label. It's a different <em>driver</em> controlling the SDLC.</p>
+</div>
+<div class="two-col">
+<div>
+<div class="content-box" style="border-left-color:var(--vibe-orange);border-left-width:6px;padding:7px 12px;">
+<p style="font-size:1em;font-weight:800;color:var(--vibe-dark-blue);margin:0;line-height:1.25;">1. AI-Assisted <span style="font-weight:500;color:var(--vibe-orange);font-size:0.78em;">&middot; Tool-Driven</span></p>
+<p style="font-size:0.68em;color:#334155;margin:3px 0 2px;line-height:1.3;">AI added to existing SDLC.</p>
+<p style="font-size:0.72em;color:var(--vibe-orange);font-weight:700;margin:0;line-height:1.3;">&#128073; Driver = tools</p>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-blue);border-left-width:6px;margin-top:4px;padding:7px 12px;">
+<p style="font-size:1em;font-weight:800;color:var(--vibe-dark-blue);margin:0;line-height:1.25;">2. Spec-Driven <span style="font-weight:500;color:var(--vibe-blue);font-size:0.78em;">&middot; Requirement-Driven</span></p>
+<p style="font-size:0.68em;color:#334155;margin:3px 0 2px;line-height:1.3;">AI works off structured intent.</p>
+<p style="font-size:0.72em;color:var(--vibe-blue);font-weight:700;margin:0;line-height:1.3;">&#128073; Driver = specifications</p>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-green);border-left-width:6px;margin-top:4px;padding:7px 12px;">
+<p style="font-size:1em;font-weight:800;color:var(--vibe-dark-blue);margin:0;line-height:1.25;">3. Parallel Stream <span style="font-weight:500;color:var(--vibe-green);font-size:0.78em;">&middot; Workflow-Driven</span></p>
+<p style="font-size:0.68em;color:#334155;margin:3px 0 2px;line-height:1.3;">Dev and QA run simultaneously.</p>
+<p style="font-size:0.72em;color:var(--vibe-green);font-weight:700;margin:0;line-height:1.3;">&#128073; Driver = workflows</p>
+</div>
+</div>
+<div>
+<div class="content-box" style="border-left-color:#9333ea;border-left-width:6px;padding:7px 12px;">
+<p style="font-size:1em;font-weight:800;color:var(--vibe-dark-blue);margin:0;line-height:1.25;">4. Agentic <span style="font-weight:500;color:#9333ea;font-size:0.78em;">&middot; AI-Driven</span></p>
+<p style="font-size:0.68em;color:#334155;margin:3px 0 2px;line-height:1.3;">Agents execute. Humans oversee.</p>
+<p style="font-size:0.72em;color:#9333ea;font-weight:700;margin:0;line-height:1.3;">&#128073; Driver = AI autonomy</p>
+</div>
+<div class="content-box" style="border-left-color:#ef4444;border-left-width:6px;margin-top:4px;padding:7px 12px;">
+<p style="font-size:1em;font-weight:800;color:var(--vibe-dark-blue);margin:0;line-height:1.25;">5. Regulated <span style="font-weight:500;color:#ef4444;font-size:0.78em;">&middot; Governance-Driven</span></p>
+<p style="font-size:0.68em;color:#334155;margin:3px 0 2px;line-height:1.3;">Compliance + audit trail.</p>
+<p style="font-size:0.72em;color:#ef4444;font-weight:700;margin:0;line-height:1.3;">&#128073; Driver = governance</p>
+</div>
+<div class="highlight-box" style="margin-top:4px;padding:5px 10px;">
+<p style="font-size:0.75em;color:var(--vibe-dark-blue);font-weight:700;text-align:center;margin:0;line-height:1.3;">Note which one <em>you're in</em>. Then which one <em>you say</em>.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ─── S12b: Shift of control insight ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-exchange-alt" style="color:var(--vibe-orange)"></i> Each Type Is a Shift in the Center of Control</h2>
+<div class="question-box" style="margin-bottom:10px;">
+<p>&#128172; These types aren't just "maturity levels." They're different <em>answers</em> to: who decides what happens next?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step dark">Humans</div>
+<div class="arrow">&rarr;</div>
+<div class="step orange">Tools</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Specs</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">Workflows</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">AI</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">Governance</div>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:12px;">
+<p class="bold text-blue" style="text-align:center;font-size:1em;line-height:1.5;">"Each type represents a shift in the <strong>center of control</strong> of the SDLC."</p>
+</div>
+<p class="compact" style="text-align:center;margin-top:8px;color:#64748b;"><em>From humans &rarr; tools &rarr; specs &rarr; workflows &rarr; AI &rarr; governance. Every step redefines who is really driving.</em></p>
+</section>
+
+<!-- ─── S13: Type 1 flow ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-user-cog" style="color:var(--vibe-orange)"></i> Type 1 &mdash; AI-Assisted SDLC</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Does your team just "use Copilot" &mdash; but the sprint, ceremonies, handoffs all look identical to 2019?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">Requirement (Jira)</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Dev writes code <span style="opacity:0.7;">(+Copilot)</span></div>
+<div class="arrow">&rarr;</div>
+<div class="step green">QA writes tests <span style="opacity:0.7;">(+Claude/Copilot)</span></div>
+<div class="arrow">&rarr;</div>
+<div class="step">QA tests (Manual + Automation)</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Release</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:8px;">
+<div class="content-box">
+<p class="bold text-blue">What's different from 2019?</p>
+<p class="compact">Individuals use AI tools. Each person ~20-30% faster.</p>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;">The risk</p>
+<p class="compact">Sprint structure, handoffs, gates &mdash; unchanged. <strong>System output barely improves.</strong></p>
+</div>
+</div>
+</section>
+
+<!-- ─── S14: Type 2 flow ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-file-contract" style="color:var(--vibe-blue)"></i> Type 2 &mdash; Spec-Driven SDLC <span style="font-weight:400;font-size:0.7em;color:#64748b;">&middot; think BDD, reborn</span></h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Remember BDD &mdash; Given/When/Then? The idea was right. It just needed AI to make it actually work.</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">Requirement</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">AI checks: is it testable?</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">QA approves the spec</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Dev writes code <em>from spec (+Copilot)</em></div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Tests derive from spec</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:8px;">
+<div class="content-box">
+<p class="bold text-blue">What's different</p>
+<p class="compact">AI tools are still used everywhere. But nothing starts until <strong>QA approves the spec</strong>. The spec &mdash; not a ticket &mdash; is the source of truth.</p>
+</div>
+<div class="success-box">
+<p class="bold"><i class="fas fa-lightbulb text-green"></i> It's BDD that finally works</p>
+<p class="compact">BDD always needed a human to write, maintain, and translate specs into tests. AI does all three. The spec becomes executable.</p>
+</div>
+</div>
+</section>
+
+<!-- ─── S15: Type 3 flow ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-stream" style="color:var(--vibe-green)"></i> Type 3 &mdash; Parallel Stream SDLC</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; What if Dev and QA started at the same moment, on the same spec, and synchronized at fixed points?</p>
+</div>
+<div class="flow-container">
+<p style="text-align:center;font-size:0.7em;color:#64748b;margin-bottom:6px;">Same sprint. No waiting. Synchronized at gates.</p>
+<div class="arrow-flow">
+<div class="step orange">Spec</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Dev stream: code + unit tests</div>
+<div class="arrow" style="color:#94a3b8;">&plus;</div>
+<div class="step green">QA stream: scenarios + automation</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Merge gate</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Release</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:8px;">
+<div class="success-box">
+<p class="bold"><i class="fas fa-check text-green"></i> The win</p>
+<p class="compact">Same-sprint delivery: built &#x2705; tested &#x2705; automated &#x2705;</p>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;">The risk</p>
+<p class="compact">Needs strong context sharing. Dev and QA must reason from the <em>same</em> spec, not their own version.</p>
+</div>
+</div>
+</section>
+
+<!-- ─── S16: Type 4 flow ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-robot" style="color:#9333ea"></i> Type 4 &mdash; Agentic SDLC</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; What if humans stopped executing and only <em>governed</em> &mdash; and agents did the work?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">Spec</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Planner Agent</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Coder Agent</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">Tester Agent</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Healer Agent</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">Human gate</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:8px;">
+<div class="content-box">
+<p class="bold text-blue">The shift</p>
+<p class="compact">QA becomes an <strong>agent designer and governor</strong>. Not a tester.</p>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;">The risk</p>
+<p class="compact">"The agent approved it" is not enough. Human review gates are mandatory &mdash; not optional.</p>
+</div>
+</div>
+</section>
+
+<!-- ─── S17: Type 5 + uncomfortable truth ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-gavel" style="color:#ef4444"></i> Type 5 &mdash; Regulated AI SDLC</h2>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">Spec</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Agents execute</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">Audit trail logged</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Human signs off</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">Release (traceable)</div>
+</div>
+</div>
+<p class="compact" style="text-align:center;color:#64748b;margin-top:4px;">Banking. Healthcare. Insurance. Fintech. Where "the AI did it" is not a legal defence.</p>
+<div class="warning-box" style="margin-top:12px;background:#fef3c7;border-left-color:var(--vibe-yellow);">
+<p class="bold" style="color:var(--vibe-dark-blue);font-size:1em;text-align:center;"><i class="fas fa-exclamation-triangle text-yellow"></i> The uncomfortable truth</p>
+<p class="compact" style="text-align:center;">Most teams are <strong>Type 1</strong> &mdash; dressed up as Type 3.<br/>And pretending doesn't help when production breaks.</p>
+</div>
+</section>
+
+<!-- ═══ ACT 4 DIVIDER ═══ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:50px 0;">
+<i class="fas fa-exclamation-circle" style="font-size:3.5em;margin-bottom:14px;display:block;color:var(--vibe-yellow)"></i>
+<h1>Act 4 &mdash; The Generation Gap</h1>
+<h2>Generation is 2026. Validation is still 2023.</h2>
+<p style="margin-top:12px;font-size:0.88em;">Slow down here. This is the point of the whole talk.</p>
+</div>
+</section>
+
+<!-- ─── S19: Why generation came first ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-question" style="color:var(--vibe-orange)"></i> Why Did Every AI Vendor Chase Generation First?</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Think about every AI demo you've seen since 2023. Generation or validation? Now think &mdash; why?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-blue);">
+<p class="bold text-blue"><i class="fas fa-rocket"></i> Generation sells itself</p>
+<ul>
+<li>Writes 200 lines in 3 seconds &mdash; <em>visible</em></li>
+<li>Fits in a 90-second demo video</li>
+<li>Funds the next round</li>
+<li>Goes viral on X and LinkedIn</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:#ef4444;">
+<p class="bold" style="color:#be123c;"><i class="fas fa-microscope"></i> Validation doesn't demo</p>
+<ul>
+<li class="red">Requires context across a whole project</li>
+<li class="red">Doesn't fit in a 90-second video</li>
+<li class="red">Measured by what <em>didn't</em> break</li>
+<li class="red">No viral moment</li>
+</ul>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;">So generation raced ahead. Validation waited in line.</p>
+</div>
+</section>
+
+<!-- ─── S20: BLACK SLIDE ─── -->
+<section class="pause-slide">
+<div style="text-align:center;padding:50px 0;">
+<p style="color:#64748b;font-size:0.85em;margin-bottom:24px;letter-spacing:2px;">THE GENERATION GAP</p>
+<h1 style="font-size:2.8em;line-height:1.2;">2026 <span style="color:#64748b;font-weight:400;">&mdash;</span> <span style="color:var(--vibe-green);">Generation</span></h1>
+<h1 style="font-size:2.8em;margin-top:14px;line-height:1.2;">2023 <span style="color:#64748b;font-weight:400;">&mdash;</span> <span style="color:#ef4444;">Validation</span></h1>
+<h2 style="margin-top:30px;font-size:1.4em;">Three years behind.</h2>
+<p style="color:#94a3b8;font-size:0.95em;margin-top:24px;"><em>That gap has a name. It also has an owner.</em></p>
+</div>
+</section>
+
+<!-- ─── S21: QA's moment ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-flag-checkered" style="color:var(--vibe-green)"></i> This Is QA's Moment</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; If validation is 3 years behind generation, who do you think the industry turns to &mdash; to close that gap?</p>
+</div>
+<div class="two-col">
+<div class="warning-box">
+<p class="bold" style="color:#be123c;"><i class="fas fa-meh"></i> The wrong read</p>
+<p class="compact">"AI will take our jobs." Complain. Get defensive. Wait it out.</p>
+</div>
+<div class="success-box">
+<p class="bold"><i class="fas fa-trophy text-green"></i> The right read</p>
+<p class="compact">The gap is <strong>territory</strong>. Whoever closes it &mdash; owns the next decade of quality.</p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;font-size:1em;">The generation gap is not a problem. It's a <strong>career.</strong></p>
+</div>
+</section>
+
+<!-- ═══ ACT 5 DIVIDER ═══ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:50px 0;">
+<i class="fas fa-toolbox" style="font-size:3.5em;margin-bottom:14px;display:block;"></i>
+<h1>Act 5 &mdash; The Tool Landscape</h1>
+<h2>What you actually have to close the gap.</h2>
+<p style="margin-top:12px;font-size:0.88em;">7 categories. Real tools. Real names. Not marketing.</p>
+</div>
+</section>
+
+<!-- ─── S23: 7 categories overview ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-th-large" style="color:var(--vibe-blue)"></i> 7 Categories of AI Validation Tools</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; How many of these does your team use today? How many could you name before this slide?</p>
+</div>
+<div class="two-col">
+<div>
+<div class="content-box" style="border-left-color:var(--vibe-orange);"><p class="bold text-blue">1. Browser Assistant Agents</p><p class="compact2">Test from the user's eye</p></div>
+<div class="content-box" style="border-left-color:var(--vibe-blue);margin-top:4px;"><p class="bold text-blue">2. MCPs (Model Context Protocol)</p><p class="compact2">Give AI keys to the browser</p></div>
+<div class="content-box" style="border-left-color:var(--vibe-green);margin-top:4px;"><p class="bold text-blue">3. AI IDE Browser Agents</p><p class="compact2">Test from inside the dev's world</p></div>
+<div class="content-box" style="border-left-color:#9333ea;margin-top:4px;"><p class="bold text-blue">4. Platform AI</p><p class="compact2">Tie SDLC artifacts together</p></div>
+</div>
+<div>
+<div class="content-box" style="border-left-color:#ef4444;"><p class="bold text-blue">5. Playwright Agents</p><p class="compact2">Autonomous test lifecycle</p></div>
+<div class="content-box" style="border-left-color:var(--vibe-yellow);margin-top:4px;"><p class="bold text-blue">6. Cloud-Scale AI Testing</p><p class="compact2">Devices and browsers at scale</p></div>
+<div class="content-box" style="border-left-color:#334155;margin-top:4px;"><p class="bold text-blue">7. Runtime Self-Healing</p><p class="compact2">Your framework + AI keys</p></div>
+<div class="highlight-box" style="margin-top:4px;"><p class="compact bold text-blue" style="text-align:center;">No single tool does everything. Composition is the skill.</p></div>
+</div>
+</div>
+</section>
+
+<!-- ─── S24: Category 1 Browser Assistant Agents ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-window-maximize" style="color:var(--vibe-orange)"></i> 1. Browser Assistant Agents</h2>
+<div class="question-box" style="margin-bottom:6px;">
+<p>&#128172; What if your browser had an AI that could actually <em>use</em> the page &mdash; not just read it?</p>
+</div>
+<div class="two-col">
+<div class="content-box">
+<p class="bold text-blue"><i class="fas fa-atom"></i> Perplexity Comet</p>
+<p class="compact">AI browser that navigates, clicks, fills forms &mdash; like a real user.</p>
+</div>
+<div class="content-box">
+<p class="bold text-blue"><i class="fas fa-robot"></i> Claude Chrome Extension</p>
+<p class="compact">Claude inside any website. Read the page. Take actions.</p>
+</div>
+</div>
+<div class="two-col" style="margin-top:6px;">
+<div class="success-box">
+<p class="compact bold"><i class="fas fa-check text-green"></i> Best for</p>
+<p class="compact">Exploratory testing, user-journey validation, AI-as-a-user flows.</p>
+</div>
+<div class="warning-box">
+<p class="compact bold" style="color:#be123c;"><i class="fas fa-exclamation-triangle text-red"></i> Watch for</p>
+<p class="compact">Non-deterministic runs. Complement to regression &mdash; not replacement.</p>
+</div>
+</div>
+</section>
+
+<!-- ─── S25: Category 2 MCPs ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-plug" style="color:var(--vibe-blue)"></i> 2. MCPs &mdash; Model Context Protocol</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; How do you give <em>any</em> AI direct, standardised access to a browser &mdash; not just one vendor's AI?</p>
+</div>
+<div class="two-col">
+<div class="content-box">
+<p class="bold text-blue"><i class="fas fa-theater-masks"></i> Playwright MCP</p>
+<p class="compact">Exposes every Playwright capability over MCP. Any MCP-compatible AI can run a test, query the DOM, navigate.</p>
+</div>
+<div class="content-box">
+<p class="bold text-blue"><i class="fas fa-compass"></i> Chrome CDP MCP</p>
+<p class="compact">Chrome DevTools Protocol wrapped in MCP. Direct browser control &mdash; DOM, network, console &mdash; to any AI.</p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="compact bold text-blue" style="text-align:center;">MCPs = <strong>USB-C for AI tools</strong>. Plug your Claude / Copilot / Cursor into a browser via one standard.</p>
+</div>
+<p class="compact" style="text-align:center;margin-top:4px;color:#64748b;"><em>Why this matters: no vendor lock-in. Your validation logic runs against any AI.</em></p>
+</section>
+
+<!-- ─── S26: Category 3 AI IDE Browser Agents ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-code" style="color:var(--vibe-green)"></i> 3. AI IDE Browser Agents</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; What if the same IDE that wrote the code also ran the browser, saw the test fail, and fixed it &mdash; all before commit?</p>
+</div>
+<div class="three-col">
+<div class="icon-box blue">
+<i class="fas fa-copy"></i>
+<h3>GitHub Copilot</h3>
+<p class="compact2">Agent mode &mdash; browser tools now native.</p>
+</div>
+<div class="icon-box green">
+<i class="fas fa-rocket"></i>
+<h3>Google Antigravity</h3>
+<p class="compact2">IDE built browser-first. Dev and validation in one loop.</p>
+</div>
+<div class="icon-box orange">
+<i class="fas fa-mouse-pointer"></i>
+<h3>Cursor</h3>
+<p class="compact2">MCP-native. Plays any browser MCP directly.</p>
+</div>
+</div>
+<div class="success-box" style="margin-top:10px;">
+<p class="compact bold"><i class="fas fa-check text-green"></i> Why this is a step-change: Dev and QA are no longer in different tools. <strong>Validation becomes part of the commit loop.</strong></p>
+</div>
+</section>
+
+<!-- ─── S27: Category 4 Platform AI ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-network-wired" style="color:#9333ea"></i> 4. Platform AI &mdash; Tying SDLC Artifacts Together</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Remember mistake #1 &mdash; disconnected tools? These are the tools fixing <em>that</em>.</p>
+</div>
+<div class="three-col">
+<div class="icon-box purple">
+<i class="fas fa-brain"></i>
+<h3>Atlassian Rovo</h3>
+<p class="compact2">AI across Jira, Confluence, Bitbucket. Requirements &harr; code &harr; docs in one query.</p>
+</div>
+<div class="icon-box blue">
+<i class="fas fa-puzzle-piece"></i>
+<h3>Claude Plugins</h3>
+<p class="compact2">Native connectors: Jira, GitHub, Drive, Slack. Cross-artifact reasoning.</p>
+</div>
+<div class="icon-box green">
+<i class="fas fa-cogs"></i>
+<h3>Custom Agents</h3>
+<p class="compact2">Your own agents on top of MCP servers &mdash; tuned to your SDLC.</p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="compact bold text-blue" style="text-align:center;">This category <em>operationalises</em> the Project Repository. The tie-layer across artifacts.</p>
+</div>
+</section>
+
+<!-- ─── S28: Category 5 Playwright Agents ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-theater-masks" style="color:#ef4444"></i> 5. Playwright Agents &mdash; Autonomous Test Lifecycle</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Playwright was already the leader for automation. What happens when it grows agentic capabilities?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">Planner Agent</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Generator Agent</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">Healer Agent</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:8px;">
+<div class="content-box">
+<p class="bold text-blue">What each does</p>
+<ul>
+<li class="dot"><strong>Planner:</strong> proposes test scenarios from a spec</li>
+<li class="dot"><strong>Generator:</strong> writes executable Playwright tests</li>
+<li class="dot"><strong>Healer:</strong> fixes broken locators &amp; timing at runtime</li>
+</ul>
+</div>
+<div class="success-box">
+<p class="bold"><i class="fas fa-check text-green"></i> Why this matters</p>
+<p class="compact">Plan &rarr; write &rarr; maintain &mdash; as composable agents. QA composes. Agents execute. Coverage auditing lives in WF8, not here.</p>
+</div>
+</div>
+</section>
+
+<!-- ─── S29: Category 6 BrowserStack AI ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-cloud" style="color:var(--vibe-yellow)"></i> 6. Cloud-Scale AI Testing</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; AI test generation is great &mdash; until you need to run it on 40 device-browser combos. Then what?</p>
+</div>
+<div class="two-col">
+<div class="content-box">
+<p class="bold text-blue"><i class="fas fa-layer-group"></i> BrowserStack AI Testing Agents</p>
+<p class="compact">Low-code test authoring via AI + execution across real devices &amp; browsers at cloud scale.</p>
+</div>
+<div class="content-box">
+<p class="bold text-blue"><i class="fas fa-chart-line"></i> AI-assisted flakiness detection</p>
+<p class="compact">The cloud sees your failures across thousands of runs. AI diagnoses <em>why</em> a test is flaky &mdash; not just that it is.</p>
+</div>
+</div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact bold"><i class="fas fa-check text-green"></i> Best for: when your validation has to run at <strong>production scale &amp; diversity</strong>, not just your laptop.</p>
+</div>
+</section>
+
+<!-- ─── S30: Category 7 Runtime Self-Healing ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-heart-pulse" style="color:#334155"></i> 7. Runtime Self-Healing Frameworks</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Your existing Selenium / Playwright / Cypress framework &mdash; can it heal itself? Yes &mdash; if you give it an API key.</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step">Test runs</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">Locator fails</div>
+<div class="arrow">&rarr;</div>
+<div class="step orange">Framework calls AI API</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">AI proposes new locator</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Test resumes</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:8px;">
+<div class="content-box">
+<p class="bold text-blue">What changes in your framework</p>
+<p class="compact">Catch locator / assertion failures. Send the DOM + the intent to an AI API. Apply the fix at runtime. Log for review.</p>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;">Watch for</p>
+<p class="compact">Self-healing must <em>log</em>. Silent auto-fixes hide drift. Every heal is a signal &mdash; to QA.</p>
+</div>
+</div>
+</section>
+
+<!-- ═══ ACT 6 DIVIDER ═══ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:50px 0;">
+<i class="fas fa-project-diagram" style="font-size:3.5em;margin-bottom:14px;display:block;"></i>
+<h1>Act 6 &mdash; The QA Workflows</h1>
+<h2>11 workflows. Grouped by purpose, not by where they run.</h2>
+<p style="margin-top:12px;font-size:0.88em;">Design &middot; Execution &middot; Intelligence</p>
+</div>
+</section>
+
+<!-- ─── S32: What a QA workflow is ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-sync-alt" style="color:var(--vibe-blue)"></i> A QA Workflow Is Not a Test Case</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; If I ask for "your workflows" &mdash; most teams send me a test case template. That's not a workflow. Here's the difference.</p>
+</div>
+<div class="two-col">
+<div class="warning-box">
+<p class="bold" style="color:#be123c;"><i class="fas fa-file-alt"></i> A test case</p>
+<ul>
+<li class="red">Preconditions, steps, expected result</li>
+<li class="red">One-time artifact</li>
+<li class="red">Stops when the test ends</li>
+</ul>
+</div>
+<div class="success-box">
+<p class="bold"><i class="fas fa-infinity text-green"></i> A workflow</p>
+<ul>
+<li>End-to-end loop across the SDLC</li>
+<li>Continuous &mdash; repeats every sprint</li>
+<li>Learns from production and feeds back</li>
+</ul>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;">A test case fires once. A workflow <strong>runs forever</strong>.</p>
+</div>
+</section>
+
+<!-- ─── S33: 11 workflows grouped ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-th" style="color:var(--vibe-orange)"></i> The 11 QA Workflows &mdash; Grouped by Purpose</h2>
+<div class="three-col">
+<div class="content-box" style="border-left-color:var(--vibe-orange);">
+<p class="bold text-blue"><i class="fas fa-drafting-compass text-orange"></i> DESIGN</p>
+<p class="compact2" style="color:#64748b;">Before testing starts</p>
+<ul>
+<li class="blue">WF1: Requirements &rarr; Scenarios</li>
+<li class="blue">WF2: Exploratory Planning</li>
+<li class="blue">WF3: Test Data Design</li>
+<li class="blue">WF4: Bug Triage Design</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-blue);">
+<p class="bold text-blue"><i class="fas fa-play text-blue"></i> EXECUTION</p>
+<p class="compact2" style="color:#64748b;">While testing happens</p>
+<ul>
+<li class="blue">WF5: Automation Generation</li>
+<li class="blue">WF6: Test Maintenance</li>
+<li class="blue">WF7: Self-Healing</li>
+<li class="blue">WF8: Coverage Audit</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-green);">
+<p class="bold text-blue"><i class="fas fa-brain text-green"></i> INTELLIGENCE</p>
+<p class="compact2" style="color:#64748b;">What the system learns</p>
+<ul>
+<li class="blue">WF9: Feature Readiness Gate</li>
+<li class="blue">WF10: CI Quality Gate</li>
+<li class="blue">WF11: Production Feedback Loop</li>
+</ul>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.9em;">Design shapes quality. Execution delivers it. Intelligence <strong>compounds</strong> it.</p>
+</div>
+</section>
+
+<!-- ─── S34: WF1 deep dive ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-file-alt" style="color:var(--vibe-orange)"></i> WF1 &mdash; Requirements to Test Scenarios</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; How long does it take your team today, from receiving a user story, to having solid test scenarios the team agrees on?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">User Story</div>
+<div class="arrow">&rarr;</div>
+<div class="step">AI extracts testable conditions</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">AI flags ambiguity</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">QA reviews &amp; approves</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Scenarios linked to REQ-ID</div>
+</div>
+</div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> The unlock: QA catches ambiguity <strong>before</strong> dev starts. And every scenario is linked back to the requirement &mdash; not sitting in a disconnected TestRail folder.</p>
+</div>
+</section>
+
+<!-- ─── S35: WF5 deep dive ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-magic" style="color:var(--vibe-blue)"></i> WF5 &mdash; Automation Generation</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Your scenarios exist. Your code exists. What's stopping the test code from writing itself?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">Scenarios (from WF1)</div>
+<div class="arrow">&rarr;</div>
+<div class="step">Code context (from project repo)</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">AI generates Playwright tests</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">QA reviews + tunes</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Commit</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:8px;">
+<div class="success-box">
+<p class="bold"><i class="fas fa-check text-green"></i> Why it now works</p>
+<p class="compact">AI has both scenarios <em>and</em> code. Not just one. Tests reflect reality &mdash; not guesses.</p>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;">The anti-pattern</p>
+<p class="compact">Accepting AI-generated tests without reviewing coverage. More code &ne; more coverage.</p>
+</div>
+</div>
+</section>
+
+<!-- ─── S36: WF8 deep dive ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-search" style="color:var(--vibe-blue)"></i> WF8 &mdash; Coverage Audit</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; When code changed last sprint, how did you know your tests still covered what mattered &mdash; or did you just trust the green suite?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">Code change detected</div>
+<div class="arrow">&rarr;</div>
+<div class="step">AI maps change to existing tests</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">Gaps identified</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">QA prioritises &amp; fills</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Coverage restored</div>
+</div>
+</div>
+<div class="warning-box" style="margin-top:8px;">
+<p class="bold" style="color:#be123c;"><i class="fas fa-times-circle"></i> Gaps this workflow finds that your CI never will:</p>
+<ul>
+<li class="red">New error branch added &mdash; no test hits it</li>
+<li class="red">Payment retry logic changed &mdash; old retry test still passes</li>
+<li class="red">Mobile breakpoint introduced &mdash; all tests only run desktop</li>
+</ul>
+</div>
+<p class="compact" style="text-align:center;margin-top:4px;color:var(--vibe-dark-blue);font-weight:700;">Green tests &ne; covered tests.</p>
+</section>
+
+<!-- ─── S37: WF11 deep dive ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-infinity" style="color:var(--vibe-green)"></i> WF11 &mdash; Production Feedback Loop</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; When a bug escapes to production &mdash; what actually feeds back into your next sprint? A Jira ticket? Or nothing?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step red">Production issue</div>
+<div class="arrow">&rarr;</div>
+<div class="step orange">Observability agent detects</div>
+<div class="arrow">&rarr;</div>
+<div class="step">AI generates test scenario</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">Added to next sprint scope</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Never happens again</div>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;">These workflows aren't new. What's new: <strong>they can now run at generation speed.</strong></p>
+</div>
+<p class="compact" style="text-align:center;margin-top:6px;color:#64748b;"><em>Production stops being the end of the pipeline. It becomes the start of the next sprint.</em></p>
+</section>
+
+<!-- ─── S37b: WF2 Exploratory Planning ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-compass" style="color:var(--vibe-orange)"></i> WF2 &mdash; Exploratory Planning</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Exploratory testing used to depend on your best tester's instinct. What if AI could amplify that instinct &mdash; not replace it?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step orange">Feature shipped for testing</div>
+<div class="arrow">&rarr;</div>
+<div class="step">AI proposes risk areas from code diff</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">QA explores guided by AI</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Findings logged into project repo</div>
+</div>
+</div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> Exploratory becomes <strong>deliberate</strong>, not random. And AI remembers what your team found last sprint &mdash; so the next sprint starts smarter.</p>
+</div>
+</section>
+
+<!-- ─── S37c: WF3 Test Data + WF4 Bug Triage ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-database" style="color:var(--vibe-orange)"></i> WF3 &amp; WF4 &mdash; Test Data + Bug Triage</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Two workflows that die quietly every sprint. How many hours did your team waste last week on data setup and bug deduplication?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-orange);">
+<p class="bold text-blue"><i class="fas fa-table"></i> WF3: Test Data Design</p>
+<div class="arrow-flow" style="margin-top:4px;">
+<div class="step orange" style="font-size:0.58em;">Scenario</div>
+<div class="arrow">&rarr;</div>
+<div class="step" style="font-size:0.58em;">AI generates synthetic data</div>
+<div class="arrow">&rarr;</div>
+<div class="step green" style="font-size:0.58em;">QA validates edge cases</div>
+</div>
+<p class="compact2" style="margin-top:4px;">Realistic test data &mdash; on demand, respecting PII, matching scenario intent.</p>
+</div>
+<div class="content-box" style="border-left-color:#ef4444;">
+<p class="bold text-blue"><i class="fas fa-bug"></i> WF4: Bug Triage Design</p>
+<div class="arrow-flow" style="margin-top:4px;">
+<div class="step red" style="font-size:0.58em;">Bug filed</div>
+<div class="arrow">&rarr;</div>
+<div class="step" style="font-size:0.58em;">AI dedupes + prioritises</div>
+<div class="arrow">&rarr;</div>
+<div class="step green" style="font-size:0.58em;">Assigned to right owner</div>
+</div>
+<p class="compact2" style="margin-top:4px;">Bugs reach the right person first time &mdash; with linked requirements, code, and similar past bugs.</p>
+</div>
+</div>
+</section>
+
+<!-- ─── S37d: WF6 Test Maintenance ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-tools" style="color:var(--vibe-blue)"></i> WF6 &mdash; Test Maintenance</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Your team's biggest hidden cost isn't writing tests. It's <em>fixing</em> tests every sprint. What if that cost dropped to zero?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step">Code change merged</div>
+<div class="arrow">&rarr;</div>
+<div class="step orange">Linked tests flagged (via graph.json)</div>
+<div class="arrow">&rarr;</div>
+<div class="step">AI proposes updates to tests</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">QA reviews and approves</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Test suite stays green, legitimately</div>
+</div>
+</div>
+<div class="warning-box" style="margin-top:8px;">
+<p class="compact bold"><i class="fas fa-exclamation-triangle text-red"></i> Anti-pattern: AI rewrites tests without QA review. The suite stays green &mdash; because it's been gutted. Always keep the review gate.</p>
+</div>
+</section>
+
+<!-- ─── S37e: WF7 Self-Healing ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-heart-pulse" style="color:var(--vibe-blue)"></i> WF7 &mdash; Self-Healing Tests</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; A flaky test fails at 2am. Does someone get paged? Or does the test fix itself and log what it did?</p>
+</div>
+<div class="flow-container">
+<div class="arrow-flow">
+<div class="step">Test fails at runtime</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">Framework sends DOM + intent to AI API</div>
+<div class="arrow">&rarr;</div>
+<div class="step orange">AI proposes locator fix</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">Test retries, passes</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Heal logged for QA review</div>
+</div>
+</div>
+<div class="two-col" style="margin-top:8px;">
+<div class="success-box">
+<p class="bold"><i class="fas fa-check text-green"></i> The win</p>
+<p class="compact">Pipelines stay green despite UI drift. No 2am pages for cosmetic changes.</p>
+</div>
+<div class="warning-box">
+<p class="bold" style="color:#be123c;">Non-negotiable</p>
+<p class="compact">Every heal is logged. Silent fixes hide real regressions. Review the heal log weekly.</p>
+</div>
+</div>
+</section>
+
+<!-- ─── S37f: WF9 + WF10 Gates ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-shield-alt" style="color:var(--vibe-green)"></i> WF9 &amp; WF10 &mdash; The Quality Gates</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Today, "ready to release" is an opinion. What if it was a <em>checked artifact</em> the system produced automatically?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-green);">
+<p class="bold text-blue"><i class="fas fa-flag-checkered"></i> WF9: Feature Readiness Gate</p>
+<div class="arrow-flow" style="margin-top:4px;">
+<div class="step orange" style="font-size:0.58em;">Feature done</div>
+<div class="arrow">&rarr;</div>
+<div class="step" style="font-size:0.58em;">AI checks all WF outputs</div>
+<div class="arrow">&rarr;</div>
+<div class="step green" style="font-size:0.58em;">Pass / fail + evidence</div>
+</div>
+<p class="compact2" style="margin-top:4px;">Did WF1-8 actually run? Did coverage reach target? Did exploratory happen? Pass/fail &mdash; not opinion.</p>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-blue);">
+<p class="bold text-blue"><i class="fas fa-traffic-light"></i> WF10: CI Quality Gate</p>
+<div class="arrow-flow" style="margin-top:4px;">
+<div class="step orange" style="font-size:0.58em;">PR opened</div>
+<div class="arrow">&rarr;</div>
+<div class="step" style="font-size:0.58em;">AI audits against quality rules</div>
+<div class="arrow">&rarr;</div>
+<div class="step green" style="font-size:0.58em;">Merge allowed / blocked</div>
+</div>
+<p class="compact2" style="margin-top:4px;">Every merge enforces: tests exist, coverage intact, no silent heals, no broken traceability.</p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;">Gates turn <em>judgement</em> into <strong>evidence</strong>. Every release decision becomes auditable.</p>
+</div>
+</section>
+
+<!-- ═══ ACT 7 DIVIDER ═══ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:50px 0;">
+<i class="fas fa-layer-group" style="font-size:3.5em;margin-bottom:14px;display:block;"></i>
+<h1>Act 7 &mdash; Tools &times; Workflows</h1>
+<h2>No single tool completes a workflow. Composition is the skill.</h2>
+<p style="margin-top:12px;font-size:0.88em;">4 stack diagrams. Real tools. Real order.</p>
+</div>
+</section>
+
+<!-- ─── S39: Composition principle ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-puzzle-piece" style="color:var(--vibe-orange)"></i> The Composition Principle</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Which vendor sells a complete "QA AI platform"? None. And that's on purpose.</p>
+</div>
+<div class="two-col">
+<div class="warning-box">
+<p class="bold" style="color:#be123c;"><i class="fas fa-times-circle"></i> The trap</p>
+<p class="compact">Buy one AI tool. Expect it to handle requirements, tests, coverage, healing, production feedback. It won't.</p>
+</div>
+<div class="success-box">
+<p class="bold"><i class="fas fa-check-circle text-green"></i> The skill</p>
+<p class="compact">Pick the right tool for each stage of each workflow. Chain them. Own the composition.</p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="bold text-blue" style="text-align:center;font-size:1em;">QA's new job title: <strong>Workflow Composer</strong>.</p>
+</div>
+<p class="compact" style="text-align:center;margin-top:6px;color:#64748b;"><em>Not tester. Not automator. The person who decides which tools stack together to close a loop.</em></p>
+</section>
+
+<!-- ─── S40: WF1 stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-file-alt" style="color:var(--vibe-orange)"></i> Stack &mdash; WF1 Requirements &rarr; Scenarios</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">Atlassian Rovo</div><div class="act">reads the user story in Jira, pulls Confluence context</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Claude Plugin (Jira)</div><div class="act">flags ambiguity, asks clarifying questions to the BA</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Cursor / Antigravity</div><div class="act">drafts executable test scenarios, linked to REQ-ID</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Playwright MCP</div><div class="act">validates scenarios are testable against current code</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">graph.json</div><div class="act">stores the requirement &harr; scenario link in the project repo</div></div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="compact bold text-blue" style="text-align:center;">5 tools. 1 workflow. Composed &mdash; not bought.</p>
+</div>
+</section>
+
+<!-- ─── S41: WF5 stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-magic" style="color:var(--vibe-blue)"></i> Stack &mdash; WF5 Automation Generation</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">graph.json</div><div class="act">provides scenario + requirement + code file context</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Cursor / Copilot / Antigravity</div><div class="act">AI IDE reads scenario + code, drafts Playwright test</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Playwright MCP</div><div class="act">dry-runs the test in a real browser, catches immediate issues</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Playwright Healer Agent</div><div class="act">adjusts locators / waits until test runs stable</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">BrowserStack AI</div><div class="act">executes across device / browser matrix at scale</div></div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>From scenario to executable cross-browser test</strong> &mdash; in one unbroken chain, at generation speed.</p>
+</div>
+</section>
+
+<!-- ─── S42: WF8 stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-search" style="color:var(--vibe-blue)"></i> Stack &mdash; WF8 Coverage Audit</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">GitHub / Bitbucket webhook</div><div class="act">triggers on every merged PR</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Custom Agent (on MCP)</div><div class="act">reads the diff, queries graph.json for linked tests</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Claude / Copilot</div><div class="act">reasons: does the change touch untested code paths?</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Jira via Rovo</div><div class="act">raises a "Coverage Gap" ticket with context, linked to the PR</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">graph.json</div><div class="act">updates the gap register &mdash; visible to the whole team</div></div>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="compact bold text-blue" style="text-align:center;">No new dashboard. No new tool to buy. <strong>The audit lives inside the tools you already use.</strong></p>
+</div>
+</section>
+
+<!-- ─── S43: WF11 stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-infinity" style="color:var(--vibe-green)"></i> Stack &mdash; WF11 Production Feedback Loop</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">Observability (Datadog / Sentry / New Relic)</div><div class="act">emits an error event or anomaly</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Custom Agent (MCP)</div><div class="act">pulls the stack trace, correlates to graph.json</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Claude</div><div class="act">proposes a test scenario that would have caught it</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Rovo &rarr; Jira</div><div class="act">creates a scoped scenario for the next sprint backlog</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">Playwright Agent</div><div class="act">next sprint: generates, heals, runs &mdash; automatically</div></div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-sync text-green"></i> <strong>Production bug &rarr; regression test &mdash; without a human in the loop.</strong> A human <em>approves</em>. A human does not <em>write</em>.</p>
+</div>
+</section>
+
+<!-- ─── S43b: WF2 stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-compass" style="color:var(--vibe-orange)"></i> Stack &mdash; WF2 Exploratory Planning</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">Bitbucket / GitHub diff</div><div class="act">what code actually changed since last feature drop</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Claude + graph.json</div><div class="act">reasons about risk areas from diff + past exploration logs</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Claude Chrome Extension / Perplexity Comet</div><div class="act">QA explores live, AI suggests next steps in real-time</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Rovo &rarr; Confluence</div><div class="act">findings captured as structured notes, linked to REQ-ID</div></div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>Exploration becomes cumulative.</strong> Each sprint starts with the prior sprint's findings already in context.</p>
+</div>
+</section>
+
+<!-- ─── S43c: WF3 + WF4 stacks ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-database" style="color:var(--vibe-orange)"></i> Stacks &mdash; WF3 Test Data + WF4 Bug Triage</h2>
+<p class="compact text-blue bold" style="margin:4px 0 2px;">WF3 &middot; Test Data Design</p>
+<div class="stack-row"><div class="num">1</div><div class="tool">Scenario from WF1</div><div class="act">defines shape of data needed</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Cursor / Claude</div><div class="act">generates synthetic data &mdash; PII-safe, edge cases included</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Custom Agent</div><div class="act">seeds data into test env, rolls back after test</div></div>
+<p class="compact text-blue bold" style="margin:6px 0 2px;">WF4 &middot; Bug Triage Design</p>
+<div class="stack-row"><div class="num">1</div><div class="tool">Rovo / Jira webhook</div><div class="act">triggers on every new bug filed</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Claude + graph.json</div><div class="act">dedupes, links to code area, suggests owner</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Jira</div><div class="act">auto-assigns with priority + linked artifacts</div></div>
+</section>
+
+<!-- ─── S43d: WF6 stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-tools" style="color:var(--vibe-blue)"></i> Stack &mdash; WF6 Test Maintenance</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">Merge webhook (GitHub / Bitbucket)</div><div class="act">fires on every PR merged to main</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">graph.json</div><div class="act">resolves "which tests are linked to this code?"</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Cursor / Copilot</div><div class="act">proposes updates to impacted tests, not a rewrite</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Playwright MCP</div><div class="act">dry-runs updated tests to confirm they still validate intent</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">QA (human gate)</div><div class="act">approves &mdash; or rejects. Never silent auto-merge.</div></div>
+<div class="warning-box" style="margin-top:8px;">
+<p class="compact bold"><i class="fas fa-exclamation-triangle text-red"></i> The human gate is non-negotiable. Otherwise the suite stays green because it's been gutted.</p>
+</div>
+</section>
+
+<!-- ─── S43e: WF7 stack ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-heart-pulse" style="color:var(--vibe-blue)"></i> Stack &mdash; WF7 Self-Healing Tests</h2>
+<div class="stack-row"><div class="num">1</div><div class="tool">Your framework (Playwright / Selenium / Cypress)</div><div class="act">catches locator or assertion failure at runtime</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">AI API key (Claude / OpenAI)</div><div class="act">framework sends DOM + intent + failure to API</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">AI proposes fix</div><div class="act">new locator or updated assertion returned</div></div>
+<div class="stack-row"><div class="num">4</div><div class="tool">Framework retries</div><div class="act">test resumes, passes, flow continues</div></div>
+<div class="stack-row"><div class="num">5</div><div class="tool">Heal log (graph.json / dashboard)</div><div class="act">every heal recorded for QA's weekly review</div></div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>No new tool bought.</strong> Your existing framework + an API key + 30 lines of glue code = self-healing.</p>
+</div>
+</section>
+
+<!-- ─── S43f: WF9 + WF10 stacks ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-shield-alt" style="color:var(--vibe-green)"></i> Stacks &mdash; WF9 Feature Readiness + WF10 CI Quality Gate</h2>
+<p class="compact text-blue bold" style="margin:4px 0 2px;">WF9 &middot; Feature Readiness Gate</p>
+<div class="stack-row"><div class="num">1</div><div class="tool">Feature branch + graph.json</div><div class="act">did WF1-8 actually run for this feature?</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Custom Agent</div><div class="act">checks scenarios, coverage, exploration log, maintenance</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">Rovo &rarr; Jira</div><div class="act">posts pass/fail with evidence attached</div></div>
+<p class="compact text-blue bold" style="margin:6px 0 2px;">WF10 &middot; CI Quality Gate</p>
+<div class="stack-row"><div class="num">1</div><div class="tool">GitHub Actions / Bitbucket Pipelines</div><div class="act">triggers on PR open</div></div>
+<div class="stack-row"><div class="num">2</div><div class="tool">Custom Agent + graph.json</div><div class="act">audits: tests linked, coverage intact, no silent heals</div></div>
+<div class="stack-row"><div class="num">3</div><div class="tool">PR status check</div><div class="act">merge allowed / blocked &mdash; with reason</div></div>
+</section>
+
+<!-- ═══ ACT 8 DIVIDER ═══ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:50px 0;">
+<i class="fas fa-handshake" style="font-size:3.5em;margin-bottom:14px;display:block;"></i>
+<h1>Act 8 &mdash; Integration</h1>
+<h2>QA workflows inside the Dev AI SDLC &mdash; not alongside it.</h2>
+<p style="margin-top:12px;font-size:0.88em;">The session title, finally resolved.</p>
+</div>
+</section>
+
+<!-- ─── S45: Current state ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-exclamation-triangle" style="color:#ef4444"></i> Current State &mdash; Parallel Disconnected Streams</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Sound familiar? Does this feel like Mistake #1 &mdash; but happening <em>again</em>, with AI?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-blue);background:#eff6ff;">
+<p class="bold text-blue"><i class="fas fa-code"></i> Dev AI Stream</p>
+<ul>
+<li class="blue">Cursor / Copilot writing code</li>
+<li class="blue">AI PR reviews</li>
+<li class="blue">Auto-generated docs</li>
+<li class="blue">Merged to main, fast</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-orange);background:#fff7ed;">
+<p class="bold text-blue"><i class="fas fa-vial"></i> QA AI Stream <span style="opacity:0.7">(separate)</span></p>
+<ul>
+<li class="blue">AI writes test scenarios</li>
+<li class="blue">Separate tool generating Playwright</li>
+<li class="blue">Different dashboards</li>
+<li class="blue">Validation runs <em>after</em> merge</li>
+</ul>
+</div>
+</div>
+<div class="warning-box" style="margin-top:8px;">
+<p class="compact bold"><i class="fas fa-exclamation-triangle text-red"></i> Two AI streams. Two sets of tools. No shared context. <strong>We're re-creating our mistake &mdash; at generation speed.</strong></p>
+</div>
+</section>
+
+<!-- ─── S46: Integrated hero diagram ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-diagram-project" style="color:var(--vibe-green)"></i> Integrated State &mdash; The Unified Loop</h2>
+<div class="flow-container">
+<p style="text-align:center;font-size:0.7em;color:#64748b;margin-bottom:6px;">QA workflows trigger <em>inside</em> the Dev AI SDLC &mdash; at every gate.</p>
+<div class="arrow-flow">
+<div class="step orange">Requirement</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">WF1 gate</div>
+<div class="arrow">&rarr;</div>
+<div class="step">AI code + AI tests <em>(parallel)</em></div>
+<div class="arrow">&rarr;</div>
+<div class="step red">WF5 + WF8 gate</div>
+</div>
+<div class="arrow-flow" style="margin-top:4px;">
+<div class="step red">WF5 + WF8 gate</div>
+<div class="arrow">&rarr;</div>
+<div class="step green">Merge</div>
+<div class="arrow">&rarr;</div>
+<div class="step purple">Production</div>
+<div class="arrow">&rarr;</div>
+<div class="step red">WF11 gate</div>
+<div class="arrow" style="color:var(--vibe-green);">&#8618;</div>
+<div class="step orange">Back to Requirement</div>
+</div>
+</div>
+<div class="success-box" style="margin-top:8px;">
+<p class="compact"><i class="fas fa-check text-green"></i> <strong>One loop, not two streams.</strong> QA workflows are gates on the Dev AI SDLC &mdash; not a parallel, disconnected universe.</p>
+</div>
+</section>
+
+<!-- ─── S47: Which pattern fits which type ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-random" style="color:var(--vibe-orange)"></i> Match the Workflow to the SDLC Type</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Mismatch = failure. Type 4 workflows in a Type 1 team collapse. Type 1 workflows in a Type 3 team leave value on the table.</p>
+</div>
+<table class="cmp-table">
+<thead><tr><th>SDLC Type</th><th>Design (WF1-4)</th><th>Execution (WF5-8)</th><th>Intelligence (WF9-11)</th></tr></thead>
+<tbody>
+<tr><td><strong>1 &mdash; AI-Assisted</strong></td><td class="warn">WF1 manual</td><td class="warn">WF5 manual</td><td class="bad">Skip &mdash; not ready</td></tr>
+<tr><td><strong>2 &mdash; Spec-Driven</strong></td><td class="good">WF1 as a gate</td><td class="warn">WF5 semi-auto</td><td class="warn">WF10 emerging</td></tr>
+<tr><td><strong>3 &mdash; Parallel</strong></td><td class="good">All 4 active</td><td class="good">All 4 active</td><td class="good">WF9-11 mandatory</td></tr>
+<tr><td><strong>4 &mdash; Agentic</strong></td><td class="good">Agent-driven</td><td class="good">Agent-driven</td><td class="good">Fully automated loop</td></tr>
+<tr><td><strong>5 &mdash; Regulated</strong></td><td class="good">All + audit</td><td class="good">All + audit</td><td class="good">All + human sign-off</td></tr>
+</tbody>
+</table>
+<div class="highlight-box" style="margin-top:8px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.92em;">Start with your <em>actual</em> type. Not the one on your slides.</p>
+</div>
+</section>
+
+<!-- ─── S48: Release from evidence thesis ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-gavel" style="color:var(--vibe-dark-blue)"></i> What This Whole Thing Is Actually For</h2>
+<div class="question-box" style="margin-bottom:10px;">
+<p>&#128172; At the end of every sprint, when leadership asks "can we ship?" &mdash; what does your team answer with today?</p>
+</div>
+<div class="two-col">
+<div class="warning-box">
+<p class="bold" style="color:#be123c;"><i class="fas fa-comment-dots"></i> Today</p>
+<ul>
+<li class="red">"I think so."</li>
+<li class="red">"All our tests passed."</li>
+<li class="red">"QA signed off."</li>
+</ul>
+<p class="compact" style="color:#64748b;margin-top:4px;"><em>Opinion. Trust. Hope.</em></p>
+</div>
+<div class="success-box">
+<p class="bold"><i class="fas fa-check-double text-green"></i> With these workflows</p>
+<ul>
+<li>"Every requirement has linked tests."</li>
+<li>"Every code change was audited for coverage."</li>
+<li>"Every production bug last sprint is now a regression test."</li>
+</ul>
+<p class="compact" style="color:#64748b;margin-top:4px;"><em>Evidence. Not opinion.</em></p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;font-size:1.05em;">Release decisions from <span style="color:var(--vibe-green);">evidence</span> &mdash; not <span style="color:#ef4444;">opinion</span>.</p>
+</div>
+</section>
+
+<!-- ═══ ACT 9 DIVIDER &mdash; Where is this heading? ═══ -->
+<section class="chapter-slide">
+<div style="text-align:center;padding:50px 0;">
+<i class="fas fa-compass" style="font-size:3.5em;margin-bottom:14px;display:block;"></i>
+<h1>Act 9 &mdash; Where Is This Heading?</h1>
+<h2>AI takes the middle. Humans anchor the ends.</h2>
+<p style="margin-top:12px;font-size:0.88em;">The future of the SDLC &mdash; and the AI IDE as the new command center.</p>
+</div>
+</section>
+
+<!-- ─── S49a: AI takes the middle ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-arrows-alt-h" style="color:var(--vibe-orange)"></i> AI Has Taken the Middle</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Look at any modern SDLC. Where is AI already unstoppable &mdash; and where does it still need a human?</p>
+</div>
+<div class="three-col">
+<div class="content-box" style="border-left-color:var(--vibe-orange);">
+<p class="bold text-blue"><i class="fas fa-brain"></i> INTENT (human)</p>
+<ul>
+<li class="dot">Product definition</li>
+<li class="dot">Architecture calls</li>
+<li class="dot">Risk decisions</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-green);">
+<p class="bold text-blue"><i class="fas fa-robot"></i> EXECUTION (AI)</p>
+<ul>
+<li class="dot">Code generation</li>
+<li class="dot">Testing &amp; integration</li>
+<li class="dot">Optimization</li>
+<li class="dot">Documentation</li>
+</ul>
+</div>
+<div class="content-box" style="border-left-color:#ef4444;">
+<p class="bold text-blue"><i class="fas fa-user-shield"></i> ACCOUNTABILITY (human)</p>
+<ul>
+<li class="dot">Governance</li>
+<li class="dot">Production impact</li>
+<li class="dot">Compliance sign-off</li>
+</ul>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;">"AI has taken the middle. You define the intent and own the outcome. The execution in between is mine."</p>
+</div>
+</section>
+
+<!-- ─── S49b: The boundary is not fixed ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-expand-arrows-alt" style="color:var(--vibe-blue)"></i> The Middle Is Expanding. The Ends Are Not.</h2>
+<div class="question-box" style="margin-bottom:8px;">
+<p>&#128172; Today AI executes. Tomorrow AI will propose architecture. So what truly stays with humans &mdash; forever?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-orange);">
+<p class="bold text-blue"><i class="fas fa-chart-line"></i> AI expanding outward</p>
+<ul>
+<li>Starting to suggest ideas</li>
+<li>Proposing architectures</li>
+<li>Making operational calls</li>
+</ul>
+<p class="compact2" style="color:#64748b;margin-top:4px;"><em>The boundary isn't fixed.</em></p>
+</div>
+<div class="success-box">
+<p class="bold"><i class="fas fa-anchor text-green"></i> What stays with humans</p>
+<ul>
+<li><strong>Ownership</strong> of decisions</li>
+<li><strong>Deciding</strong> what matters</li>
+<li><strong>Taking responsibility</strong> for consequences</li>
+</ul>
+<p class="compact2" style="color:#64748b;margin-top:4px;"><em>Not tasks &mdash; accountability.</em></p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:10px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;line-height:1.5;">The future isn't "AI owns the middle." It's <strong>AI owns execution &mdash; humans stay anchored at intent and accountability.</strong></p>
+</div>
+</section>
+
+<!-- ─── S49c: The AI IDE as command center ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-satellite-dish" style="color:var(--vibe-blue)"></i> The AI IDE Becomes the Command Center</h2>
+<div class="question-box" style="margin-bottom:4px;">
+<p>&#128172; If one environment held <em>everything</em> &mdash; requirements, code, tests, pipelines &mdash; what would your current tool stack look like?</p>
+</div>
+<div class="two-col">
+<div class="content-box" style="border-left-color:var(--vibe-green);padding:5px 10px;">
+<p style="font-size:0.75em;font-weight:700;color:var(--vibe-dark-blue);margin:0;"><i class="fas fa-folder-open"></i> The repo as a living system</p>
+<p style="font-size:0.7em;color:#334155;margin:2px 0;line-height:1.4;">Requirements, code, tests, diagrams, release notes, AI configuration, project memory &mdash; all version-controlled, all AI-maintained.</p>
+</div>
+<div class="content-box" style="border-left-color:var(--vibe-blue);padding:5px 10px;">
+<p style="font-size:0.75em;font-weight:700;color:var(--vibe-dark-blue);margin:0;"><i class="fas fa-users-cog"></i> Role-aware, intelligent views</p>
+<p style="font-size:0.7em;color:#334155;margin:2px 0;line-height:1.4;">PM sees requirements &amp; risk. Dev sees code with context. QA sees coverage &amp; gaps. One system, many lenses.</p>
+</div>
+</div>
+<div class="two-col" style="margin-top:4px;">
+<div class="warning-box" style="padding:5px 10px;">
+<p style="font-size:0.72em;font-weight:700;color:#be123c;margin:0;"><i class="fas fa-sign-out-alt"></i> Jira-PM may be replaced</p>
+<p style="font-size:0.68em;color:#334155;margin:2px 0 0;line-height:1.35;">AI IDE tracks progress from actual code. PM tool becomes redundant.</p>
+</div>
+<div class="success-box" style="padding:5px 10px;">
+<p style="font-size:0.72em;font-weight:700;color:var(--vibe-dark-blue);margin:0;"><i class="fas fa-check text-green"></i> CI/CD stays &mdash; as infrastructure</p>
+<p style="font-size:0.68em;color:#334155;margin:2px 0 0;line-height:1.35;">Build &amp; deploy pipelines run beneath the IDE as the engine.</p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:4px;padding:4px 8px;">
+<p style="font-size:0.75em;color:var(--vibe-dark-blue);font-weight:700;text-align:center;margin:0;">AI IDE = <strong>interface</strong> &middot; CI/CD = <strong>engine</strong> &middot; PM tools = <strong>legacy</strong>.</p>
+</div>
+</section>
+
+<!-- ═══ ACT 10 CLOSE ═══ -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<h2><i class="fas fa-flag" style="color:var(--vibe-green)"></i> The Generation Gap Is Your Job</h2>
+<div style="text-align:center;padding:16px 0 6px;">
+<p style="font-size:1em;color:#64748b;margin-bottom:10px;">So here's what I want you to carry home.</p>
+<div style="background:#1e3a8a;border-radius:12px;padding:20px 16px;margin:6px auto;max-width:88%;">
+<p style="color:#ffffff;font-size:1em;font-weight:700;line-height:1.5;">AI didn't break QA.</p>
+<p style="color:var(--vibe-orange);font-size:1em;font-weight:700;margin-top:6px;">It exposed a debt we refused to pay.</p>
+<p style="color:#cbd5e1;font-size:0.88em;margin-top:12px;">Generation is 2026. Validation is 2023.</p>
+<p style="color:var(--vibe-green);font-size:0.95em;font-weight:700;margin-top:6px;">That gap is not a problem. It's a career.</p>
+</div>
+</div>
+<div class="highlight-box" style="margin-top:4px;">
+<p class="bold text-blue" style="text-align:center;font-size:0.95em;">If we designed the workflows right &mdash; validation runs at generation speed.</p>
+</div>
+</section>
+
+<!-- ─── Final slide: Your Monday assignment (light theme) ─── -->
+<section>
+<div class="logo-corner"><img src="https://vibetestq.com/assets/White-Logo.png" alt="VibeTestQ" onerror="this.style.display='none'"></div>
+<div style="text-align:center;padding:10px 20px;">
+<p style="color:var(--vibe-orange);font-size:0.78em;letter-spacing:2px;font-weight:700;margin-bottom:8px;">YOUR JOB MONDAY MORNING</p>
+<h1 style="color:var(--vibe-dark-blue);font-size:1.4em;line-height:1.3;margin-bottom:4px;">Explore all 7 categories</h1>
+<h1 style="color:var(--vibe-orange);font-size:1.4em;line-height:1.3;margin-bottom:10px;">of AI validation tools.</h1>
+<div style="background:var(--vibe-light-bg);border:2px solid var(--vibe-blue);border-radius:10px;padding:10px 18px;max-width:800px;margin:0 auto;text-align:left;">
+<p style="font-size:0.72em;margin:3px 0;line-height:1.45;"><span style="color:var(--vibe-orange);font-weight:800;">1.</span> <strong style="color:var(--vibe-dark-blue);">Browser Assistant Agents</strong> <span style="color:#64748b;">&mdash; Comet, Claude Chrome</span></p>
+<p style="font-size:0.72em;margin:3px 0;line-height:1.45;"><span style="color:var(--vibe-orange);font-weight:800;">2.</span> <strong style="color:var(--vibe-dark-blue);">MCPs</strong> <span style="color:#64748b;">&mdash; Playwright MCP, Chrome CDP MCP</span></p>
+<p style="font-size:0.72em;margin:3px 0;line-height:1.45;"><span style="color:var(--vibe-orange);font-weight:800;">3.</span> <strong style="color:var(--vibe-dark-blue);">AI IDE Browser Agents</strong> <span style="color:#64748b;">&mdash; Copilot, Antigravity, Cursor</span></p>
+<p style="font-size:0.72em;margin:3px 0;line-height:1.45;"><span style="color:var(--vibe-orange);font-weight:800;">4.</span> <strong style="color:var(--vibe-dark-blue);">Platform AI</strong> <span style="color:#64748b;">&mdash; Rovo, Claude Plugins, Custom Agents</span></p>
+<p style="font-size:0.72em;margin:3px 0;line-height:1.45;"><span style="color:var(--vibe-orange);font-weight:800;">5.</span> <strong style="color:var(--vibe-dark-blue);">Playwright Agents</strong> <span style="color:#64748b;">&mdash; Planner, Generator, Healer</span></p>
+<p style="font-size:0.72em;margin:3px 0;line-height:1.45;"><span style="color:var(--vibe-orange);font-weight:800;">6.</span> <strong style="color:var(--vibe-dark-blue);">Cloud-Scale AI Testing</strong> <span style="color:#64748b;">&mdash; BrowserStack AI</span></p>
+<p style="font-size:0.72em;margin:3px 0;line-height:1.45;"><span style="color:var(--vibe-orange);font-weight:800;">7.</span> <strong style="color:var(--vibe-dark-blue);">Runtime Self-Healing</strong> <span style="color:#64748b;">&mdash; your framework + AI API key</span></p>
+</div>
+<p style="color:var(--vibe-green);font-size:0.88em;font-weight:700;margin-top:10px;line-height:1.3;">Touch each one. Build something small. Compose, don't just consume.</p>
+<p style="color:var(--vibe-blue);font-size:0.78em;margin-top:6px;font-style:italic;font-weight:600;">That's how you close the generation gap.</p>
+<p style="color:#64748b;font-size:0.72em;margin-top:10px;">Thank you. &middot; Sudhakar Kakunuri &middot; vibetestq.com</p>
+</div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+<script>
+(function () {
+    var MARGIN = 0.04;
+    function getSize() { return { w: window.innerWidth, h: window.innerHeight }; }
+    function buildConfig() {
+        var s = getSize();
+        return {
+            hash: true, transition: 'slide', transitionSpeed: 'default',
+            slideNumber: true, controls: true, progress: true, center: true,
+            width: s.w, height: s.h, margin: MARGIN, minScale: 0.1, maxScale: 1.0
+        };
+    }
+    var initialized = false;
+    function init() {
+        if (typeof Reveal === 'undefined') return false;
+        Reveal.initialize(buildConfig());
+        initialized = true;
+        return true;
+    }
+    var resizeTimer = null;
+    var lastDPR = window.devicePixelRatio;
+    function onViewportChange() {
+        if (!initialized) return;
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+            var s = getSize();
+            Reveal.configure({ width: s.w, height: s.h });
+            Reveal.layout();
+        }, 60);
+    }
+    window.addEventListener('resize', onViewportChange);
+    setInterval(function () {
+        var dpr = window.devicePixelRatio;
+        if (dpr !== lastDPR) { lastDPR = dpr; onViewportChange(); }
+    }, 250);
+    document.addEventListener('keydown', function (e) {
+        if (!initialized) return;
+        if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+')) {
+            e.preventDefault();
+            var s = getSize();
+            Reveal.configure({ width: s.w * 0.97, height: s.h * 0.97 });
+            Reveal.layout();
+        }
+        if ((e.ctrlKey || e.metaKey) && e.key === '-') {
+            e.preventDefault();
+            var s2 = getSize();
+            Reveal.configure({ width: s2.w * 1.03, height: s2.h * 1.03 });
+            Reveal.layout();
+        }
+    });
+    if (!init()) {
+        var attempts = 0;
+        var pollTimer = setInterval(function () {
+            attempts++;
+            if (init()) { clearInterval(pollTimer); }
+            else if (attempts >= 50) {
+                clearInterval(pollTimer);
+                console.error('Reveal.js failed to load from CDN.');
+            }
+        }, 100);
+    }
+})();
+</script>
+</body>
+</html>
